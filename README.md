@@ -30,7 +30,7 @@ Furthermore, as you will be working together with other students, you must have 
 Create a pull request to this repository where you have added your GitHub username to the list of applicants below.
 
 ## Applicants (GitHub username)
-hulvei3
+hulvei3   
 calinilie
 
 ## Other
