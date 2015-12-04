@@ -1,6 +1,8 @@
 <!-- ![Swift logo]() -->
 <p align="center">
-<img width="200" height="114" src="https://keyholesoftware.com/wp-content/uploads/React.js-Flux-3.png" alt="react logo logo">
+&nbsp;
+&nbsp;
+&nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
@@ -26,7 +28,7 @@ There is no catch. We at e-conomic would like to get contact to new and future d
 Direct any questions to our developer Morten at mha@e-conomic.com. The classes will weekly on day and time yet to be determined. Last course day will be around 1st of June, or before end of semesters at the universities..
 
 ## Prerequisites
-This course will not cover the basics of programming and computer science. Before attending this course you must have some programming experience. In particualar, you should have touched upon developing web based applications.
+This course will not cover the basics of programming and computer science. Before attending this course you must have some programming experience. In particualar, you should have touched upon developing client-side applications. You should be comfortable with javascript.
 
 Furthermore, as you will be working together with other students, you must have some basic knowledge of working with revision control software. At e-conomic we use Git, and we strongly urge you to do so too. While we will gladly help you, there will be no lessons on Git.
 
