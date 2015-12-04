@@ -1,6 +1,6 @@
 <!-- ![Swift logo]() -->
 <p align="center">
-<img width="100" height="100" src="https://keyholesoftware.com/wp-content/uploads/React.js-Flux-3.png" alt="react logo logo">
+<img width="100" height="57" src="https://keyholesoftware.com/wp-content/uploads/React.js-Flux-3.png" alt="react logo logo">
 &nbsp;
 &nbsp;
 &nbsp;
