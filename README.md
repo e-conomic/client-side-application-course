@@ -1,12 +1,6 @@
 <!-- ![Swift logo]() -->
 <p align="center">
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
+
 <img width="100" height="100" src="http://ordrestyring.dk/wp-content/uploads/2015/05/e-conomic_ny.jpg" alt="e-conomic logo">
 </p>
 
