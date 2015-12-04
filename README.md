@@ -14,6 +14,7 @@ Interested in learning how to build client side application with React and Flux?
 
 ## What will we be doing? 
 We will watch and follow the curriculum of an online course, and we will complement with our own experiences. It is therefore important that you can work independently and already have some basic programming background. We will try to cover a lot of material and also understand things in depth. So expect to spend at least one full day a week on this course. You will get weekly supervison, code review, and feedback from 3 professional developers, that will follow the course with you. To round off the course you will build an application, that could potentially be market ready. We will pitch some ideas for what you can build, but it is up to you. The goal is to build an application that includes a substantial part of the material we have covered.
+__More exact course contents will be announced soon.__
 
 ## Ok, so how much is it?
 It's free. We have limited slots open, but the course is free of charge. While e-conomic will supply the location, coffee, and fresh fruit, you must bring your own hard- and software.
