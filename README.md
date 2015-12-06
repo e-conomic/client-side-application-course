@@ -32,6 +32,7 @@ Create a pull request to this repository where you have added your GitHub userna
 ## Applicants (GitHub username)
 hulvei3   
 calinilie
+nativix
 
 ## Other
 This is the second course from e-conomic, following up on our [Swift course in from the fall 2015](https://github.com/e-conomic/swift-course/)
