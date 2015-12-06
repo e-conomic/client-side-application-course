@@ -4,7 +4,7 @@
 <img width="100" height="100" src="http://ordrestyring.dk/wp-content/uploads/2015/05/e-conomic_ny.jpg" alt="e-conomic logo">
 </p>
 
-# Learn how to build client side applications with React and Redux (flux) at e-conomic
+# Learn how to build and architect modern client side applications with React at e-conomic
 
 Interested in learning how to build client side application with React and Redux?  Look no further. This spring e-conomic will host a weekly class, where you can come and learn together with full time developers, that want to learn as well. We will create a space in e-conomic's development department where you have the time to learn, and where you can get help and feedback, in a nice environment in central Copenhagen. At e-conomic we have been pushing code using React to production for more than 2 years and we would love to share our experiences and learnings with you.
 
@@ -26,12 +26,65 @@ This course will not cover the basics of programming and computer science. Befor
 
 Furthermore, as you will be working together with other students, you must have some basic knowledge of working with revision control software. At e-conomic we use Git, and we strongly urge you to do so too. While we will gladly help you, there will be no lessons on Git.
 
+If we decide to teach React Native, students will have to run OS X, since React Native is only supported only on OS X
+
 ## Sign up
 Create a pull request to this repository where you have added your GitHub username to the list of applicants below.
 
 ## Applicants (GitHub username)
 hulvei3   
 calinilie
+
+# Course description
+
+## Lectures' outline
+
+ * Week 1: Hello + Practicalities. 
+   * Machine setup (IDE, node, git)
+   * Quick intro to __git__
+   * a few words on __JavaScript__
+   * what is a __client application__?
+   * Superficial React intro
+   * build your first React app 
+ * Week 2: Dive into __React__
+   * Why React? Design considerations behind React, virtual DOM, how it works
+   * Motivation behind React
+   * __Testing React components__ 
+   * Server requests
+   * A more interesting React application - will _have_ to become complex when dealing with mutable updates
+ * Week 3: One way data flow - __Flux__
+   * Mutable updates root of all evil
+   * potential solution: Flux
+   * Server requests in Flux
+   * Refactor application to use Flux
+ * Week 4: Application state
+   * How is app state kept track of?
+   * How can we improve?
+   * __Redux__
+   * Refactor app to implement Redux
+ * Week 5: __(Im)mutable data__
+   * How does mutability of data affect us?
+   * How can we overcome that? Immutable data!
+   * __Immutable.js__
+   * App with immutable.js
+ * Week 6: __Static typing in JS__
+   * Static in a dynamic world
+   * __Flow.js__
+   * Static typic in the application
+ * Week 7: Dependency management
+   * understanding modules
+   * __npm__
+   * application logic as an NPM package
+ * Week 8: Going __Mobile__
+   * Intro to __React Native__
+   * First React Native Application: __iOS__ or __Android__, or both uuuh!
+ * Week 9: Deep dive into React Native
+   * Bridging and the 3 threads in React Native
+   * React Native calls to __ObjectiveC/Swift (iOS)__ and __Java (Android)__
+ * Week 10 - project
+ * Week 11 - project
+ * Week 12 - project
+ * Week 13 - project
 
 ## Other
 This is the second course from e-conomic, following up on our [Swift course in from the fall 2015](https://github.com/e-conomic/swift-course/)
