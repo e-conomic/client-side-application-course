@@ -75,13 +75,16 @@ calinilie
    * understanding modules
    * __npm__
    * application logic as an NPM package
- * Week 8: Going __Mobile__
+ * Week 8: Cross platform: __Mobile__
    * Intro to __React Native__
    * First React Native Application: __iOS__ or __Android__, or both uuuh!
- * Week 9: Deep dive into React Native
+ * Week 9: Cross platform: Deep dive into React Native
    * Bridging and the 3 threads in React Native
    * React Native calls to __ObjectiveC/Swift (iOS)__ and __Java (Android)__
- * Week 10 - project
+ * Week 10 Cross platform: desktop
+   * Intro to __Electron__
+   * Take your web app to the desktop OS X, Linux or Windows
+   * Offline support for your application
  * Week 11 - project
  * Week 12 - project
  * Week 13 - project
