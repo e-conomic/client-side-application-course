@@ -4,7 +4,7 @@
 <img width="100" height="100" src="http://ordrestyring.dk/wp-content/uploads/2015/05/e-conomic_ny.jpg" alt="e-conomic logo">
 </p>
 
-# Learn how to build client side applications with React and Redux (flux) at e-conomic
+# Learn how to build and architect modern client side applications with React at e-conomic
 
 Interested in learning how to build client side application with React and Redux?  Look no further. This spring e-conomic will host a weekly class, where you can come and learn together with full time developers, that want to learn as well. We will create a space in e-conomic's development department where you have the time to learn, and where you can get help and feedback, in a nice environment in central Copenhagen. At e-conomic we have been pushing code using React to production for more than 2 years and we would love to share our experiences and learnings with you.
 
@@ -33,6 +33,49 @@ Create a pull request to this repository where you have added your GitHub userna
 hulvei3   
 calinilie  
 nativix
+
+# Course description
+
+## Lectures' outline
+
+Please note, this outline is an approximation for the course schedule. At e-conomic we take a lean approach to software development, and we will take the same approach with the course; we can make adjusments to the lectures as the course progresses.
+
+ * Week 1: Hello + Practicalities. 
+   * why this course?
+   * a few words on __JavaScript__
+   * what is a __client application__?
+   * Superficial React intro
+   * build your first React app 
+ * Week 2: Dive into __React__
+   * Why React? Design considerations behind React, virtual DOM, how it works
+   * Motivation behind React
+ * Week 3: Dependency management
+   * understanding modules
+   * __npm__
+   * __webpack__
+   * Deploy the application
+ * Week 4: One way data flow - __Flux__ part 1
+   * What is Flux and why should I care
+ * Week 5: One way data flow - __Flux__ part 2
+ * Week 6: __(Im)mutable data__
+   * How does mutability of data affect us?
+   * How can we overcome that? Immutable data!
+   * __Immutable.js__
+ * Week 7: Application state
+   * How is app state kept track of?
+   * How can we improve?
+   * __Redux__
+ * Week 8: Testing client-side applications part 1
+   * Testing... Javascript... WTF?!
+ * Week 9: Testing client-side applications part 2
+ * Week 10: __Static typing in JS__
+   * Static in a dynamic world
+   * __Flow__
+ * Week 11 - project
+ * Week 12 - project
+ * Week 13 - project
+
+__If__ time permits we will also look into building cross-platform client applications for __iOS__ and __Android__ with __React Native__. 
 
 ## Other
 This is the second course from e-conomic, following up on our [Swift course in from the fall 2015](https://github.com/e-conomic/swift-course/)
