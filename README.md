@@ -39,6 +39,8 @@ calinilie
 
 ## Lectures' outline
 
+//CLI todo
+
  * Week 1: Hello + Practicalities. 
    * why this course?
    * a few words on __JavaScript__
@@ -52,33 +54,29 @@ calinilie
    * understanding modules
    * __npm__
    * __webpack__
- * Week 4: One way data flow - __Flux__
+   * Deploy the application
+ * Week 4: One way data flow - __Flux__ part 1
    * What is Flux and why should I care
-   * Data immutablility
- * Week 5: __(Im)mutable data__
+ * Week 5: One way data flow - __Flux__ part 2
+ * Week 6: __(Im)mutable data__
    * How does mutability of data affect us?
    * How can we overcome that? Immutable data!
    * __Immutable.js__
- * Week 6: Application state
+ * Week 7: Application state
    * How is app state kept track of?
    * How can we improve?
    * __Redux__
- * Week 7: __Static typing in JS__
+ * Week 8: Testing client-side applications part 1
+   * Testing... Javascript... WTF?!
+ * Week 9: Testing client-side applications part 2
+ * Week 10: __Static typing in JS__
    * Static in a dynamic world
    * __Flow.js__
- * Week 8: Cross platform: __Mobile__
-   * Intro to __React Native__
-   * First React Native Application: __iOS__ or __Android__, or both uuuh!
- * Week 9: Cross platform: Deep dive into React Native
-   * Bridging and the 3 threads in React Native
-   * React Native calls to __ObjectiveC/Swift (iOS)__ and __Java (Android)__
- * Week 10 Cross platform: desktop
-   * Intro to __Electron__
-   * Take your web app to the desktop OS X, Linux or Windows
-   * Offline support for your application
- * Week 11: Testing client-side applications
+ * Week 11 - project
  * Week 12 - project
  * Week 13 - project
+
+__If__ time permits we will also look into building cross-platform client applications for _Mobile_ with __React Native__. 
 
 ## Other
 This is the second course from e-conomic, following up on our [Swift course in from the fall 2015](https://github.com/e-conomic/swift-course/)
