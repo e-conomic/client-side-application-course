@@ -39,7 +39,7 @@ calinilie
 
 ## Lectures' outline
 
-//CLI todo
+Please note, this outline is an approximation for the course schedule. At e-conomic we take a lean approach to software development, and we will take the same approach with the course; we can make adjusments to the lectures as the course progresses.
 
  * Week 1: Hello + Practicalities. 
    * why this course?
@@ -76,7 +76,7 @@ calinilie
  * Week 12 - project
  * Week 13 - project
 
-__If__ time permits we will also look into building cross-platform client applications for _Mobile_ with __React Native__. 
+__If__ time permits we will also look into building cross-platform client applications for __iOS__ and __Android__ with __React Native__. 
 
 ## Other
 This is the second course from e-conomic, following up on our [Swift course in from the fall 2015](https://github.com/e-conomic/swift-course/)
