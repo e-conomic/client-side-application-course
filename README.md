@@ -69,7 +69,7 @@ Please note, this outline is an approximation for the course schedule. At e-cono
  * Week 9: Testing client-side applications part 2
  * Week 10: __Static typing in JS__
    * Static in a dynamic world
-   * __Flow.js__
+   * __Flow__
  * Week 11 - project
  * Week 12 - project
  * Week 13 - project
