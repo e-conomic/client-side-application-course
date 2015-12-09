@@ -26,8 +26,6 @@ This course will not cover the basics of programming and computer science. Befor
 
 Furthermore, as you will be working together with other students, you must have some basic knowledge of working with revision control software. At e-conomic we use Git, and we strongly urge you to do so too. While we will gladly help you, there will be no lessons on Git.
 
-If we decide to teach React Native, students will have to run OS X, since React Native is only supported only on OS X
-
 ## Sign up
 Create a pull request to this repository where you have added your GitHub username to the list of applicants below.
 
