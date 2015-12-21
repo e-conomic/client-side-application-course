@@ -37,7 +37,7 @@ eikooc
 
 # Course description
 
-## Lectures' outline
+## Syllabus 
 
 Please note, this outline is an approximation for the course schedule. At e-conomic we take a lean approach to software development, and we will take the same approach with the course; we can make adjusments to the lectures as the course progresses.
 
@@ -77,6 +77,19 @@ Please note, this outline is an approximation for the course schedule. At e-cono
  * Week 13 - project
 
 __If__ time permits we will also look into building cross-platform client applications for __iOS__ and __Android__ with __React Native__. 
+
+## Project description (ITU version)
+
+<i>For ITU students. The following is a draft for what a project description could look like in the ITU project base, as an independent ECTS approved project.</i>
+
+<b>Project titel (Dansk):</b> //TODO
+
+<b>Project title (English):</b> Developing Client Side applications with JavaScript and ReactJs
+
+<b>Problem statement:</b> Learn how to develop client side web applications written in JavaScript and using ReactJs library. This is not possible through any other course currently offered at ITU.
+
+<b>Method:</b> Take weekly lectures led by three full-time developers from e-conomic. The lectures will cover material taught in relation to the syllabus of the course. Lectures will be held at e-conomic international at their office on Langebrogade in Copenhagen. We will wrap up the course by developing a small client-side web application that, as a minimum, incorporates the theory which has been presented throughout the lectures. Students will present their final projects in teams of 2 or 3.
+
 
 ## Other
 This is the second course from e-conomic, following up on our [Swift course in from the fall 2015](https://github.com/e-conomic/swift-course/)
