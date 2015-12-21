@@ -90,6 +90,19 @@ __If__ time permits we will also look into building cross-platform client applic
 
 <b>Method:</b> Take weekly lectures led by three full-time developers from e-conomic. The lectures will cover material taught in relation to the syllabus of the course. Lectures will be held at e-conomic international at their office on Langebrogade in Copenhagen. We will wrap up the course by developing a small client-side web application that, as a minimum, incorporates the theory which has been presented throughout the lectures. Students will present their final projects in teams of 2 or 3.
 
+<b>After the project the student must demonstrate a solid understanding of:</b>
+
+* the Javascript programming language and reflect upon differences and parallels to previously know programming languages e.g. Java or C#
+* the characteristics of a client application
+* the design decision behind ReactJs
+* what the virtual DOM is and how it affects HTML rendering and processing performance
+* the flux design pattern and how it differs to MVC, MVVM design patterns
+* the differences between immutable and mutable data structures
+* designing and writing unit tests in Javascript
+* static vs dynamic typing in Javascript
+
+To hand in: An client web application that involves the fundamental concepts covered throughout the course. This should include, but is not limited to, creating custom react components, integration with a web service, local persistence. A short technical paper (8-10 pages) discussing the implementation.
+
 
 ## Other
 This is the second course from e-conomic, following up on our [Swift course in from the fall 2015](https://github.com/e-conomic/swift-course/)
