@@ -84,24 +84,24 @@ __If__ time permits we will also look into building cross-platform client applic
 
 <b>Project titel (Dansk):</b> //TODO
 
-<b>Project title (English):</b> Developing Client Side applications with JavaScript and ReactJs
+<b>Project title (English):</b> Developing Client Side applications with JavaScript and React
 
-<b>Problem statement:</b> Learn how to develop client side web applications written in JavaScript and using ReactJs library. This is not possible through any other course currently offered at ITU.
+<b>Problem statement:</b> Learn how to develop client side web applications written in JavaScript and using React library. These technologies are now widely used in the IT industry, but currently not covered in other courses offered at ITU.
 
-<b>Method:</b> Take weekly lectures led by three full-time developers from e-conomic. The lectures will cover material taught in relation to the syllabus of the course. Lectures will be held at e-conomic international at their office on Langebrogade in Copenhagen. We will wrap up the course by developing a small client-side web application that, as a minimum, incorporates the theory which has been presented throughout the lectures. Students will present their final projects in teams of 2 or 3.
+<b>Method:</b> Take weekly lectures led by three full-time developers from e-conomic. The lectures will - as a minimum - cover the material listed in the syllabus of the course. Lectures will be held at e-conomic international at their office on Langebrogade in Copenhagen. We will wrap up the course by developing a small client-side web application that, as a minimum, incorporates the theory which has been presented throughout the lectures. Students will present their final projects in teams of 2 or 3.
 
 <b>After the project the student must demonstrate a solid understanding of:</b>
 
 * the Javascript programming language and reflect upon differences and parallels to previously know programming languages e.g. Java or C#
 * the characteristics of a client application
-* the design decision behind ReactJs
-* what the virtual DOM is and how it affects HTML rendering and processing performance
-* the flux design pattern and how it differs to MVC, MVVM design patterns
+* the design decision behind React
+* what the virtual DOM is and how it affects HTML processing and rendering performance
+* the flux design pattern and how it differs from MVC and MVVM
 * the differences between immutable and mutable data structures
-* designing and writing unit tests in Javascript
-* static vs dynamic typing in Javascript
+* designing and writing unit tests in JavaScript
+* static vs dynamic typing in JavaScript
 
-To hand in: An client web application that involves the fundamental concepts covered throughout the course. This should include, but is not limited to, creating custom react components, integration with a web service, local persistence. A short technical paper (8-10 pages) discussing the implementation.
+To hand in: A client side web application that involves the concepts covered throughout the course. This should include, but is not limited to, creating custom react components, integration with a web service, local persistence. A short technical paper (8-10 pages) discussing the implementation.
 
 
 ## Other
