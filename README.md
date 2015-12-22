@@ -39,7 +39,7 @@ eikooc
 
 ## Lectures' outline
 
-Please note, this outline is an approximation for the course schedule. At e-conomic we take a lean approach to software development, and we will take the same approach with the course; we can make adjusments to the lectures as the course progresses.
+Please note, this outline is an approximation for the course schedule and subject to adjusments.
 
  * Week 1: Hello + Practicalities. 
    * why this course?
