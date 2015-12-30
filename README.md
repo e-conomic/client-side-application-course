@@ -69,9 +69,7 @@ Please note, this outline is an approximation for the course schedule and subjec
  * Week 8: Testing client-side applications part 1
    * Testing... Javascript... WTF?!
  * Week 9: Testing client-side applications part 2
- * Week 10: __Static typing in JS__
-   * Static in a dynamic world
-   * __Flow__
+ * Week 10 - project
  * Week 11 - project
  * Week 12 - project
  * Week 13 - project
