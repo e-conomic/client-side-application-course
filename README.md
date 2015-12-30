@@ -37,7 +37,7 @@ eikooc
 
 # Course description
 
-## Lectures' outline
+## Syllabus 
 
 Please note, this outline is an approximation for the course schedule and subject to adjusments.
 
@@ -75,6 +75,32 @@ Please note, this outline is an approximation for the course schedule and subjec
  * Week 13 - project
 
 __If__ time permits we will also look into building cross-platform client applications for __iOS__ and __Android__ with __React Native__. 
+
+## Project description (ITU version)
+
+<i>For ITU students. The following is a draft for what a project description could look like in the ITU project base, as an independent ECTS approved project.</i>
+
+<b>Project titel (Dansk):</b> //TODO
+
+<b>Project title (English):</b> Developing Client Side applications with JavaScript and React
+
+<b>Problem statement:</b> Learn how to develop client side web applications written in JavaScript and using React library. These technologies are now widely used in the IT industry, but currently not covered in other courses offered at ITU.
+
+<b>Method:</b> Take weekly lectures led by three full-time developers from e-conomic. The lectures will - as a minimum - cover the material listed in the syllabus of the course. Lectures will be held at e-conomic international at their office on Langebrogade in Copenhagen. We will wrap up the course by developing a small client-side web application that, as a minimum, incorporates the theory which has been presented throughout the lectures. Students will present their final projects in teams of 2 or 3.
+
+<b>After the project the student must be able to:</b>
+
+* demonstrate an understanding of the Javascript programming language and reflect upon differences and parallels to previously know programming languages e.g. Java or C#
+* explain the characteristics of a client application
+* explain the design decision behind React
+* demonstrate a solid understanding of the virtual DOM and how it affects HTML processing and rendering performance
+* demonstrate a solid understanding of the flux design pattern and how it differs from MVC and MVVM
+* explain the differences between immutable and mutable data structures
+* design, write and execute unit tests in JavaScript
+* write and deploy a client side web application written in JavaScript
+
+To hand in: A client side web application that involves the concepts covered throughout the course. This should include, but is not limited to, creating custom react components, integration with a web service, local persistence. A short technical paper (8-10 pages) discussing the implementation.
+
 
 ## Other
 This is the second course from e-conomic, following up on our [Swift course in from the fall 2015](https://github.com/e-conomic/swift-course/)
