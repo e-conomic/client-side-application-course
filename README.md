@@ -98,7 +98,6 @@ __If__ time permits we will also look into building cross-platform client applic
 * demonstrate a solid understanding of the virtual DOM and how it affects HTML processing and rendering performance
 * demonstrate a solid understanding of the flux design pattern and how it differs from MVC and MVVM
 * explain the differences between immutable and mutable data structures
-* demonstrate a solid understanding of static vs dynamic typing in JavaScript
 * design, write and execute unit tests in JavaScript
 * write and deploy a client side web application written in JavaScript
 
