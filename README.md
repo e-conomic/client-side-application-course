@@ -34,6 +34,7 @@ hulvei3
 calinilie  
 nativix   
 eikooc
+soerendalby
 
 # Course description
 
