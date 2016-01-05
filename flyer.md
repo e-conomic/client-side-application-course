@@ -9,6 +9,9 @@ Interested in learning how to build client side applications with React and Redu
 ## Ok, so how much is it?
 It's free. We have limited slots open, but the course is free of charge. While e-conomic will supply the location, coffee, and fresh fruit, you must bring your own hard- and software.
 
+## So what is the catch?
+There is no catch. We at e-conomic would like to get contact to new and future developers, and show you that e-conomic is a nice place to spend your working hours. We will not dictate what kind of app you can and cannot build. The aim of this course is for you to learn! No strings attached.
+
 ## More info and application
 Application is done with a pull request to our repository at github.com/e-conomic/client-side-application-course, where you have added your GitHub username to the list of applicants below. In our repository you will also find more details and contact information.
 
