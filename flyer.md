@@ -4,7 +4,7 @@
 </p>
 
 # Learn how to build and architect modern client side applications with React at e-conomic
-Interested in learning how to build client side application with React and Redux?  Look no further. This spring e-conomic will host a weekly class, where you can come and learn together with full time developers, that want to learn as well. We will create a space in e-conomic's development department where you have the time to learn, and where you can get help and feedback, in a nice environment in central Copenhagen. At e-conomic we have been pushing code using React to production for more than 2 years and we would love to share our experiences and learnings with you.
+Interested in learning how to build client side applications with React and Redux?  Look no further. This spring e-conomic will host a weekly class, where you can come and learn together with our full time developers, that want to learn as well. We will create a space in e-conomic's development department where you have the time to learn, and where you can get help and feedback, in a nice environment in central Copenhagen. At e-conomic we have been pushing code using React to production for more than 2 years and we would love to share our experiences and learnings with you.
 
 ## Ok, so how much is it?
 It's free. We have limited slots open, but the course is free of charge. While e-conomic will supply the location, coffee, and fresh fruit, you must bring your own hard- and software.
