@@ -21,16 +21,17 @@ It's free. We have limited slots open, but the course is free of charge. While e
 There is no catch. We at e-conomic would like to get contact to new and future developers, and show you that e-conomic is a nice place to spend your working hours. We will not dictate what kind of app you can and cannot build. The aim of this course is for you to learn! No strings attached.
 
 ## Practicalities
-Direct any questions to our developer Morten at mha@e-conomic.com.
 
-#### When and where (update)
+#### When and where
 
-We finally got settled on a day to run the weekly course.   
+The class will be on:
 
->Time:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Thuesday the 2th of Febubrary, 2016 from 12:00** and every following Thuesday   
->Location:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e-conomic nordic, Langebrogade 1, 1411 København K  
+>**Thuesdays from 12 o'clock starting the 2th of Febubrary 2016**   
+>@ e-conomic nordic, Langebrogade 1, 1411 København K  
 
 Last course day will be around end-of-April/start-of-May, or at least before end of semesters at the universities..
+
+Direct any questions to our developer Morten at mha@e-conomic.com.
 
 ## Prerequisites
 *This course will not cover the basics of programming and computer science.*
