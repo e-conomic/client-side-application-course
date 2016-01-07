@@ -26,7 +26,7 @@ There is no catch. We at e-conomic would like to get contact to new and future d
 
 The class will be on:
 
->**Thuesdays from 12 o'clock starting the 2th of Febubrary 2016**   
+>**Tuesdays from 12 o'clock starting the 2th of Febubrary 2016**   
 >@ e-conomic nordic, Langebrogade 1, 1411 København K  
 
 Last course day will be around end-of-April/start-of-May, or at least before end of semesters at the universities..
