@@ -54,6 +54,7 @@ nativix
 eikooc   
 soerendalby  
 lauritzsh
+petergreve
 
 # Course description
 
