@@ -55,6 +55,7 @@ eikooc
 soerendalby  
 lauritzsh
 petergreve
+dimitriosv
 
 # Course description
 
