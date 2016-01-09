@@ -56,6 +56,7 @@ soerendalby
 lauritzsh
 petergreve
 dimitriosv
+denlillemand
 
 # Course description
 
