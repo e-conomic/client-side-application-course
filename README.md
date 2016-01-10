@@ -56,6 +56,7 @@ soerendalby
 lauritzsh
 petergreve
 dimitriosv
+memphis88
 
 # Course description
 
