@@ -9,8 +9,8 @@
 Interested in learning how to build client side (browser) application with React and Redux?  Look no further. This spring e-conomic will host a weekly class, where you can come and learn together with full time developers, that want to learn as well. We will create a space in e-conomic's development department where you have the time to learn, and where you can get help and feedback, in a nice environment in central Copenhagen. At e-conomic we have been pushing code using React to production for more than 2 years and we would love to share our experiences and learnings with you.
 
 ## What will we be doing? 
-We will watch and follow different series of online courses and talks, and we will complement with our own experiences. The subjects will be a mix of how to use React for making scalable applications and how to make good design and architectual decisions when working with javascript in general.   
-It is important that you can work independently and already have some basic programming background. We will try to cover a lot of material and also understand things in depth. So expect to spend at least one full day a week on this course. You will get weekly supervison, code review, and feedback from 2-3 professional developers, that will follow the course with you. To round off the course you will build an application, that could potentially be market ready. We will pitch some ideas for what you can build, but it is up to you. The goal is to build an application that includes a substantial part of the material we have covered.
+We will watch and follow different series of online courses and talks, and we will complement with our own experiences. The subjects will be a mix of how to use React for making scalable applications and how to make good design and architectural decisions when working with javascript in general.   
+It is important that you can work independently and already have some basic programming background. We will try to cover a lot of material and also understand things in depth. So expect to spend at least one full day a week on this course. You will get weekly supervision, code review, and feedback from 2-3 professional developers, that will follow the course with you. To round off the course you will build an application, that could potentially be market ready. We will pitch some ideas for what you can build, but it is up to you. The goal is to build an application that includes a substantial part of the material we have covered.
 
 Check the <a href="#syllabus">syllabus</a> to get a sense of what we will touch during this course.
 
@@ -26,7 +26,7 @@ There is no catch. We at e-conomic would like to get contact to new and future d
 
 The class will be on:
 
->**Tuesdays from 12 o'clock starting the 2th of Febubrary 2016**   
+>**Tuesdays from 12 o'clock starting the 2th of February 2016**   
 >@ e-conomic nordic, Langebrogade 1, 1411 København K  
 
 Last course day will be around end-of-April/start-of-May, or at least before end of semesters at the universities..
@@ -36,7 +36,7 @@ Direct any questions to our developer Morten at mha@e-conomic.com.
 ## Prerequisites
 *This course will not cover the basics of programming and computer science.*
 
-Before attending this course you must have some programming experience. In particualar, you should have touched upon developing client-side applications and be comfortable with javascript.
+Before attending this course you must have some programming experience. In particular, you should have touched upon developing client-side applications and be comfortable with javascript.
 
 Furthermore, as you will be working together with other students, you must have some basic knowledge of working with revision control software. At e-conomic we use Git, and we strongly urge you to do so too. While we will gladly help you, there will be no lessons on Git.
 
@@ -58,12 +58,13 @@ petergreve
 dimitriosv  
 AndreasHassing (can only attend if class hours moves to monday or wednesday)    
 denlillemand  
+JonArnfred
 
 # Course description
 
 ## Syllabus 
 
-Please note, this outline is an approximation for the course schedule and subject to adjusments.
+Please note, this outline is an approximation for the course schedule and subject to adjustments.
 
  * Week 1: Hello + Practicalities. 
    * why this course?
