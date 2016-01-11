@@ -55,8 +55,9 @@ eikooc
 soerendalby  
 lauritzsh
 petergreve
-dimitriosv
-denlillemand
+dimitriosv  
+AndreasHassing (can only attend if class hours moves to monday or wednesday)    
+denlillemand  
 
 # Course description
 
