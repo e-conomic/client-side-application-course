@@ -53,9 +53,9 @@ calinilie
 nativix   
 eikooc   
 soerendalby  
-lauritzsh
-petergreve
-dimitriosv  
+lauritzsh   
+petergreve   
+dimitriosv     
 AndreasHassing (can only attend if class hours moves to monday or wednesday)    
 denlillemand    
 JonArnfred   
