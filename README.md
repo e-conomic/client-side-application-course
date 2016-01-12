@@ -59,7 +59,7 @@ dimitriosv
 AndreasHassing (can only attend if class hours moves to monday or wednesday)    
 denlillemand    
 JonArnfred   
-memphis88
+memphis88   
 pcolliander
 
 # Course description
