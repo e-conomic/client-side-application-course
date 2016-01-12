@@ -47,9 +47,12 @@ _That_ being said, it's not a prerequisite for following the course and a good l
 Create a pull request to this repository where you have added your GitHub username to the list of applicants below.   
 There will be a follow-up email some time after you have successfully signed up.
 
-### Applicants (GitHub username)
-hulvei3   
-calinilie  
+### Applicants (GitHub username **+ email**)
+
+**Update** We found out that it's really hard to some peoples emails from their GitHub account. So please, either put your email next to your username or send an email to mha@e-conomic.com with your GitHub username ASAP :)
+
+hulvei3 (mha@e-conomic.com)   
+calinilie (cli@e-conomic.com)   
 nativix   
 eikooc   
 soerendalby  
