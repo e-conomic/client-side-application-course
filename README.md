@@ -64,6 +64,7 @@ denlillemand
 JonArnfred   
 memphis88   
 pcolliander
+BennyTordrupVisma (benny.tordrup@visma.com)
 
 # Course description
 
