@@ -77,7 +77,7 @@ Please note, this outline is an approximation for the course schedule and subjec
    * a few words on __JavaScript__
    * what is a __client application__?
    * Superficial React intro
-   * build your first React app 
+   * Hello world React app
  * Week 2: Dive into __React__
    * Why React? Design considerations behind React, virtual DOM, how it works
    * Motivation behind React
