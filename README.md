@@ -59,12 +59,12 @@ soerendalby
 lauritzsh   
 petergreve   
 dimitriosv     
-AndreasHassing (can only attend if class hours moves to monday or wednesday)    
+AndreasHassing (andreas@famhassing.dk) (can only attend if class hours are moved to monday)    
 denlillemand    
 JonArnfred   
 memphis88   
-pcolliander
-BennyTordrupVisma (benny.tordrup@visma.com)
+pcolliander   
+BennyTordrupVisma (benny.tordrup@visma.com)    
 
 # Course description
 
