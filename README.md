@@ -56,7 +56,7 @@ calinilie (cli@e-conomic.com)
 nativix   
 eikooc   
 soerendalby  
-lauritzsh   
+lauritzsh (mail@lauritz.me) (can unfortunately only attend if moved to another day)   
 petergreve   
 dimitriosv     
 AndreasHassing (andreas@famhassing.dk) (can only attend if class hours are moved to monday)    
