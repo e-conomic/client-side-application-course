@@ -65,6 +65,7 @@ JonArnfred
 memphis88   
 pcolliander   
 BennyTordrupVisma (benny.tordrup@visma.com)    
+kosmonautas   
 
 # Course description
 
