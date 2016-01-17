@@ -45,26 +45,26 @@ _That_ being said, it's not a prerequisite for following the course and a good l
 
 ## Sign up
 Create a pull request to this repository where you have added your GitHub username to the list of applicants below.   
+
+**Remember to put your email in the comment of the PR**   
 There will be a follow-up email some time after you have successfully signed up.
 
-### Applicants (GitHub username **+ email**)
+### Applicants (GitHub username)
 
-**Update** We found out that it's really hard to some peoples emails from their GitHub account. So please, either put your email next to your username or send an email to mha@e-conomic.com with your GitHub username ASAP :)
-
-hulvei3 (mha@e-conomic.com)   
-calinilie (cli@e-conomic.com)   
+hulvei3   
+calinilie  
 nativix   
 eikooc   
 soerendalby  
 lauritzsh   
 petergreve   
 dimitriosv     
-AndreasHassing (andreas@famhassing.dk) (can only attend if class hours are moved to monday)    
+AndreasHassing (can only attend if class hours are moved to monday)    
 denlillemand    
 JonArnfred   
 memphis88   
 pcolliander   
-BennyTordrupVisma (benny.tordrup@visma.com)    
+BennyTordrupVisma  
 kosmonautas   
 
 # Course description
