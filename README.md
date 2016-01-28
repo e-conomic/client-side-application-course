@@ -67,6 +67,7 @@ memphis88
 pcolliander   
 BennyTordrupVisma  
 kosmonautas   
+KasperGrondahlChristensenVisma
 
 # Course description
 
