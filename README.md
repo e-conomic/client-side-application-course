@@ -1,4 +1,5 @@
-<!-- ![Swift logo]() -->
+<h1>** _We are now fully booked for this course_ **<h1>
+
 <p align="center">
 <img height="100" src="https://www.wagonhq.com/images/posts/react.png" alt="react logo">
 <img width="100" height="100" src="http://ordrestyring.dk/wp-content/uploads/2015/05/e-conomic_ny.jpg" alt="e-conomic logo">
