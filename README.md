@@ -66,7 +66,8 @@ JonArnfred
 memphis88   
 pcolliander   
 BennyTordrupVisma  
-kosmonautas   
+kosmonautas  
+mariatim
 
 # Course description
 
