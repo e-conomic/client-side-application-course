@@ -1,0 +1,62 @@
+<html>
+<head>
+	<title>Hello world without react</title>
+	<style type="text/css">
+	body {
+		width: 1000px;
+		margin: auto;
+	}
+	</style>
+</head>
+<body>
+
+
+<form   onsubmit="printFunc(); return false;">
+  Enter name: <input id="onlystring" type="text" name="onlystring">
+  <input type="submit" value="Submit">
+</form>
+
+<form   onsubmit="showAll(); return false;">   
+  <input type="submit" value="Show all messages">
+</form>
+	<!-- 1. Create an inputfield that only accepts a string -->
+	<!-- 2. Find a way to submit and print the message -->
+	<!-- 3. Every message should be printed inside the message-container -->
+	<!-- 4. Validation errors in inputfields should produce an error-message rather than a hello morld message -->
+	<!-- 5. Any error-message should be printed in red color -->
+	<!-- 6. Provide a function that returns all messages ever printed -->
+	<!-- 7. This must be solved by using only native Javascript -->
+	<!-- 8. All messages must be printed in the order they where submitted -->
+
+	<div id="message-container"></div>
+
+<script>
+function printFunc() {
+	//evt.preventDefault();
+	var stringinserted=document.getElementById('onlystring').value
+    //alert(isAlphaOrParen(stringinserted));
+
+    var div = document.getElementById('message-container');
+
+    if (isAlphaOrParen(stringinserted)) {
+		div.innerHTML = div.innerHTML + stringinserted+'<br>';
+    } else {
+    	div.innerHTML = div.innerHTML + '<span style="color:red">Error! Not a string!</span><br>';
+    }
+}
+
+function showAll() {
+    var contents = document.getElementById('message-container').innerHTML;
+    console.log(contents);
+    return contents;
+}
+
+function isAlphaOrParen(str) {
+  return /^[a-zA-Z()]+$/.test(str);
+}
+
+
+
+</script>
+</body>
+</html>
