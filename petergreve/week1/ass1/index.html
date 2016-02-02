@@ -22,14 +22,31 @@
 	<div id="message-container">
 		<br><br>
 		  Type: <input type="text" id="typed">	
- 		 <input type="button" value="Submit" onClick="myFunction()">
+ 		 <input type="button" value="Submit" onClick="handleClick()">
  		 <br>
 		<div id="output">
 		</div>
 	    <script type="text/javascript">
-	    	function myFunction() {
-	    		var value = document.getElementById('typed').value;
-	    		document.getElementById("output").innerHTML = value;
+	    	var allMessages = [];
+
+			function handleClick() {
+				var text = document.getElementById('typed').value;
+
+				if (validateText(text)=== true) {
+					printText(text);
+				}
+			}
+
+	    	function printText(text) {
+	    		document.getElementById("output").innerHTML = text;
+	    		addMessage(text);
+	    	}
+	    	function validateText(text) {
+	    		return true;
+	    	}
+
+	    	function addMessage() {
+
 	    	}
 	    </script>
 	</div>
