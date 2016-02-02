@@ -1,0 +1,42 @@
+<html>
+<head>
+	<title>Hello world with react</title>
+	<style type="text/css">
+	body {
+		width: 1000px;
+		margin: auto;
+	}
+	</style>
+
+	<script src="http://fb.me/react-0.14.7.min.js"></script>
+	<script src="http://fb.me/react-dom-0.14.7.min.js"></script>
+	<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.4.4/babel.min.js"></script> -->
+	<script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+</head>
+<body>
+
+
+	<!-- 1. Create an inputfield that doesn't accept any numbers -->
+	<!-- 2. Find a way to submit and print the message -->
+	<!-- 3. Validation errors in inputfields should produce an error-message rather than a hello morld message -->
+	<!-- 4. Any error-message should be printed in red color -->
+	<!-- 5. Provide a function that returns all messages ever printed -->
+	<!-- 6. This must be solved by using only native Javascript and react -->
+	<!-- 7. All markup must be produced with react -->
+	<!-- 8. All messages must be printed in the order they where submitted -->
+
+<div id="main"></div>
+
+<script type="text/jsx">
+  var Greeting = React.createClass({
+    render: function() {
+      return (
+        <p>Hello, Universe</p>
+      )
+    }
+  });
+  React.render(<Greeting/>,document.getElementById('main'));
+</script>
+
+</body>
+</html>
