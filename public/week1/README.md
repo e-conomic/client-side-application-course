@@ -1,1 +1,4 @@
-README.md
+## Week1 
+
+Outline:
+* 
