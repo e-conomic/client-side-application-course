@@ -1,0 +1,85 @@
+<html>
+<head>
+	<title>Hello world without react</title>
+	<style type="text/css">
+	body {
+		width: 1000px;
+		margin: auto;
+	}
+
+	#message-container { 
+		width: 100%;
+		height: 50%;
+		border: 1px solid black;
+		margin-top: 1em;
+	}
+
+	</style>
+</head>
+<body>
+
+	<!-- 1. Create an inputfield that only accepts a string -->
+	<input id="inputField" type="text">
+
+	<!-- 2. Find a way to submit and print the message -->
+	<button id="sub" action="submit">Submit</button>
+
+	<!-- 3. Every message should be printed inside the message-container -->
+
+	<!-- 4. Validation errors in inputfields should produce an error-message rather than a hello morld message -->
+
+	<!-- 5. Any error-message should be printed in red color -->
+
+
+
+	<div id="message-container"></div>
+	<button id="allMessages">Show All</button>
+
+	<script>
+	
+	var submitButton = document.getElementById('sub');
+	var input = document.getElementById('inputField');
+	var outputDiv = document.getElementById('message-container');
+	var showAll = document.getElementById('allMessages');
+
+	var text;
+
+	// array of all messages
+	var messages = [];
+
+	// matches numeric chars
+	var re = /\d/;
+
+
+	submitButton.onclick = function() { 
+		var val = input.value;
+
+		if (re.test(val)) {
+			var error = "error: only alphabetic characters are allowed.";
+
+			outputDiv.style.color = "red";
+			outputDiv.innerHTML = error;
+
+		} else { 
+
+			outputDiv.style.color = "black";
+			text = val + '<br/>';
+			messages.push(text);
+			outputDiv.innerHTML = text;
+		}
+	}
+
+	// 6. Provide a function that returns all messages ever printed.
+	// 7. This must be solved by using only native Javascript 
+	// 8. All messages must be printed in the order they where submitted 
+	showAll.onclick = function() { 
+
+		var str = messages.join();
+			outputDiv.style.color = "black";
+			outputDiv.innerHTML = str;
+	}
+	
+
+	</script>
+</body>
+</html>
