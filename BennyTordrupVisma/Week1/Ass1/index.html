@@ -68,9 +68,9 @@
 		
 		function displayAllMessages()
 		{
-			var div = document.getElementById("message-container").innerHTML;
+			var div = document.getElementById("message-container");
 			
-			var childCount = div.children().size;
+			var childCount = div.children.length;
 
 			var msg = "";
 			for (i = 0; i < childCount; i++)
