@@ -22,18 +22,22 @@
 	<div id="message-container">
 		<br><br>
 		  Type: <input type="text" id="typed">	
- 		 <input type="button" value="Submit" onClick="handleClick()">
+ 		 <input type="button" value="Submit" onClick="handleClickSubmit()">
+ 		  <input type="button" value="Print All" onClick="printAllMessages()">
+
  		 <br>
 		<div id="output">
 		</div>
 	    <script type="text/javascript">
 	    	var allMessages = [];
 
-			function handleClick() {
+			function handleClickSubmit() {
 				var text = document.getElementById('typed').value;
 
 				if (validateText(text)=== true) {
 					printText(text);
+				} else {
+					printErrorMessage(text);
 				}
 			}
 
@@ -45,9 +49,20 @@
 	    		return true;
 	    	}
 
-	    	function addMessage() {
+	    	function addMessage(text) {
+	    		allMessages.push(text)
 
 	    	}
+
+	    	function printErrorMessage(text) {
+	    	}
+
+	    	function printAllMessages () {
+	    			allMessages.forEach(function(element) {
+	    				console.log(element);
+	    			});
+	    	}
+
 	    </script>
 	</div>
 </body>
