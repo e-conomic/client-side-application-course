@@ -19,6 +19,19 @@
 	<!-- 7. This must be solved by using only native Javascript -->
 	<!-- 8. All messages must be printed in the order they where submitted -->
 
-	<div id="message-container"></div>
+	<div id="message-container">
+		<br><br>
+		  Type: <input type="text" id="typed">	
+ 		 <input type="button" value="Submit" onClick="myFunction()">
+ 		 <br>
+		<div id="output">
+		</div>
+	    <script type="text/javascript">
+	    	function myFunction() {
+	    		var value = document.getElementById('typed').value;
+	    		document.getElementById("output").innerHTML = value;
+	    	}
+	    </script>
+	</div>
 </body>
 </html>
