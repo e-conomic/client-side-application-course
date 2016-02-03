@@ -1,10 +1,10 @@
 ## Week1 
 
 What did we talk about:
-After en introduction to e-conomic and our workplace, we started with talking ablout what we mean when we say that we're gonna work with client-side applications. We mean javascript-applications-runniing-in-the-browser. We are not gonna touch nodejs apps, mobile apps etc.
-Futhermore we are not gonna touch css or styling in general.
+After en introduction to e-conomic and our workplace, we started with talking ablout what we mean when we say that we're gonna work with client-side applications. We mean javascript-applications-running-in-the-browser. We are not gonna touch nodejs apps, mobile apps etc.
+Furthermore we will not touch css or styling in general.
 
-We watched an introductionvideo of react by Facebook, explaining the very basics about react and how to create simple examples.
+We watched an [introduction to React video](https://www.youtube.com/watch?v=XxVg_s8xAms&index=1&list=PL84LMllSwgzLz3PPdwEI3cNUqJGik6YBM) by Facebook, explaining the very basics about react and how to create simple examples.
 
 We continued with our first assignments.
 
