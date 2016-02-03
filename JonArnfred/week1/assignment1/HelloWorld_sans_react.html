@@ -1,0 +1,108 @@
+
+<html>
+<head>
+	<title>Hello world without react</title>
+	<style type="text/css">
+	body {
+		width: 1000px;
+		margin: auto;
+	}
+	</style>
+</head>
+<body>
+
+<!-- I assumed you wanted a form, since action is a form property, not a button property
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button. However, I rewrote the template markup a bit-->
+  <form id="myform">
+	  <input type="text" value="warnings">
+	  <input type="submit" value="Submit"/>
+  </form>
+	<input type="text" onKeyDown="checkInputNoWarning()" value="no warnings">
+  <button onclick="printem()">All messages so far</button> 
+
+	<!-- 1. Create an inputfield "the string must not contain other than the chars [a-z]" --> 
+	<!-- 2. Find a way to submit and print the message -->
+	<!-- 3. Every message should be printed inside the message-container -->
+	<!-- 4. Validation errors in inputfields should produce an error-message rather than a hello morld message -->
+	<!-- 5. Any error-message should be printed in red color -->
+	<!-- 6. Provide a function that returns all messages ever printed -->
+	<!-- 7. This must be solved by using only native Javascript -->
+	<!-- 8. All messages must be printed in the order they where submitted -->
+
+	<div id="message-container"></div>
+
+  <script>
+ 
+  // an object to hold the messages
+  var state = {};
+
+  // add event on submit
+  document.addEventListener('submit', printAndSaveMessage, false);
+ 
+ // This function is really the only of the two functions bound to the inputs that makes the inputfield reject everything that is not a-z.
+ // So close to original definition, but not exactly what we wanted I guess.
+  function checkInputNoWarning(){
+    var e = event || window.event;  // get event object
+    var key = e.keyCode || e.which; // get key cross-browser
+
+                        // A - Z || a - z || backspace
+    if (!((key > 64 && key < 91) || (key > 96 && key < 123) || key === 8)) { //if not [a-zA-Z] ascii code || backspace
+        //Prevent default action, which is inserting character
+        if (e.preventDefault) e.preventDefault(); //normal browsers
+            e.returnValue = false; //IE
+    }
+  }
+  
+  // checks whether message contains only letters, returns true if it does, false otherwise
+  function correctContent(message){
+    var letters = /^[A-Za-z]+$/; 
+    var isCorrect = false;
+    
+    if(message.match(letters) === null){
+      if(message=== ""){
+        console.log("you're trying to submit an empty inputfield");
+      } else {
+        console.error("what a crazy thing to write: "+message);
+      }
+    } else { // only correct if message.match returns anything but null. Meaning it's all letters
+      isCorrect = true;
+    }
+    return isCorrect;
+  }
+
+  function printAndSaveMessage(e){
+    // let's grap the event from the injected argument
+    // we don't want to redirect
+    e.preventDefault();
+    // clearing the message container
+    document.getElementById("message-container").innerHTML = "";
+    // getting the message
+    var message = document.getElementsByTagName('input')[0].value;
+
+  // if message contains illegal stuff, we'll add some red around it
+    if(!correctMessage(message)){
+      message = "<span style='color: red'>"+ message+"</span>";
+    }
+    document.getElementById("message-container").innerHTML = message; 
+   
+   // for storing the messages, we just iterate through an object and add a property at the end
+    /*
+    http://stackoverflow.com/questions/126100/how-to-efficiently-count-the-number-of-keys-properties-of-an-object-in-javascrip*/
+    var count = 0;
+    for (var k in state) if (state.hasOwnProperty(k)) ++count;
+    state["key"+count] = message ;
+  }
+  
+  // create a string from the properties of the state object
+  function printem(){
+    var allMessages = "";
+    for(var k in state){
+      allMessages += state[k] + "</br>";
+    }
+    document.getElementById("message-container").innerHTML = allMessages;
+  }
+
+
+  </script>
+</body>
+</html>
