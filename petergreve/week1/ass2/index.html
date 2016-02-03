@@ -30,29 +30,103 @@
 <script type="text/jsx">
 
 	var InputComponent = React.createClass({
-		 getInitialState: function() {
-		    return {value: 'Hello!'};
-		  },
-		  handleChange: function(event) {
-		    this.setState({value: event.target.value});
-		    console.log(event.target.value);
-		  },
 		  render: function() {
-		    var value = this.state.value;
-		    return <input type="text" value={value} onChange={this.handleChange} />;
+		    return 	<div>
+		    			<input type="text" ref="input" />
+						<button type="button" onClick={this.validate}>Submit</button>
+		    		</div>;
+		  },
+		  validate: function() {
+		  	var message = this.refs.input.getDOMNode().value;
+		  	this.props.validate(message);
 		  }
 	});
+
 
 	var OutputComponent = React.createClass({
 		  render: function() {
-		    return <div id="message-container" />;
+		    return <div id="message-container">
+		    			{this.props.message}
+		    		</div>;
 		  }
 	});
 
-	var App = React.createClass({
-		render: function() {
-			return <div><InputComponent /><OutputComponent /></div>
+	var ErrorMessage = React.createClass({
+		render: function () {
+
+			var style = {
+	   			color: 'red',
+    		};
+			return 	<div style={style}>
+						{this.props.errorMessage}
+					</div>
 		}
+
+	});
+
+	var AllMessages = React.createClass({
+		render: function () {
+			return 	<div>
+					    <ol>
+					   		{this.props.allMessages.map(function(message) {
+					     		return <OutputComponent message={message} />;
+					     	})}
+					    </ol>
+      				</div>
+		}
+
+	});
+
+	var DisplayAll = React.createClass({
+		  render: function() {
+		    return 	<div>
+						<button type="button" onClick={this.props.displayAll}>Display All</button>
+		    		</div>;
+		  },
+
+	});
+
+	var App = React.createClass({
+		getInitialState: function() {
+		    return {message: 'Hello!',
+		    		validMessage: '',
+		    		errorMessage: '',
+		    		allMessages: [],
+		    		showMessages: false
+		    	};
+		},
+		render: function() {
+			return 	<div>
+						<InputComponent validate={this.validate} />
+						<DisplayAll displayAll={this.displayAllMessages} />
+						<OutputComponent message={this.state.validMessage} />
+						<ErrorMessage errorMessage={this.state.errorMessage} />
+						{ this.state.showMessages ? <AllMessages allMessages={this.state.allMessages} /> : null }
+					</div>
+		},
+		validate: function(message) {
+			if (!/^[0-9]*$/.test(message)) {
+				this.setState({
+		          validMessage: message,
+		          errorMessage: '',
+		          allMessages: this.state.allMessages.concat([message]),
+		          showMessages: false
+		      	});
+			} else {
+				this.setState({
+		          validMessage: '',
+		          errorMessage: message
+		      });
+			}
+
+		},
+		displayAllMessages: function() {
+			this.setState({
+				showMessages: true
+			})
+		}
+
+
 
 	});
 
