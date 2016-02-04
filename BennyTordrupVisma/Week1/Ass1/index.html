@@ -22,11 +22,15 @@
 	<!-- 7. This must be solved by using only native Javascript -->
 	<!-- 8. All messages must be printed in the order they where submitted -->
 
-	<div id="message-container"></div>
-	<input id="input" type="text">
-	<input id="commit" type="button" value="Click" onclick="onClick();"/>
-	<input id="showAll" type="button" value="View all" onclick="displayAllMessages();"/>
+	<div id="message-container"/>
+	<div>
+		<input id="input" type="text">
+		<button onclick="onClick();">Submit</button>
+		<button onclick="displayAllMessages();">View all</button>
+	</div>
 	<script>
+		var messages = [];
+		
 		function onClick()
 		{
 			var input = document.getElementById("input");
@@ -55,33 +59,28 @@
 
 		function addOutput(output, isError)
 		{
-			var div = document.getElementById("message-container");
-			var newDiv = document.createElement("div");
-			newDiv.innerHTML = output;
-			if (isError == true)
-			{
-				newDiv.className = "error-message";
-			}
-			
-			div.appendChild(newDiv);
+			var msg = {text: output, isError : isError};
+			messages.push(msg);
 		}
 		
 		function displayAllMessages()
 		{
-			var div = document.getElementById("message-container");
+			var outputDiv = document.getElementById("message-container");
 			
-			var childCount = div.children.length;
-
-			var msg = "";
+			var childCount = messages.length;
 			for (i = 0; i < childCount; i++)
 			{
-				if (i > 0)
+				var msg = messages[i];
+				
+				var newDiv = document.createElement("div");
+				newDiv.innerHTML = msg.text;;
+				if (msg.isError)
 				{
-					msg = msg + "\r\n";
+					newDiv.className = "error-message";
 				}
-				msg = msg + div.children[i].innerHTML;
+				
+				outputDiv.appendChild(newDiv);
 			}
-			window.alert(msg);
 		}
 	</script>
 </body>
