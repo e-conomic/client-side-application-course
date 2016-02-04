@@ -1,30 +1,122 @@
 <html>
-<head>
-	<title>Hello world with react</title>
-	<style type="text/css">
-	body {
-		width: 1000px;
-		margin: auto;
-	}
-	</style>
+	<head>
+		<title>Hello world with react</title>
+		<style type="text/css">
+body {
+	width: 1000px;
+	margin: auto;
+}
+		</style>
 
-	<script src="http://fb.me/react-0.14.7.min.js"></script>
-	<script src="http://fb.me/react-dom-0.14.7.min.js"></script>
-	<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.4.4/babel.min.js"></script> -->
-	<script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
-</head>
-<body>
+		<script src="http://fb.me/react-0.14.7.min.js"></script>
+		<script src="http://fb.me/react-dom-0.14.7.min.js"></script>
+		<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.4.4/babel.min.js"></script> -->
+		<script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+	</head>
+	<body>
 
-	<div id="app"></div>
+		<div id="app"></div>
 
-	<!-- 1. Create an inputfield that doesn't accept any numbers -->
-	<!-- 2. Find a way to submit and print the message -->
-	<!-- 3. Validation errors in inputfields should produce an error-message rather than a hello morld message -->
-	<!-- 4. Any error-message should be printed in red color -->
-	<!-- 5. Provide a function that returns all messages ever printed -->
-	<!-- 6. This must be solved by using only native Javascript and react -->
-	<!-- 7. All markup must be produced with react -->
-	<!-- 8. All messages must be printed in the order they where submitted -->
+		<!-- 1. Create an inputfield that doesn't accept any numbers -->
+		<!-- 2. Find a way to submit and print the message -->
+		<!-- 3. Validation isErrors in inputfields should produce an error-message rather than a hello morld message -->
+		<!-- 4. Any error-message should be printed in red color -->
+		<!-- 5. Provide a function that returns all messages ever printed -->
+		<!-- 6. This must be solved by using only native Javascript and react -->
+		<!-- 7. All markup must be produced with react -->
+		<!-- 8. All messages must be printed in the order they where submitted -->
 
-</body>
-</html>
+
+
+		<script type="text/jsx" >
+			var Wrapper = React.createClass({ 
+				getInitialState() { 
+					return { 
+						isError: false,
+						text: "",
+						messages : []
+					} 
+				},
+
+				handleCorrectInput(val) { 
+					var messages = this.state.messages;
+					messages.push(val);
+
+					this.setState({ 
+						isError: false,
+						text: val,
+						messages: messages
+					});
+				},
+
+				handleIncorrectInput(error) { 
+					this.setState({ 
+						isError: true,
+						text: error 
+					});
+				},
+
+				showAll() { 
+					var str = this.state.messages.join('\n');
+
+					this.setState({ 
+						isError: false,
+						text : str
+					});
+				},
+
+				render() { 
+					return ( 
+						<div>
+							<InputField handleIncorrectInput={this.handleIncorrectInput} handleCorrectInput={this.handleCorrectInput} text={this.state.text} />
+							<OutputField isError={this.state.isError} showAll={this.showAll} text={this.state.text} messages={this.state.messages} />
+						</div>
+					);
+				}
+			});
+
+			var InputField = React.createClass({ 
+				handleClick() { 
+					var re = /\d/;
+					var val = this.refs.inputField.value;
+
+						if (re.test(val)) { 
+							var error = "Error: must use only alphabetic characters.";
+
+							this.props.handleIncorrectInput(error); // callback to method in wrapper
+						} else { 
+							this.props.handleCorrectInput(val); // callback to method in wrapper
+						}
+					},
+
+				render() { 
+					return ( 
+						<div>
+							<input type="text" ref='inputField'/>
+							<button onClick={this.handleClick}>submit</button>
+						</div>
+					);
+				}
+			});
+
+			var OutputField = React.createClass({ 
+				render() { 
+					var outputStyle = (this.props.isError) ? {color: 'red'} : {color: 'black' }
+
+					return ( 
+						<div>
+							<textarea cols="30" rows="10"type="text" style={outputStyle}  value={this.props.text}/>
+							<button onClick={this.props.showAll}>show all</button>
+						</div>
+					);
+				}
+			});
+
+			ReactDOM.render(
+				<Wrapper  />, 
+				document.getElementById('app')
+			);                                   
+
+		</script>
+		</body>
+	</html>
