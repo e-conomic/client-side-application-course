@@ -1,3 +1,3 @@
 ## Week 2
 
-* Do not manipulate state!
+* Do not manipulate `this.state` directly!
