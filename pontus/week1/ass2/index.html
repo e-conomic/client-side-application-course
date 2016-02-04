@@ -19,7 +19,7 @@ body {
 
 		<!-- 1. Create an inputfield that doesn't accept any numbers -->
 		<!-- 2. Find a way to submit and print the message -->
-		<!-- 3. Validation errors in inputfields should produce an error-message rather than a hello morld message -->
+		<!-- 3. Validation isErrors in inputfields should produce an error-message rather than a hello morld message -->
 		<!-- 4. Any error-message should be printed in red color -->
 		<!-- 5. Provide a function that returns all messages ever printed -->
 		<!-- 6. This must be solved by using only native Javascript and react -->
@@ -29,132 +29,95 @@ body {
 
 
 		<script type="text/jsx" >
-var Wrapper = React.createClass({ 
-			getInitialState: function() { 
+			var Wrapper = React.createClass({ 
 
-			return { 
-					text: "",
-					messages : [],
-					error: false
-				} 
+				getInitialState() { 
+					return { 
+						isError: false,
+						text: "",
+						messages : []
+					} 
+				},
 
-			},
+				handleCorrectInput(val) { 
+					var messages = this.state.messages;
+					messages.push(val);
 
-			handleCorrectInput: function(val) { 
+					this.setState({ 
+						isError: false,
+						text: val,
+						messages: messages
+					});
+				},
 
-				this.state.messages.push(val);
+				handleIncorrectInput(error) { 
+					this.setState({ 
+						isError: true,
+						text: error 
+					});
+				},
 
-				// update the state.
-				this.setState({ 
-					error: false,
-					text: val
-				});
-			},
+				showAll() { 
+					var str = this.state.messages.join('\n');
 
-			handleIncorrectInput: function(error) { 
+					this.setState({ 
+						isError: false,
+						text : str
+					});
+				},
 
-				this.setState({ 
-					text:error, 
-					error: true
-				});
-
-
-			},
-
-			showAll: function() { 
-
-			var str = this.state.messages.join('\n');
-
-				this.setState({ 
-					text : str
-				});
-
-			},
-
-			render: function() { 
-
-
-				return ( 
+				render() { 
+					return ( 
 						<div>
 							<InputField handleIncorrectInput={this.handleIncorrectInput} handleCorrectInput={this.handleCorrectInput} text={this.state.text} />
-							<OutputField error={this.state.error} showAll={this.showAll} text={this.state.text} messages={this.state.messages} />
+							<OutputField isError={this.state.isError} showAll={this.showAll} text={this.state.text} messages={this.state.messages} />
 						</div>
-				);
-			}
-		});
-
-
-
-
-		// input field
-
-		var InputField = React.createClass({ 
-
-			handleClick() { 
-
-				var re = /\d/;
-				var val = this.refs.inputField.value;
-
-				if (re.test(val)) { 
-					var error = "error: must use only alphabetic characters.";
-
-
-					// callback to method in wrapper
-					this.props.handleIncorrectInput(error);
-
-				} else { 
-
-					// callback to method in wrapper
-					this.props.handleCorrectInput(val);
+					);
 				}
+			});
 
-			},
+			var InputField = React.createClass({ 
+				handleClick() { 
+					var re = /\d/;
+					var val = this.refs.inputField.value;
 
-			render: function() { 
-				return ( 
-					<div>
-						<input type="text" ref='inputField'/>
-						<button onClick={this.handleClick}>submit</button>
-					</div>
-				);
-			}
-		});
+						if (re.test(val)) { 
+							var error = "Error: must use only alphabetic characters.";
 
-		var OutputField = React.createClass({ 
+							this.props.handleIncorrectInput(error); // callback to method in wrapper
+						} else { 
+							this.props.handleCorrectInput(val); // callback to method in wrapper
+						}
+					},
 
-			showAllClick: function() { 
+				render() { 
+					return ( 
+						<div>
+							<input type="text" ref='inputField'/>
+							<button onClick={this.handleClick}>submit</button>
+						</div>
+					);
+				}
+				});
 
+				var OutputField = React.createClass({ 
+					render() { 
+						var outputStyle = (this.props.isError) ? {color: 'red'} : {color: 'black' }
 
-			// callback to wrapper.
-			this.props.showAll();
+						return ( 
+							<div>
+								<textarea cols="30" rows="10"type="text" style={outputStyle}  value={this.props.text}/>
+								<button onClick={this.props.showAll}>show all</button>
+							</div>
+						);
+					}
+				});
 
-			},
+				ReactDOM.render(
+					<Wrapper  />, 
+					document.getElementById('app')
+				);                                   
 
-			render: function() { 
-
-				var outputStyle = (this.props.error) ? {color: 'red'} : {color: 'black' }
-
-				return ( 
-					<div>
-						<textarea type="text" style={outputStyle}  value={this.props.text}/>
-						<button onClick={this.showAllClick}>show all</button>
-					</div>
-				);
-			}
-		});
-
-
-
-
-
-
-		ReactDOM.render(
-			<Wrapper  />, 
-			document.getElementById('app')
-		);                                   
-		</script>
-
-
-
-	</body>
-</html>
+			</script>
+		</body>
+	</html>
