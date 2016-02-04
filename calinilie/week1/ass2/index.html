@@ -46,9 +46,10 @@
 					message.isError = true;
 				}
 
-				this.state.messages.push(message);
+				var clonedMsg = this.state.messages.slice(0);
+				clonedMsg.push(message);
 				this.setState({
-					messages: this.state.messages
+					messages: clonedMsg
 				});
 			},
 			render: function() {
