@@ -27,44 +27,82 @@
     <!-- 6. This must be solved by using only native Javascript and react -->
     <!-- 7. All markup must be produced with react -->
     <!-- 8. All messages must be printed in the order they where submitted -->
+    <div id="app"></div>
     <script type="text/jsx">
-    var InputField = React.createClass({
-    	render: function() {
-    		return <input type='text'/>;
-    	}
-    });
-    var SubmitButton = React.createClass({
-    	render: function() {
-    		return <input type='button' value='Submit'/>;
-    	}
-    });
-    var DisplayBox = React.createClass({
+    var AssignmentApp = React.createClass({
     	getInitialState: function() {
-    		return {messages: [], text: ''};
+    		return {messages: [], text: '', index: 0};
     	},
+
+    	onChange: function(e) {
+    		this.setState({ text: e.target.value });
+    	},
+
+    	onKeyDown: function(e) {
+    		if (e.keyCode == 13) { this.onClick() };
+    	},
+
+    	onClick: function() {
+    		var messageObject = {};
+    		var isValidString = function(text) {
+    			var	patt = /^[A-z]+$/;
+				if (patt.test(text)) {
+					return true;
+				} else {
+					return false;
+				}
+    		};
+    		messageObject = {
+    			text: this.state.text,
+    			index: this.state.index
+    		};
+    		if (!isValidString(this.state.text)) {
+    			messageObject.isError = true;
+    		}
+    		var newMessages = this.state.messages;
+    		var newIndex = this.state.index;
+    		newIndex++;
+    		newMessages.push(messageObject);
+    		this.setState({messages: newMessages, text: '', index: newIndex});
+    	},
+    	
     	render: function() {
-    		return <div></div>;
+    		return (
+    			<div>
+    			<input type='text' onChange={this.onChange} value={this.state.text} onKeyDown={this.onKeyDown} />
+    			<input type='button' value='Submit' onClick={this.onClick} />
+    			<MessageBox messages={this.state.messages} />
+    			</div>
+    		);
+    	}
+    });
+    var MessageBox = React.createClass({
+    	render: function() {
+    		var createMessage = function(msg) {
+    			return (
+    				<Message key={msg.index} isError={msg.isError} text={msg.text} />
+    			);
+    		};
+    		return (
+    			<div>
+    				{this.props.messages.map(createMessage)}
+    			</div>
+    		);
     	}
     });
     var Message = React.createClass({
     	render: function() {
-    		return <span></span>;
-    	}
-    });
-    var AssignmentApp = React.createClass({
-    	render: function() {
     		return (
-    			<div>
-    			<InputField /><SubmitButton />
-    			<DisplayBox />
-    			</div>
-    			);
+    			<span className={this.props.isError ? 'error' : ''}>
+    				{this.props.isError ? 'Error: ' : ''}{this.props.text}<br />
+    			</span>
+    		);
     	}
     });
     ReactDOM.render(
     	<AssignmentApp />,
-    	document.body
-    	);
+    	document.getElementById('app')
+    );
     </script>
 </body>
 
