@@ -7,6 +7,8 @@
 		margin: auto;
 	}
 	</style>
+		<script src="script.js"></script>
+
 </head>
 <body>
 
@@ -18,37 +20,19 @@
 	<!-- 6. Provide a function that returns all messages ever printed -->
 	<!-- 7. This must be solved by using only native Javascript -->
 	<!-- 8. All messages must be printed in the order they where submitted -->
-
-	<div id="message-container">
+		
 		<br><br>
 		  Type: <input type="text" id="typed">	
- 		 <input type="button" value="Submit" onClick="handleClick()">
+ 		 <input type="button" value="Submit" onClick="handleClickSubmit()">
+ 		  <input type="button" value="Print All" onClick="printAllMessages()">
+
  		 <br>
-		<div id="output">
+		<div id="message-container">
+
 		</div>
-	    <script type="text/javascript">
-	    	var allMessages = [];
 
-			function handleClick() {
-				var text = document.getElementById('typed').value;
-
-				if (validateText(text)=== true) {
-					printText(text);
-				}
-			}
-
-	    	function printText(text) {
-	    		document.getElementById("output").innerHTML = text;
-	    		addMessage(text);
-	    	}
-	    	function validateText(text) {
-	    		return true;
-	    	}
-
-	    	function addMessage() {
-
-	    	}
-	    </script>
 	</div>
+
 </body>
+
 </html>
