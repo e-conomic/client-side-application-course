@@ -35,7 +35,7 @@
 				var msg = e.target.value;
 
 				var submitMsg;
-				if (/^([a-z|A-Z])*$/.test(msg)){
+				if (/^([a-zA-Z])*$/.test(msg)){
 					submitMsg = {
 						message: msg.toString()
 					}
