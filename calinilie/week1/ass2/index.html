@@ -10,7 +10,6 @@
 
 	<script src="http://fb.me/react-0.14.7.min.js"></script>
 	<script src="http://fb.me/react-dom-0.14.7.min.js"></script>
-	<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.4.4/babel.min.js"></script> -->
 	<script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
 </head>
 <body>
@@ -25,5 +24,47 @@
 	<!-- 7. All markup must be produced with react -->
 	<!-- 8. All messages must be printed in the order they where submitted -->
 
+
+	<script type="text/jsx">
+		var App = React.createClass({
+
+			getInitialState: function() {
+				return {
+					messages: []
+				}
+			},
+			onKeyDownhandler: function(event) {
+				if (event.keyCode != 13) {
+					return;
+				}
+				var message = {
+					value: this.refs.input.value
+				}
+				this.refs.input.value = "";
+
+				if (/[0-9]+/.test(message.value)) {
+					message.isError = true;
+				}
+
+				var clonedMsg = this.state.messages.slice(0);
+				clonedMsg.push(message);
+				this.setState({
+					messages: clonedMsg
+				});
+			},
+			render: function() {
+				var messageContent = this.state.messages.map(function(msg) {
+					var divStyle = msg.isError ? {color: 'red'} : {};
+					return <div style={divStyle}>{msg.value}</div>;
+				});
+				return <div>
+					<input type="text" ref="input" onKeyDown={this.onKeyDownhandler}/>
+					<div>{messageContent}</div>
+				</div>;
+			}
+		});
+		
+		ReactDOM.render(React.createElement(App), document.body);
+	</script>
 </body>
 </html>
