@@ -43,35 +43,34 @@
     	},
 
     	onClick: function() {
-    		var messageObject = {};
-    		var isValidString = function(text) {
-    			var	patt = /^[A-z]+$/;
-				if (patt.test(text)) {
-					return true;
-				} else {
-					return false;
-				}
-    		};
-    		messageObject = {
+    		var messageObject = {
     			text: this.state.text,
     			index: this.state.index
     		};
-    		if (!isValidString(this.state.text)) {
-    			messageObject.isError = true;
-    		}
+    		var	patt = /^[A-z]+$/;
+			if (!patt.test(this.state.text)) {
+				messageObject.isError = true;
+			}
     		var newMessages = this.state.messages;
     		var newIndex = this.state.index;
     		newIndex++;
     		newMessages.push(messageObject);
     		this.setState({messages: newMessages, text: '', index: newIndex});
     	},
+
+    	showAll: function() {
+    		this.state.messages.map(function(msg) {
+    			console.log(msg.text);
+    		});
+    	},
     	
     	render: function() {
     		return (
     			<div>
-    			<input type='text' onChange={this.onChange} value={this.state.text} onKeyDown={this.onKeyDown} />
-    			<input type='button' value='Submit' onClick={this.onClick} />
-    			<MessageBox messages={this.state.messages} />
+    				<input type='text' onChange={this.onChange} value={this.state.text} onKeyDown={this.onKeyDown} />
+    				<input type='button' value='Submit' onClick={this.onClick} />
+    				<input type='button' value='Show all' onClick={this.showAll} />
+    				<MessageBox messages={this.state.messages} />
     			</div>
     		);
     	}
@@ -79,9 +78,7 @@
     var MessageBox = React.createClass({
     	render: function() {
     		var createMessage = function(msg) {
-    			return (
-    				<Message key={msg.index} isError={msg.isError} text={msg.text} />
-    			);
+    			return <Message key={msg.index} isError={msg.isError} text={msg.text} />;
     		};
     		return (
     			<div>
