@@ -85,11 +85,19 @@
 						{this.state.showMessages ? <MessageList allMessages={this.state.allMessages} /> : null }
 					</div>
 			},
+
+			validateKernel: function(inputMessage) {
+				if (inputMessage.length == 0)
+					return {text: "Zero length string not allowed", isError: true};
+					
+				if (/^[0-9]*$/.test(inputMessage))
+					return {text: inputMessage.concat(' is numeric'), isError: true};
+					
+				return {text: inputMessage, isError: false};
+			},
 			
 			validate: function(inputMessage) {
-				var actualMessage = (!/^[0-9]*$/.test(inputMessage))
-						? {text: inputMessage, isError: false}
-						: {text: inputMessage.concat(' contains numbers'), isError: true};
+				var actualMessage = this.validateKernel(inputMessage);
 				this.setState({
 					message: actualMessage,
 					allMessages: this.state.allMessages.concat([actualMessage])
