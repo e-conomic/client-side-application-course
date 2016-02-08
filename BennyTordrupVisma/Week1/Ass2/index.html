@@ -34,7 +34,7 @@
 				return <div>
 						<input type="text" ref="input" />
 						<button onClick={this.handleValidate}>Commit</button>
-						<button onClick={this.showAll}>Show all</button>
+						<button onClick={this.props.displayAll}>Show all</button>
 					</div>;
 			},
 			
@@ -43,10 +43,6 @@
 				this.props.validate(input);
 				this.refs.input.getDOMNode().value = '';
 			},
-			
-			showAll: function() {
-				this.props.displayAll();
-			}
 		});
 		
 		var Message = React.createClass({
