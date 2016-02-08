@@ -15,3 +15,5 @@ Extend the existing app with the following criteria:
 * archived messages cannot be deleted or moved
 * users should be able to unarchive messages
 * this assignment must be solved usgin native javascript and react, but without using any 3rd party react components or libraries
+
+_All previous criteria from week1 should be discarded_
