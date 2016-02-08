@@ -6,6 +6,9 @@
 			width: 1000px;
 			margin: auto;
 		}
+		span {
+			display: block;
+		}
 		</style>
 	</head>
 	<body>
@@ -22,15 +25,14 @@
 		<div id="message-container"></div>
 		<script type="text/javascript">
 		
-			var inputField = document.getElementById('inputField'),
-				container = document.getElementById('message-container'),
-				allMessages = [];
+			var inputField = document.getElementById('inputField');
+			var	container = document.getElementById('message-container');
+			var	allMessages = [];
 		
 			function submitString() {
-				var message = inputField.value,
-					span = document.createElement('span');
+				var message = inputField.value;
+				var	span = document.createElement('span');
 				allMessages.push(message);
-				message += "<br>";
 				if (!validateInput()) {
 					span.setAttribute("style", "color:red");
 					span.innerHTML = "error: ";
@@ -42,8 +44,8 @@
 				if (e.keyCode == 13) { submitString() };
 			}
 			function validateInput() {
-				var message = inputField.value,
-					patt = /^[A-z]+$/;
+				var message = inputField.value;
+				var	patt = /^[A-z](\s|[A-z])*$/;
 				if (patt.test(message)) {
 					return true;
 				} else {
