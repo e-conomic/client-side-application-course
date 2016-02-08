@@ -10,7 +10,6 @@
 		color: red;
 	}
 	</style>
-
 	
 	<script src="http://fb.me/react-0.14.7.min.js"></script>
 	<script src="http://fb.me/react-dom-0.14.7.min.js"></script>
@@ -52,13 +51,9 @@
 		
 		var Message = React.createClass({
 			render: function() {
-				return <div>{this.props.message}</div>
-			}
-		})
-		
-		var ErrorMessage = React.createClass({
-			render: function() {
-				return <div className="error-message">{this.props.errorMessage}</div>
+				return this.props.message.isError 
+					? <div className="error-message">{this.props.message.text}</div> 
+					: <div>{this.props.message.text}</div>
 			}
 		})
 		
@@ -77,8 +72,7 @@
 		
 		var App = React.createClass({
 			getInitialState: function() {
-				return {message: '',
-						errorMessage: '',
+				return {message: {text: '', isError: false},
 						allMessages: [],
 						showMessages: true
 				};
@@ -88,27 +82,18 @@
 				return 	<div>
 						<InputField validate={this.validate} />
 						<Message message={this.state.message} />
-						<ErrorMessage errorMessage={this.state.errorMessage} />
 						{this.state.showMessages ? <MessageList allMessages={this.state.allMessages} /> : null }
 					</div>
 			},
 			
 			validate: function(inputMessage) {
-				if (!/^[0-9]*$/.test(inputMessage)) {
-					this.setState({
-						message: inputMessage,
-						errorMessage: '',
-						allMessages: this.state.allMessages.concat([inputMessage])
-					});
-				}
-				else {
-					var actualMessage = inputMessage.concat(' contains numbers');
-					this.setState({
-						message: '',
-						errorMessage: actualMessage,
-						allMessages:this.state.allMessages.concat([actualMessage])
-					});
-				}
+				var actualMessage = (!/^[0-9]*$/.test(inputMessage))
+						? {text: inputMessage, isError: false}
+						: {text: inputMessage.concat(' contains numbers'), isError: true};
+				this.setState({
+					message: actualMessage,
+					allMessages: this.state.allMessages.concat([actualMessage])
+				});
 			},
 			
 			displayAll: function() {
