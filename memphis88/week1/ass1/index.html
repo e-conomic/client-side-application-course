@@ -26,12 +26,12 @@
 		<script type="text/javascript">
 		
 			var inputField = document.getElementById('inputField');
-			var	container = document.getElementById('message-container');
-			var	allMessages = [];
+			var container = document.getElementById('message-container');
+			var allMessages = [];
 		
 			function submitString() {
 				var message = inputField.value;
-				var	span = document.createElement('span');
+				var span = document.createElement('span');
 				allMessages.push(message);
 				if (!validateInput()) {
 					span.setAttribute("style", "color:red");
@@ -45,7 +45,7 @@
 			}
 			function validateInput() {
 				var message = inputField.value;
-				var	patt = /^[A-z](\s|[A-z])*$/;
+				var patt = /^[A-z](\s|[A-z])*$/;
 				if (patt.test(message)) {
 					return true;
 				} else {
