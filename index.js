@@ -38,4 +38,4 @@ var app = http.createServer(function(req, res){
 		list(url.parse(req.url).pathname);
 	})
 	.pipe(res);
-}).listen(process.env.port || 8080);
+}).listen(process.env.PORT || 8080);

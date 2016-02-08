@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "homepage": "https://github.com/e-conomic/client-side-application-course#readme",
-  "devDependencies": {
+  "dependencies": {
     "send": "^0.13.1"
   }
 }
