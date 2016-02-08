@@ -6,6 +6,7 @@
 * Coding style
 * When to use comments
 * PropTypes?
+* coupling and cohesion 
 
 ### video about react
 
