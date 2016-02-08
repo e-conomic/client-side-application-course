@@ -9,6 +9,7 @@
 * PropTypes?
 * coupling and cohesion 
 * implement review feedback
+* we like having debates
 
 ### video about react
 
