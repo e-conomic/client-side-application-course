@@ -1,0 +1,117 @@
+<html>
+	<head>
+		<title>Hello world with react</title>
+		<style type="text/css">
+body {
+	width: 1000px;
+	margin: auto;
+}
+		</style>
+
+		<script src="http://fb.me/react-0.14.7.js"></script>
+		<script src="http://fb.me/react-dom-0.14.7.js"></script>
+		<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.4.4/babel.min.js"></script> -->
+		<script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+	</head>
+	<body>
+
+		<div id="app"></div>
+		<!-- 1. Create an inputfield that doesn't accept any numbers -->
+		<!-- 2. Find a way to submit and print the message -->
+		<!-- 3. Validation isErrors in inputfields should produce an error-message rather than a hello morld message -->
+		<!-- 4. Any error-message should be printed in red color -->
+		<!-- 5. Provide a function that returns all messages ever printed -->
+		<!-- 6. This must be solved by using only native Javascript and react -->
+		<!-- 7. All markup must be produced with react -->
+		<!-- 8. All messages must be printed in the order they where submitted -->
+
+
+
+
+		<script type="text/jsx" >
+		// Implementation is based on following: 
+		// https://facebook.github.io/react/docs/tutorial.html
+		// https://facebook.github.io/react/docs/multiple-components.html
+
+		var MessageBox = React.createClass({
+	    	getInitialState : function() {
+					return {
+						value: 'No messages found.', 
+						messages: [],
+					};
+			},
+			printAllMessages: function() {
+				return this.state.messages
+			},
+			handleMessageSubmmit: function(messageText) {
+				console.log("handleMessageSubmmision called with value: " + messageText)
+				var bool = false
+				var messageId = this.state.messages.length + 1
+				if(/\d/.test(messageText)){
+					messageText = "ERROR: " + messageText
+					bool = true
+				}
+				messageObject = {id : messageId, text : messageText, isErrors : bool }
+				this.state.messages.push(messageObject)
+				this.setState({value: messageText});
+			},
+			render: function() {
+		    	var value = this.state.value
+		    	return (
+		    		<div id="container">
+			      		<h1>Message box Week 1, Assign 2</h1>
+			      		<p>Last submitted message : {value} </p>
+			      		<InputBox onMessageSubmit={this.handleMessageSubmmit} />
+			      		<OutputBox messages={this.state.messages}/>
+			      		<input type="button" value="Print all messages (console)" onClick={this.printAllMessages} />
+		      		</div>
+		    	);
+		  	}
+		});
+
+		var InputBox = React.createClass({
+			handleText: function(event){
+				this.setState({text: event.target.value})
+			},
+			submitMessage: function(event){
+				event.preventDefault(); // So we don't refresh page when submitting a message
+				this.props.onMessageSubmit(this.state.text)
+			},
+			render: function() {
+				return (
+				<form className="commentForm" onSubmit={this.submitMessage}>
+			        <input type="text" onChange={this.handleText} />
+			        <input type="submit" value="Submit message" />
+		      	</form>
+				);
+			}
+		});
+
+		var OutputBox = React.createClass({
+			render: function() {
+				// This function seems like a way to enumerate the objects it got from messageBox, and uses a react map() function. 
+				//Im not sure how this work behind the scenes though. Seems very javascript...ish. 
+				var messages = this.props.messages.map(function(message) {
+					var outputStyle = (message.isErrors) ? {color: 'red'} : {color: 'black' }
+		        	return (
+			      		<p style={outputStyle}><b>{message.id} : {message.text}</b></p>
+			        );
+			    });
+				return (
+					<div>
+						<p>Hello there this is the Output box, listing your messages</p>
+						{messages}
+					</div>
+
+				);
+			}
+		});
+
+		ReactDOM.render(
+		  <MessageBox />,
+		  document.getElementById('app')
+		);                          
+
+		</script>
+		</body>
+	</html>
