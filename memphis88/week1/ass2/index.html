@@ -7,6 +7,10 @@
         width: 1000px;
         margin: auto;
     }
+
+    span {
+        display: block;
+    }
     
     .error {
         color: red;
@@ -47,11 +51,11 @@
     			text: this.state.text,
     			index: this.state.index
     		};
-    		var	patt = /^[A-z]+$/;
+    		var	patt = /^[A-z](\s|[A-z])*$/;
 			if (!patt.test(this.state.text)) {
 				messageObject.isError = true;
 			}
-    		var newMessages = this.state.messages;
+    		var newMessages = this.state.messages.slice();
     		var newIndex = this.state.index;
     		newIndex++;
     		newMessages.push(messageObject);
@@ -59,7 +63,7 @@
     	},
 
     	showAll: function() {
-    		this.state.messages.map(function(msg) {
+    		this.state.messages.forEach(function(msg) {
     			console.log(msg.text);
     		});
     	},
@@ -91,7 +95,7 @@
     	render: function() {
     		return (
     			<span className={this.props.isError ? 'error' : ''}>
-    				{this.props.isError ? 'Error: ' : ''}{this.props.text}<br />
+    				{(this.props.isError ? 'Error: ' : '') + this.props.text}
     			</span>
     		);
     	}
