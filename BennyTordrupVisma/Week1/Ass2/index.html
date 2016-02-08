@@ -67,17 +67,11 @@
 		})
 		
 		var App = React.createClass({
-			getInitialState: function() {
-				return {message: {text: '', isError: false},
-						allMessages: []
-				};
-			},
-				
 			render: function() {
 				return 	<div>
 						<InputField validate={this.validate} displayAll={this.displayAll} />
-						<Message message={this.state.message} />
-						{this.state.showMessages ? <MessageList allMessages={this.state.allMessages} /> : null }
+						{this.state ? <Message message={this.state.message} /> : null }
+						{this.state && this.state.showMessages ? <MessageList allMessages={this.state.allMessages} /> : null }
 					</div>
 			},
 
@@ -95,7 +89,7 @@
 				var actualMessage = this.validateKernel(inputMessage);
 				this.setState({
 					message: actualMessage,
-					allMessages: this.state.allMessages.concat([actualMessage])
+					allMessages: this.state ? this.state.allMessages.concat([actualMessage]) : [actualMessage]
 				});
 			},
 			
