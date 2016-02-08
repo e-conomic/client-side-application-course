@@ -79,8 +79,8 @@
 				if (inputMessage.length == 0)
 					return {text: "Zero length string not allowed", isError: true};
 					
-				if (/^[0-9]*$/.test(inputMessage))
-					return {text: inputMessage.concat(' is numeric'), isError: true};
+				if (/[0-9]$/.test(inputMessage))
+					return {text: inputMessage.concat(' contains numbers'), isError: true};
 					
 				return {text: inputMessage, isError: false};
 			},
