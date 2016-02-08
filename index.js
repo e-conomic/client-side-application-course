@@ -14,13 +14,13 @@ var app = http.createServer(function(req, res){
 
 	function list(dirname) {
 		console.log('listing %s', dirname);
-		fs.readdir(path.join(__dirname, dirname), (err, data) => {
+		fs.readdir(path.join(__dirname, dirname), function(err, data) {
 			if (err || data.length < 1) {
 				res.end('no content');
 				return;
 			}
 
-			var elements = data.filter(d => d.indexOf('.') != 0).map(d => {
+			var elements = data.filter(function(d) { return d.indexOf('.') != 0 }).map(function(d) {
 				return format('<li><a href="%s">%s</a></li>', path.join(dirname, d), d);
 			})
 
@@ -28,7 +28,7 @@ var app = http.createServer(function(req, res){
 			elements.push('</ul>');
 
 			res.setHeader('Content-Type', 'text/html');
-			res.end(elements.reduce((out, e) => out + e));
+			res.end(elements.reduce(function(out, e){ return out + e }));
 		})
 	}
 
