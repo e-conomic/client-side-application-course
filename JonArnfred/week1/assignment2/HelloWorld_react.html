@@ -1,0 +1,101 @@
+
+<html>
+<head>
+	
+<script src="https://fb.me/react-0.14.7.js"></script>
+<script src="https://fb.me/react-dom-0.14.7.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+
+  <title>Hello world with react</title>
+	<style type="text/css">
+	body {
+		width: 1000px;
+		margin: auto;
+	}
+	</style>
+</head>
+<body>
+
+<div id='root'></div>
+
+
+<script type="text/babel">
+/*
+Assignment 2: In React: a simple app that register a validated message from an input field and shows it in a specified container.
+All messages should be kept and be shown in order. Messages that failed validation show be shown in red together with an
+error message.Do a simple selfcontained component that handle all from validation to outputting.
+*/
+
+  var HelloWorld = React.createClass({
+   
+    getInitialState: function() {
+      return {
+        messageArray: [],
+      }
+    },
+   
+    handleSubmit: function(){
+      // get message
+      var message = document.getElementsByTagName('input')[0].value;
+      // validate
+      var isCorrect = this.validate(message);
+      // save message in state
+      // this updates the list, since the list takes in a slice of the state
+      this.saveMessage(message, isCorrect);
+    },
+
+    validate: function(text){
+      var letters = /^[A-Za-z]+$/; 
+      var isCorrect = false;
+      
+      if(text.match(letters) === null){
+        if(text=== ""){
+          console.error("you're trying to submit an empty inputfield");
+        } else {
+          console.error("what a crazy thing to write: "+text);
+        }
+      } else { // only correct if message.match returns anything but null. Meaning it's all letters
+        isCorrect = true;
+      }
+      return isCorrect;
+    },
+
+    saveMessage: function(text, isCorrect){
+      this.setState({
+        messageArray: this.state.messageArray.concat([{text: text, isCorrect: isCorrect}]),
+      });
+      console.log("state: "+this.state.messageArray);
+    },
+    
+    render: function() {
+      var messageArray = this.state.messageArray;
+      
+      var styles = {
+        red: {
+          color: "red"
+        }
+      }
+
+      return (
+        <div>
+          <input type="text" placeholder="warnings in console"/>
+          <button onClick={this.handleSubmit}>Submit</button>
+
+          <ul id="container">
+          {messageArray.map(function(message, i){
+            return(
+              message.isCorrect? <li key={i}>{message.text}</li>:<li key={i} style={styles.red}>ERROR: {message.text}</li>
+            );
+          })}
+          </ul>
+        </div>
+      );
+    }
+  });
+
+  ReactDOM.render(<HelloWorld />, document.getElementById('root'));
+</script>
+
+</body>
+</html>
+
