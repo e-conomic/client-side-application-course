@@ -2,6 +2,7 @@
 
 ### week1 follow-up
 
+* A few lines about yourself and a picture!
 * Pull Requests
 * Do not manipulate `this.state` directly!
 * Coding style
