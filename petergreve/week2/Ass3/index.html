@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Deep dive into React</title>
+	<script src="http://fb.me/react-0.14.7.js"></script>
+	<script src="http://fb.me/react-dom-0.14.7.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+</head>
+<body>
+
+<div id="root"> </div>
+	<script type="text/babel">
+
+	var List = React.createClass({
+
+		render: function() {
+			return 	<div>
+						<InputComponent  validate={this.props.handleInput} />
+						<ErrorMessage errorMessage={this.props.errorMessage} />
+						<Messages messages={this.filterMessages()} />
+					</div>
+		},
+
+		filterMessages: function() {
+			return this.props.allMessages.filter((m) => {
+				m.listId == this.props.listId;
+			});
+		}
+	})
+
+
+	var InputComponent = React.createClass({
+		  render: function() {
+		    return 	<div>
+		    			<input type="text" ref={(component) => this.input = component} />
+						<button type="button" onClick={this.validate}>Submit</button>
+		    		</div>;
+		  },
+		  validate: function() {
+		  	var message = this.input.value;
+		  	this.props.validate(message);
+		  }
+	});
+
+
+	var Message = React.createClass({
+
+		getInitialState: {
+		  		ListId: 0,
+		  		IsArchived: false,
+		},
+		render: function() {
+		    return
+		    	<div >
+		    		{this.props.message}
+		    	</div>;
+		  }
+	});
+
+	var ErrorMessage = React.createClass({
+		render: function () {
+
+			var style = {
+	   			color: 'red',
+    		};
+			return 	<div style={style}>
+						{this.props.errorMessage}
+					</div>
+		}
+
+	});
+
+	var Messages = React.createClass({
+		render: function () {
+			return 	<div>
+					    <ol>
+					   		{this.props.messages.map(function(message) {
+					     		return <Message message={message} />;
+					     	})}
+					    </ol>
+      				</div>
+		}
+
+	});
+
+
+
+	var App = React.createClass({
+		getInitialState: function() {
+		    return {
+		    		listCount: 0,
+		    		lists: [{ListId: 0, listName: "first list"}],
+		    		errorMessage: '',
+		    		allMessages: [{listId: 0, text: "testmessage", IsArchived: false}],
+		    	};
+		},
+		render: function() {
+			return 	<div>
+		    			<input type="text"/>
+						<button type="button" onClick={this.createList}>Submit</button>
+						<List handleInput={this.handleInput} allMessages={this.state.allMessages} listId={0}/>
+					</div>
+
+		},
+		handleInput: function(message) {
+			if (message.length>200) {
+				this.setState({
+		          errorMessage: '',
+		          allMessages: this.state.allMessages.concat([message]),
+		      	});
+			} else {
+				this.setState({
+		          errorMessage: message,
+				});
+			}
+		},
+		createList: (listName) => {
+			var newList = {
+				listId: this.state.listId,
+				listName: listName
+			};
+
+			this.setState({
+		          lists: this.state.lists.concat([newList]),
+		          listCount: this.state.listCount++
+		      	});
+		}
+	});
+
+	ReactDOM.render(<App />, document.getElementById('root'));
+
+
+	</script>
+</body>
+</html>
