@@ -11,6 +11,8 @@
 * implement review feedback
 * we like having debates
 
-### video about react
+### Todays video about design decisions while using react
+
+https://www.youtube.com/watch?v=x7cQ3mrcKaY&list=PL84LMllSwgzLz3PPdwEI3cNUqJGik6YBM&index=2
 
 ### ass 3
