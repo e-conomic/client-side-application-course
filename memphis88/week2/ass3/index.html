@@ -5,8 +5,166 @@
 	<script src="http://fb.me/react-0.14.7.js"></script>
 	<script src="http://fb.me/react-dom-0.14.7.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+	<style type="text/css">
+	.listInput {
+		/*width: 25%;*/
+	}
+	.generatedLists {
+		/*display: inline-block;*/
+	}
+	</style>
 </head>
 <body>
-	<script type="text/babel" src="ass3.js" />
+	<div id="app"></div>
+	<script type="text/babel">
+	var OnChangeMixin = {
+		onChange: function(e) {
+			this.setState({text: e.target.value});
+		}
+	};
+	var OnPressingEnterMixin = {
+		onPressingEnter: function(e) {
+			if (e.keyCode == 13) { this.onClick() };
+		}
+	};
+	var Message = React.createClass({
+		render: function() {
+			return <span>{this.props.text}</span>;
+		}
+	});
+	var SubmitButton = React.createClass({
+		render: function() {
+			return <input type="button" value={this.props.text} />;
+		}
+	});
+	var MessageList = React.createClass({
+		getInitialState: function() {
+			return {
+				// messageList: [],
+			}
+		},
+
+		render: function() {
+			var createMessage = function(msg) {
+				return <Message key={msg.index} text={msg.text} />;
+			}
+			return <div>{this.props.messageList.map(createMessage)}</div>;
+		}
+	});
+	var ArchiveList = React.createClass({
+		render: function() {
+			
+		}
+	});
+	var AssignmentApp = React.createClass({
+		mixins: [
+			OnChangeMixin,
+			OnPressingEnterMixin
+		],
+		getInitialState: function() {
+			return {
+				generatedLists: [],
+				text: '',
+				index: 0
+			}
+		},
+
+		submitNewList: function() {
+			var listsCopy = this.state.generatedLists.slice();
+			var newIndex = this.state.index;
+			listsCopy.push({
+				name: this.state.text,
+				index: this.state.index
+			});
+			newIndex++;
+			this.setState({
+				generatedLists: listsCopy,
+				text: '',
+				index: newIndex
+			});
+		},
+
+		onClick: function() {this.submitNewList()},
+
+		render: function() {
+			return (
+				<div>
+					<div className="listInput">
+						<h3>Add a new list</h3>
+						<input onChange={this.onChange} value={this.state.text} onKeyDown={this.onPressingEnter} />
+						<input type="button" value="Submit" onClick={this.submitNewList} />
+					</div>
+					<div>
+						<GeneratedList data={this.state.generatedLists} />
+					</div>
+				</div>
+			);
+		}
+	});
+	var GeneratedList = React.createClass({
+		mixins: [
+			OnChangeMixin,
+			OnPressingEnterMixin
+		],
+
+		getInitialState: function () {
+			return {
+				text: '',
+				messageList: [],
+				index: 0
+			};
+		},
+
+		submitMessage: function() {
+			var allMessages = this.state.messageList.slice();
+			if (this.isValidMessage(this.state.text)) {
+				allMessages.push({
+					text: this.state.text,
+					index: this.state.index
+				});
+				this.setState({
+					text: '',
+					messageList: allMessages,
+					index: this.state.index + 1
+				});
+			} else {
+				//TODO handle error
+			}
+		},
+
+		onClick: function() {this.submitMessage()},
+
+		isValidMessage: function(msg) {
+			if (msg.length <= 200) {
+				return true;
+			}
+			return false;
+		},
+
+		render: function() {
+			var generateListFromData = function(list) {
+				return (
+					<div key={list.index}>
+						<h2>{list.name}</h2>
+						<h4>Add new message</h4>
+						<input type="text" onChange={this.onChange} value={this.state.text} onKeyDown={this.onPressingEnter} /><input type="button" value="add" />
+						<MessageList messageList={this.state.messageList}>
+							<ArchiveList></ArchiveList>
+						</MessageList>
+					</div>
+				);
+			}
+			return (
+				<div className="generatedLists">
+					{this.props.data.map(generateListFromData, this)}
+				</div>
+			);
+		}
+	});
+	ReactDOM.render(
+		<AssignmentApp />, 
+		document.getElementById('app')
+	);
+	</script>
 </body>
 </html>
