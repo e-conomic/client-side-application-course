@@ -32,12 +32,12 @@
 	var InputComponent = React.createClass({
 		  render: function() {
 		    return 	<div>
-		    			<input type="text" ref="input" />
+		    			<input type="text" ref={(component) => this.input = component} />
 						<button type="button" onClick={this.validate}>Submit</button>
 		    		</div>;
 		  },
 		  validate: function() {
-		  	var message = this.refs.input.getDOMNode().value;
+		  	var message = this.input.value;
 		  	this.props.validate(message);
 		  }
 	});
@@ -97,15 +97,15 @@
 		},
 		render: function() {
 			return 	<div>
-						<InputComponent validate={this.validate} />
+						<InputComponent validate={this.handleInput} />
 						<DisplayAll displayAll={this.displayAllMessages} />
 						<OutputComponent message={this.state.validMessage} />
 						<ErrorMessage errorMessage={this.state.errorMessage} />
 						{ this.state.showMessages ? <AllMessages allMessages={this.state.allMessages} /> : null }
 					</div>
 		},
-		validate: function(message) {
-			if (!/^[0-9]*$/.test(message)) {
+		handleInput: function(message) {
+			if (/^[^0-9]+$/.test(message)) {
 				this.setState({
 		          validMessage: message,
 		          errorMessage: '',
@@ -115,7 +115,8 @@
 			} else {
 				this.setState({
 		          validMessage: '',
-		          errorMessage: message
+		          errorMessage: message,
+   		          showMessages: false
 		      });
 			}
 
