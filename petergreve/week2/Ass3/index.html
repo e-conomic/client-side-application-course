@@ -22,7 +22,12 @@
 						{this.props.list.listId} - {this.props.list.listName}
 						<input type="text" ref={(component) => this.input = component} /><button type="button" onClick={this.handleInput}>Submit</button>
 						<ErrorMessage errorMessage={this.props.errorMessage} />
-						<Messages messages={this.props.messages} archived={this.props.archived} archiveMessage={this.props.archiveMessage} deleteMessage={this.props.deleteMessage} />
+						<Messages
+						 messages={this.props.messages} 
+						 archived={this.props.archived} 
+						 archiveMessage={this.props.archiveMessage}
+						 deleteMessage={this.props.deleteMessage} 
+						 moveMessage={this.props.moveMessage} />
 					</div>
 		}
 
@@ -34,10 +39,16 @@
 			this.props.deleteMessage(message.messageId);
 		},
 		handleArchiveClick: function(message) {
-			this.props.archiveMessage(message.messageId);
+			this.props.archiveMessage(message.messageId, true);
 		},
 		handleUnarchiveClick: function(message) {
-			this.props.unarchiveMessage(message.messageId);
+			this.props.archiveMessage(message.messageId, false);
+		},
+		handleDownClick: function(message) {
+			this.props.moveMessage(message.messageId, true);
+		},
+		handleUpClick: function(message) {
+			this.props.moveMessage(message.messageId, false);
 		},
 		render: function () {
 
@@ -53,6 +64,8 @@
 					     					{message.text}
 					     					<button type="button" onClick={that.handleDeleteClick.bind(null, message)}>Delete</button>
 					     					<button type="button" onClick={that.handleArchiveClick.bind(null, message)}>Archive</button>
+					     					<button type="button" onClick={that.handleDownClick.bind(null, message)}>Move Down</button>
+					     					<button type="button" onClick={that.handleUpClick.bind(null, message)}>Move Up</button>
 					     				</div>;
 					     	})}
 					    </ol>
@@ -112,6 +125,7 @@
 					    					deleteMessage={that.deleteMessage}
 					    					messages={this.filterMessages(list.listId)}
 					    					archived={this.filterArchived(list.listId)}
+					    					moveMessage={that.moveMessage}
 					    					list={list} />;
 					   		},this)}
 					    </ol>			
@@ -174,13 +188,32 @@
 				allMessages: newAllMessages
 			});
 		},
-		archiveMessage: function(messageId) {
+		archiveMessage: function(messageId, isArchived) {
 			var archivedMessage = this.state.allMessages.filter((m) => {
 				return m.messageId == messageId;
 			})[0];
 
 
-			archivedMessage.isArchived = true;
+			archivedMessage.isArchived = isArchived;
+
+			var newAllMessages = this.state.allMessages.filter((m) => {
+				return m.messageId != messageId;
+			});
+
+			this.setState({
+				allMessages: newAllMessages.concat([archivedMessage])
+			});
+		},
+		moveMessage: function(messageId, down) {
+			var archivedMessage = this.state.allMessages.filter((m) => {
+				return m.messageId == messageId;
+			})[0];
+
+			if (down && archivedMessage.listId < this.state.listCount - 1)
+				archivedMessage.listId = archivedMessage.listId + 1;
+			else if (!down && archivedMessage.listId > 0)
+				archivedMessage.listId = archivedMessage.listId - 1;
+			else return
 
 			var newAllMessages = this.state.allMessages.filter((m) => {
 				return m.messageId != messageId;
