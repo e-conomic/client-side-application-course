@@ -175,16 +175,12 @@
 			});
 		},
 		archiveMessage: function(messageId) {
-			var message = this.state.allMessages.filter((m) => {
+			var archivedMessage = this.state.allMessages.filter((m) => {
 				return m.messageId == messageId;
 			})[0];
 
-			var archivedMessage = {
-				messageId: message.messageId,
-				text: message.text,
-				listId: message.listId,
-				isArchived: true
-			}
+
+			archivedMessage.isArchived = true;
 
 			var newAllMessages = this.state.allMessages.filter((m) => {
 				return m.messageId != messageId;
