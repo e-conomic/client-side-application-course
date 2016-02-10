@@ -1,4 +1,3 @@
-
 class Wrapper extends React.Component { 
 	constructor(props) { 
 		super(props);
@@ -22,15 +21,12 @@ class Wrapper extends React.Component {
 
 		this.createList = () => { 
 			let newID = Date.now();
-
+			let lists = JSON.parse(JSON.stringify(this.state.lists));
 			if (this.refs.inputField.value != '') { 
 				let nameOfList = this.refs.inputField.value;
 			}
 
-
-			let lists = JSON.parse(JSON.stringify(this.state.lists));
 			lists[newID] = { title: nameOfList };
-
 			this.setState({ lists });
 		}
 	}
@@ -48,7 +44,6 @@ class Wrapper extends React.Component {
 		let lists = JSON.parse(JSON.stringify(this.state.lists));
 
 		delete lists[listID][msgID];
-
 		this.setState({ lists });
 	}
 
@@ -57,7 +52,6 @@ class Wrapper extends React.Component {
 
 		// toggle the isArchived state
 		lists[listID][msgID].isArchived = (!lists[listID][msgID].isArchived);
-
 		this.setState({ lists });
 	}
 
@@ -78,7 +72,6 @@ class Wrapper extends React.Component {
 				);
 	}
 }
-
 
 class NamedList extends React.Component { 
 	constructor(props) { 
@@ -108,7 +101,6 @@ class NamedList extends React.Component {
 					nonArchivedMessages.push(<Message listID={this.props.listID} msgID={key} lists={this.props.lists} archiveMsg={this.props.archiveMsg} deleteMsg={this.props.deleteMsg} message={this.props.list[key].text}/>);
 				}
 			}
-
 		messages = nonArchivedMessages.concat(archivedMessages);
 
 		return (
@@ -161,13 +153,13 @@ class Message extends React.Component {
 
 		return (
 				<div>
-				<li style={msgStyle}>{archivedPrefix}{this.props.message}</li>
-				<div style={msgStyle} onClick={this.handleClick.bind(this)}>
-				<button data-action="delete">Delete</button>
-				<button data-action={archiveAction}>{archiveAction}</button>
+					<li style={msgStyle}>{archivedPrefix}{this.props.message}</li>
+					<div style={msgStyle} onClick={this.handleClick.bind(this)}>
+						<button data-action="delete">Delete</button>
+						<button data-action={archiveAction}>{archiveAction}</button>
+					</div>
 				</div>
-				</div>
-				);
+		);
 	}
 }
 
