@@ -4,7 +4,7 @@ class Wrapper extends React.Component {
 		super(props);
 
 		// init state
-      this.state = {
+		this.state = {
 			lists: {
 				"listID": {
 					title: "name of list1",
@@ -67,15 +67,15 @@ class Wrapper extends React.Component {
 		for (let list in this.state.lists) { 
 			lists.push(<NamedList lists={this.state.lists} deleteMsg={this.deleteMsg.bind(this)} title={this.state.lists[list].title} archiveMsg={this.archiveMsg.bind(this)} createMsg={this.createMsg.bind(this)} listID={list} list={this.state.lists[list]} />);
 		}
-			
+
 		return (
-			<div>
+				<div>
 				{lists}
 				<h3>Create New List</h3>
 				<input type="text" ref='inputField' placeholder="title" />
 				<button onClick={this.createList}>Create new list</button>
-			</div>
-		);
+				</div>
+				);
 	}
 }
 
@@ -100,27 +100,27 @@ class NamedList extends React.Component {
 		let nonArchivedMessages = [];
 		let messages = []
 
-		for (let key in this.props.list) { 
-			if ( this.props.lists[this.props.listID][key].isArchived) {  
-				archivedMessages.push(<Message listID={this.props.listID} msgID={key} lists={this.props.lists} archiveMsg={this.props.archiveMsg} deleteMsg={this.props.deleteMsg} message={this.props.list[key].text}/>);
+			for (let key in this.props.list) { 
+				if ( this.props.lists[this.props.listID][key].isArchived) {  
+					archivedMessages.push(<Message listID={this.props.listID} msgID={key} lists={this.props.lists} archiveMsg={this.props.archiveMsg} deleteMsg={this.props.deleteMsg} message={this.props.list[key].text}/>);
+				}
+				else { 
+					nonArchivedMessages.push(<Message listID={this.props.listID} msgID={key} lists={this.props.lists} archiveMsg={this.props.archiveMsg} deleteMsg={this.props.deleteMsg} message={this.props.list[key].text}/>);
+				}
 			}
-			else { 
-				nonArchivedMessages.push(<Message listID={this.props.listID} msgID={key} lists={this.props.lists} archiveMsg={this.props.archiveMsg} deleteMsg={this.props.deleteMsg} message={this.props.list[key].text}/>);
-			}
-		}
 
 		messages = nonArchivedMessages.concat(archivedMessages);
 
 		return (
-			<div>
+				<div>
 				<h2>{this.props.title}</h2>
 				<ul>
-					{messages}
+				{messages}
 				</ul> 
 				<input ref='inputField' type="text" />
 				<button onClick={this.createMsg}>Create New Message</button>
-			</div>
-		);
+				</div>
+				);
 	}
 }
 NamedList.defaultProps = { title: "new list" };
@@ -138,13 +138,13 @@ class Message extends React.Component {
 		let btnAction = e.target.getAttribute('data-action');
 		let listID = this.props.listID;
 		let msgID = this.props.msgID;
-		
+
 		if (btnAction === 'delete') { 
 			this.props.deleteMsg(listID, msgID);
 		} 
 		else if (btnAction === 'archive' || btnAction === 'unarchive') { 
 			this.props.archiveMsg(listID, msgID);
-		 }
+		}
 		else { 
 			return;
 		}
@@ -158,20 +158,20 @@ class Message extends React.Component {
 		let msgStyle = (isArchived) ? { color: 'grey', display:'inline', marginRight: '10px'} : { display: 'inline', marginRight: '10px' };
 		let archivedPrefix = (isArchived) ? "(archived) " : "";
 		let archiveAction = (isArchived) ? "unarchive" : "archive";
-		
+
 		return (
-			<div>
+				<div>
 				<li style={msgStyle}>{archivedPrefix}{this.props.message}</li>
 				<div style={msgStyle} onClick={this.handleClick.bind(this)}>
-					<button data-action="delete">Delete</button>
-					<button data-action={archiveAction}>{archiveAction}</button>
+				<button data-action="delete">Delete</button>
+				<button data-action={archiveAction}>{archiveAction}</button>
 				</div>
-			</div>
-		);
+				</div>
+				);
 	}
 }
 
 ReactDOM.render(
-	<Wrapper />, 
-	document.getElementById('app')
-);
+		<Wrapper />, 
+		document.getElementById('app')
+		);
