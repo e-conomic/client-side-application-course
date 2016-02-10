@@ -1,6 +1,7 @@
 var React = require('react');
 
 var { Button, ButtonToolbar, ListGroup, ListGroupItem } = require('react-bootstrap');
+var { Breadcrumb, BreadcrumbItem } = require('react-bootstrap');
 
 var HeadTag = React.createClass({
 
@@ -30,9 +31,41 @@ var List = React.createClass({
 		items: React.PropTypes.array
 	},
 	render: function() {
-		return <ListGroup>
-			{this.props.items.map(item => <ListGroupItem href={item.path}>{item.name}</ListGroupItem>)}
-		</ListGroup>
+		return <div>
+			<ListGroup>
+				{this.props.items.map(item => <ListGroupItem href={item.path}>{item.name}</ListGroupItem>)}
+			</ListGroup>
+		</div>
+	}
+});
+
+var BreadcrumbComp = React.createClass({
+	propTypes: {
+	    currentPath: React.PropTypes.string.isRequired
+	},
+	render: function() {
+		var pathSegments = this.props.currentPath.split('/').filter(paths => paths.length > 0);
+		pathSegments = pathSegments.map((segment, idx, segments) => {
+			var urlResolved = false;
+
+			var url = segments.reduce((url, seg, i) => {
+				if (i-1 == idx || urlResolved) {
+					urlResolved = true;
+					return url;
+				}
+				return url + '/' + seg;
+			}, '');
+			return {
+				url,
+				path: segment,
+			}
+		});
+		return <div style={{padding: '10px 0'}}>
+			<Breadcrumb>
+				<BreadcrumbItem href="/" active={pathSegments.length == 0}>Home</BreadcrumbItem>
+				{pathSegments.map((seg, idx) => <BreadcrumbItem href={seg.url} active={idx == pathSegments.length-1}>{seg.path}</BreadcrumbItem>)}
+			</Breadcrumb>
+		</div>
 	}
 });
 
@@ -44,9 +77,8 @@ module.exports = React.createClass({
 			<body style={{padding: '30px'}}>
 				<div>
 					<Header />
-					<div style={{padding: '30px 0'}}>
-						<List {...this.props} />
-					</div>
+					<BreadcrumbComp currentPath={this.props.url} />
+					<List items={this.props.items} />
 				</div>
 			</body>
 		</html>

@@ -44,6 +44,7 @@ var app = http.createServer(function(req, res){
 			res.setHeader('Content-Type', 'text/html');
 			res.write('<!DOCTYPE html>');
 			res.end(renderPage({
+				url: dirname,
 				items: elements
 			}));
 		})
