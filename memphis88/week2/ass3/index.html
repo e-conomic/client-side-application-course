@@ -12,6 +12,9 @@
 	.generatedLists {
 		/*display: inline-block;*/
 	}
+	span {
+		display: block;
+	}
 	</style>
 </head>
 <body>
@@ -19,7 +22,7 @@
 	<script type="text/babel">
 	var OnChangeMixin = {
 		onChange: function(e) {
-			this.setState({text: e.target.value});
+			this.setState({ text: e.target.value });
 		}
 	};
 	var OnPressingEnterMixin = {
@@ -38,22 +41,25 @@
 		}
 	});
 	var MessageList = React.createClass({
-		getInitialState: function() {
-			return {
-				// messageList: [],
-			}
-		},
+		// getInitialState: function() {
+		// 	return {
+		// 		// messageList: [],
+		// 	}
+		// },
 
 		render: function() {
 			var createMessage = function(msg) {
 				return <Message key={msg.index} text={msg.text} />;
 			}
-			return <div>{this.props.messageList.map(createMessage)}</div>;
+			return <div>{this.props.data.map(createMessage)}</div>;
 		}
 	});
 	var ArchiveList = React.createClass({
 		render: function() {
-			
+			var createMessage = function(msg) {
+				return <Message key={msg.index} text={msg.text} />;
+			}
+			return <div>{this.props.data.map(createMessage)}</div>;
 		}
 	});
 	var AssignmentApp = React.createClass({
@@ -61,6 +67,7 @@
 			OnChangeMixin,
 			OnPressingEnterMixin
 		],
+
 		getInitialState: function() {
 			return {
 				generatedLists: [],
@@ -70,6 +77,7 @@
 		},
 
 		submitNewList: function() {
+			if (this.state.text === '') { return; };
 			var listsCopy = this.state.generatedLists.slice();
 			var newIndex = this.state.index;
 			listsCopy.push({
@@ -87,6 +95,9 @@
 		onClick: function() {this.submitNewList()},
 
 		render: function() {
+			var createLists = function(generatedList) {
+				return <GeneratedList key={generatedList.index} data={generatedList} />
+			};
 			return (
 				<div>
 					<div className="listInput">
@@ -95,7 +106,7 @@
 						<input type="button" value="Submit" onClick={this.submitNewList} />
 					</div>
 					<div>
-						<GeneratedList data={this.state.generatedLists} />
+						{this.state.generatedLists.map(createLists, this)}
 					</div>
 				</div>
 			);
@@ -111,11 +122,13 @@
 			return {
 				text: '',
 				messageList: [],
+				archivedList: [],
 				index: 0
 			};
 		},
 
 		submitMessage: function() {
+			if (this.state.text === '') { return; };
 			var allMessages = this.state.messageList.slice();
 			if (this.isValidMessage(this.state.text)) {
 				allMessages.push({
@@ -142,21 +155,13 @@
 		},
 
 		render: function() {
-			var generateListFromData = function(list) {
-				return (
-					<div key={list.index}>
-						<h2>{list.name}</h2>
-						<h4>Add new message</h4>
-						<input type="text" onChange={this.onChange} value={this.state.text} onKeyDown={this.onPressingEnter} /><input type="button" value="add" />
-						<MessageList messageList={this.state.messageList}>
-							<ArchiveList></ArchiveList>
-						</MessageList>
-					</div>
-				);
-			}
 			return (
 				<div className="generatedLists">
-					{this.props.data.map(generateListFromData, this)}
+					<h2>{this.props.data.name}</h2>
+					<h4>Add new message</h4>
+					<input type="text" onChange={this.onChange} value={this.state.text} onKeyDown={this.onPressingEnter} /><input type="button" value="add" onClick={this.submitMessage} />
+					<MessageList data={this.state.messageList} />						
+					<ArchiveList data={this.state.archivedList} />
 				</div>
 			);
 		}
