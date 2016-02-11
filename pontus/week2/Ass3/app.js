@@ -39,16 +39,11 @@ class Wrapper extends React.Component {
 	}
 
 	moveMsg(currentListID, newListID, msgID) { 
-		console.log(`(wrapper) the currentListID is ${currentListID}`);
-		console.log(`(wrapper) the newListID is ${newListID}`);
 		let lists = JSON.parse(JSON.stringify(this.state.lists));
 
 		lists[newListID][msgID] = lists[currentListID][msgID];
-
 		delete lists[currentListID][msgID];
-
 		this.setState({ lists });
-
 	}
 
 	createMsg(listID, message) {
@@ -121,14 +116,12 @@ class NamedList extends React.Component {
 	}
 
 	displayCharCount() {
-
 		this.setState({ 
 			displayCharCount: !this.state.displayCharCount
 		});
 	}
 
 	charValidation() { 
-
 		let count = 200 - (this.refs.inputField.value.length);
 
 		if (count < 0) { 
@@ -147,8 +140,6 @@ class NamedList extends React.Component {
 		this.setState({ 
 			charCount : count
 		});
-
-
 	}
 
 	render() {
@@ -169,7 +160,7 @@ class NamedList extends React.Component {
 		messages = nonArchivedMessages.concat(archivedMessages);
 
 		let errorMsg =  (this.state.isError) ? { color: 'red' } : { color: 'black'};
-		let buttonState = (this.state.isError) ? true : false;
+		let btnState = (this.state.isError) ? true : false;
 		let displayChars = (this.state.displayCharCount) ? {display: 'inline'} : {display: 'none' };
 
 		return (
@@ -179,7 +170,7 @@ class NamedList extends React.Component {
 						{messages}
 					</ul> 
 					<input onBlur={this.displayCharCount.bind(this)} onFocus={this.displayCharCount.bind(this)} onKeyUp={this.charValidation.bind(this)} ref='inputField' type="text" />
-					<button disabled={buttonState} onClick={this.createMsg}>Create New Message</button>
+					<button disabled={btnState} onClick={this.createMsg}>Create New Message</button>
 					<br/>
 					<div style={errorMsg}>
 						<span style={displayChars}> {this.state.charCount} </span>
@@ -240,16 +231,15 @@ class Message extends React.Component {
 		let archivedPrefix = (isArchived) ? "(archived) " : "";
 		let archiveAction = (isArchived) ? "unarchive" : "archive";
 		let menuItems = (this.state.showMenu) ? {display: 'inline'} : { display: 'none'} ;
-
 		let btnState = (isArchived) ? true : false;
 
 		return (
 				<div>
 					<li style={msgStyle}>{archivedPrefix}{this.props.message}</li>
 					<div style={msgStyle} onClick={this.archOrDelMsg.bind(this)}>
-						<button disabled={btnState} data-action="delete">Delete</button>
 						<button data-action={archiveAction}>{archiveAction}</button>
-						<button data-action="moveMsg">Move</button>
+						<button disabled={btnState} data-action="delete">Delete</button>
+						<button disabled={btnState} data-action="moveMsg">Move</button>
 					</div> 
 					<span onClick={this.move.bind(this)} style={menuItems}>
 						<strong>Move to: </strong> {menu}
