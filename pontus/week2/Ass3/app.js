@@ -144,19 +144,19 @@ class NamedList extends React.Component {
 		let displayChars = (this.state.displayCharCount) ? {display: 'inline'} : {display: 'none' };
 
 		return (
-				<div>
-					<h2>{this.props.title}</h2>
-					<ul>
-						{messages}
-					</ul> 
-					<input onBlur={this.displayCharCount.bind(this)} onFocus={this.displayCharCount.bind(this)} onKeyUp={this.charValidation.bind(this)} ref='inputField' type="text" />
-					<button disabled={btnState} onClick={this.createMsg}>Create New Message</button>
-					<br/>
-					<div style={errorMsg}>
-						<span style={displayChars}> {this.state.charCount} </span>
-						<span>{this.state.errorMsg}</span>
-					</div>
-			   </div>
+			<div>
+				<h2>{this.props.title}</h2>
+				<ul>
+					{messages}
+				</ul> 
+				<input onBlur={this.displayCharCount.bind(this)} onFocus={this.displayCharCount.bind(this)} onKeyUp={this.charValidation.bind(this)} ref='inputField' type="text" />
+				<button disabled={btnState} onClick={this.createMsg}>Create New Message</button>
+				<br/>
+				<div style={errorMsg}>
+					<span style={displayChars}> {this.state.charCount} </span>
+					<span>{this.state.errorMsg}</span>
+				</div>
+			</div>
 		);
 	}
 }
@@ -216,17 +216,17 @@ class Message extends React.Component {
 		let btnState = (isArchived) ? true : false;
 
 		return (
-				<div>
-					<li style={msgStyle}>{archivedPrefix}{this.props.message}</li>
-					<div style={msgStyle} onClick={this.archOrDelMsg.bind(this)}>
-						<button data-action={archiveAction}>{archiveAction}</button>
-						<button disabled={btnState} data-action="delete">Delete</button>
-						<button disabled={btnState} data-action="moveMsg">Move</button>
-					</div> 
-					<span onClick={this.move.bind(this)} style={menuItems}>
-						<strong>Move to: </strong> {menu}
-					</span>
-				</div>
+			<div>
+				<li style={msgStyle}>{archivedPrefix}{this.props.message}</li>
+				<div style={msgStyle} onClick={this.archOrDelMsg.bind(this)}>
+					<button data-action={archiveAction}>{archiveAction}</button>
+					<button disabled={btnState} data-action="delete">Delete</button>
+					<button disabled={btnState} data-action="moveMsg">Move</button>
+				</div> 
+				<span onClick={this.move.bind(this)} style={menuItems}>
+					<strong>Move to: </strong> {menu}
+				</span>
+			</div>
 		);
 	}
 }
