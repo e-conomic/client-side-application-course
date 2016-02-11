@@ -98,9 +98,7 @@ class NamedList extends React.Component {
 	}
 
 	displayCharCount() {
-		this.setState({ 
-			displayCharCount: !this.state.displayCharCount
-		});
+		this.setState({ displayChars: !this.state.displayChars });
 	}
 
 	charValidation() { 
