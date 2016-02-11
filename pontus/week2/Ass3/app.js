@@ -101,6 +101,14 @@ class NamedList extends React.Component {
 			title: React.PropTypes.string
 		}; 
 
+		this.state = { 
+			charCount: 200,
+			isError: false,
+			errorMsg: "",
+			displayChars: false
+
+		};
+
 		this.createMsg = () => { 
 			let message = this.refs.inputField.value;
 
@@ -110,6 +118,37 @@ class NamedList extends React.Component {
 			this.refs.inputField.value = "";
 			this.refs.inputField.focus();
 		}
+	}
+
+	displayCharCount() {
+
+		this.setState({ 
+			displayCharCount: !this.state.displayCharCount
+		});
+	}
+
+	charValidation() { 
+
+		let count = 200 - (this.refs.inputField.value.length);
+
+		if (count < 0) { 
+			this.setState({ 
+				isError: true,
+				errorMsg: "out of characters."
+			});
+		} 
+		else { 
+			this.setState({ 
+				isError: false,
+				errorMsg: ""
+			});
+		}
+
+		this.setState({ 
+			charCount : count
+		});
+
+
 	}
 
 	render() {
@@ -129,16 +168,25 @@ class NamedList extends React.Component {
 			}
 		messages = nonArchivedMessages.concat(archivedMessages);
 
+		let errorMsg =  (this.state.isError) ? { color: 'red' } : { color: 'black'};
+		let buttonState = (this.state.isError) ? true : false;
+		let displayChars = (this.state.displayCharCount) ? {display: 'inline'} : {display: 'none' };
+
 		return (
 				<div>
 					<h2>{this.props.title}</h2>
 					<ul>
 						{messages}
 					</ul> 
-					<input ref='inputField' type="text" />
-					<button onClick={this.createMsg}>Create New Message</button>
-				</div>
-				);
+					<input onBlur={this.displayCharCount.bind(this)} onFocus={this.displayCharCount.bind(this)} onKeyUp={this.charValidation.bind(this)} ref='inputField' type="text" />
+					<button disabled={buttonState} onClick={this.createMsg}>Create New Message</button>
+					<br/>
+					<div style={errorMsg}>
+						<span style={displayChars}> {this.state.charCount} </span>
+						<span>{this.state.errorMsg}</span>
+					</div>
+			   </div>
+		);
 	}
 }
 NamedList.defaultProps = { title: "new list" };
@@ -193,11 +241,13 @@ class Message extends React.Component {
 		let archiveAction = (isArchived) ? "unarchive" : "archive";
 		let menuItems = (this.state.showMenu) ? {display: 'inline'} : { display: 'none'} ;
 
+		let btnState = (isArchived) ? true : false;
+
 		return (
 				<div>
 					<li style={msgStyle}>{archivedPrefix}{this.props.message}</li>
 					<div style={msgStyle} onClick={this.archOrDelMsg.bind(this)}>
-						<button data-action="delete">Delete</button>
+						<button disabled={btnState} data-action="delete">Delete</button>
 						<button data-action={archiveAction}>{archiveAction}</button>
 						<button data-action="moveMsg">Move</button>
 					</div> 
