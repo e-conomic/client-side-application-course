@@ -60,12 +60,12 @@ class Wrapper extends React.Component {
 		}
 
 		return (
-				<div>
-					{lists}
-					<h3>Create New List</h3>
-					<input type="text" ref='inputField' placeholder="title" />
-					<button onClick={this.createList}>Create new list</button>
-				</div>
+			<div>
+				{lists}
+				<h3>Create New List</h3>
+				<input type="text" ref='inputField' placeholder="title" />
+				<button onClick={this.createList}>Create new list</button>
+			</div>
 		);
 	}
 }
