@@ -1,4 +1,15 @@
 
+Some notes on decisions taken, there might be better alternative, would be happy to learn:
+
+- Using key as an id, since that makes access easy. Easier than storing messages and lists as arrays and looping to find.
+- Id created with Date.now(), ok for small application with not a lot of concurrency.
+- Iterating over keys in the object with e.g. Object.keys(lists).map(function, listKey, i){}
+- Generates a dynamic ref to get value from several drop down menues
+- Using JSON.parse(JSON.stringify(o)) to copy state before changing it. splice() would be the equivalent with arrays.
+- Almost all update of state is in the App component. The child components have very little state at all. Functions to
+update state is passed down.
+
+
 - users should be able to create an unlimited number of named lists CHECK
 - users should (only) be able to add valid messages to any given list CHECK
 - messages can contain any characters, but must not be longer than 200 characters CHECK
