@@ -141,7 +141,7 @@ class NamedList extends React.Component {
 
 		let errorMsg =  (this.state.isError) ? { color: 'red' } : { color: 'black'};
 		let btnState = (this.state.isError) ? true : false;
-		let displayChars = (this.state.displayCharCount) ? {display: 'inline'} : {display: 'none' };
+		let displayChars = (this.state.displayChars) ? {display: 'inline'} : {display: 'none' };
 
 		return (
 			<div>
