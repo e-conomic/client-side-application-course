@@ -2,25 +2,7 @@ class Wrapper extends React.Component {
 	constructor(props) { 
 		super(props);
 
-      this.state = { 
-			lists : {}
-		};
-
-		this.state = {
-			lists: {
-				"listID": {
-					title: "name of list1",
-					"messageIDList1":  { text: "message one of list"},
-					"messageID2List1": { text: "message two of list"}
-				},
-				"listID2": {
-					title: "name of list2",
-					"messageID":  { text: "message one of second list"},
-					"messageID2": { text: "message two of second list"},
-					"messageID3": { text: "message three of second list"}
-				}
-			}
-		};
+      this.state = { lists:{} };
 
 		this.createList = () => { 
 			let newID = Date.now();
@@ -31,7 +13,7 @@ class Wrapper extends React.Component {
 				lists[newID] = { title: nameOfList };
 			}
 			else { 
-				lists[newID] = {  };
+				lists[newID] = {};
 			}
 			this.setState({ lists });
 			this.refs.inputField.value = "";
@@ -196,6 +178,8 @@ class Message extends React.Component {
 		let currentListID = e.target.getAttribute('data-current');
 		let newListID = e.target.getAttribute('data-new');
 		let msgID = this.props.msgID;
+
+		if (currentListID == newListID) return;
 
 		// callback to wrapper
 		this.props.moveMsg(currentListID, newListID, msgID);
