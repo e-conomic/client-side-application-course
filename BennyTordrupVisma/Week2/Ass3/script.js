@@ -18,31 +18,17 @@ var Message = React.createClass({
 	},
 })
 
-var MessagesComponent = React.createClass({
+var List = React.createClass({
 	render: function() {
-		
-		var messagesList = this.props.data.map(function(message) {
+		var messagesList = this.props.messages.map(function(message) {
 			return (
 				<Message key={message.id} text={message.text} isArchived={message.isArchived} onArchiveMessage={message.onArchiveMessage}/>
 			);
 		});
 		
-		return	<div>
-					{messagesList}
-				</div>
-	},
-	
-	archiveMessage: function(messageId) {
-		window.alert("Archive message " + messageId);
-		this.props.onArchiveMessage(messageId);
-	},
-})
-
-var List = React.createClass({
-	render: function() {
 		return 	<div>
 					<h4>{this.props.name}</h4>
-					<MessagesComponent data={this.props.messages} onArchiveMessage={this.archiveMessage}/>
+					{messagesList}
 				</div>
 	},
 	
@@ -50,26 +36,6 @@ var List = React.createClass({
 		window.alert("Archive message " + messageId + " in list " + this.props.key);
 		this.props.onArchiveMessage(messageId, this.props.key);
 	}
-})
-
-var ListsComponent = React.createClass({
-	render: function() {
-		var listList = this.props.data.map(function(list) {
-			return (
-				<List key={list.name} name={list.name} messages={list.messages} onArchiveMessage={list.archiveMessage}/>
-			);
-		});
-		return (
-			<div>
-				<h3>Lists</h3>
-				{listList}
-			</div>
-		);
-	},
-	
-	archiveMessage: function(messageId, listId) {
-		this.props.archiveMessage(messageId, listId);
-	},
 })
 
 var InputField = React.createClass({
@@ -118,9 +84,18 @@ var App = React.createClass({
 	},
 	
 	render: function() {
+		var listList = this.state.lists.map(function(list) {
+			return (
+				<List key={list.name} name={list.name} messages={list.messages} onArchiveMessage={list.archiveMessage}/>
+			);
+		});
+		
 		return 	<div>
 					<InputField handleCommit={this.commitMessage}/>
-					<ListsComponent data={this.state.lists} onArchiveMessage={this.archiveMessage} />
+					<div>
+						<h3>Lists</h3>
+						{listList}
+					</div>
 				</div>
 	},
 	
