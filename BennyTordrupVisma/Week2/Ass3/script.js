@@ -23,7 +23,7 @@ var MessagesComponent = React.createClass({
 		
 		var messagesList = this.props.data.map(function(message) {
 			return (
-				<Message key={message.id} text={message.text} isArchived={message.isArchived} onArchiveMessage={this.props.onArchiveMessage}/>
+				<Message key={message.id} text={message.text} isArchived={message.isArchived} onArchiveMessage={message.onArchiveMessage}/>
 			);
 		});
 		
