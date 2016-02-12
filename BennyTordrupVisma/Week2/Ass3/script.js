@@ -2,9 +2,9 @@ var Message = React.createClass({
 	render: function() {
 		return (
 			<div>
-					{this.props.isArchived 
-						? <div className="archived-message">{this.props.text}</div> 
-						: <div>{this.props.text}<button onClick={this.handleArchive}>Archive</button><button onClick={this.handleDelete}>Delete</button></div>}
+					{this.props.message.isArchived 
+						? <div className="archived-message">{this.props.message.text}</div> 
+						: <div>{this.props.message.text}<button onClick={this.handleArchive}>Archive</button><button onClick={this.handleDelete}>Delete</button></div>}
 			</div>
 		);
 	},
@@ -14,27 +14,26 @@ var Message = React.createClass({
 	},
 	
 	handleArchive: function() {
-		this.props.onArchiveMessage(this.props.key);
+		this.props.onArchiveMessage(this.props.message.id);
 	},
 })
 
 var List = React.createClass({
 	render: function() {
-		var messagesList = this.props.messages.map(function(message) {
-			return (
-				<Message key={message.id} text={message.text} isArchived={message.isArchived} onArchiveMessage={message.onArchiveMessage}/>
-			);
-		});
+		var that = this;
 		
 		return 	<div>
-					<h4>{this.props.name}</h4>
-					{messagesList}
+					<h4>{this.props.list.name}</h4>
+					<div>
+						{this.props.list.messages.map(function(message) {
+							return <Message key={message.id} message={message} onArchiveMessage={that.archiveMessage}/>;
+						})}
+					</div>
 				</div>
 	},
 	
 	archiveMessage: function(messageId) {
-		window.alert("Archive message " + messageId + " in list " + this.props.key);
-		this.props.onArchiveMessage(messageId, this.props.key);
+		this.props.onArchiveMessage(messageId, this.props.list.name);
 	}
 })
 
@@ -84,22 +83,23 @@ var App = React.createClass({
 	},
 	
 	render: function() {
-		var listList = this.state.lists.map(function(list) {
-			return (
-				<List key={list.name} name={list.name} messages={list.messages} onArchiveMessage={list.archiveMessage}/>
-			);
-		});
+		var that = this;
 		
 		return 	<div>
 					<InputField handleCommit={this.commitMessage}/>
 					<div>
 						<h3>Lists</h3>
-						{listList}
+						<div>
+							{this.state.lists.map(function(list) {
+								return <List key={list.name} list={list} onArchiveMessage={that.archiveMessage} />
+							})}
+						</div>
 					</div>
 				</div>
 	},
 	
 	archiveMessage: function(messageId, listId) {
+		window.alert("Archiving message");
 		var listToChange = this.state.lists.find(el => el.name == listId);
 		if (listToChange == null)
 			return;
@@ -108,6 +108,7 @@ var App = React.createClass({
 		if (msgToArchive == null)
 			return;
 		
+		window.alert("Setting isArchived");
 		msgToArchive.isArchived = true;
 	},
 
