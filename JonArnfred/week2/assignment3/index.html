@@ -20,22 +20,22 @@
         this.handleDelete = this.handleDelete.bind(this);
       };
       handleMove(ref, messageKey, fromListKey){
-        if(this.archieved(fromListKey, messageKey)){
-          alert("cannot move archieved messages");
+        if(this.archived(fromListKey, messageKey)){
+          alert("cannot move archived messages");
         } else{
           const toListKey = this.refs[ref].value;
           this.props.move(messageKey, fromListKey, toListKey);
         }
       }
       handleDelete(listKey, messageKey){
-        if(this.archieved(listKey, messageKey)){
-          alert("archieved messages cannot be deleted");
+        if(this.archived(listKey, messageKey)){
+          alert("archived messages cannot be deleted");
         } else{
           this.props.delete(listKey, messageKey);
         }
       }
-      archieved(listKey, messageKey){
-        return this.props.lists[listKey].messages[messageKey].archieved;
+      archived(listKey, messageKey){
+        return this.props.lists[listKey].messages[messageKey].archived;
       }
       render(){
         const lists = this.props.lists;
@@ -55,11 +55,11 @@
             textTransform: 'uppercase',
             fontSize: '18'
           },
-          unarchieved: {
+          unarchived: {
             borderStyle: 'dotted',
             borderColor: randomColor
           },
-          archieved: {
+          archived: {
             backgroundColor: 'cornflowerblue',
           }
         }
@@ -71,15 +71,15 @@ return(
               const refToSelect = "select"+i;
               
               return(
-                messages[messageKey].archieved?
-                <li key={i} style={Object.assign(styles.archieved, {"order": i+1})}>
+                messages[messageKey].archived?
+                <li key={i} style={Object.assign(styles.archived, {"order": i+1})}>
                   
                   {messages[messageKey].text}
                   &nbsp; &nbsp;
-                  <button onClick={this.props.archieve.bind(null, listKey, messageKey, false)}>Unarchieve</button>
+                  <button onClick={this.props.archive.bind(null, listKey, messageKey, false)}>Unarchive</button>
                 </li>
                 :
-                <li key={i} style={styles.unarchieved}>
+                <li key={i} style={styles.unarchived}>
                     {messages[messageKey].text}
                     &nbsp; &nbsp;
                   <button onClick={this.handleMove.bind(null, refToSelect, messageKey,listKey)}>Move to</button>
@@ -92,7 +92,7 @@ return(
                     })}
                   </select>
                     <button onClick={this.handleDelete.bind(null, listKey, messageKey)}>Delete</button>
-                    <button onClick={this.props.archieve.bind(null, listKey, messageKey, true)}>Archieve</button>
+                    <button onClick={this.props.archive.bind(null, listKey, messageKey, true)}>Archive</button>
                 </li>
                 );
               })}
@@ -198,7 +198,7 @@ return(
       addMessage(listKey, messageText){
         const messageKey = Date.now(); //Date.now() not supported IE < 9
         var lists = JSON.parse(JSON.stringify(this.state.lists));
-        lists[listKey].messages[messageKey] = {text: messageText, archieved: false};
+        lists[listKey].messages[messageKey] = {text: messageText, archived: false};
         this.setState({
           lists: lists
         })
@@ -218,9 +218,9 @@ return(
           lists: lists
         })
       }
-      archieve(listKey, messageKey, archieved){
+      archive(listKey, messageKey, archived){
         var lists = JSON.parse(JSON.stringify(this.state.lists));
-        lists[listKey].messages[messageKey].archieved = archieved;
+        lists[listKey].messages[messageKey].archived = archived;
         this.setState({
           lists: lists
         })
@@ -235,7 +235,7 @@ return(
               {Object.keys(lists).map((listKey, i) => {
               return(
                 <List key={i} listKey={listKey} lists={lists} move={this.move.bind(this)}
-                delete={this.delete.bind(this)} archieve={this.archieve.bind(this)}/>
+                delete={this.delete.bind(this)} archive={this.archive.bind(this)}/>
               );
             }, this)}
           </div>
