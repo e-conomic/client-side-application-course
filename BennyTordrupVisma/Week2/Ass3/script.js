@@ -25,17 +25,30 @@ var Message = React.createClass({
 var List = React.createClass({
 	render: function() {
 		var that = this;
+		var activeMessageList = this.props.list.messages.filter(e => !e.isArchived).map(function(message, index) {
+			return <Message key={index} 
+							message={message} 
+							onArchiveMessage={that.archiveMessage} 
+							onDeleteMessage={that.deleteMessage}
+							onUnarchiveMessage={that.unarchiveMessage} />
+		});
+		var archivedMessageList = this.props.list.messages.filter(e => e.isArchived).map(function(message, index) {
+			return <Message key={index} 
+							message={message} 
+							onArchiveMessage={that.archiveMessage} 
+							onDeleteMessage={that.deleteMessage}
+							onUnarchiveMessage={that.unarchiveMessage} />
+		});
 		
 		return 	<div>
 					<h4>{this.props.list.name}</h4>
+					<h5>Active messages</h5>
 					<div>
-						{this.props.list.messages.map(function(message, index) {
-							return <Message key={index} 
-											message={message} 
-											onArchiveMessage={that.archiveMessage} 
-											onDeleteMessage={that.deleteMessage}
-											onUnarchiveMessage={that.unarchiveMessage} />
-						})}
+						{activeMessageList}
+					</div>
+					<h5>Archived messages</h5>
+					<div>
+						{archivedMessageList}
 					</div>
 				</div>
 	},
@@ -104,11 +117,21 @@ var App = React.createClass({
 					},
 					{
 						id: 2,
-						text: "Test 2"
+						text: "Test 2",
+						isArchived: true
 					},
 					{
 						id: 3,
 						text: "Test 3"
+					},
+					{
+						id: 4,
+						text: "Test 4",
+						isArchived: true
+					},
+					{
+						id: 5,
+						text: "Test 5"
 					}
 					] 
 			}]
@@ -117,19 +140,20 @@ var App = React.createClass({
 	
 	render: function() {
 		var that = this;
+		var listList = this.state.lists.map(function(list, index) {
+			return <List key={index} 
+						list={list} 
+						onArchiveMessage={that.archiveMessage} 
+						onDeleteMessage={that.deleteMessage}
+						onUnarchiveMessage={that.unarchiveMessage} />
+		});
 		
 		return 	<div>
 					<InputField handleCommit={this.commitMessage}/>
 					<div>
 						<h3>Lists</h3>
 						<div>
-							{this.state.lists.map(function(list, index) {
-								return <List key={index} 
-											list={list} 
-											onArchiveMessage={that.archiveMessage} 
-											onDeleteMessage={that.deleteMessage}
-											onUnarchiveMessage={that.unarchiveMessage} />
-							})}
+							{listList}
 						</div>
 					</div>
 				</div>
