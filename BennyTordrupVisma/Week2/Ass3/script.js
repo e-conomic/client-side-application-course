@@ -10,15 +10,15 @@ var Message = React.createClass({
 	},
 	
 	handleDelete: function() {
-		this.props.onDeleteMessage(this.props.message.id);
+		this.props.onDeleteMessage(this.props.message);
 	},
 	
 	handleArchive: function() {
-		this.props.onArchiveMessage(this.props.message.id);
+		this.props.onArchiveMessage(this.props.message);
 	},
 	
 	handleUnarchive: function() {
-		this.props.onUnarchiveMessage(this.props.message.id);
+		this.props.onUnarchiveMessage(this.props.message);
 	}
 })
 
@@ -40,16 +40,16 @@ var List = React.createClass({
 				</div>
 	},
 	
-	deleteMessage: function(messageId) {
-		this.props.onDeleteMessage(messageId, this.props.list.name);
+	deleteMessage: function(message) {
+		this.props.onDeleteMessage(message, this.props.list);
 	},
 	
-	archiveMessage: function(messageId) {
-		this.props.onArchiveMessage(messageId, this.props.list.name);
+	archiveMessage: function(message) {
+		this.props.onArchiveMessage(message, this.props.list);
 	},
 	
-	unarchiveMessage: function(messageId) {
-		this.props.onUnarchiveMessage(messageId, this.props.list.name);
+	unarchiveMessage: function(message) {
+		this.props.onUnarchiveMessage(message, this.props.list);
 	},
 })
 
@@ -135,12 +135,12 @@ var App = React.createClass({
 				</div>
 	},
 	
-	deleteMessage: function(messageId, listId) {
-		var listToChange = this.state.lists.find(l => l.name == listId);
+	deleteMessage: function(message, list) {
+		var listToChange = this.state.lists.find(l => l.name == list.name);
 		if (listToChange == null)
 			return;
 
-		var msgPos = listToChange.messages.findIndex(m => m.id == messageId);
+		var msgPos = listToChange.messages.findIndex(m => m.id == message.id);
 		if (msgPos === -1)
 			return;
 
@@ -155,12 +155,12 @@ var App = React.createClass({
 		});
 	},
 	
-	archiveOrUnarchiveMessageKernel: function(messageId, listId, doArchive) {
-		var listToChange = this.state.lists.find(l => l.name == listId);
+	archiveOrUnarchiveMessageKernel: function(message, list, doArchive) {
+		var listToChange = this.state.lists.find(l => l.name == list.name);
 		if (listToChange == null)
 			return;
 		
-		var msgToArchive = listToChange.messages.find(m => m.id == messageId);
+		var msgToArchive = listToChange.messages.find(m => m.id == message.id);
 		if (msgToArchive == null)
 			return;
 		
@@ -173,27 +173,27 @@ var App = React.createClass({
 		});
 	},
 	
-	archiveMessage: function(messageId, listId) {
-		this.archiveOrUnarchiveMessageKernel(messageId, listId, true);
+	archiveMessage: function(message, list) {
+		this.archiveOrUnarchiveMessageKernel(message, list, true);
 	},
 	
-	unarchiveMessage: function(messageId, listId) {
-		this.archiveOrUnarchiveMessageKernel(messageId, listId, false);
+	unarchiveMessage: function(message, list) {
+		this.archiveOrUnarchiveMessageKernel(message, list, false);
 	},
 
-	commitMessage: function(message, list) {
+	commitMessage: function(messageText, listName) {
 		var msgToAdd = {
 			id: 0,
-			text: message,
+			text: messageText,
 			isArchived: false
 		};
 		
-		var destinationList = this.state.lists.find(l => l.name == list);	
+		var destinationList = this.state.lists.find(l => l.name == listName);	
 		if (destinationList == null) {
 			msgToAdd.id=1;
 			
 			destinationList = {
-				name: list, 
+				name: listName, 
 				messages: [msgToAdd]
 			};
 			
