@@ -90,6 +90,12 @@ var InputField = React.createClass({
 			return false;
 		}
 		
+		if (this.props.lists.some(l => l.messages.some(m => m.text == input)))
+		{
+			window.alert("The message is already member of a list and cannot be added");
+			return false;
+		}
+		
 		return true;
 	},
 	
@@ -100,6 +106,7 @@ var InputField = React.createClass({
 			this.props.handleCommit(input, list);
 			this.refs.input.value = '';
 			this.refs.listInput.value = '';
+			this.refs.input.focus();
 		}
 	},
 });
@@ -113,27 +120,52 @@ var App = React.createClass({
 				messages: [
 					{
 						id: 1,
-						text: "Test 1"
+						text: "Test 1-1"
 					},
 					{
 						id: 2,
-						text: "Test 2",
+						text: "Test 1-2",
 						isArchived: true
 					},
 					{
 						id: 3,
-						text: "Test 3"
+						text: "Test 1-3"
 					},
 					{
 						id: 4,
-						text: "Test 4",
+						text: "Test 1-4",
 						isArchived: true
 					},
 					{
 						id: 5,
-						text: "Test 5"
-					}
-					] 
+						text: "Test 1-5"
+					}] 
+			},
+			{
+				name: "List 2", 
+				messages: [
+					{
+						id: 1,
+						text: "Test 2-1"
+					},
+					{
+						id: 2,
+						text: "Test 2-2",
+						isArchived: true
+					},
+					{
+						id: 3,
+						text: "Test 2-3"
+					},
+					{
+						id: 4,
+						text: "Test 2-4",
+						isArchived: true
+					},
+					{
+						id: 5,
+						text: "Test 2-5"
+					}] 
 			}]
 		}
 	},
@@ -149,7 +181,7 @@ var App = React.createClass({
 		});
 		
 		return 	<div>
-					<InputField handleCommit={this.commitMessage}/>
+					<InputField handleCommit={this.commitMessage} lists={this.state.lists}/>
 					<div>
 						<h3>Lists</h3>
 						<div>
