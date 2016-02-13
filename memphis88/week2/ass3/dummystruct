@@ -1,12 +1,17 @@
 <AssignmentApp>
 ├── text
 ├── index
-├── <GeneratedList>
-│    ├── text
-│    ├── index
-│    ├── <MessageList>
-│    └── <ArchiveList>
-│    
+└── <GeneratedList>
+     ├── text
+     ├── index
+     ├── <MessageList>
+     │    └────<Message>
+     └── <ArchiveList>
+          └────<Message>
+
+
+
+
 │ ├─┬ connect@2.30.2
 │ │ └─┬ body-parser@1.13.3
 │ │   └─┬ raw-body@2.1.5

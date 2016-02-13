@@ -13,7 +13,7 @@
 		/*display: inline-block;*/
 	}
 	span {
-		display: block;
+		/*display: block;*/
 	}
 	</style>
 </head>
@@ -35,23 +35,27 @@
 			return <span>{this.props.text}</span>;
 		}
 	});
-	var SubmitButton = React.createClass({
-		render: function() {
-			return <input type="button" value={this.props.text} />;
-		}
-	});
 	var MessageList = React.createClass({
-		// getInitialState: function() {
-		// 	return {
-		// 		// messageList: [],
-		// 	}
-		// },
+		propTypes: {
+			generatedLists: React.PropTypes.any.isRequired
+		},
+
+		handleMessageDelete: function(key) {
+			this.props.onDeleteMessage(key, this);
+		},
 
 		render: function() {
 			var createMessage = function(msg) {
-				return <Message key={msg.index} text={msg.text} />;
+				return (
+					<tr key={msg.index} ref="messageFromList">
+						<td><Message text={msg.text} /></td>
+						<td><GeneratedListDropDown generatedLists={this.props.generatedLists} /></td>
+						<td><input type="button" value="X" onClick={this.handleMessageDelete.bind(this, msg.index)} /></td>
+						<td><input type="button" value="Archive" onClick="" /></td>
+					</tr>
+				);
 			}
-			return <div>{this.props.data.map(createMessage)}</div>;
+			return <table><tbody>{this.props.messageList.map(createMessage, this)}</tbody></table>;
 		}
 	});
 	var ArchiveList = React.createClass({
@@ -59,7 +63,12 @@
 			var createMessage = function(msg) {
 				return <Message key={msg.index} text={msg.text} />;
 			}
-			return <div>{this.props.data.map(createMessage)}</div>;
+			return (
+				<div>
+					<h5>{"---Archive---"}</h5>
+					{this.props.archivedList.map(createMessage)}
+				</div>
+			);
 		}
 	});
 	var AssignmentApp = React.createClass({
@@ -96,12 +105,12 @@
 
 		render: function() {
 			var createLists = function(generatedList) {
-				return <GeneratedList key={generatedList.index} data={generatedList} />
+				return <GeneratedList key={generatedList.index} data={generatedList} generatedLists={this.state.generatedLists} />
 			};
 			return (
 				<div>
 					<div className="listInput">
-						<h3>Add a new list</h3>
+						<h4>Add a new list</h4>
 						<input onChange={this.onChange} value={this.state.text} onKeyDown={this.onPressingEnter} />
 						<input type="button" value="Submit" onClick={this.submitNewList} />
 					</div>
@@ -117,6 +126,10 @@
 			OnChangeMixin,
 			OnPressingEnterMixin
 		],
+
+		propTypes: {
+
+		},
 
 		getInitialState: function () {
 			return {
@@ -145,6 +158,21 @@
 			}
 		},
 
+		deleteMessage: function(key) {
+			var findMessage = function(list, index, allLists) {
+				if (list.index === key) {
+					var currentMessages = allLists.slice();
+					currentMessages.splice(index, 1);
+					this.setState({	messageList: currentMessages });
+				}
+			};
+			this.state.messageList.forEach(findMessage, this);
+		},
+
+		archiveMessage: function(key) {
+
+		},
+
 		onClick: function() {this.submitMessage()},
 
 		isValidMessage: function(msg) {
@@ -157,12 +185,29 @@
 		render: function() {
 			return (
 				<div className="generatedLists">
-					<h2>{this.props.data.name}</h2>
-					<h4>Add new message</h4>
-					<input type="text" onChange={this.onChange} value={this.state.text} onKeyDown={this.onPressingEnter} /><input type="button" value="add" onClick={this.submitMessage} />
-					<MessageList data={this.state.messageList} />						
-					<ArchiveList data={this.state.archivedList} />
+					<h3>{this.props.data.name}</h3>
+					<h5>Add new message</h5>
+					<input type="text" onChange={this.onChange} value={this.state.text} onKeyDown={this.onPressingEnter} />
+					<input type="button" value="add" onClick={this.submitMessage} />
+					<MessageList messageList={this.state.messageList} generatedLists={this.props.generatedLists} onDeleteMessage={this.deleteMessage} onArchiveMessage={this.archiveMessage} />
+					<ArchiveList archivedList={this.state.archivedList} />
 				</div>
+			);
+		}
+	});
+	var GeneratedListDropDown = React.createClass({
+		propTypes: {
+			generatedLists: React.PropTypes.any.isRequired,
+		},
+
+		render: function() {
+			var createDropdownList = function(list) {
+				return <option key={list.index}>{list.name}</option>
+			};
+			return (
+				<select>
+					{this.props.generatedLists.map(createDropdownList)}
+				</select>
 			);
 		}
 	});
