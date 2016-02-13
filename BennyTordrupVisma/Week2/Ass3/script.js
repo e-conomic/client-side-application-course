@@ -3,19 +3,23 @@ var Message = React.createClass({
 		return (
 			<div>
 					{this.props.message.isArchived 
-						? <div className="archived-message">{this.props.message.text}</div> 
-						: <div>{this.props.message.text}<button onClick={this.handleArchive}>Archive</button><button onClick={this.handleDelete}>Delete</button></div>}
+						? <div className="archived-message">{this.props.message.id}. {this.props.message.text}<button onClick={this.handleUnarchive}>Unarchive</button></div> 
+						: <div>{this.props.message.id}. {this.props.message.text}<button onClick={this.handleArchive}>Archive</button><button onClick={this.handleDelete}>Delete</button></div>}
 			</div>
 		);
 	},
 	
 	handleDelete: function() {
-		window.alert("Delete");
+		this.props.onDeleteMessage(this.props.message.id);
 	},
 	
 	handleArchive: function() {
 		this.props.onArchiveMessage(this.props.message.id);
 	},
+	
+	handleUnarchive: function() {
+		this.props.onUnarchiveMessage(this.props.message.id);
+	}
 })
 
 var List = React.createClass({
@@ -25,16 +29,28 @@ var List = React.createClass({
 		return 	<div>
 					<h4>{this.props.list.name}</h4>
 					<div>
-						{this.props.list.messages.map(function(message) {
-							return <Message key={message.id} message={message} onArchiveMessage={that.archiveMessage}/>;
+						{this.props.list.messages.map(function(message, index) {
+							return <Message key={index} 
+											message={message} 
+											onArchiveMessage={that.archiveMessage} 
+											onDeleteMessage={that.deleteMessage}
+											onUnarchiveMessage={that.unarchiveMessage} />
 						})}
 					</div>
 				</div>
 	},
 	
+	deleteMessage: function(messageId) {
+		this.props.onDeleteMessage(messageId, this.props.list.name);
+	},
+	
 	archiveMessage: function(messageId) {
 		this.props.onArchiveMessage(messageId, this.props.list.name);
-	}
+	},
+	
+	unarchiveMessage: function(messageId) {
+		this.props.onUnarchiveMessage(messageId, this.props.list.name);
+	},
 })
 
 var InputField = React.createClass({
@@ -78,7 +94,24 @@ var InputField = React.createClass({
 var App = React.createClass({
 	getInitialState: function() {
 		return {
-			lists: []
+			//lists: []
+			lists: [{
+				name: "List 1", 
+				messages: [
+					{
+						id: 1,
+						text: "Test 1"
+					},
+					{
+						id: 2,
+						text: "Test 2"
+					},
+					{
+						id: 3,
+						text: "Test 3"
+					}
+					] 
+			}]
 		}
 	},
 	
@@ -90,26 +123,62 @@ var App = React.createClass({
 					<div>
 						<h3>Lists</h3>
 						<div>
-							{this.state.lists.map(function(list) {
-								return <List key={list.name} list={list} onArchiveMessage={that.archiveMessage} />
+							{this.state.lists.map(function(list, index) {
+								return <List key={index} 
+											list={list} 
+											onArchiveMessage={that.archiveMessage} 
+											onDeleteMessage={that.deleteMessage}
+											onUnarchiveMessage={that.unarchiveMessage} />
 							})}
 						</div>
 					</div>
 				</div>
 	},
 	
-	archiveMessage: function(messageId, listId) {
-		window.alert("Archiving message");
-		var listToChange = this.state.lists.find(el => el.name == listId);
+	deleteMessage: function(messageId, listId) {
+		var listToChange = this.state.lists.find(l => l.name == listId);
+		if (listToChange == null)
+			return;
+
+		var msgPos = listToChange.messages.findIndex(m => m.id == messageId);
+		if (msgPos === -1)
+			return;
+
+		var tailElements = listToChange.messages.slice(msgPos + 1);
+		var newMessages = listToChange.messages.slice(0, msgPos).concat(tailElements);
+		listToChange.messages = newMessages;
+		
+		this.setState({
+			lists: this.state.lists.map(function(list) {
+				return list.name == listToChange.name ? listToChange : list;
+			})
+		});
+	},
+	
+	archiveOrUnarchiveMessageKernel: function(messageId, listId, doArchive) {
+		var listToChange = this.state.lists.find(l => l.name == listId);
 		if (listToChange == null)
 			return;
 		
-		var msgToArchive = listToChange.messages.find(m => m.id = messageId);
+		var msgToArchive = listToChange.messages.find(m => m.id == messageId);
 		if (msgToArchive == null)
 			return;
 		
-		window.alert("Setting isArchived");
-		msgToArchive.isArchived = true;
+		msgToArchive.isArchived = doArchive;
+		
+		this.setState({
+			lists: this.state.lists.map(function(list) {
+					return list.name == listToChange.name ? listToChange : list;
+			})
+		});
+	},
+	
+	archiveMessage: function(messageId, listId) {
+		this.archiveOrUnarchiveMessageKernel(messageId, listId, true);
+	},
+	
+	unarchiveMessage: function(messageId, listId) {
+		this.archiveOrUnarchiveMessageKernel(messageId, listId, false);
 	},
 
 	commitMessage: function(message, list) {
@@ -119,7 +188,7 @@ var App = React.createClass({
 			isArchived: false
 		};
 		
-		var destinationList = this.state.lists.find(el => el.name == list);	
+		var destinationList = this.state.lists.find(l => l.name == list);	
 		if (destinationList == null) {
 			msgToAdd.id=1;
 			
