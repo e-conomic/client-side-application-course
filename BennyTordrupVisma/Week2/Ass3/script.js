@@ -81,9 +81,8 @@ var List = React.createClass({
 							onUnarchiveMessage={that.unarchiveMessage} />
 		});
 		
-		return 	<div>
+		return 	<div className="list">
 					<h4>{this.props.list.name}</h4>
-					<h5>Active messages</h5>
 					<div>
 						{activeMessageList}
 					</div>
@@ -116,9 +115,9 @@ var InputField = React.createClass({
 	render: function() {
 		return <div>
 				<label>Text to add: </label>
-				<input type="text" ref="input" />
+				<input type="text" ref="input"/>
 				<label>Name of list: </label>
-				<input type="text" ref="listInput" />
+				<input type="text" ref="listInput"/>
 				<button onClick={this.handleCommit}>Commit</button>
 			</div>;
 	},
