@@ -1,12 +1,52 @@
 var Message = React.createClass({
+	getInitialState: function() {
+		return {
+			listSelectionVisible : false
+		}
+	},
+	
 	render: function() {
 		return (
 			<div>
 					{this.props.message.isArchived 
-						? <div className="archived-message">{this.props.message.id}. {this.props.message.text}<button onClick={this.handleUnarchive}>Unarchive</button></div> 
-						: <div>{this.props.message.id}. {this.props.message.text}<button onClick={this.handleArchive}>Archive</button><button onClick={this.handleDelete}>Delete</button></div>}
+						? <div>
+							<div className="archived-message">
+								{this.props.message.id}. {this.props.message.text}
+								<button onClick={this.handleUnarchive}>Unarchive</button>
+							</div>	
+						  </div>
+						: <div>
+							<div>
+								{this.props.message.id}. {this.props.message.text}
+								<button onClick={this.handleArchive}>Archive</button>
+								<button onClick={this.handleDelete}>Delete</button>
+								{!this.state.listSelectionVisible 
+									? <button onClick={this.handleShowListSelection}>Move</button> 
+									: null}
+								{this.state.listSelectionVisible 
+									? <div>
+										<label>New list: </label>
+										<input type="text" ref="newList" />
+										<button onClick={this.handleMoveMessage}>Move</button>
+									  </div> 
+									: null}
+							</div>
+						  </div>}
 			</div>
 		);
+	},
+	
+	handleShowListSelection: function() {
+		this.setState({
+			listSelectionVisible: true
+		})
+	},
+	
+	handleMoveMessage: function() {
+		this.props.onMoveMessage(this.props.message, this.refs.newList.value);
+		this.setState({
+			listSelectionVisible: false
+		})
 	},
 	
 	handleDelete: function() {
@@ -30,7 +70,8 @@ var List = React.createClass({
 							message={message} 
 							onArchiveMessage={that.archiveMessage} 
 							onDeleteMessage={that.deleteMessage}
-							onUnarchiveMessage={that.unarchiveMessage} />
+							onUnarchiveMessage={that.unarchiveMessage} 
+							onMoveMessage={that.moveMessage} />
 		});
 		var archivedMessageList = this.props.list.messages.filter(e => e.isArchived).map(function(message, index) {
 			return <Message key={index} 
@@ -53,6 +94,11 @@ var List = React.createClass({
 				</div>
 	},
 	
+	moveMessage: function(message, newListName)
+	{
+		this.props.onMoveMessage(message, this.props.list, newListName);
+	},
+	
 	deleteMessage: function(message) {
 		this.props.onDeleteMessage(message, this.props.list);
 	},
@@ -69,9 +115,9 @@ var List = React.createClass({
 var InputField = React.createClass({
 	render: function() {
 		return <div>
-				<label>Text to add:</label>
+				<label>Text to add: </label>
 				<input type="text" ref="input" />
-				<label>Name of list:</label>
+				<label>Name of list: </label>
 				<input type="text" ref="listInput" />
 				<button onClick={this.handleCommit}>Commit</button>
 			</div>;
@@ -177,7 +223,8 @@ var App = React.createClass({
 						list={list} 
 						onArchiveMessage={that.archiveMessage} 
 						onDeleteMessage={that.deleteMessage}
-						onUnarchiveMessage={that.unarchiveMessage} />
+						onUnarchiveMessage={that.unarchiveMessage}
+						onMoveMessage={that.moveMessage} />
 		});
 		
 		return 	<div>
@@ -190,6 +237,27 @@ var App = React.createClass({
 					</div>
 				</div>
 	},
+
+	moveMessage: function(message, oldList, newListName) {
+		console.log("Moving message from " + oldList.name + " to " + newListName)
+		var sourceList = this.state.lists.find(l => l.name == oldList.name);
+		if (sourceList == null)
+			return;
+		
+		var destinationList = this.state.lists.find(l => l.name == newListName);
+		if (destinationList == null)
+			return;
+		
+		var msgPos = sourceList.messages.findIndex(m => m.id = message.id);
+		if (msgPos === -1)
+			return;
+
+		var msgText = sourceList.messages[msgPos].text;
+
+		this.deleteMessage(message, oldList);
+		
+		this.commitMessage(msgText, newListName);
+	},
 	
 	deleteMessage: function(message, list) {
 		var listToChange = this.state.lists.find(l => l.name == list.name);
@@ -200,8 +268,8 @@ var App = React.createClass({
 		if (msgPos === -1)
 			return;
 
-		var tailElements = listToChange.messages.slice(msgPos + 1);
-		var newMessages = listToChange.messages.slice(0, msgPos).concat(tailElements);
+		var tailMessages = listToChange.messages.slice(msgPos + 1);
+		var newMessages = listToChange.messages.slice(0, msgPos).concat(tailMessages);
 		listToChange.messages = newMessages;
 		
 		this.setState({
