@@ -41,7 +41,7 @@
 		},
 
 		handleMessageDelete: function(key) {
-			this.props.onDeleteMessage(key, this);
+			this.props.onDeleteMessage(key);
 		},
 
 		handleMessageArchive: function(key) {
@@ -110,7 +110,9 @@
 			var newIndex = this.state.index;
 			listsCopy.push({
 				name: this.state.text,
-				index: this.state.index
+				index: this.state.index,
+				messageList: [],
+				archivedList: []
 			});
 			newIndex++;
 			this.setState({
@@ -126,75 +128,45 @@
 			// console.log('trg: '+targetListKey);
 			if (oldListKey === 'undefined' || targetListKey === 'undefined' || msgKey === 'undefined') { return; }
 			var oldList;
-			console.log(this.state.generatedLists);
 		},
 
-		onClick: function() { this.submitNewList() },
-
-		render: function() {
-			var createLists = function(generatedList) {
-				return <GeneratedList key={generatedList.index} myListKey={generatedList.index} data={generatedList} generatedLists={this.state.generatedLists} onMessageMove={this.moveMessage}/>
-			};
-			return (
-				<div>
-					<div className="listInput">
-						<h4>Add a new list</h4>
-						<input onChange={this.onChange} value={this.state.text} onKeyDown={this.onPressingEnter} />
-						<input type="button" value="Submit" onClick={this.submitNewList} />
-					</div>
-					<div>
-						{this.state.generatedLists.map(createLists, this)}
-					</div>
-				</div>
-			);
-		}
-	});
-	var GeneratedList = React.createClass({
-		mixins: [
-			OnChangeMixin,
-			OnPressingEnterMixin
-		],
-
-		propTypes: {
-
-		},
-
-		getInitialState: function () {
-			return {
-				text: '',
-				messageList: [],
-				archivedList: [],
-				index: 0
-			};
-		},
-
-		submitMessage: function() {
-			if (this.state.text === '') { return; };
-			var allMessages = this.state.messageList.slice();
-			if (this.isValidMessage(this.state.text)) {
-				allMessages.push({
-					text: this.state.text,
-					index: this.state.index
+		submitMessage: function(listKey, msg, msgKey) {
+			if (msg === '') { return; };
+			if (this.isValidMessage(msg)) {	
+				var updatedList = this.state.generatedLists.map(function(list) {
+					if (list.index == listKey) {
+						list.messageList.push({
+							text: msg,
+							index: msgKey
+						});
+					}
+					return list;
 				});
 				this.setState({
-					text: '',
-					messageList: allMessages,
-					index: this.state.index + 1
+					generatedLists: updatedList
 				});
 			} else {
 				//TODO handle error
 			}
 		},
 
-		deleteMessage: function(key) {
-			var findMessage = function(list, index) {
-				if (list.index === key) {
-					var currentMessages = this.state.messageList.slice();
-					currentMessages.splice(index, 1);
-					this.setState({	messageList: currentMessages });
+		deleteMessage: function(listKey, msgKey) {
+			console.log(listKey);
+			console.log(msgKey);
+			var updatedList = this.state.generatedLists.map(function(list) {
+				if (list.index == listKey) {
+					var updatedMessages = list.messageList.filter(function(msg) {
+						if (msg.index == msgKey) { return false; }
+						return true;
+					});
+					console.log(updatedMessages);
+					list.messageList = updatedMessages;
 				}
-			};
-			this.state.messageList.forEach(findMessage, this);
+				return list;
+			});
+			this.setState({
+				generatedLists: updatedList
+			});
 		},
 
 		archiveMessage: function(key) {
@@ -229,11 +201,7 @@
 			this.state.archivedList.forEach(pushMessageToMessageList, this);
 		},
 
-		onMessageMove: function(msgKey, oldListKey, targetListKey) {
-			this.props.onMessageMove(msgKey, oldListKey, targetListKey);
-		},
-
-		onClick: function() { this.submitMessage() },
+		onClick: function() { this.submitNewList() },
 
 		isValidMessage: function(msg) {
 			if (msg.length <= 200) {
@@ -243,14 +211,126 @@
 		},
 
 		render: function() {
+			var createLists = function(generatedList) {
+				return <GeneratedList key={generatedList.index} myListKey={generatedList.index} data={generatedList} generatedLists={this.state.generatedLists} onMessageMove={this.moveMessage} onSubmitMessage={this.submitMessage} onDeleteMessage={this.deleteMessage} onMessageExtract="" />
+			};
+			return (
+				<div>
+					<div className="listInput">
+						<h4>Add a new list</h4>
+						<input onChange={this.onChange} value={this.state.text} onKeyDown={this.onPressingEnter} />
+						<input type="button" value="Submit" onClick={this.submitNewList} />
+					</div>
+					<div>
+						{this.state.generatedLists.map(createLists, this)}
+					</div>
+				</div>
+			);
+		}
+	});
+	var GeneratedList = React.createClass({
+		mixins: [
+			OnChangeMixin,
+			OnPressingEnterMixin
+		],
+
+		propTypes: {
+
+		},
+
+		getInitialState: function () {
+			return {
+				text: '',
+				index: 0
+			};
+		},
+
+		// submitMessage: function() {
+		// 	if (this.state.text === '') { return; };
+		// 	var allMessages = this.state.messageList.slice();
+		// 	if (this.isValidMessage(this.state.text)) {
+		// 		allMessages.push({
+		// 			text: this.state.text,
+		// 			index: this.state.index
+		// 		});
+		// 		this.setState({
+		// 			text: '',
+		// 			messageList: allMessages,
+		// 			index: this.state.index + 1
+		// 		});
+		// 	} else {
+		// 		//TODO handle error
+		// 	}
+		// },
+
+		// deleteMessage: function(key) {
+		// 	var findMessage = function(list, index) {
+		// 		if (list.index === key) {
+		// 			var currentMessages = this.state.messageList.slice();
+		// 			currentMessages.splice(index, 1);
+		// 			this.setState({	messageList: currentMessages });
+		// 		}
+		// 	};
+		// 	this.state.messageList.forEach(findMessage, this);
+		// },
+
+		// archiveMessage: function(key) {
+		// 	var pushMessageToArchive = function(msg, index) {
+		// 		if (msg.index === key) {
+		// 			var currentMessagesInArchive = this.state.archivedList.slice();
+		// 			var currentMessages = this.state.messageList.slice();
+		// 			currentMessagesInArchive.push(msg);
+		// 			currentMessages.splice(index, 1);
+		// 			this.setState({	
+		// 				messageList: currentMessages,
+		// 				archivedList: currentMessagesInArchive 
+		// 			});
+		// 		}
+		// 	};
+		// 	this.state.messageList.forEach(pushMessageToArchive, this);
+		// },
+
+		// extractMessage: function(key) {
+		// 	var pushMessageToMessageList = function(msg, index) {
+		// 		if (msg.index === key) {
+		// 			var currentMessagesInArchive = this.state.archivedList.slice();
+		// 			var currentMessages = this.state.messageList.slice();
+		// 			currentMessages.push(msg);
+		// 			currentMessagesInArchive.splice(index, 1);
+		// 			this.setState({	
+		// 				messageList: currentMessages,
+		// 				archivedList: currentMessagesInArchive 
+		// 			});
+		// 		}
+		// 	};
+		// 	this.state.archivedList.forEach(pushMessageToMessageList, this);
+		// },
+
+		onMessageMove: function(msgKey, oldListKey, targetListKey) {
+			this.props.onMessageMove(msgKey, oldListKey, targetListKey);
+		},
+
+		onDeleteMessage: function(msgKey, listKey) {
+			this.props.onDeleteMessage(this.props.data.index, msgKey);
+		},
+
+		onClick: function() { 
+			this.props.onSubmitMessage(this.props.data.index, this.state.text, this.state.index);
+			this.setState({
+				text: '',
+				index: this.state.index + 1
+			})
+		},
+
+		render: function() {
 			return (
 				<div className="generatedLists">
 					<h3>{this.props.data.name}</h3>
 					<h5>Add new message</h5>
 					<input type="text" onChange={this.onChange} value={this.state.text} onKeyDown={this.onPressingEnter} />
-					<input type="button" value="add" onClick={this.submitMessage} />
-					<MessageList messageList={this.state.messageList} generatedLists={this.props.generatedLists} onDeleteMessage={this.deleteMessage} onArchiveMessage={this.archiveMessage} onMessageMove={this.onMessageMove} myListKey={this.props.myListKey} />
-					<ArchiveList archivedList={this.state.archivedList} onMessageExtract={this.extractMessage} />
+					<input type="button" value="add" onClick={this.onClick} />
+					<MessageList messageList={this.props.data.messageList} generatedLists={this.props.generatedLists} onDeleteMessage={this.onDeleteMessage} onArchiveMessage={this.props.onArchiveMessage} onMessageMove={this.props.onMessageMove} myListKey={this.props.myListKey} />
+					<ArchiveList archivedList={this.props.data.archivedList} onMessageExtract={this.props.onExtractMessage} />
 				</div>
 			);
 		}
