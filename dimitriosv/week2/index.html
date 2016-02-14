@@ -230,7 +230,10 @@
             return  <div>
                         <div>
                             {this.props.messages.map(function(message,i) {
-                                return <div className="message" key={i}  >
+                                if (message.IsArchived) {
+                                    ;
+                                } else {
+                                    return (<div className="message" key={i}  >
                                             <Message  Mid={message.messageId} 
                                                 Mtext={message.text}
                                                 MisArchived={message.IsArchived} 
@@ -239,7 +242,27 @@
                                                 addMessageParent={addMessageParent}
                                                 allLists={allLists}
                                             />
-                                        </div>
+                                        </div>)
+                                }
+                            })}
+                        </div>
+                        <div>Archived:</div>
+                        <div>
+                            {this.props.messages.map(function(message,i) {
+                                if (message.IsArchived) {
+                                    return (<div className="message" key={i}  >
+                                            <Message  Mid={message.messageId} 
+                                                Mtext={message.text}
+                                                MisArchived={message.IsArchived} 
+                                                deleteMessageParent={deleteMessageParent}
+                                                archiveMessageParent={archiveMessageParent}
+                                                addMessageParent={addMessageParent}
+                                                allLists={allLists}
+                                            />
+                                        </div>)
+                                } else {
+                                    ;
+                                }
                             })}
                         </div>
                     </div>
