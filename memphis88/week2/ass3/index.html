@@ -44,14 +44,22 @@
 			this.props.onDeleteMessage(key, this);
 		},
 
+		handleMessageArchive: function(key) {
+			this.props.onArchiveMessage(key, this);
+		},
+
+		onMessageMove: function(msgKey, oldListKey, targetListKey) {
+			this.props.onMessageMove(msgKey, oldListKey, targetListKey);
+		},
+
 		render: function() {
 			var createMessage = function(msg) {
 				return (
 					<tr key={msg.index} ref="messageFromList">
 						<td><Message text={msg.text} /></td>
-						<td><GeneratedListDropDown generatedLists={this.props.generatedLists} /></td>
+						<td><GeneratedListDropDown generatedLists={this.props.generatedLists} myListKey={this.props.myListKey} msgKey={msg.index} onMessageMove={this.onMessageMove} /></td>
 						<td><input type="button" value="X" onClick={this.handleMessageDelete.bind(this, msg.index)} /></td>
-						<td><input type="button" value="Archive" onClick="" /></td>
+						<td><input type="button" value="Archive" onClick={this.handleMessageArchive.bind(this, msg.index)} /></td>
 					</tr>
 				);
 			}
@@ -59,15 +67,26 @@
 		}
 	});
 	var ArchiveList = React.createClass({
+		handleMessageExtract: function(key) {
+			this.props.onMessageExtract(key, this);
+		},
+
 		render: function() {
 			var createMessage = function(msg) {
-				return <Message key={msg.index} text={msg.text} />;
-			}
+				return (
+					<tr key={msg.index}>
+						<td><Message text={msg.text} /></td>
+						<td><input type="button" value="Extract" onClick={this.handleMessageExtract.bind(this, msg.index)} /></td>
+					</tr>
+				);
+			};
 			return (
-				<div>
-					<h5>{"---Archive---"}</h5>
-					{this.props.archivedList.map(createMessage)}
-				</div>
+				<table>
+					<thead><tr><td colSpan="2">{"---Archive---"}</td></tr></thead>
+					<tbody>
+						{this.props.archivedList.map(createMessage, this)}
+					</tbody>
+				</table>
 			);
 		}
 	});
@@ -101,11 +120,20 @@
 			});
 		},
 
-		onClick: function() {this.submitNewList()},
+		moveMessage: function(msgKey, oldListKey, targetListKey) {
+			// console.log('msg: '+msgKey);
+			// console.log('old: '+oldListKey);
+			// console.log('trg: '+targetListKey);
+			if (oldListKey === 'undefined' || targetListKey === 'undefined' || msgKey === 'undefined') { return; }
+			var oldList;
+			console.log(this.state.generatedLists);
+		},
+
+		onClick: function() { this.submitNewList() },
 
 		render: function() {
 			var createLists = function(generatedList) {
-				return <GeneratedList key={generatedList.index} data={generatedList} generatedLists={this.state.generatedLists} />
+				return <GeneratedList key={generatedList.index} myListKey={generatedList.index} data={generatedList} generatedLists={this.state.generatedLists} onMessageMove={this.moveMessage}/>
 			};
 			return (
 				<div>
@@ -159,9 +187,9 @@
 		},
 
 		deleteMessage: function(key) {
-			var findMessage = function(list, index, allLists) {
+			var findMessage = function(list, index) {
 				if (list.index === key) {
-					var currentMessages = allLists.slice();
+					var currentMessages = this.state.messageList.slice();
 					currentMessages.splice(index, 1);
 					this.setState({	messageList: currentMessages });
 				}
@@ -170,10 +198,42 @@
 		},
 
 		archiveMessage: function(key) {
-
+			var pushMessageToArchive = function(msg, index) {
+				if (msg.index === key) {
+					var currentMessagesInArchive = this.state.archivedList.slice();
+					var currentMessages = this.state.messageList.slice();
+					currentMessagesInArchive.push(msg);
+					currentMessages.splice(index, 1);
+					this.setState({	
+						messageList: currentMessages,
+						archivedList: currentMessagesInArchive 
+					});
+				}
+			};
+			this.state.messageList.forEach(pushMessageToArchive, this);
 		},
 
-		onClick: function() {this.submitMessage()},
+		extractMessage: function(key) {
+			var pushMessageToMessageList = function(msg, index) {
+				if (msg.index === key) {
+					var currentMessagesInArchive = this.state.archivedList.slice();
+					var currentMessages = this.state.messageList.slice();
+					currentMessages.push(msg);
+					currentMessagesInArchive.splice(index, 1);
+					this.setState({	
+						messageList: currentMessages,
+						archivedList: currentMessagesInArchive 
+					});
+				}
+			};
+			this.state.archivedList.forEach(pushMessageToMessageList, this);
+		},
+
+		onMessageMove: function(msgKey, oldListKey, targetListKey) {
+			this.props.onMessageMove(msgKey, oldListKey, targetListKey);
+		},
+
+		onClick: function() { this.submitMessage() },
 
 		isValidMessage: function(msg) {
 			if (msg.length <= 200) {
@@ -189,8 +249,8 @@
 					<h5>Add new message</h5>
 					<input type="text" onChange={this.onChange} value={this.state.text} onKeyDown={this.onPressingEnter} />
 					<input type="button" value="add" onClick={this.submitMessage} />
-					<MessageList messageList={this.state.messageList} generatedLists={this.props.generatedLists} onDeleteMessage={this.deleteMessage} onArchiveMessage={this.archiveMessage} />
-					<ArchiveList archivedList={this.state.archivedList} />
+					<MessageList messageList={this.state.messageList} generatedLists={this.props.generatedLists} onDeleteMessage={this.deleteMessage} onArchiveMessage={this.archiveMessage} onMessageMove={this.onMessageMove} myListKey={this.props.myListKey} />
+					<ArchiveList archivedList={this.state.archivedList} onMessageExtract={this.extractMessage} />
 				</div>
 			);
 		}
@@ -200,13 +260,27 @@
 			generatedLists: React.PropTypes.any.isRequired,
 		},
 
+		getInitialState: function() {
+			return {
+				value: ''
+			};
+		},
+
+		handleMessageMove: function(msgKey, oldListKey, targetListKey) {
+			this.props.onMessageMove(msgKey, oldListKey, targetListKey);
+		},
+
+		onChange: function(e) {
+			this.handleMessageMove(this.props.msgKey, this.props.myListKey, e.target.value);
+		},
+
 		render: function() {
 			var createDropdownList = function(list) {
-				return <option key={list.index}>{list.name}</option>
+				return <option key={list.index} value={list.index}>{list.name}</option>
 			};
 			return (
-				<select>
-					{this.props.generatedLists.map(createDropdownList)}
+				<select onChange={this.onChange}>
+					{this.props.generatedLists.map(createDropdownList, this)}
 				</select>
 			);
 		}
