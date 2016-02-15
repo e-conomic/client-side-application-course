@@ -7,13 +7,11 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
 	<style type="text/css">
 	.listInput {
-		/*width: 25%;*/
+		margin: 0 5px;
 	}
 	.generatedLists {
-		/*display: inline-block;*/
-	}
-	span {
-		/*display: block;*/
+		display: inline-block;
+		margin: 10px 5px;
 	}
 	</style>
 </head>
@@ -30,66 +28,6 @@
 			if (e.keyCode == 13) { this.onClick() };
 		}
 	};
-	var Message = React.createClass({
-		render: function() {
-			return <span>{this.props.text}</span>;
-		}
-	});
-	var MessageList = React.createClass({
-		propTypes: {
-			generatedLists: React.PropTypes.any.isRequired
-		},
-
-		handleMessageDelete: function(key) {
-			this.props.onDeleteMessage(key);
-		},
-
-		handleMessageArchive: function(key) {
-			this.props.onArchiveMessage(key, this);
-		},
-
-		onMessageMove: function(msgKey, oldListKey, targetListKey) {
-			this.props.onMessageMove(msgKey, oldListKey, targetListKey);
-		},
-
-		render: function() {
-			var createMessage = function(msg) {
-				return (
-					<tr key={msg.index} ref="messageFromList">
-						<td><Message text={msg.text} /></td>
-						<td><GeneratedListDropDown generatedLists={this.props.generatedLists} myListKey={this.props.myListKey} msgKey={msg.index} onMessageMove={this.onMessageMove} /></td>
-						<td><input type="button" value="X" onClick={this.handleMessageDelete.bind(this, msg.index)} /></td>
-						<td><input type="button" value="Archive" onClick={this.handleMessageArchive.bind(this, msg.index)} /></td>
-					</tr>
-				);
-			}
-			return <table><tbody>{this.props.messageList.map(createMessage, this)}</tbody></table>;
-		}
-	});
-	var ArchiveList = React.createClass({
-		handleMessageExtract: function(key) {
-			this.props.onMessageExtract(key, this);
-		},
-
-		render: function() {
-			var createMessage = function(msg) {
-				return (
-					<tr key={msg.index}>
-						<td><Message text={msg.text} /></td>
-						<td><input type="button" value="Extract" onClick={this.handleMessageExtract.bind(this, msg.index)} /></td>
-					</tr>
-				);
-			};
-			return (
-				<table>
-					<thead><tr><td colSpan="2">{"---Archive---"}</td></tr></thead>
-					<tbody>
-						{this.props.archivedList.map(createMessage, this)}
-					</tbody>
-				</table>
-			);
-		}
-	});
 	var AssignmentApp = React.createClass({
 		mixins: [
 			OnChangeMixin,
@@ -122,22 +60,14 @@
 			});
 		},
 
-		moveMessage: function(msgKey, oldListKey, targetListKey) {
-			// console.log('msg: '+msgKey);
-			// console.log('old: '+oldListKey);
-			// console.log('trg: '+targetListKey);
-			if (oldListKey === 'undefined' || targetListKey === 'undefined' || msgKey === 'undefined') { return; }
-			var oldList;
-		},
-
-		submitMessage: function(listKey, msg, msgKey) {
-			if (msg === '') { return; };
-			if (this.isValidMessage(msg)) {	
+		submitMessage: function(listKey, msgText, msgKey) {
+			if (msgText === '') { return; };
+			if (this.isValidMessage(msgText)) {	
 				var updatedList = this.state.generatedLists.map(function(list) {
 					if (list.index == listKey) {
 						list.messageList.push({
-							text: msg,
-							index: msgKey
+							text: msgText,
+							index: msgKey.toString().includes('.') ? msgKey : listKey.toString() + '.' + msgKey.toString()
 						});
 					}
 					return list;
@@ -151,54 +81,61 @@
 		},
 
 		deleteMessage: function(listKey, msgKey) {
-			console.log(listKey);
-			console.log(msgKey);
 			var updatedList = this.state.generatedLists.map(function(list) {
 				if (list.index == listKey) {
 					var updatedMessages = list.messageList.filter(function(msg) {
 						if (msg.index == msgKey) { return false; }
 						return true;
 					});
-					console.log(updatedMessages);
 					list.messageList = updatedMessages;
 				}
 				return list;
 			});
-			this.setState({
-				generatedLists: updatedList
+			this.setState({	generatedLists: updatedList });
+		},
+
+		archiveMessage: function(listKey, msgKey) {
+			var updatedList = this.state.generatedLists.map(function(list) {
+				if (list.index == listKey) {
+					var msgToArchive;
+					var updatedMessages = list.messageList.filter(function(msg) {
+						if (msg.index == msgKey) {
+							msgToArchive = msg;
+							return false;
+						}
+						return true;
+					});
+					list.messageList = updatedMessages;
+					list.archivedList.push(msgToArchive);
+				}
+				return list;
 			});
+			this.setState({ generatedLists: updatedList });
 		},
 
-		archiveMessage: function(key) {
-			var pushMessageToArchive = function(msg, index) {
-				if (msg.index === key) {
-					var currentMessagesInArchive = this.state.archivedList.slice();
-					var currentMessages = this.state.messageList.slice();
-					currentMessagesInArchive.push(msg);
-					currentMessages.splice(index, 1);
-					this.setState({	
-						messageList: currentMessages,
-						archivedList: currentMessagesInArchive 
+		extractMessage: function(listKey, msgKey) {
+			var updatedList = this.state.generatedLists.map(function(list) {
+				if (list.index == listKey) {
+					var msgToExtract;
+					var updatedArchive = list.archivedList.filter(function(msg) {
+						if (msg.index == msgKey) {
+							msgToExtract = msg;
+							return false;
+						}
+						return true;
 					});
+					list.archivedList = updatedArchive;
+					list.messageList.push(msgToExtract);
 				}
-			};
-			this.state.messageList.forEach(pushMessageToArchive, this);
+				return list;
+			});
+			this.setState({ generatedLists: updatedList });
 		},
 
-		extractMessage: function(key) {
-			var pushMessageToMessageList = function(msg, index) {
-				if (msg.index === key) {
-					var currentMessagesInArchive = this.state.archivedList.slice();
-					var currentMessages = this.state.messageList.slice();
-					currentMessages.push(msg);
-					currentMessagesInArchive.splice(index, 1);
-					this.setState({	
-						messageList: currentMessages,
-						archivedList: currentMessagesInArchive 
-					});
-				}
-			};
-			this.state.archivedList.forEach(pushMessageToMessageList, this);
+		moveMessage: function(msg, oldListKey, targetListKey) {
+			if (oldListKey === 'undefined' || targetListKey === 'undefined' || msg === 'undefined') { return; }
+			this.submitMessage(targetListKey, msg.text, msg.index);
+			this.deleteMessage(oldListKey, msg.index);
 		},
 
 		onClick: function() { this.submitNewList() },
@@ -212,7 +149,7 @@
 
 		render: function() {
 			var createLists = function(generatedList) {
-				return <GeneratedList key={generatedList.index} myListKey={generatedList.index} data={generatedList} generatedLists={this.state.generatedLists} onMessageMove={this.moveMessage} onSubmitMessage={this.submitMessage} onDeleteMessage={this.deleteMessage} onMessageExtract="" />
+				return <GeneratedList key={generatedList.index} myListKey={generatedList.index} data={generatedList} generatedLists={this.state.generatedLists} onMoveMessage={this.moveMessage} onSubmitMessage={this.submitMessage} onArchiveMessage={this.archiveMessage} onDeleteMessage={this.deleteMessage} onExtractMessage={this.extractMessage} />
 			};
 			return (
 				<div>
@@ -245,73 +182,20 @@
 			};
 		},
 
-		// submitMessage: function() {
-		// 	if (this.state.text === '') { return; };
-		// 	var allMessages = this.state.messageList.slice();
-		// 	if (this.isValidMessage(this.state.text)) {
-		// 		allMessages.push({
-		// 			text: this.state.text,
-		// 			index: this.state.index
-		// 		});
-		// 		this.setState({
-		// 			text: '',
-		// 			messageList: allMessages,
-		// 			index: this.state.index + 1
-		// 		});
-		// 	} else {
-		// 		//TODO handle error
-		// 	}
-		// },
-
-		// deleteMessage: function(key) {
-		// 	var findMessage = function(list, index) {
-		// 		if (list.index === key) {
-		// 			var currentMessages = this.state.messageList.slice();
-		// 			currentMessages.splice(index, 1);
-		// 			this.setState({	messageList: currentMessages });
-		// 		}
-		// 	};
-		// 	this.state.messageList.forEach(findMessage, this);
-		// },
-
-		// archiveMessage: function(key) {
-		// 	var pushMessageToArchive = function(msg, index) {
-		// 		if (msg.index === key) {
-		// 			var currentMessagesInArchive = this.state.archivedList.slice();
-		// 			var currentMessages = this.state.messageList.slice();
-		// 			currentMessagesInArchive.push(msg);
-		// 			currentMessages.splice(index, 1);
-		// 			this.setState({	
-		// 				messageList: currentMessages,
-		// 				archivedList: currentMessagesInArchive 
-		// 			});
-		// 		}
-		// 	};
-		// 	this.state.messageList.forEach(pushMessageToArchive, this);
-		// },
-
-		// extractMessage: function(key) {
-		// 	var pushMessageToMessageList = function(msg, index) {
-		// 		if (msg.index === key) {
-		// 			var currentMessagesInArchive = this.state.archivedList.slice();
-		// 			var currentMessages = this.state.messageList.slice();
-		// 			currentMessages.push(msg);
-		// 			currentMessagesInArchive.splice(index, 1);
-		// 			this.setState({	
-		// 				messageList: currentMessages,
-		// 				archivedList: currentMessagesInArchive 
-		// 			});
-		// 		}
-		// 	};
-		// 	this.state.archivedList.forEach(pushMessageToMessageList, this);
-		// },
-
-		onMessageMove: function(msgKey, oldListKey, targetListKey) {
-			this.props.onMessageMove(msgKey, oldListKey, targetListKey);
+		onMoveMessage: function(msg, targetListKey) {
+			this.props.onMoveMessage(msg, this.props.data.index, targetListKey);
 		},
 
-		onDeleteMessage: function(msgKey, listKey) {
+		onDeleteMessage: function(msgKey) {
 			this.props.onDeleteMessage(this.props.data.index, msgKey);
+		},
+
+		onArchiveMessage: function(msgKey) {
+			this.props.onArchiveMessage(this.props.data.index, msgKey);
+		},
+
+		onExtractMessage: function(msgKey) {
+			this.props.onExtractMessage(this.props.data.index, msgKey);
 		},
 
 		onClick: function() { 
@@ -329,9 +213,64 @@
 					<h5>Add new message</h5>
 					<input type="text" onChange={this.onChange} value={this.state.text} onKeyDown={this.onPressingEnter} />
 					<input type="button" value="add" onClick={this.onClick} />
-					<MessageList messageList={this.props.data.messageList} generatedLists={this.props.generatedLists} onDeleteMessage={this.onDeleteMessage} onArchiveMessage={this.props.onArchiveMessage} onMessageMove={this.props.onMessageMove} myListKey={this.props.myListKey} />
-					<ArchiveList archivedList={this.props.data.archivedList} onMessageExtract={this.props.onExtractMessage} />
+					<MessageList messageList={this.props.data.messageList} generatedLists={this.props.generatedLists} onDeleteMessage={this.onDeleteMessage} onArchiveMessage={this.onArchiveMessage} onMoveMessage={this.onMoveMessage} myListKey={this.props.myListKey} />
+					<ArchiveList archivedList={this.props.data.archivedList} onExtractMessage={this.onExtractMessage} />
 				</div>
+			);
+		}
+	});
+	var MessageList = React.createClass({
+		propTypes: {
+			generatedLists: React.PropTypes.any.isRequired
+		},
+
+		handleMessageDelete: function(key) {
+			this.props.onDeleteMessage(key);
+		},
+
+		handleMessageArchive: function(key) {
+			this.props.onArchiveMessage(key);
+		},
+
+		onMoveMessage: function(msg, targetListKey) {
+			this.props.onMoveMessage(msg, targetListKey);
+		},
+
+		render: function() {
+			var createMessage = function(msg) {
+				return (
+					<tr key={msg.index} ref="messageFromList">
+						<td><Message text={msg.text} /></td>
+						<td><GeneratedListDropDown generatedLists={this.props.generatedLists} myListKey={this.props.myListKey} msg={msg} onMoveMessage={this.onMoveMessage} /></td>
+						<td><input type="button" value="X" onClick={this.handleMessageDelete.bind(this, msg.index)} /></td>
+						<td><input type="button" value="Archive" onClick={this.handleMessageArchive.bind(this, msg.index)} /></td>
+					</tr>
+				);
+			}
+			return <table><tbody>{this.props.messageList.map(createMessage, this)}</tbody></table>;
+		}
+	});
+	var ArchiveList = React.createClass({
+		handleMessageExtract: function(key) {
+			this.props.onExtractMessage(key);
+		},
+
+		render: function() {
+			var createMessage = function(msg) {
+				return (
+					<tr key={msg.index}>
+						<td><Message text={msg.text} /></td>
+						<td><input type="button" value="Extract" onClick={this.handleMessageExtract.bind(this, msg.index)} /></td>
+					</tr>
+				);
+			};
+			return (
+				<table>
+					<thead><tr><td colSpan="2">{"---Archive---"}</td></tr></thead>
+					<tbody>
+						{this.props.archivedList.map(createMessage, this)}
+					</tbody>
+				</table>
 			);
 		}
 	});
@@ -346,23 +285,30 @@
 			};
 		},
 
-		handleMessageMove: function(msgKey, oldListKey, targetListKey) {
-			this.props.onMessageMove(msgKey, oldListKey, targetListKey);
+		handleMessageMove: function(msg, targetListKey) {
+			this.props.onMoveMessage(msg, targetListKey);
 		},
 
 		onChange: function(e) {
-			this.handleMessageMove(this.props.msgKey, this.props.myListKey, e.target.value);
+			this.handleMessageMove(this.props.msg, e.target.value);
 		},
 
 		render: function() {
 			var createDropdownList = function(list) {
+				if (this.props.myListKey == list.index) { return; }
 				return <option key={list.index} value={list.index}>{list.name}</option>
 			};
 			return (
 				<select onChange={this.onChange}>
+					<option key="null" value="-" />
 					{this.props.generatedLists.map(createDropdownList, this)}
 				</select>
 			);
+		}
+	});
+	var Message = React.createClass({
+		render: function() {
+			return <span>{this.props.text}</span>;
 		}
 	});
 	ReactDOM.render(
