@@ -6,6 +6,19 @@ var path = require('path');
 var fs = require('fs');
 var format = require('util').format;
 
+require('node-jsx').install({harmony: true});
+
+var React = require('react');
+var ReactDOMServer = require('react-dom/server');
+
+var Page = require('./page.jsx');
+
+function renderPage(props) {
+	return ReactDOMServer.renderToStaticMarkup(
+		React.createElement(Page, props)
+	);
+}
+
 var app = http.createServer(function(req, res){
 	function error(err) {
 		res.statusCode = err.status || 500;
@@ -20,15 +33,20 @@ var app = http.createServer(function(req, res){
 				return;
 			}
 
-			var elements = data.filter(function(d) { return d.indexOf('.') != 0 }).map(function(d) {
-				return format('<li><a href="%s">%s</a></li>', path.join(dirname, d), d);
-			})
-
-			elements.unshift('<ul>');
-			elements.push('</ul>');
+			var elements = data.filter(function(d) { return d.indexOf('.') != 0 })
+			.map(function(d) {
+				return {
+					name: d,
+					path: path.join(dirname, d)
+				};
+			});
 
 			res.setHeader('Content-Type', 'text/html');
-			res.end(elements.reduce(function(out, e){ return out + e }));
+			res.write('<!DOCTYPE html>');
+			res.end(renderPage({
+				url: dirname,
+				items: elements
+			}));
 		})
 	}
 
