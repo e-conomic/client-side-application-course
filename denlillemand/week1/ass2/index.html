@@ -1,0 +1,118 @@
+<html>
+<head>
+	<title>Hello world with react</title>
+	<style type="text/css">
+	body {
+		width: 1000px;
+		margin: auto;
+	}
+	</style>
+
+	<script src="http://fb.me/react-0.14.7.min.js"></script>
+	<script src="http://fb.me/react-dom-0.14.7.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+</head>
+<body>
+    	<div id="root">
+
+	</div>    
+
+	<script type="text/babel">
+	    class HelloWorldComponent extends React.Component {
+		constructor(props, context) {
+		    super(props, context);
+		    this.state = {
+			inputValue: "",
+			messages: [],
+			errors: [],
+			allMessagesEverPrinted: []
+		    };
+		    this.onChangeInput = this.onChangeInput.bind(this);
+		    this.submitMessage = this.submitMessage.bind(this);
+		    this.toggleMessages = this.toggleMessages.bind(this);
+		}
+
+		submitMessage(event) {
+			event.preventDefault();
+			let messages = this.state.messages.slice();
+			messages.push(this.state.inputValue);
+			this.setState({
+			    messages: messages,
+			    inputValue: ""
+			});
+		}
+
+
+		onChangeInput(event) {
+		    event.preventDefault();
+		    if(event.target.value.match(/^[a-zA-Z]*$/)) {
+			this.setState({
+			    inputValue: event.target.value
+			});
+		    } else {
+			let errors = this.state.errors.slice();
+			errors.push("Cannot input numbers in the field");
+			this.setState({
+			    errors: errors 
+			});
+		    }
+		}
+
+
+		toggleMessages(event) {
+		    let allMessagesEverPrinted = [];
+		    let errors = this.state.errors.slice();
+		    let messages = this.state.messages.slice();
+		    let okay = allMessagesEverPrinted.concat(errors);
+		    this.setState({
+			allMessagesEverPrinted: okay.concat(messages)
+		    });
+		}
+
+		render() {
+		    var errorStyle = {
+			color: 'red'
+		    };
+		    return(
+		    <div>
+			<input value={this.state.inputValue} onChange={this.onChangeInput} />
+			<button onClick={this.submitMessage}>Submit</button>
+			<h3>Errors:</h3>
+			<ul>
+			<div style={errorStyle}>{this.state.errors.map(function(error) {
+				return (<li>{error}</li>);
+			    })}</div>
+			</ul>
+			<h3>Messages:</h3>
+			<ul>
+				{this.state.messages.map(function(inputValue) {
+				    return (<li>{inputValue}</li>);
+				    })}
+			</ul>
+			<h3>All messages ever printed:</h3>
+			<button onClick={this.toggleMessages}>Print all messages ever typed</button>
+			<ul>
+				{this.state.allMessagesEverPrinted.map(function(message) {
+				    return (<li>{message}</li>);
+				 })}
+			
+			</ul>
+		    </div>);
+		}
+	    }
+	    
+	    ReactDOM.render(<HelloWorldComponent />, document.getElementById("root"));
+	</script>
+
+
+	<!-- 1. Create an inputfield that doesn't accept any numbers -->
+	<!-- 2. Find a way to submit and print the message -->
+	<!-- 3. Validation errors in inputfields should produce an error-message rather than a hello morld message -->
+	<!-- 4. Any error-message should be printed in red color -->
+	<!-- 5. Provide a function that returns all messages ever printed -->
+	<!-- 6. This must be solved by using only native Javascript and react -->
+	<!-- 7. All markup must be produced with react -->
+	<!-- 8. All messages must be printed in the order they where submitted -->
+
+</body>
+</html>
