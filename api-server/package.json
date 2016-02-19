@@ -1,0 +1,11 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "supporting server app for e-conomic client-side-application-course",
+  "main": "index.js",
+  "author": "calinilielaur@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
