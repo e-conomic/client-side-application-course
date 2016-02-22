@@ -101,13 +101,16 @@
 		}
 
 		archiveMessage(id, currentList, isArchived) {
-		    this.state[currentList].forEach(function(message) {
+		    var mutatedArray = this.state[currentList].map(function(message) {
 			if(message.id === id) {
-			    message.archived = !isArchived;
+			    var clonedMessage = Object.assign({},message);
+			    clonedMessage.archived = !isArchived;
+			    return clonedMessage;
 			}
+			return message;
 		    });
 		    this.setState({
-			[currentList]: this.state[currentList].slice()
+			[currentList]: mutatedArray
 		    });
 		}
 
