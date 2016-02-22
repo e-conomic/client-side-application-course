@@ -3,6 +3,7 @@
 * functions as first class citizens
 * Discuss review and finish week2
 * refs in React
+* conditionals in JavaScript
 * Merge week2
 
 ###Dependency management in javascript
