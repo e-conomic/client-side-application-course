@@ -2,6 +2,7 @@
 1. Mutating state
 * functions as first class citizens
 * Discuss review and finish week2
+* refs in React
 * Merge week2
 
 ###Dependency management in javascript
