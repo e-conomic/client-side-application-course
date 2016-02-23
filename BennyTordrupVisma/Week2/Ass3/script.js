@@ -6,34 +6,28 @@ var Message = React.createClass({
 	},
 	
 	render: function() {
-		return (
-			<div>
-					{this.props.message.isArchived 
-						? <div>
-							<div className="archived-message">
-								{this.props.message.id}. {this.props.message.text}
-								<button onClick={this.handleUnarchive}>Unarchive</button>
-							</div>	
-						  </div>
-						: <div>
-							<div>
-								{this.props.message.id}. {this.props.message.text}
-								<button onClick={this.handleArchive}>Archive</button>
-								<button onClick={this.handleDelete}>Delete</button>
-								{!this.state.listSelectionVisible 
-									? <button onClick={this.handleShowListSelection}>Move</button> 
-									: null}
-								{this.state.listSelectionVisible 
-									? <div>
-										<label>New list: </label>
-										<input type="text" ref="newList" />
-										<button onClick={this.handleMoveMessage}>Move</button>
-									  </div> 
-									: null}
-							</div>
-						  </div>}
-			</div>
-		);
+		var archivedMessage =	<div className="archived-message">
+									{this.props.message.id}. {this.props.message.text}
+									<button onClick={this.handleUnarchive}>Unarchive</button>
+								</div>	
+								
+		var nonArchivedMessage =	<div>
+										{this.props.message.id}. {this.props.message.text}
+										<button onClick={this.handleArchive}>Archive</button>
+										<button onClick={this.handleDelete}>Delete</button>
+										{!this.state.listSelectionVisible && <button onClick={this.handleShowListSelection}>Move</button>}
+										{this.state.listSelectionVisible &&
+											<div>
+												<label>New list: </label>
+												<input type="text" ref="newList" />
+												<button onClick={this.handleMoveMessage}>Move</button>
+											</div>}
+									</div>
+									
+		return	<div>
+					{this.props.message.isArchived ? archivedMessage : nonArchivedMessage}
+				</div>
+		
 	},
 	
 	handleShowListSelection: function() {
@@ -240,11 +234,11 @@ var App = React.createClass({
 	moveMessage: function(message, oldList, newListName) {
 		console.log("Moving message from " + oldList.name + " to " + newListName)
 		var sourceList = this.state.lists.find(l => l.name == oldList.name);
-		if (sourceList == null)
+		if (!sourceList)
 			return;
 		
 		var destinationList = this.state.lists.find(l => l.name == newListName);
-		if (destinationList == null)
+		if (!destinationList)
 			return;
 		
 		var msgPos = sourceList.messages.findIndex(m => m.id = message.id);
