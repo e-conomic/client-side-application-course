@@ -87,8 +87,7 @@ var List = React.createClass({
 				</div>
 	},
 	
-	moveMessage: function(message, newListName)
-	{
+	moveMessage: function(message, newListName)	{
 		this.props.onMoveMessage(message, this.props.list, newListName);
 	},
 	
@@ -117,20 +116,17 @@ var InputField = React.createClass({
 	},
 	
 	isInputValid: function(input, list) {
-		if (input.length > 200)
-		{
+		if (input.length > 200)	{
 			window.alert("The input may not exceed 200 characters.");
 			return false;
 		}
 		
-		if (list.length == 0)
-		{
+		if (list.length == 0) {
 			window.alert("You have to enter a name on the list to add message to.");
 			return false;
 		}
 		
-		if (this.props.lists.some(l => l.messages.some(m => m.text == input)))
-		{
+		if (this.props.lists.some(l => l.messages.some(m => m.text == input))) {
 			window.alert("The message is already member of a list and cannot be added");
 			return false;
 		}
@@ -156,8 +152,7 @@ var App = React.createClass({
 			//lists: []
 			lists: [{
 				name: "List 1", 
-				messages: [
-					{
+				messages: [ {
 						id: 1,
 						text: "Test 1-1"
 					},
@@ -182,8 +177,7 @@ var App = React.createClass({
 			},
 			{
 				name: "List 2", 
-				messages: [
-					{
+				messages: [ {
 						id: 1,
 						text: "Test 2-1"
 					},
