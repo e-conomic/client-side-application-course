@@ -210,15 +210,14 @@ var App = React.createClass({
 	},
 	
 	render: function() {
-		var that = this;
 		var listList = this.state.lists.map(function(list, index) {
 			return <List key={index} 
 						list={list} 
-						onArchiveMessage={that.archiveMessage} 
-						onDeleteMessage={that.deleteMessage}
-						onUnarchiveMessage={that.unarchiveMessage}
-						onMoveMessage={that.moveMessage} />
-		});
+						onArchiveMessage={this.archiveMessage} 
+						onDeleteMessage={this.deleteMessage}
+						onUnarchiveMessage={this.unarchiveMessage}
+						onMoveMessage={this.moveMessage} />
+		}.bind(this));
 		
 		return 	<div>
 					<InputField handleCommit={this.commitMessage} lists={this.state.lists}/>
