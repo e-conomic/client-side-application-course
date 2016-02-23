@@ -62,17 +62,6 @@
 			message: React.PropTypes.object,
 			archive: React.PropTypes.func
 		    }
-		    this.deleteMessage = this.deleteMessage.bind(this);
-		    this.archive = this.archive.bind(this);
-		}
-
-		deleteMessage(event) {
-		    this.props.deleteMessage(this.props.message.id);
-		}
-
-		archive(event) {
-		    let message = this.props.message;
-		    this.props.archive(message.id, message.archived);
 		}
 
 		render() {
@@ -81,8 +70,8 @@
 			    	{this.props.message.id}:
 				{this.props.message.text}:
 				{this.props.message.archived ? "ARCHIVED" : "NOT ARCHIVED"}
-				<button onClick={this.archive}>{this.props.message.archived ? "Unarchive" : "Archive"}</button>
-				<button onClick={this.deleteMessage}>Delete</button>
+				<button onClick={this.props.archive}>{this.props.message.archived ? "Unarchive" : "Archive"}</button>
+				<button onClick={this.props.deleteMessage}>Delete</button>
 			</div>
 		    
 		    );
@@ -259,18 +248,23 @@
 		    }
 		}
 
-		archiveMessage(id, isArchived) {
-		    this.props.archiveMessage(id, this.props.name, isArchived);
+		archiveMessage(id,name, isArchived) {
+		    return function() {
+			this.props.archiveMessage(id, name, isArchived);
+		    }.bind(this);
 		}
 
-		deleteMessage(id) {
-		    this.props.deleteMessage(id, this.props.name);
+		deleteMessage(id, name) {
+		    return function() {
+			this.props.deleteMessage(id, name);
+		    }.bind(this);
 		}
 
 		render() {
 		    let sortedMessages = this.props.messages.slice().sort(function(x, y) {
 			return x.archived - y.archived;
 		    });
+		    let listName = this.props.name;
 		    return(
 		    	<div>
 				<h2>{this.props.name}</h2>
@@ -285,7 +279,8 @@
 				<h4>Messages:</h4>
 				<ul>
 					{sortedMessages.map(function(message, index) {
-					    return (<li><Message archive={this.archiveMessage} message={message} deleteMessage={this.deleteMessage} /></li>);
+					    let id = message.id;
+					    return (<li><Message archive={this.archiveMessage(id, listName, message.archived)} message={message} deleteMessage={this.deleteMessage(id, listName)} /></li>);
 					    }.bind(this))}
 				</ul>
 			</div>
