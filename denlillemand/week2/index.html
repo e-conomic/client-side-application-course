@@ -57,6 +57,11 @@
 		constructor(props, context) {
 		    super(props, context);
 		    this.state = {};
+		    this.propTypes = {
+			deleteMessage: React.PropTypes.func,
+			message: React.PropTypes.object,
+			archive: React.PropTypes.func
+		    }
 		    this.deleteMessage = this.deleteMessage.bind(this);
 		    this.archive = this.archive.bind(this);
 		}
@@ -83,11 +88,6 @@
 		    );
 		}
 	    }
-	    Message.propTypes = {
-		deleteMessage: React.PropTypes.func,
-		message: React.PropTypes.object,
-		archive: React.PropTypes.func
-	    }
 
 	    class MainList extends React.Component {
 		constructor(props, context) {
@@ -103,7 +103,7 @@
 		archiveMessage(id, currentList, isArchived) {
 		    var mutatedArray = this.state[currentList].map(function(message) {
 			if(message.id === id) {
-			    var clonedMessage = Object.assign({},message);
+			    var clonedMessage = Object.assign({}, message);
 			    clonedMessage.archived = !isArchived;
 			    return clonedMessage;
 			}
@@ -115,19 +115,10 @@
 		}
 
 		swapMessage(messageId, destinationList, currentList) {
-		    let messageIndex = -1;
-		    /*
-		    this.state[currentList].forEach(function(message, index, array) {
-			if(message.id === messageId) {
-			    messageIndex = index;
-			}
-		    });*/
-
-		    let message = this.state[currentList].find(function(message, index) {
-			messageIndex = index;
+		    let messageIndex = this.state[currentList].findIndex(function(message) {
 			return message.id === messageId;
 		    });
-		    if(message) {
+		    if(messageIndex > -1) {
 			let copiedCurrentList = this.state[currentList].slice();
 			let removedMessage = copiedCurrentList.splice(messageIndex, 1);
 			if(removedMessage[0].archived) {
@@ -135,7 +126,7 @@
 			} else {
 			    this.setState({
 				[currentList]: copiedCurrentList,
-				[destinationList]: this.state[destinationList].concat(message)
+				[destinationList]: this.state[destinationList].concat(removedMessage)
 			    });
 			}
 		    } else {
@@ -163,25 +154,16 @@
 
 		deleteMessage(id, listName) {
 		    let copiedMessages = this.state[listName].slice();
-		    let messageIdToDelete = -1;
-		    /*
-		    copiedMessages.forEach(function(message, index) {
-			if(message.id === id) {
-			    messageIdToDelete = index;
-			}
-		    });*/
-		    let message = copiedMessages.find(function(message, index) {
-			messageIdToDelete = index;
+		    let messageIndex = copiedMessages.findIndex(function(message) {
 			return message.id = id;
 		    });
-		    if(message) {
-			copiedMessages.splice(messageIdToDelete, 1);
+		    if(messageIndex > -1) {
+			copiedMessages.splice(messageIndex, 1);
 			this.setState({
 			    [listName]: copiedMessages
 			});
 		    } else {
 			alert("Could not find the message to delete");
-			
 		    }
 		}
 
@@ -201,7 +183,7 @@
 			    <div>
 				<h4>Lists:</h4>
 				<ul>
-				{lists}
+				    {lists}
 				</ul>
 			    </div>
 			</div>
@@ -219,6 +201,13 @@
 			messageSwapId: "",
 			messageId: 1 
 		    };
+		    this.propTypes = {
+			messages: React.PropTypes.object,
+			name: React.PropTypes.string,
+			onSubmitMessage: React.PropTypes.func,
+			onDeleteMessage: React.PropTypes.func,
+			archiveMessage: React.PropTypes.func
+		    }
 		    this.onMessageSubmit = this.onMessageSubmit.bind(this);
 		    this.onChangeMessageSwapDestinationListName = this.onChangeMessageSwapDestinationListName.bind(this);
 		    this.onChangeMessage = this.onChangeMessage.bind(this);
@@ -302,13 +291,6 @@
 			</div>
 		    );
 		}
-	    }
-	    NamedList.propTypes = {
-		messages: React.PropTypes.object,
-		name: React.PropTypes.string,
-		onSubmitMessage: React.PropTypes.func,
-		onDeleteMessage: React.PropTypes.func,
-		archiveMessage: React.PropTypes.func
 	    }
 
 	    ReactDOM.render(<MainList />, document.getElementById("root"));
