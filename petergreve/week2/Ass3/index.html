@@ -23,10 +23,10 @@
 						<br />
 						<input type="text" ref={(component) => this.input = component} /><button type="button" onClick={this.handleInput}>Submit Message</button>
 						<Messages
-						 messages={this.props.messages} 
-						 archived={this.props.archived} 
+						 messages={this.props.messages}
+						 archived={this.props.archived}
 						 archiveMessage={this.props.archiveMessage}
-						 deleteMessage={this.props.deleteMessage} 
+						 deleteMessage={this.props.deleteMessage}
 						 moveMessage={this.props.moveMessage} />
 					</div>
 		}
@@ -128,7 +128,7 @@
 					    					moveMessage={that.moveMessage}
 					    					list={list} />;
 					   		},this)}
-					    </ol>			
+					    </ol>
 					</div>
 		},
 		handleInput: function(message) {
@@ -167,7 +167,7 @@
 			          allMessages: this.state.allMessages.concat(newMessage),
 			          messageCount: this.state.messageCount + 1
 			      	});
-			} 
+			}
 		},
 		filterMessages: function(listId) {
 			return this.state.allMessages.filter((m) => {
