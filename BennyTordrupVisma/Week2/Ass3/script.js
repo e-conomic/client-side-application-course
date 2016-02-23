@@ -274,18 +274,20 @@ var App = React.createClass({
 	
 	archiveOrUnarchiveMessageKernel: function(message, list, doArchive) {
 		var listToChange = this.state.lists.find(l => l.name == list.name);
-		if (listToChange == null)
+		if (!listToChange)
 			return;
 		
-		var msgToArchive = listToChange.messages.find(m => m.id == message.id);
-		if (msgToArchive == null)
+		var destList = Object.assign({}, listToChange);
+		
+		var msgToArchive = destList.messages.find(m => m.id == message.id);
+		if (!msgToArchive)
 			return;
 		
 		msgToArchive.isArchived = doArchive;
 		
 		this.setState({
 			lists: this.state.lists.map(function(list) {
-					return list.name == listToChange.name ? listToChange : list;
+					return list.name == destList.name ? destList : list;
 			})
 		});
 	},
@@ -315,15 +317,16 @@ var App = React.createClass({
 			};
 			
 			this.setState({
-				lists: this.state && this.state.lists ? this.state.lists.concat([destinationList]) : [destinationList]
+				lists: this.state.lists.concat([destinationList])
 			});
 		}
 		else {
 			msgToAdd.id= destinationList.messages.length + 1;
-			destinationList.messages.push(msgToAdd);
+			var newDestList = Object.assign({}, destinationList);
+			newDestList.messages.push(msgToAdd);
 			this.setState({
 				lists: this.state.lists.map(function(list) { 
-					return list.name == destinationList.name ? destinationList : list; 
+					return list.name == newDestList.name ? newDestList : list; 
 				})
 			});
 		}
