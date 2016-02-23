@@ -1,233 +1,233 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Deep dive into React</title>
-	<script src="http://fb.me/react-0.14.7.js"></script>
-	<script src="http://fb.me/react-dom-0.14.7.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <title>Deep dive into React</title>
+    <script src="http://fb.me/react-0.14.7.js"></script>
+    <script src="http://fb.me/react-dom-0.14.7.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
 </head>
 <body>
 
 <div id="root"> </div>
-	<script type="text/babel">
+    <script type="text/babel">
 
-	var List = React.createClass({
+    var List = React.createClass({
 
-		handleInput: function() {
-		  	var message = this.input.value;
-		  	this.props.createMessage(message,this.props.list.listId);
-		},
-		render: function() {
-			return 	<div>
-						{this.props.list.listId} - {this.props.list.listName}
-						<br />
-						<input type="text" ref={(component) => this.input = component} /><button type="button" onClick={this.handleInput}>Submit Message</button>
-						<Messages
-						 messages={this.props.messages}
-						 archived={this.props.archived}
-						 archiveMessage={this.props.archiveMessage}
-						 deleteMessage={this.props.deleteMessage}
-						 moveMessage={this.props.moveMessage} />
-					</div>
-		}
+        handleInput: function() {
+            var message = this.input.value;
+            this.props.createMessage(message,this.props.list.listId);
+        },
+        render: function() {
+            return  <div>
+                        {this.props.list.listId} - {this.props.list.listName}
+                        <br />
+                        <input type="text" ref={(component) => this.input = component} /><button type="button" onClick={this.handleInput}>Submit Message</button>
+                        <Messages
+                         messages={this.props.messages}
+                         archived={this.props.archived}
+                         archiveMessage={this.props.archiveMessage}
+                         deleteMessage={this.props.deleteMessage}
+                         moveMessage={this.props.moveMessage} />
+                    </div>
+        }
 
-	})
+    })
 
-	var Messages = React.createClass({
+    var Messages = React.createClass({
 
-		handleDeleteClick: function(message) {
-			this.props.deleteMessage(message.messageId);
-		},
-		handleArchiveClick: function(message) {
-			this.props.archiveMessage(message.messageId, true);
-		},
-		handleUnarchiveClick: function(message) {
-			this.props.archiveMessage(message.messageId, false);
-		},
-		handleDownClick: function(message) {
-			this.props.moveMessage(message.messageId, true);
-		},
-		handleUpClick: function(message) {
-			this.props.moveMessage(message.messageId, false);
-		},
-		render: function () {
+        handleDeleteClick: function(message) {
+            this.props.deleteMessage(message.messageId);
+        },
+        handleArchiveClick: function(message) {
+            this.props.archiveMessage(message.messageId, true);
+        },
+        handleUnarchiveClick: function(message) {
+            this.props.archiveMessage(message.messageId, false);
+        },
+        handleDownClick: function(message) {
+            this.props.moveMessage(message.messageId, true);
+        },
+        handleUpClick: function(message) {
+            this.props.moveMessage(message.messageId, false);
+        },
+        render: function () {
 
-			var style = {
-	   			color: 'blue',
-    		};
+            var style = {
+                color: 'blue',
+            };
 
-			var that = this;
-			return 	<div>
-					    <ol>
-					   		{this.props.messages.map(function(message,i) {
-					     		return <div key={i}>
-					     					{message.text}
-					     					<button type="button" onClick={that.handleDeleteClick.bind(null, message)}>Delete</button>
-					     					<button type="button" onClick={that.handleArchiveClick.bind(null, message)}>Archive</button>
-					     					<button type="button" onClick={that.handleDownClick.bind(null, message)}>Move Down</button>
-					     					<button type="button" onClick={that.handleUpClick.bind(null, message)}>Move Up</button>
-					     				</div>;
-					     	})}
-					    </ol>
-					    <ol>
-					   		{this.props.archived.map(function(message,i) {
-					     		return <div style={style} key={i}>
-					     					{message.text}
-					     					<button type="button" onClick={that.handleUnarchiveClick.bind(null, message)}>Unarchive</button>
-					     				</div>;
-					     	})}
-					    </ol>
-      				</div>
-		}
+            var that = this;
+            return  <div>
+                        <ol>
+                            {this.props.messages.map(function(message,i) {
+                                return <div key={i}>
+                                            {message.text}
+                                            <button type="button" onClick={that.handleDeleteClick.bind(null, message)}>Delete</button>
+                                            <button type="button" onClick={that.handleArchiveClick.bind(null, message)}>Archive</button>
+                                            <button type="button" onClick={that.handleDownClick.bind(null, message)}>Move Down</button>
+                                            <button type="button" onClick={that.handleUpClick.bind(null, message)}>Move Up</button>
+                                        </div>;
+                            })}
+                        </ol>
+                        <ol>
+                            {this.props.archived.map(function(message,i) {
+                                return <div style={style} key={i}>
+                                            {message.text}
+                                            <button type="button" onClick={that.handleUnarchiveClick.bind(null, message)}>Unarchive</button>
+                                        </div>;
+                            })}
+                        </ol>
+                    </div>
+        }
 
-	});
+    });
 
-	var ErrorMessage = React.createClass({
-		render: function () {
+    var ErrorMessage = React.createClass({
+        render: function () {
 
-			var style = {
-	   			color: 'red',
-    		};
-			return 	<div style={style}>
-						{this.props.errorMessage}
-					</div>
-		}
+            var style = {
+                color: 'red',
+            };
+            return  <div style={style}>
+                        {this.props.errorMessage}
+                    </div>
+        }
 
-	});
+    });
 
-	var App = React.createClass({
-		getInitialState: function() {
-		    return {
-		    		listCount: 2,
-		    		lists: [{listId: 0, listName: "first list"},{listId: 1, listName: "second list"}],
-		    		messageCount: 4,
-		    		errorMessage: '',
-		    		allMessages: [
-		    						{messageId: 0, listId: 0, text: "testmessage for list 0", isArchived: false},
-		    						{messageId: 3, listId: 0, text: "testmessage for list 0", isArchived: true},
-		    					 	{messageId: 1, listId: 1, text: "testmessage for list 1", isArchived: false},
-									{messageId: 2 ,listId: 2, text: "testmessage for list 2", isArchived: false}
-		    					 ]
-		    	};
-		},
-		render: function() {
-			var that = this;
-			return 	<div>
-		    			<input type="text" ref={(component) => this.newListName = component} />
-						<button type="button" onClick={this.createList}>New List</button>
-						<ol>
-					   		{this.state.lists.map(function(list, i) {
-					    		return <List
-					    					key={i}
-					    					handleInput={that.handleInput}
-					    					archiveMessage={that.archiveMessage}
-					    					createMessage={that.createMessage}
-					    					deleteMessage={that.deleteMessage}
-					    					messages={this.filterMessages(list.listId)}
-					    					archived={this.filterArchived(list.listId)}
-					    					moveMessage={that.moveMessage}
-					    					list={list} />;
-					   		},this)}
-					    </ol>
-					</div>
-		},
-		handleInput: function(message) {
-			if (message.length<200) {
-				this.setState({
-		          errorMessage: '',
-		          allMessages: this.state.allMessages.concat([message]),
-		      	});
-			} else {
-				this.setState({
-		          errorMessage: message,
-				});
-			}
-		},
-		createList: function() {
-			var newList = [{
-				listId: this.state.listCount,
-				listName: this.newListName.value
-			}];
+    var App = React.createClass({
+        getInitialState: function() {
+            return {
+                    listCount: 2,
+                    lists: [{listId: 0, listName: "first list"},{listId: 1, listName: "second list"}],
+                    messageCount: 4,
+                    errorMessage: '',
+                    allMessages: [
+                                    {messageId: 0, listId: 0, text: "testmessage for list 0", isArchived: false},
+                                    {messageId: 3, listId: 0, text: "testmessage for list 0", isArchived: true},
+                                    {messageId: 1, listId: 1, text: "testmessage for list 1", isArchived: false},
+                                    {messageId: 2 ,listId: 2, text: "testmessage for list 2", isArchived: false}
+                                 ]
+                };
+        },
+        render: function() {
+            var that = this;
+            return  <div>
+                        <input type="text" ref={(component) => this.newListName = component} />
+                        <button type="button" onClick={this.createList}>New List</button>
+                        <ol>
+                            {this.state.lists.map(function(list, i) {
+                                return <List
+                                            key={i}
+                                            handleInput={that.handleInput}
+                                            archiveMessage={that.archiveMessage}
+                                            createMessage={that.createMessage}
+                                            deleteMessage={that.deleteMessage}
+                                            messages={this.filterMessages(list.listId)}
+                                            archived={this.filterArchived(list.listId)}
+                                            moveMessage={that.moveMessage}
+                                            list={list} />;
+                            },this)}
+                        </ol>
+                    </div>
+        },
+        handleInput: function(message) {
+            if (message.length<200) {
+                this.setState({
+                  errorMessage: '',
+                  allMessages: this.state.allMessages.concat([message]),
+                });
+            } else {
+                this.setState({
+                  errorMessage: message,
+                });
+            }
+        },
+        createList: function() {
+            var newList = [{
+                listId: this.state.listCount,
+                listName: this.newListName.value
+            }];
 
-			this.setState({
-		          lists: this.state.lists.concat(newList),
-		          listCount: this.state.listCount + 1
-		      	});
-		},
-		createMessage: function(text, listId) {
-			if (text.length<200) {
-				var newMessage = [{
-					messageId: this.state.messageCount,
-					text: text,
-					isArchived: false,
-					listId: listId
-				}];
+            this.setState({
+                  lists: this.state.lists.concat(newList),
+                  listCount: this.state.listCount + 1
+                });
+        },
+        createMessage: function(text, listId) {
+            if (text.length<200) {
+                var newMessage = [{
+                    messageId: this.state.messageCount,
+                    text: text,
+                    isArchived: false,
+                    listId: listId
+                }];
 
-				this.setState({
-			          allMessages: this.state.allMessages.concat(newMessage),
-			          messageCount: this.state.messageCount + 1
-			      	});
-			}
-		},
-		filterMessages: function(listId) {
-			return this.state.allMessages.filter((m) => {
-				return m.isArchived == false && m.listId == listId;
-			});
-		},
-		filterArchived: function(listId) {
-			return this.state.allMessages.filter((m) => {
-				return m.isArchived == true && m.listId == listId;
-			});
-		},
-		deleteMessage: function(messageId) {
-			var newAllMessages = this.state.allMessages.filter((m) => {
-				return m.messageId != messageId;
-			});
+                this.setState({
+                      allMessages: this.state.allMessages.concat(newMessage),
+                      messageCount: this.state.messageCount + 1
+                    });
+            }
+        },
+        filterMessages: function(listId) {
+            return this.state.allMessages.filter((m) => {
+                return m.isArchived == false && m.listId == listId;
+            });
+        },
+        filterArchived: function(listId) {
+            return this.state.allMessages.filter((m) => {
+                return m.isArchived == true && m.listId == listId;
+            });
+        },
+        deleteMessage: function(messageId) {
+            var newAllMessages = this.state.allMessages.filter((m) => {
+                return m.messageId != messageId;
+            });
 
-			this.setState({
-				allMessages: newAllMessages
-			});
-		},
-		archiveMessage: function(messageId, isArchived) {
-			var archivedMessage = this.state.allMessages.filter((m) => {
-				return m.messageId == messageId;
-			})[0];
-
-
-			archivedMessage.isArchived = isArchived;
-
-			var newAllMessages = this.state.allMessages.filter((m) => {
-				return m.messageId != messageId;
-			});
-
-			this.setState({
-				allMessages: newAllMessages.concat([archivedMessage])
-			});
-		},
-		moveMessage: function(messageId, down) {
-			var archivedMessage = this.state.allMessages.filter((m) => {
-				return m.messageId == messageId;
-			})[0];
-
-			if (down && archivedMessage.listId < this.state.listCount - 1)
-				archivedMessage.listId = archivedMessage.listId + 1;
-			else if (!down && archivedMessage.listId > 0)
-				archivedMessage.listId = archivedMessage.listId - 1;
-			else return
-
-			var newAllMessages = this.state.allMessages.filter((m) => {
-				return m.messageId != messageId;
-			});
-
-			this.setState({
-				allMessages: newAllMessages.concat([archivedMessage])
-			});
-		}
-	});
-
-	ReactDOM.render(<App />, document.getElementById('root'));
+            this.setState({
+                allMessages: newAllMessages
+            });
+        },
+        archiveMessage: function(messageId, isArchived) {
+            var archivedMessage = this.state.allMessages.filter((m) => {
+                return m.messageId == messageId;
+            })[0];
 
 
-	</script>
+            archivedMessage.isArchived = isArchived;
+
+            var newAllMessages = this.state.allMessages.filter((m) => {
+                return m.messageId != messageId;
+            });
+
+            this.setState({
+                allMessages: newAllMessages.concat([archivedMessage])
+            });
+        },
+        moveMessage: function(messageId, down) {
+            var archivedMessage = this.state.allMessages.filter((m) => {
+                return m.messageId == messageId;
+            })[0];
+
+            if (down && archivedMessage.listId < this.state.listCount - 1)
+                archivedMessage.listId = archivedMessage.listId + 1;
+            else if (!down && archivedMessage.listId > 0)
+                archivedMessage.listId = archivedMessage.listId - 1;
+            else return
+
+            var newAllMessages = this.state.allMessages.filter((m) => {
+                return m.messageId != messageId;
+            });
+
+            this.setState({
+                allMessages: newAllMessages.concat([archivedMessage])
+            });
+        }
+    });
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+
+
+    </script>
 </body>
 </html>
