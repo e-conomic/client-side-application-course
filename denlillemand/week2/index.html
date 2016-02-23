@@ -116,21 +116,26 @@
 
 		swapMessage(messageId, destinationList, currentList) {
 		    let messageIndex = -1;
+		    /*
 		    this.state[currentList].forEach(function(message, index, array) {
 			if(message.id === messageId) {
 			    messageIndex = index;
 			}
+		    });*/
+
+		    let message = this.state[currentList].find(function(message, index) {
+			messageIndex = index;
+			return message.id === messageId;
 		    });
-		    if(messageIndex > -1) {
+		    if(message) {
 			let copiedCurrentList = this.state[currentList].slice();
 			let removedMessage = copiedCurrentList.splice(messageIndex, 1);
 			if(removedMessage[0].archived) {
 			    alert("Cannot remove an archived message");
 			} else {
-			    let copiedDestinationList = this.state[destinationList].slice();
 			    this.setState({
 				[currentList]: copiedCurrentList,
-				[destinationList]: copiedDestinationList.concat(removedMessage)
+				[destinationList]: this.state[destinationList].concat(message)
 			    });
 			}
 		    } else {
@@ -159,15 +164,25 @@
 		deleteMessage(id, listName) {
 		    let copiedMessages = this.state[listName].slice();
 		    let messageIdToDelete = -1;
+		    /*
 		    copiedMessages.forEach(function(message, index) {
 			if(message.id === id) {
 			    messageIdToDelete = index;
 			}
+		    });*/
+		    let message = copiedMessages.find(function(message, index) {
+			messageIdToDelete = index;
+			return message.id = id;
 		    });
-		    copiedMessages.splice(messageIdToDelete, 1);
-		    this.setState({
-			[listName]: copiedMessages
-		    });
+		    if(message) {
+			copiedMessages.splice(messageIdToDelete, 1);
+			this.setState({
+			    [listName]: copiedMessages
+			});
+		    } else {
+			alert("Could not find the message to delete");
+			
+		    }
 		}
 
 		render() {
