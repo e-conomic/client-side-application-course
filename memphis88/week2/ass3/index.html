@@ -18,11 +18,6 @@
 <body>
 	<div id="app"></div>
 	<script type="text/babel">
-	var OnChangeMixin = {
-		onChange: function(e) {
-			this.setState({ text: e.target.value });
-		}
-	};
 	var OnPressingEnterMixin = {
 		onPressingEnter: function(e) {
 			if (e.keyCode == 13) { this.onClick() };
@@ -30,24 +25,33 @@
 	};
 	var AssignmentApp = React.createClass({
 		mixins: [
-			OnChangeMixin,
 			OnPressingEnterMixin
 		],
+
+		propTypes: {
+			generatedLists: React.PropTypes.arrayOf(React.PropTypes.objectOf(GeneratedList)),
+			listName: React.PropTypes.string,
+			index: React.PropTypes.number
+		},
 
 		getInitialState: function() {
 			return {
 				generatedLists: [],
-				text: '',
+				listName: '',
 				index: 0
 			}
 		},
 
+		onChange: function(e) {
+			this.setState({ listName: e.target.value });
+		},
+
 		submitNewList: function() {
-			if (this.state.text === '') { return; };
+			if (this.state.listName === '') { return; };
 			var listsCopy = this.state.generatedLists.slice();
 			var newIndex = this.state.index;
 			listsCopy.push({
-				name: this.state.text,
+				name: this.state.listName,
 				index: this.state.index,
 				messageList: [],
 				archivedList: []
@@ -55,7 +59,7 @@
 			newIndex++;
 			this.setState({
 				generatedLists: listsCopy,
-				text: '',
+				listName: '',
 				index: newIndex
 			});
 		},
@@ -63,17 +67,16 @@
 		submitMessage: function(listKey, msgText, msgKey) {
 			if (msgText === '') { return; };
 			if (this.isValidMessage(msgText)) {	
-				var updatedList = this.state.generatedLists.map(function(list) {
-					if (list.index == listKey) {
-						list.messageList.push({
-							text: msgText,
-							index: msgKey.toString().includes('.') ? msgKey : listKey.toString() + '.' + msgKey.toString()
-						});
-					}
-					return list;
+				var generatedList = this.state.generatedLists.filter(function(list) {
+					return list.index == listKey;
+				});
+				var updatedMessageList = generatedList[0].messageList.slice();
+				updatedMessageList.push({
+					text: msgText,
+					index: msgKey ? msgKey : Date.now()
 				});
 				this.setState({
-					generatedLists: updatedList
+					generatedLists: updatedGeneratedLists
 				});
 			} else {
 				//TODO handle error
@@ -91,7 +94,19 @@
 				}
 				return list;
 			});
-			this.setState({	generatedLists: updatedList });
+			var updatedGeneratedLists = this.state.generatedLists.slice();
+			var generatedList = updatedGeneratedLists.filter(function(list) {
+				return list.index == listKey;
+			});
+			this.setState({	generatedLists: updatedGeneratedLists });
+		},
+
+		getGeneratedList: function(listKey) {
+			var updatedGeneratedLists = this.state.generatedLists.slice();
+			var generatedList = updatedGeneratedLists.filter(function(list) {
+				return list.index == listKey;
+			});
+			return generatedList[0];
 		},
 
 		archiveMessage: function(listKey, msgKey) {
@@ -133,7 +148,7 @@
 		},
 
 		moveMessage: function(msg, oldListKey, targetListKey) {
-			if (oldListKey === 'undefined' || targetListKey === 'undefined' || msg === 'undefined') { return; }
+			if (oldListKey == undefined || targetListKey == undefined || msg == undefined) { return; }
 			this.submitMessage(targetListKey, msg.text, msg.index);
 			this.deleteMessage(oldListKey, msg.index);
 		},
@@ -155,7 +170,7 @@
 				<div>
 					<div className="listInput">
 						<h4>Add a new list</h4>
-						<input onChange={this.onChange} value={this.state.text} onKeyDown={this.onPressingEnter} />
+						<input onChange={this.onChange} value={this.state.listName} onKeyDown={this.onPressingEnter} />
 						<input type="button" value="Submit" onClick={this.submitNewList} />
 					</div>
 					<div>
@@ -167,19 +182,25 @@
 	});
 	var GeneratedList = React.createClass({
 		mixins: [
-			OnChangeMixin,
 			OnPressingEnterMixin
 		],
 
 		propTypes: {
-
+			messageList: React.PropTypes.arrayOf(MessageList),
+			text: React.PropTypes.string,
+			index: React.PropTypes.number
 		},
 
 		getInitialState: function () {
 			return {
+				messageList: [],
 				text: '',
 				index: 0
 			};
+		},
+
+		onChange: function(e) {
+			this.setState({ text: e.target.value });
 		},
 
 		onMoveMessage: function(msg, targetListKey) {
@@ -221,7 +242,7 @@
 	});
 	var MessageList = React.createClass({
 		propTypes: {
-			generatedLists: React.PropTypes.any.isRequired
+			
 		},
 
 		handleMessageDelete: function(key) {
@@ -239,7 +260,7 @@
 		render: function() {
 			var createMessage = function(msg) {
 				return (
-					<tr key={msg.index} ref="messageFromList">
+					<tr key={msg.index}>
 						<td><Message text={msg.text} /></td>
 						<td><GeneratedListDropDown generatedLists={this.props.generatedLists} myListKey={this.props.myListKey} msg={msg} onMoveMessage={this.onMoveMessage} /></td>
 						<td><input type="button" value="X" onClick={this.handleMessageDelete.bind(this, msg.index)} /></td>
