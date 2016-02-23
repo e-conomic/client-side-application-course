@@ -253,17 +253,17 @@ var App = React.createClass({
 	},
 	
 	deleteMessage: function(message, list) {
-		var listToChange = this.state.lists.find(l => l.name == list.name);
-		if (listToChange == null)
+		var listInStateToChange = this.state.lists.find(l => l.name == list.name);
+		if (!listInStateToChange)
 			return;
+		
+		var listToChange = Object.assign({}, listInStateToChange);
 
 		var msgPos = listToChange.messages.findIndex(m => m.id == message.id);
 		if (msgPos === -1)
 			return;
 
-		var tailMessages = listToChange.messages.slice(msgPos + 1);
-		var newMessages = listToChange.messages.slice(0, msgPos).concat(tailMessages);
-		listToChange.messages = newMessages;
+		listToChange.messages.splice(msgPos, 1);
 		
 		this.setState({
 			lists: this.state.lists.map(function(list) {
