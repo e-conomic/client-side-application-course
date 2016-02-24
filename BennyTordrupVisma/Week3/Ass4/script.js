@@ -1,5 +1,3 @@
-//require("./style.css");
-
 var List = require("./list.js");
 var InputField = require("./inputfield.js");
 
@@ -87,10 +85,6 @@ var App = React.createClass({
 		if (!sourceList)
 			return;
 		
-		var destinationList = this.state.lists.find(l => l.name == newListName);
-		if (!destinationList)
-			return;
-
 		var msgPos = sourceList.messages.findIndex(m => m.id = message.id);
 		if (msgPos === -1)
 			return;

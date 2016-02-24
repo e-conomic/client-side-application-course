@@ -46,8 +46,6 @@
 
 	"use strict";
 
-	//require("./style.css");
-
 	var List = __webpack_require__(1);
 	var InputField = __webpack_require__(3);
 
@@ -138,11 +136,6 @@
 				return l.name == oldList.name;
 			});
 			if (!sourceList) return;
-
-			var destinationList = this.state.lists.find(function (l) {
-				return l.name == newListName;
-			});
-			if (!destinationList) return;
 
 			var msgPos = sourceList.messages.findIndex(function (m) {
 				return m.id = message.id;
