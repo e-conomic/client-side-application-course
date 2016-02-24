@@ -29,7 +29,7 @@
 		],
 
 		propTypes: {
-			generatedLists: React.PropTypes.arrayOf(React.PropTypes.objectOf(GeneratedList)),
+			generatedLists: React.PropTypes.array,
 			listName: React.PropTypes.string,
 			index: React.PropTypes.number
 		},
@@ -178,7 +178,7 @@
 		],
 
 		propTypes: {
-			messageList: React.PropTypes.arrayOf(MessageList),
+			messageList: React.PropTypes.array,
 			text: React.PropTypes.string,
 			index: React.PropTypes.number
 		},
@@ -238,9 +238,6 @@
 		}
 	});
 	var MessageList = React.createClass({
-		propTypes: {
-			
-		},
 
 		handleMessageDelete: function(key) {
 			this.props.onDeleteMessage(key);
@@ -299,7 +296,7 @@
 	});
 	var GeneratedListDropDown = React.createClass({
 		propTypes: {
-			generatedLists: React.PropTypes.any.isRequired,
+			generatedLists: React.PropTypes.array,
 		},
 
 		getInitialState: function() {
