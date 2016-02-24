@@ -64,93 +64,76 @@
 			});
 		},
 
-		submitMessage: function(listKey, msgText, msgKey) {
+		submitMessage: function(listKey, msgText) {
 			if (msgText === '') { return; };
 			if (this.isValidMessage(msgText)) {	
-				var generatedList = this.state.generatedLists.filter(function(list) {
-					return list.index == listKey;
-				});
-				var updatedMessageList = generatedList[0].messageList.slice();
-				updatedMessageList.push({
+				var updatedGeneratedLists = JSON.parse(JSON.stringify(this.state.generatedLists));
+				var generatedList = this.getGeneratedListFromArray(listKey, updatedGeneratedLists);
+				generatedList.messageList.push({
 					text: msgText,
-					index: msgKey ? msgKey : Date.now()
+					index: Date.now()
 				});
-				this.setState({
-					generatedLists: updatedGeneratedLists
-				});
-			} else {
-				//TODO handle error
+				this.setState({	generatedLists: updatedGeneratedLists });
 			}
 		},
 
 		deleteMessage: function(listKey, msgKey) {
-			var updatedList = this.state.generatedLists.map(function(list) {
-				if (list.index == listKey) {
-					var updatedMessages = list.messageList.filter(function(msg) {
-						if (msg.index == msgKey) { return false; }
-						return true;
-					});
-					list.messageList = updatedMessages;
-				}
-				return list;
-			});
-			var updatedGeneratedLists = this.state.generatedLists.slice();
-			var generatedList = updatedGeneratedLists.filter(function(list) {
-				return list.index == listKey;
+			var updatedGeneratedLists = JSON.parse(JSON.stringify(this.state.generatedLists));
+			var generatedList = this.getGeneratedListFromArray(listKey, updatedGeneratedLists);
+			generatedList.messageList = generatedList.messageList.filter(function(message) {
+				return message.index != msgKey;
 			});
 			this.setState({	generatedLists: updatedGeneratedLists });
 		},
 
-		getGeneratedList: function(listKey) {
-			var updatedGeneratedLists = this.state.generatedLists.slice();
-			var generatedList = updatedGeneratedLists.filter(function(list) {
-				return list.index == listKey;
-			});
-			return generatedList[0];
-		},
-
 		archiveMessage: function(listKey, msgKey) {
-			var updatedList = this.state.generatedLists.map(function(list) {
-				if (list.index == listKey) {
-					var msgToArchive;
-					var updatedMessages = list.messageList.filter(function(msg) {
-						if (msg.index == msgKey) {
-							msgToArchive = msg;
-							return false;
-						}
-						return true;
-					});
-					list.messageList = updatedMessages;
-					list.archivedList.push(msgToArchive);
+			var updatedGeneratedLists = JSON.parse(JSON.stringify(this.state.generatedLists));
+			var generatedList = this.getGeneratedListFromArray(listKey, updatedGeneratedLists);
+			var msgToArchive;
+			var updatedList = generatedList.messageList.filter(function(message) {
+				if (message.index == msgKey) {
+					msgToArchive = message;
+					return false;
 				}
-				return list;
+				return true;
 			});
-			this.setState({ generatedLists: updatedList });
+			generatedList.messageList = updatedList;
+			generatedList.archivedList.push(msgToArchive);
+			this.setState({ generatedLists: updatedGeneratedLists });
 		},
 
 		extractMessage: function(listKey, msgKey) {
-			var updatedList = this.state.generatedLists.map(function(list) {
-				if (list.index == listKey) {
-					var msgToExtract;
-					var updatedArchive = list.archivedList.filter(function(msg) {
-						if (msg.index == msgKey) {
-							msgToExtract = msg;
-							return false;
-						}
-						return true;
-					});
-					list.archivedList = updatedArchive;
-					list.messageList.push(msgToExtract);
+			var updatedGeneratedLists = JSON.parse(JSON.stringify(this.state.generatedLists));
+			var generatedList = this.getGeneratedListFromArray(listKey, updatedGeneratedLists);
+			var msgToExtract;
+			generatedList.archivedList = generatedList.archivedList.filter(function(message) {
+				if (message.index != msgKey) {
+					msgToExtract = message;
+					return false;
 				}
-				return list;
+				return true;
 			});
+			generatedList.messageList.push(msgToExtract);
 			this.setState({ generatedLists: updatedList });
 		},
 
 		moveMessage: function(msg, oldListKey, targetListKey) {
 			if (oldListKey == undefined || targetListKey == undefined || msg == undefined) { return; }
-			this.submitMessage(targetListKey, msg.text, msg.index);
-			this.deleteMessage(oldListKey, msg.index);
+			var updatedGeneratedLists = JSON.parse(JSON.stringify(this.state.generatedLists));
+			var oldList = this.getGeneratedListFromArray(oldListKey, updatedGeneratedLists);
+			var targetList = this.getGeneratedListFromArray(targetListKey, updatedGeneratedLists);
+			targetList.messageList.push(msg);
+			oldList.messageList = oldList.messageList.filter(function(message) {
+				return message.index != msg.index;
+			});
+			this.setState({ generatedLists: updatedGeneratedLists });
+		},
+
+		getGeneratedListFromArray: function(listKey, clonedList) {
+			var generatedList = clonedList.filter(function(list) {
+				return list.index == listKey;
+			});
+			return generatedList[0];
 		},
 
 		onClick: function() { this.submitNewList() },
@@ -164,7 +147,16 @@
 
 		render: function() {
 			var createLists = function(generatedList) {
-				return <GeneratedList key={generatedList.index} myListKey={generatedList.index} data={generatedList} generatedLists={this.state.generatedLists} onMoveMessage={this.moveMessage} onSubmitMessage={this.submitMessage} onArchiveMessage={this.archiveMessage} onDeleteMessage={this.deleteMessage} onExtractMessage={this.extractMessage} />
+				return <GeneratedList 
+					key={generatedList.index} 
+					myListKey={generatedList.index} 
+					data={generatedList}
+					generatedLists={this.state.generatedLists} 
+					onMoveMessage={this.moveMessage} 
+					onSubmitMessage={this.submitMessage} 
+					onArchiveMessage={this.archiveMessage} 
+					onDeleteMessage={this.deleteMessage} 
+					onExtractMessage={this.extractMessage} />
 			};
 			return (
 				<div>
@@ -194,8 +186,7 @@
 		getInitialState: function () {
 			return {
 				messageList: [],
-				text: '',
-				index: 0
+				text: ''
 			};
 		},
 
@@ -220,10 +211,9 @@
 		},
 
 		onClick: function() { 
-			this.props.onSubmitMessage(this.props.data.index, this.state.text, this.state.index);
+			this.props.onSubmitMessage(this.props.data.index, this.state.text);
 			this.setState({
-				text: '',
-				index: this.state.index + 1
+				text: ''
 			})
 		},
 
@@ -234,7 +224,14 @@
 					<h5>Add new message</h5>
 					<input type="text" onChange={this.onChange} value={this.state.text} onKeyDown={this.onPressingEnter} />
 					<input type="button" value="add" onClick={this.onClick} />
-					<MessageList messageList={this.props.data.messageList} generatedLists={this.props.generatedLists} onDeleteMessage={this.onDeleteMessage} onArchiveMessage={this.onArchiveMessage} onMoveMessage={this.onMoveMessage} myListKey={this.props.myListKey} />
+					<MessageList 
+						messageList={this.props.data.messageList} 
+						generatedLists={this.props.generatedLists} 
+						onDeleteMessage={this.onDeleteMessage} 
+						onArchiveMessage={this.onArchiveMessage} 
+						onMoveMessage={this.onMoveMessage} 
+						myListKey={this.props.myListKey} 
+					/>
 					<ArchiveList archivedList={this.props.data.archivedList} onExtractMessage={this.onExtractMessage} />
 				</div>
 			);
@@ -262,7 +259,12 @@
 				return (
 					<tr key={msg.index}>
 						<td><Message text={msg.text} /></td>
-						<td><GeneratedListDropDown generatedLists={this.props.generatedLists} myListKey={this.props.myListKey} msg={msg} onMoveMessage={this.onMoveMessage} /></td>
+						<td><GeneratedListDropDown 
+							generatedLists={this.props.generatedLists} 
+							myListKey={this.props.myListKey} 
+							msg={msg} 
+							onMoveMessage={this.onMoveMessage} 
+						/></td>
 						<td><input type="button" value="X" onClick={this.handleMessageDelete.bind(this, msg.index)} /></td>
 						<td><input type="button" value="Archive" onClick={this.handleMessageArchive.bind(this, msg.index)} /></td>
 					</tr>
