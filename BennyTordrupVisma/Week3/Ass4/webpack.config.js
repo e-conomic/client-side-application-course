@@ -1,6 +1,6 @@
 module.exports = {
-	context: __dirname + '/app',
-	entry: './app.jsx',
+	context: __dirname, // + '/app',
+	entry: './script.js',
 	output: {
 		path: __dirname + '/dist',
 		filename: 'bundle.js'
@@ -12,6 +12,10 @@ module.exports = {
 		loaders: [{
 			test: /\.(js|jsx)$/,
 			loader: 'babel',
-		}]
+		},
+        {
+            test: /\.css$/,
+            loader: "style!css"
+        }]
 	},
 }
