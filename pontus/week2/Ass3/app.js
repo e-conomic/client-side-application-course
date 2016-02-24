@@ -29,56 +29,37 @@ class Wrapper extends React.Component {
 		}
 	}
 
-	// moveMsg(currentListID, newListID, msgID) { 
-	// 	let lists = JSON.parse(JSON.stringify(this.state.lists));
-   //
-	// 	lists[newListID][msgID] = lists[currentListID][msgID];
-	// 	delete lists[currentListID][msgID];
-	// 	this.setState({ lists });
-	// }
-
-
-	createMsg(listID, text) {
-		let newID = Date.now();
-		let message = {messageID: newID, listID, text, isArchived:false};
-
-		let messages = JSON.parse(JSON.stringify(this.state.messages));
-
-		messages.push(message);
-
-		this.setState({ messages });
+	moveMsg(currentListID, newListID, msgID) { 
+		// let lists = JSON.parse(JSON.stringify(this.state.lists));
+      //
+		// lists[newListID][msgID] = lists[currentListID][msgID];
+		// delete lists[currentListID][msgID];
+		// this.setState({ lists });
 	}
 
-	// deleteMsg(listID, msgID) { 
+	createMsg(listID, text) {
+		let message = {messageID: Date.now(), listID, text, isArchived: false};
+		this.setState({ messages: this.state.messages.concat(message) });
+	}
+
+	deleteMsg(listID, msgID) { 
 	// 	let lists = JSON.parse(JSON.stringify(this.state.lists));
 
 		// delete lists[listID][msgID];
 		// this.setState({ lists });
-	// }
+	}
 
 	archiveMsg(listID, msgID) { 
-
 		let archivedMsg = this.state.messages.filter( (message) => message.messageID == msgID )[0];
-
 		archivedMsg.isArchived = !archivedMsg.isArchived;
-
 		let restOfmessages = this.state.messages.filter( (message) => message.messageID != msgID );
-
 		let messages = restOfmessages.concat(archivedMsg);
 
 		this.setState({ messages });
 	}
 	
 	render() {
-
-		// moveMsg={this.moveMsg.bind(this)} 
-		// deleteMsg={this.deleteMsg.bind(this)} 
-		
-		let listNames = this.state.lists.map( (list) => { 
-			return list.listName;
-		});
-
-		console.log(listNames);
+		let listNames = this.state.lists.map( (list) => list.listName );
 
 		let lists = this.state.lists.map( (list) => { 
 			let messages = this.state.messages.filter( message => message.listID === list.listID );
@@ -90,6 +71,8 @@ class Wrapper extends React.Component {
 				createMsg={this.createMsg.bind(this)} 
 				archiveMsg={this.archiveMsg.bind(this)} 
 				listNames={listNames}
+				moveMsg={this.moveMsg.bind(this)} 
+				deleteMsg={this.deleteMsg.bind(this)} 
 			/>; 
 		});
 
@@ -108,9 +91,7 @@ class NamedList extends React.Component {
 	constructor(props) { 
 		super(props);
 
-		propTypes: { 
-			listName: React.PropTypes.string
-		}; 
+		propTypes: { listName: React.PropTypes.string }; 
 
 		this.state = { 
 			charCount: 200,
@@ -123,7 +104,6 @@ class NamedList extends React.Component {
 		this.createMsg = () => { 
 			let text = this.refs.inputField.value;
 
-			// callback to wrapper
 			this.props.createMsg(this.props.listID, text);
 
 			this.refs.inputField.value = "";
@@ -131,24 +111,16 @@ class NamedList extends React.Component {
 		}
 	}
 
-	displayCharCount() {
-		this.setState({ displayChars: !this.state.displayChars });
-	}
+	displayCharCount() { this.setState({ displayChars: !this.state.displayChars }); }
 
 	charValidation() { 
 		let charCount = 200 - this.refs.inputField.value.length;
 
 		if (charCount < 0) { 
-			this.setState({ 
-				isError: true,
-				errorMsg: "out of characters."
-			});
+			this.setState({ isError: true, errorMsg: "out of characters." });
 		} 
 		else { 
-			this.setState({ 
-				isError: false,
-				errorMsg: ""
-			});
+			this.setState({ isError: false, errorMsg: "" });
 		}
 		this.setState({ charCount });
 	}
@@ -162,13 +134,13 @@ class NamedList extends React.Component {
 
 		let messages = allMessages.map( (message) => {
 			return <Message 
-							listID={message.listID} 
-							messageID={message.messageID} 
-							text={message.text} 
-							isArchived={message.isArchived} 
-							archiveMsg={this.props.archiveMsg} 
-							listNames={this.props.listNames}
-					/> ;
+				listID={message.listID} 
+				messageID={message.messageID} 
+				text={message.text} 
+				isArchived={message.isArchived} 
+				archiveMsg={this.props.archiveMsg} 
+				listNames={this.props.listNames}
+			/> ;
 		});
 
 		let errorMsg =  (this.state.isError) ? { color: 'red' } : { color: 'black'};
@@ -192,7 +164,6 @@ class NamedList extends React.Component {
 		);
 	}
 }
-NamedList.defaultProps = { listName: "new list" };
 
 class Message extends React.Component { 
 	constructor(props) { 
@@ -203,7 +174,7 @@ class Message extends React.Component {
 			showMenu: false
 		};
 	}
-//
+
 // 	move(e) {
 // 		let currentListID = e.target.getAttribute('data-current');
 // 		let newListID = e.target.getAttribute('data-new');
@@ -234,31 +205,22 @@ class Message extends React.Component {
 	render() {
 
 		let menu = this.props.listNames.map( () => { 
-			return <Menu listNames={this.props.listNames} listID={this.props.listID} />;
-		});
+			return <Menu listNames={this.props.listNames} listID={this.props.listID} isArchived={this.props.isArchived} />;
+		})[0];
 					
-					// MenuItem title={this.props.lists[key].title + " | "} currentListID={this.props.listID} newListID={key} />);
-		
-
 		let isArchived = this.props.isArchived;
 		let msgStyle = (isArchived) ? { color: 'grey', display:'inline', marginRight: '10px'} : { display: 'inline', marginRight: '10px' };
-		let archivedPrefix = (isArchived) ? "(archived) " : "";
 		let archiveAction = (isArchived) ? "unarchive" : "archive";
 		let menuItems = (this.state.showMenu) ? {display: 'inline'} : { display: 'none'} ;
 		let btnState = (isArchived) ? true : false;
 
-		// <button disabled={btnState} data-action="moveMsg">Move</button>
-					// <Menu />
-
 		return (
 			<div>
-				<li style={msgStyle}>{archivedPrefix}{this.props.text}</li>
+				<li style={msgStyle}>{this.props.text}</li>
 				<div style={msgStyle} onClick={this.archOrDelMsg.bind(this)}>
 					<button data-action={archiveAction}>{archiveAction}</button>
 					<button disabled={btnState} data-action="delete">Delete</button>
-
 					{menu}
-
 				</div> 
 			</div>
 		);
@@ -266,28 +228,24 @@ class Message extends React.Component {
 }
 
 class Menu extends React.Component { 
-	constructor(props) { 
-		super(props);
-	}
+	constructor(props) { super(props); } 
 
 	render() { 
-		let listNames = this.props.listNames.map( (menuItem) => { 
-			return <MenuItem listID={this.props.listID} />
-		});
+		let listNames = this.props.listNames.map( (menuItem) => <MenuItem listID={this.props.listID} listName={menuItem} /> );
 
+		let inline = { display: 'inline' };
+		let padding = { paddingRight: '1px', paddingLeft: "2px"};
 		return (
-			<select id="" name="">
-				{listNames}
-		   </select>
+				<div style={inline}>
+					<span style={padding}><strong >move to</strong></span>
+					<select disabled={this.props.isArchived} id="" name="Move to">
+						{listNames}
+					</select>
+				</div>
 		);
 	}
 }
 
-const MenuItem = ({listID, listName}) => ( 
-	<option value={listID}>{listName}</option>
-);
+const MenuItem = ({listID, listName}) => ( <option value={listID}>{listName}</option>);
 
-ReactDOM.render(
-	<Wrapper/>, 
-	document.getElementById('app')
-);
+ReactDOM.render( <Wrapper/>, document.getElementById('app'));
