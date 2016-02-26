@@ -215,7 +215,6 @@ class Message extends React.Component {
 		let isArchived = this.props.isArchived;
 		let msgStyle = (isArchived) ? { color: 'grey', display:'inline', marginRight: '10px'} : { display: 'inline', marginRight: '10px' };
 		let archiveAction = (isArchived) ? "unarchive" : "archive";
-		let menuItems = (this.state.showMenu) ? {display: 'inline'} : { display: 'none'} ;
 		let btnState = (isArchived) ? true : false;
 
 		let listItems = [];
