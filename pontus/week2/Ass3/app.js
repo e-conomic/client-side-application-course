@@ -62,6 +62,7 @@ class Wrapper extends React.Component {
 
 		let lists = this.state.lists.map( (list) => { 
 			let messages = this.state.messages.filter( message => message.listID === list.listID );
+
 			return <NamedList 
 				listID={list.listID} 
 				listName={list.listName} 
@@ -88,16 +89,6 @@ class Wrapper extends React.Component {
 class NamedList extends React.Component { 
 	constructor(props) { 
 		super(props);
-
-		propTypes: { 
-			listID: React.PropTypes.number
-			listName: React.PropTypes.string
-			createMsg: React.PropTypes.func
-			archiveMsg: React.PropTypes.func
-			moveMsg: React.PropTypes.func
-			deletesg: React.PropTypes.func
-			messages: React.PropTypes.arrayOf(React.PropTypes.object)
-		}
 
 		this.state = { 
 			charCount: 200,
@@ -170,21 +161,20 @@ class NamedList extends React.Component {
 	}
 }
 
+NamedList.propTypes = { 
+	listID: React.PropTypes.number,
+	listName: React.PropTypes.string,
+	createMsg: React.PropTypes.func,
+	archiveMsg: React.PropTypes.func,
+	moveMsg: React.PropTypes.func,
+	deletesg: React.PropTypes.func,
+	messages: React.PropTypes.arrayOf(React.PropTypes.object),
+	listProperties: React.PropTypes.arrayOf(React.PropTypes.object)
+};
+
 class Message extends React.Component { 
 	constructor(props) { 
 		super(props);
-
-		propTypes: { 
-			listID: React.PropTypes.number
-			messageID: React.PropTypes.number
-			listName: React.PropTypes.string
-			createMsg: React.PropTypes.func
-			archiveMsg: React.PropTypes.func
-			moveMsg: React.PropTypes.func
-			deletesg: React.PropTypes.func
-			isArchived: React.PropTypes.bool
-			listProperties: React.PropTypes.object
-		}
 
 		this.state = {  
 			isArchived: false,
@@ -238,6 +228,18 @@ class Message extends React.Component {
 		);
 	}
 }
+Message.propTypes = { 
+	listID: React.PropTypes.number,
+	messageID: React.PropTypes.number,
+	listName: React.PropTypes.string,
+	createMsg: React.PropTypes.func,
+	archiveMsg: React.PropTypes.func,
+	moveMsg: React.PropTypes.func,
+	deletesg: React.PropTypes.func,
+	isArchived: React.PropTypes.bool,
+	listProperties: React.PropTypes.arrayOf(React.PropTypes.object)
+};
+
 const MenuItem = ({listID, listName}) => ( <option value={listID}>{listName}</option> );
 
 ReactDOM.render( <Wrapper/>, document.getElementById('app'));
