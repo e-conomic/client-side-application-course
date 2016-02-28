@@ -107,14 +107,14 @@
 			var generatedList = this.getGeneratedListFromArray(listKey, updatedGeneratedLists);
 			var msgToExtract;
 			generatedList.archivedList = generatedList.archivedList.filter(function(message) {
-				if (message.index != msgKey) {
+				if (message.index == msgKey) {
 					msgToExtract = message;
 					return false;
 				}
 				return true;
 			});
 			generatedList.messageList.push(msgToExtract);
-			this.setState({ generatedLists: updatedList });
+			this.setState({ generatedLists: updatedGeneratedLists });
 		},
 
 		moveMessage: function(msg, oldListKey, targetListKey) {
