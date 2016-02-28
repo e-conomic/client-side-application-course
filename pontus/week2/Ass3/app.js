@@ -9,19 +9,12 @@ class Wrapper extends React.Component {
 
 		this.createList = (e) => { 
 			let listID = Date.now();
-			let lists = JSON.parse(JSON.stringify(this.state.lists));
-
+			let list;
 			if (e.keyCode == 13 || e.which == 13 || e.type == 'click') { 
-				if (this.refs.inputField.value != '') { 
-					let listName = this.refs.inputField.value;
-					let list = { listID, listName };
-					lists.push(list);
-				}
-				else { 
-					let list = { listID: newID, listName: "" };
-					lists.push(list);
-				}
-				this.setState({ lists });
+				if (this.refs.inputField.value != '') list = { listID, listName: this.refs.inputField.value }
+				else list = { listID, listName: "" };
+
+				this.setState({ lists: this.state.lists.concat(list) });
 				this.refs.inputField.value = "";
 			}
 		}
