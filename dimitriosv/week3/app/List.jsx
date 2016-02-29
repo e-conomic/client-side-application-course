@@ -23,7 +23,7 @@ var List = React.createClass({
                     </div>
         },
         addMessageChild: function() {
-            if (this.state.inputMessageName || this.state.inputMessageName.length>200) {
+            if (!this.state.inputMessageName || this.state.inputMessageName.length>200) {
                 alert("Message length not valid!")
             } else {
                 this.props.addMessageParent(this.state.listId, this.state.inputMessageName)
