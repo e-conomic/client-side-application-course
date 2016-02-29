@@ -1,3 +1,7 @@
+Before we begin
+_Hear from an(other) e-conomic employee?_   
+_Final project ideas?_
+
 #### Week 3 follow up
 * excluding `bundle.js` from source control
 * `key` property when return a list of components + concrete example
