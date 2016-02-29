@@ -1,4 +1,4 @@
-Before we begin
+Before we begin   
 _Hear from an(other) e-conomic employee?_   
 _Final project ideas?_
 
