@@ -1,7 +1,7 @@
 var List = require("./list");
 var InputField = require("./inputfield");
 
-var App = React.createClass({
+module.exports = React.createClass({
 	getInitialState: function() {
 		return {
 			//lists: []
@@ -176,6 +176,3 @@ var App = React.createClass({
 		}
 	},
 })
-
-
-ReactDOM.render(<App/>, document.getElementById("content"));
