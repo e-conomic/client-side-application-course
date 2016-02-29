@@ -1,7 +1,7 @@
 var React = require('react');
 
 var Message = require('./message');
-var GeneratedListDropDown = require('./generatedListDropdown');
+var GeneratedListDropDown = require('./generated-list-dropdown');
 
 var MessageList = React.createClass({
 

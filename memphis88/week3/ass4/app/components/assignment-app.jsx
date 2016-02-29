@@ -1,7 +1,7 @@
 var React = require('react');
 
-var OnPressingEnterMixin = require('../mixins/onPressingEnterMixin');
-var GeneratedList = require('./generatedList');
+var OnPressingEnterMixin = require('../mixins/on-pressing-enter-mixin');
+var GeneratedList = require('./generated-list');
 
 var AssignmentApp = React.createClass({
 	mixins: [
