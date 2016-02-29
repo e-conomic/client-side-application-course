@@ -17,6 +17,10 @@ We will continue to work on the code from last week.
 * The naming of these files are not mandatory, but its good practice to at least group files together by domain areas. 
 * We are gonna walk through the basics of creating stores and actions together.
 * From now on, no views/components must contain any validation code.
+* The unidirectional dataflow must be honored:
+  * Never write to stores!
+  * Every mutation must be initiated from an action
+* All non-view state should be persisted in and fetched from a store.
 * Implement all the actions needed for the app to work as is.
 * Implement the stores to return their respective part of the data.
 * When you are happy with your changes, create a pull-request
