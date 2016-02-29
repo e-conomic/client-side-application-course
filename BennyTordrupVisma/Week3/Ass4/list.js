@@ -1,4 +1,4 @@
-var Message = require("./message.js");
+var Message = require("./message");
 
 module.exports = React.createClass({
 	render: function() {

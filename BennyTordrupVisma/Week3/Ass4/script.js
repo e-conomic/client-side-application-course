@@ -1,5 +1,5 @@
-var List = require("./list.js");
-var InputField = require("./inputfield.js");
+var List = require("./list");
+var InputField = require("./inputfield");
 
 var App = React.createClass({
 	getInitialState: function() {
