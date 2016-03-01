@@ -30,8 +30,8 @@ var MessageBox = React.createClass({
 							{messageId : 2, messageText : "List2 msg3", archived : false, listId : 1}
 						], 
 						archivedMessages : [
-							{messageId : 0, messageText : "List1 msg1", archived : true, listId : 0},
-							{messageId : 1, messageText : "List1 msg2", archived : true, listId : 0}
+							{messageId : 0, messageText : "Archived: List1 msg1", archived : true, listId : 1},
+							{messageId : 1, messageText : "Archived: List1 msg2", archived : true, listId : 1}
 						],
 					}
 				];
@@ -40,22 +40,32 @@ var MessageBox = React.createClass({
 			createList: function(listName){
 				var listId = this.state.lists.length
 				var listObject = {listId : listId, listName : listName, messages : [], archivedMessages : []}
-				var newList = this.state.lists.concat(listObject)
 				
-				this.setState({lists: newList})
+				this.setState({
+				  lists: this.state.lists.concat([listObject])
+				})
 			},
 			createMessage: function(messageObject, listId) {
-				var newLists = this.state.lists
-				if(messageObject.archived == false)
-					newLists[listId].messages.push(messageObject)
-				else 
-					newLists[listId].archivedMessages.push(messageObject)
+				console.log("Create Message call")
+				var newList = Object.assign({}, this.state.lists[listId])
+				if(messageObject.archived){
+					var newMessages = newList.archivedMessages.slice();
+					newMessages.push(messageObject)		
+					newList.archivedMessages = newMessages;
+				}	else {
+					var newMessages = newList.messages.slice();
+					newMessages.push(messageObject)		
+					newList.messages = newMessages;
+				}
 
-				this.setState({lists : newLists})
+				this.setState({lists : this.state.lists.map(function(list){
+					return list.listId === parseInt(listId) ? newList : list;
+				})});
 			},
 			moveMessage: function(listId, newListId, messageId){
-				var lists = this.state.lists
-				var messageToMove = lists[listId].messages[messageId]
+				var lists = this.state.lists.slice()
+				//var messageToMove = lists[listId].messages[messageId]
+				var messageToMove = Object.assign({}, lists[listId].messages[messageId])
 
 				lists[listId].messages.splice(messageId, 1)
 				messageToMove.messageId = lists[newListId].messages.length
@@ -63,35 +73,42 @@ var MessageBox = React.createClass({
 				this.createMessage(messageToMove, newListId)
 			},
 			deleteMessage : function(listId, messageId, archived){
-				var newLists = this.state.lists
-				var index = this.findIndexById(newLists[listId].messages, messageId)
+				var newLists = this.state.lists.slice()
+				var index = newLists[listId].messages.indexOf(messageId);
+
 				if(archived)
 					newLists[listId].archivedMessages.splice(index, 1)
 				else 
 					newLists[listId].messages.splice(index, 1)
+
 				this.setState({lists : newLists})
 			},
 			archiveMessage : function (listId, messageId){
-				var newLists = this.state.lists
-				var messageToArchive = newLists[listId].messages[messageId]
-				var archiveId = newLists[listId].archivedMessages.length
+				//var messageToArchive = newLists[listId].messages[messageId]
+				var messageToArchive = Object.assign({}, this.state.lists[listId].messages[messageId])
+				var archiveId = this.state.lists[listId].archivedMessages.length
 
 				messageToArchive.archived = true
 				messageToArchive.messageId = archiveId
-				this.createMessage(messageToArchive, listId)
+
 				this.deleteMessage(listId, messageId, false)
+				this.createMessage(messageToArchive, listId)
 			},
 			unarchiveMessage : function (listId, messageId){
-				var archivedMessages = this.state.lists[listId].archivedMessages
-				var index = this.findIndexById(archivedMessages, messageId)
+				var archivedMessages = this.state.lists[listId].archivedMessages.slice()
+				//var index = this.findIndexById(archivedMessages, messageId)
+				var index = archivedMessages.findIndex(function(archivedMessage){
+					return archivedMessage.messageId === messageId
+				}) // Don't know why this wont work.
+
 				var messageToUnarchive = archivedMessages[index]
 				var newMessageId = this.state.lists[listId].messages.length
 
 				messageToUnarchive.archived = false
 				messageToUnarchive.messageId = newMessageId
 
-				this.createMessage(messageToUnarchive, listId)
 				this.deleteMessage(listId, messageId, true)
+				this.createMessage(messageToUnarchive, listId)
 			},
 			findIndexById : function(list, id){
 				for(var i = 0; i<list.length;i++){
@@ -364,13 +381,13 @@ var MessageBox = React.createClass({
 			    var lists = this.props.lists.map(function(list) {
 		        	return (
 		        	<div>
-			      		<List data={list} onMessageUnarchive={unarchiveMessageFunction}/>
-			      		<EditListField lists={data} listId={list.listId} onMessageChange={editFunction} />
-			      		<DeleteMessageField onMessageDelete={deleteMessageFunction} listId={list.listId} messages={list.messages}/>
+			      		<List data={list} onMessageUnarchive={this.props.onMessageUnarchive}/>
+			      		<EditListField lists={this.props.lists} listId={list.listId} onMessageChange={this.props.onMessageChange} />
+			      		<DeleteMessageField onMessageDelete={this.props.onMessageDelete} listId={list.listId} messages={list.messages}/>
 			      		<ArchiveMessageField onMessageArchive={archiveMessageFunction} listId={list.listId} messages={list.messages}/>
 			      	</div>
 			        );
-			    });
+			    }.bind(this));
 				return (
 					<div>
 						<p>Hello there this is the Output box, listing the lists</p>
