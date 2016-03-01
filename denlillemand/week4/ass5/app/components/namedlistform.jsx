@@ -1,4 +1,6 @@
 import React from 'react';
+import ListStore from '../stores/liststore.js';
+import { createList } from '../actioncreators/listactions.js';
 
 export default class NamedListForm extends React.Component {
     constructor(props, context) {
@@ -17,7 +19,7 @@ export default class NamedListForm extends React.Component {
     }
 
     onSubmit(event) {
-        this.props.onSubmitNamedList(this.state.name);
+        createList(this.state.name);
         this.setState({
             name: ""
         });

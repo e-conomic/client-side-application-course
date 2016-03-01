@@ -1,4 +1,5 @@
 import React from 'react';
+
 export default class Message extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -13,7 +14,7 @@ export default class Message extends React.Component {
 
     archive(event) {
         let message = this.props.message;
-        this.props.archive(message.id, message.archived);
+        this.props.archive(message.id, message.isArchived);
     }
 
     render() {
@@ -21,8 +22,8 @@ export default class Message extends React.Component {
             <div>
                 {this.props.message.id}:
                 {this.props.message.text}:
-                {this.props.message.archived ? "ARCHIVED" : "NOT ARCHIVED"}
-                <button onClick={this.archive}>{this.props.message.archived ? "Unarchive" : "Archive"}</button>
+                {this.props.message.isArchived ? "ARCHIVED" : "NOT ARCHIVED"}
+                <button onClick={this.archive}>{this.props.message.isArchived ? "Unarchive" : "isArchived"}</button>
                 <button onClick={this.deleteMessage}>Delete</button>
             </div>
 
@@ -33,4 +34,4 @@ Message.propTypes = {
     deleteMessage: React.PropTypes.func,
     message: React.PropTypes.object,
     archive: React.PropTypes.func
-}
+};

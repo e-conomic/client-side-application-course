@@ -1,5 +1,6 @@
 import React from 'react';
 import Message from './message.jsx';
+import { swapMessage, createMessage, deleteMessage, archiveMessage } from '../actioncreators/listactions.js';
 
 export default class NamedList extends React.Component {
     constructor(props, context) {
@@ -17,11 +18,11 @@ export default class NamedList extends React.Component {
         this.onChangeMessageSwapId = this.onChangeMessageSwapId.bind(this);
         this.archiveMessage = this.archiveMessage.bind(this);
         this.deleteMessage = this.deleteMessage.bind(this);
-        this.swapMessage = this.swapMessage.bind(this);
+        this.submitSwapMessage = this.submitSwapMessage.bind(this);
     }
 
-    swapMessage(event) {
-        this.props.swapMessage(parseInt(this.state.messageSwapId, 10), this.state.messageSwapDestination, this.props.name);
+    submitSwapMessage(event) {
+        swapMessage(parseInt(this.state.messageSwapId, 10), this.state.messageSwapDestination, this.props.name);
         this.setState({
             messageSwapId: "",
             messageSwapDestination: ""
@@ -45,11 +46,7 @@ export default class NamedList extends React.Component {
     }
 
     onMessageSubmit(event) {
-        this.props.onSubmitMessage({
-            text: this.state.message,
-            id: this.state.messageId,
-            archived: false
-        }, this.props.name);
+        createMessage(this.state.messageId, this.state.message, false, this.props.name);
         this.setState({
             message: "",
             messageId: this.state.messageId + 1
@@ -66,17 +63,17 @@ export default class NamedList extends React.Component {
         }
     }
 
-    archiveMessage(id, isArchived) {
-        this.props.archiveMessage(id, this.props.name, isArchived);
+    archiveMessage(messageId, isArchived) {
+        archiveMessage(messageId, this.props.name, isArchived);
     }
 
-    deleteMessage(id) {
-        this.props.deleteMessage(id, this.props.name);
+    deleteMessage(messageId) {
+        deleteMessage(messageId, this.props.name);
     }
 
     render() {
         let sortedMessages = this.props.messages.slice().sort(function (x, y) {
-            return x.archived - y.archived;
+            return x.isArchived - y.isArchived;
         });
         return (
             <div>
@@ -89,7 +86,7 @@ export default class NamedList extends React.Component {
                        onChange={this.onChangeMessageSwapDestinationListName}/>
                 <label>Message id:</label>
                 <input value={this.state.messageSwapId} onChange={this.onChangeMessageSwapId}/>
-                <button onClick={this.swapMessage}>Swap message</button>
+                <button onClick={this.submitSwapMessage}>Swap message</button>
                 <h4>Messages:</h4>
                 <ul>
                     {sortedMessages.map(function (message, index) {
@@ -107,4 +104,4 @@ NamedList.propTypes = {
     onSubmitMessage: React.PropTypes.func,
     onDeleteMessage: React.PropTypes.func,
     archiveMessage: React.PropTypes.func
-}
+};
