@@ -1,5 +1,8 @@
 //import Message from './Message.jsx';
 var Message = require('./Message');
+var React = require('react');
+var ReactDOM = require('react-dom');
+
 
 var Messages = React.createClass({
     render: function () {

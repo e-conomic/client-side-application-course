@@ -1,4 +1,6 @@
 import Messages from './Messages.jsx';
+var React = require('react');
+var ReactDOM = require('react-dom');
 
 var List = React.createClass({
         getInitialState: function() {

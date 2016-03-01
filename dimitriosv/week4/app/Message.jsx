@@ -1,6 +1,9 @@
+var React = require('react');
+var ReactDOM = require('react-dom');
+
 
 var Message = React.createClass({
-    eachList: function(messageId) {  return function(list,i) {
+    renderListOptions: function(messageId) {  return function(list,i) {
         return (
              <option key={list.listId+messageId} value={list.listId}>{list.listName}</option>
         );
@@ -19,7 +22,7 @@ var Message = React.createClass({
                         <button type="button"  onClick={this.deleteMessageChild.bind(null,this.props.messageId)}>Delete</button>
                             <select className="llistcont" defaultValue="0"  onChange={this.moveMessage}>
                                 <option key="0" value="0"  >Move to:</option>
-                                {this.props.allLists.map(this.eachList(this.props.messageId))}
+                                {this.props.allLists.map(this.renderListOptions(this.props.messageId))}
                              </select>
                         <button type="button" onClick={this.toggleArchiveMessageChild.bind(null,this.props.messageId)}>Archive</button></div>
                     }
@@ -31,11 +34,11 @@ var Message = React.createClass({
         this.props.addMessageParent(Listid,this.props.messageText)        
         this.props.deleteMessageParent(this.props.messageId)
     },
-    deleteMessageChild: function(Messageid) {
-        this.props.deleteMessageParent(Messageid)
+    deleteMessageChild: function(messageid) {
+        this.props.deleteMessageParent(messageid)
     },
-    toggleArchiveMessageChild: function(Messageid) {
-        this.props.toggleArchiveMessageParent(Messageid)
+    toggleArchiveMessageChild: function(messageid) {
+        this.props.toggleArchiveMessageParent(messageid)
     }
 });
 
