@@ -9,11 +9,12 @@ var Messages = React.createClass({
         
         return  <div>
                     <div>
-                        {this.props.messages.map(function(message,i) {
-                            if (message.isArchived) {
-                                ;
-                            } else {
-                                return (<div className="message" key={i}  >
+                        {this.props.messages
+                            .filter(function(message){ 
+                                return !message.isArchived;
+                            })
+                            .map(function(message){
+                                return (<div className="message" key={message.messageId}  >
                                         <Message  messageId={message.messageId} 
                                             messageText={message.text}
                                             messageIsArchived={message.isArchived} 
@@ -23,14 +24,16 @@ var Messages = React.createClass({
                                             allLists={this.props.allLists}
                                         />
                                     </div>)
-                            }
-                        }.bind(this))} 
+                            }.bind(this))}
                     </div>
                     <div>Archived:</div>
                     <div>
-                        {this.props.messages.map(function(message,i) {
-                            if (message.isArchived) {
-                                return (<div className="message" key={i}  >
+                        {this.props.messages
+                            .filter(function(message){ 
+                                return message.isArchived;
+                            })
+                            .map(function(message){
+                                return (<div className="message" key={message.messageId}  >
                                         <Message  messageId={message.messageId} 
                                             messageText={message.text}
                                             messageIsArchived={message.isArchived} 
@@ -40,15 +43,11 @@ var Messages = React.createClass({
                                             allLists={this.props.allLists}
                                         />
                                     </div>)
-                            } else {
-                                ;
-                            }
-                        }.bind(this))}
+                            }.bind(this))}
                     </div>
                 </div>
     },
      
-
 });
 
 
