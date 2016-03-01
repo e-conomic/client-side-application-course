@@ -50,7 +50,7 @@ let Message = React.createClass({
 		let listItems = [];
 		for (let key in this.props.listProperties) { 
 			let list = this.props.listProperties[key];
-			listItems.push(<MenuItem listID={list.listID} listName={list.listName} />);
+			listItems.push(<MenuItem key={list.listID} listID={list.listID} listName={list.listName} />);
 		}
 
 		return (
