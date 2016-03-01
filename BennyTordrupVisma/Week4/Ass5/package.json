@@ -16,6 +16,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
-    "webpack": "1.12.13"
+    "webpack": "1.12.13",
+    "flux": "^2.1.1"
   }
 }
