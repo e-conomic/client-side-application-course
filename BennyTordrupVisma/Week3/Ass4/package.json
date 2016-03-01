@@ -4,9 +4,7 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack -d",
-    "watch": "webpack -d --watch",
-    "build-prod": "webpack -p"
+    "build": "webpack"
   },
   "author": "",
   "license": "ISC",
