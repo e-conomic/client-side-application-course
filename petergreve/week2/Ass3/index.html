@@ -21,7 +21,7 @@
 
         handleInput: function() {
             var message = this.input.value;
-            if (message<1) {
+            if (message>200) {
                 this.toggleErrorMessage('Message too long')
             } else {
                 this.props.createMessage(message,this.props.list.listId);
