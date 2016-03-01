@@ -1,9 +1,12 @@
 import List from './components/List.jsx';
 var React = require('react');
 var ReactDOM = require('react-dom');
-
+var ListActions = require('./actions/list-actions.js');
 
 var App = React.createClass({
+    componentDidMount: function() {
+
+    },
     getInitialState: function() {
             return {  //This state can be changed to empty of course
                 totalLists:2,
@@ -18,7 +21,7 @@ var App = React.createClass({
         },
         eachList: function(list, i) {  
             return (
-                <List key={i}
+                <List key={list.listId}
                 index={i}
                 listName={list.listName}
                 listId={list.listId}
@@ -31,6 +34,10 @@ var App = React.createClass({
                 );
         },
         createList: function(evt) {
+
+            var listName = this.state.inputListName;
+            ListActions.createList(listName);
+            /*
             if (this.state.inputListName=="") {
                 alert("Cannot add list with no name!")
             } else {
@@ -52,7 +59,7 @@ var App = React.createClass({
             });
         }
 
-
+        */
     },
     addMessageParent: function(listId,MessageToAdd) {
 
