@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Deep dive into React</title>
+    <script src="http://fb.me/react-0.14.7.js"></script>
+    <script src="http://fb.me/react-dom-0.14.7.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+</head>
+<body>
+
+<div id="root"> </div>
+    <script type="text/babel">
+
+    var List = React.createClass({
+
+        getInitialState: function() {
+            return  {
+                        errorMessage: ''
+                    }
+        },
+
+        handleInput: function() {
+            var message = this.input.value;
+            if (message>200) {
+                this.toggleErrorMessage('Message too long')
+            } else {
+                this.props.createMessage(message,this.props.list.listId);
+                this.toggleErrorMessage('');
+            }
+        },
+        render: function() {
+            return  <div>
+                        {this.props.list.listId} - {this.props.list.listName}
+                        <br />
+                        <input type="text" ref={(component) => this.input = component} /><button type="button" onClick={this.handleInput}>Submit Message</button>
+                        <ErrorMessage errorMessage={this.state.errorMessage} />
+                        <Messages
+                         messages={this.props.messages}
+                         archived={this.props.archived}
+                         toggleArchive={this.props.toggleArchive}
+                         deleteMessage={this.props.deleteMessage}
+                         moveMessage={this.props.moveMessage} />
+                    </div>
+        },
+        toggleErrorMessage: function(message) {
+                this.setState({
+                    errorMessage: message
+                 });
+        },
+    })
+
+    var Messages = React.createClass({
+
+        handleDeleteClick: function(message) {
+            this.props.deleteMessage(message.messageId);
+        },
+        handleArchiveClick: function(message) {
+            this.props.toggleArchive(message.messageId, true);
+        },
+        handleUnarchiveClick: function(message) {
+            this.props.toggleArchive(message.messageId, false);
+        },
+        handleDownClick: function(message) {
+            this.props.moveMessage(message.messageId, true);
+        },
+        handleUpClick: function(message) {
+            this.props.moveMessage(message.messageId, false);
+        },
+        render: function () {
+
+            var style = {
+                color: 'blue',
+            };
+
+            return  <div>
+                        <ol>
+                            {this.props.messages.map(function(message,i) {
+                                return <div key={i}>
+                                            {message.text}
+                                            <button type="button" onClick={this.handleDeleteClick.bind(null, message)}>Delete</button>
+                                            <button type="button" onClick={this.handleArchiveClick.bind(null, message)}>Archive</button>
+                                            <button type="button" onClick={this.handleDownClick.bind(null, message)}>Move Down</button>
+                                            <button type="button" onClick={this.handleUpClick.bind(null, message)}>Move Up</button>
+                                        </div>;
+                            },this)}
+                        </ol>
+                        <ol>
+                            {this.props.archived.map(function(message,i) {
+                                return <div style={style} key={i}>
+                                            {message.text}
+                                            <button type="button" onClick={this.handleUnarchiveClick.bind(null, message)}>Unarchive</button>
+                                        </div>;
+                            },this)}
+                        </ol>
+                    </div>
+        }
+
+    });
+
+    var ErrorMessage = React.createClass({
+        render: function () {
+
+            var style = {
+                color: 'red',
+            };
+            return  <div style={style}>
+                        {this.props.errorMessage}
+                    </div>
+        }
+
+    });
+
+    var App = React.createClass({
+        getInitialState: function() {
+            return {
+                    lists: [{listId: 0, listName: "first list"},{listId: 1, listName: "second list"}],
+                    errorMessage: 'vsdgfdsgfdsgfs',
+                    allMessages: [
+                                    {messageId: 0, listId: 0, text: "testmessage for list 0", isArchived: false},
+                                    {messageId: 3, listId: 0, text: "testmessage for list 0", isArchived: true},
+                                    {messageId: 1, listId: 1, text: "testmessage for list 1", isArchived: false},
+                                    {messageId: 2 ,listId: 2, text: "testmessage for list 2", isArchived: false}
+                                 ],
+                };
+        },
+        render: function() {
+            return  <div>
+                        <input type="text" ref={(component) => this.newListName = component} />
+                        <button type="button" onClick={this.createList}>New List</button>
+                        <ol>
+                            {this.state.lists.map(function(list, i) {
+                                return <List
+                                            key={i}
+                                            handleInput={this.handleInput}
+                                            toggleArchive={this.toggleArchive}
+                                            createMessage={this.createMessage}
+                                            deleteMessage={this.deleteMessage}
+                                            messages={this.filterMessages(list.listId)}
+                                            archived={this.filterArchived(list.listId)}
+                                            validateMessage={this.validateMessage}
+                                            errorMessage={this.state.errorMessage}
+                                            moveMessage={this.moveMessage}
+                                            showErrorMessage={this.showErrorMessage}
+                                            list={list} />;
+                            },this)}
+                        </ol>
+
+                    </div>
+        },
+        createList: function() {
+            var newList = [{
+                listId: this.state.lists.length + 1,
+                listName: this.newListName.value
+            }];
+
+            this.setState({
+                  lists: this.state.lists.concat(newList),
+                });
+        },
+        createMessage: function(text, listId) {
+
+            var newMessage = [{
+                messageId: this.state.allMessages.length + 1,
+                text: text,
+                isArchived: false,
+                listId: listId
+            }];
+
+            this.setState({
+                  allMessages: this.state.allMessages.concat(newMessage),
+                });
+        },
+        filterMessages: function(listId) {
+            return this.state.allMessages.filter((m) => {
+                return m.isArchived == false && m.listId == listId;
+            });
+        },
+        filterArchived: function(listId) {
+            return this.state.allMessages.filter((m) => {
+                return m.isArchived == true && m.listId == listId;
+            });
+        },
+        deleteMessage: function(messageId) {
+            var newAllMessages = this.state.allMessages.filter((m) => {
+                return m.messageId != messageId;
+            });
+
+            this.setState({
+                allMessages: newAllMessages
+            });
+        },
+        toggleArchive: function(messageId, isArchived) {
+
+            var clonedMessages = Object.assign({}, this.state.allMessages);
+            var clonedMessagesArray = Object.keys(clonedMessages).map(function (key) {return clonedMessages[key]});
+
+            var message = clonedMessagesArray.filter((m) => {
+                return m.messageId == messageId;
+            })[0];
+
+            message.isArchived = isArchived;
+
+            this.setState({
+                allMessages: clonedMessagesArray
+            });
+        },
+        moveMessage: function(messageId, down) {
+
+            var clonedMessages = Object.assign({}, this.state.allMessages);
+            var clonedMessagesArray = Object.keys(clonedMessages).map(function (key) {return clonedMessages[key]});
+
+            var movedMessage = clonedMessagesArray.filter((m) => {
+                return m.messageId == messageId;
+            })[0];
+
+            if (down && movedMessage.listId < this.state.lists.length - 1)
+                movedMessage.listId = movedMessage.listId + 1;
+            else if (!down && movedMessage.listId > 0)
+                movedMessage.listId = movedMessage.listId - 1;
+            else return
+
+            this.setState({
+                allMessages: clonedMessagesArray
+            });
+        }
+    });
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+
+    //Object.assign polyfill
+    if (typeof Object.assign != 'function') {
+      (function () {
+        Object.assign = function (target) {
+          'use strict';
+          if (target === undefined || target === null) {
+            throw new TypeError('Cannot convert undefined or null to object');
+          }
+
+          var output = Object(target);
+          for (var index = 1; index < arguments.length; index++) {
+            var source = arguments[index];
+            if (source !== undefined && source !== null) {
+              for (var nextKey in source) {
+                if (source.hasOwnProperty(nextKey)) {
+                  output[nextKey] = source[nextKey];
+                }
+              }
+            }
+          }
+          return output;
+        };
+      })();
+    }
+
+    </script>
+</body>
+</html>
