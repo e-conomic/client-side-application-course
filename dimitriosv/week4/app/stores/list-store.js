@@ -1,4 +1,4 @@
-var Dispatcher = require('flux').Dispatcher;
+var Dispatcher =  require('../dispatcher/dispatcher.js');
 var Constants = require('../constants');
 var BaseStore = require('./base');
 
@@ -24,6 +24,7 @@ store.dispatchToken = Dispatcher.register(function(payload){
 				//id: createId(),
 				//name: payload.listName
 			})
+            alert(33);
 			break
 
 		default:

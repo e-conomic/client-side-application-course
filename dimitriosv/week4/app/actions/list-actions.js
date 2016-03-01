@@ -1,5 +1,5 @@
 var Constants = require('../constants');
-var Dispatcher = require('flux').Dispatcher;
+var Dispatcher =  require('../dispatcher/dispatcher.js');
 
 module.exports = {
 	createList: function(listName) {
