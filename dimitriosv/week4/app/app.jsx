@@ -1,4 +1,4 @@
-import List from './List.jsx';
+import List from './components/List.jsx';
 var React = require('react');
 var ReactDOM = require('react-dom');
 
