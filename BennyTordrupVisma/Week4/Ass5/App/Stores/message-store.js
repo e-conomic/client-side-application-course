@@ -40,9 +40,9 @@ function moveMessage(messageId, newListId) {
     msgToMove.list = newListId;
 }
 
-function archiveMessage(messageId, doArchive){
+function toggleIsArchived(messageId){
     var msgToChange = _messages.find(m => m-id == messageId);
-    msgToChange.isArchived = doArchive;
+    msgToChange.isArchived = !msgToChange.isArchived;
 }
 
 AppDispatcher.register(payload => {
@@ -59,12 +59,8 @@ AppDispatcher.register(payload => {
             deleteMessage(payload.messageId);
             break;
             
-        case Constants.ARCHIVE_MESSAGE:
-            archiveMessage(payload.messageId, true);
-            break;
-            
-        case Constants.UNARCHIVE_MESSAGE:
-            archiveMessage(payload.messageId, false);
+        case Constants.TOGGLE_IS_ARCHIVED:
+            toggleIsArchived(payload.messageId);
             break;
 
 		default:

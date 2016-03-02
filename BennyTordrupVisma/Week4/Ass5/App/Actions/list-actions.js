@@ -1,12 +1,11 @@
 var Constants = require('../constants');
-var Dispatcher = require('flux').Dispatcher;
+var AppDispatcher = require('../Dispatcher/appDispatcher');
 
 module.exports = {
 	createList: function(listName) {
-		
-		Dispatcher.dispatch({
+		AppDispatcher.dispatch({
 			type: Constants.CREATE_LIST,
 			listName: listName,
 		});
-	}
+	},
 }

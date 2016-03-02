@@ -1,6 +1,34 @@
 var Constants = require('../constants');
-var Dispatcher = require('flux').Dispatcher;
+var AppDispatcher = require('../Dispatcher/appDispatcher');
 
 module.exports = {
-	// todo
+	createMessage: function(messageText, listId) {
+		AppDispatcher.dispatch({
+			type: Constants.CREATE_MESSAGE,
+            messageText: messageText,
+            listId: listId,
+		});
+	},
+    
+    deleteMessage: function(messageId) {
+        AppDispatcher.dispatch({
+            type: Constants.DELETE_MESSAGE,
+            messageId: messageId,
+        });
+    },
+    
+    moveMessage: function(messageId, newListId) {
+        AppDispatcher.dispatch({
+            type: Constants.MOVE_MESSAGE,
+            messageId: messageId,
+            newListId: newListId,
+        });
+    },
+    
+    toggleIsArchived: function(messageid) {
+        AppDispatcher.dispatch({
+            type: Constants.TOGGLE_IS_ARCHIVED,
+            messageId: messageId,
+        });
+    },
 }
