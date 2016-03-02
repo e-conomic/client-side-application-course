@@ -2,3 +2,4 @@
 node_modules
 npm-debug.*
 bundle.js
+/petergreve/week3/ass4/dist
