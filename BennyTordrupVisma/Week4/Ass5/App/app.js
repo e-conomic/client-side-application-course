@@ -3,6 +3,9 @@ var React = require("react");
 var List = require("./list");
 var InputField = require("./inputfield");
 
+var ListStore = require("./Stores/list-store");
+var MessageStore = require("./Stores/message-store");
+
 module.exports = React.createClass({
 	getInitialState: function() {
 		return {
