@@ -6,10 +6,9 @@ module.exports = {
 	moveMessage(chosenListID, messageID) { 
 		Dispatcher.dispatch({
 			type: Constants.MOVE_MESSAGE,
-			chosenListID: chosenListID,
+			listID: parseInt(chosenListID),
 			messageID: messageID
 		});
-		console.log('move from action-creater');
 	},
 
 	deleteMessage(listID, messageID) { 
@@ -18,7 +17,6 @@ module.exports = {
 			listID: listID,
 			messageID: messageID
 		});
-		console.log('delete from action-creater');
 	},
 
 	archiveMessage(listID, messageID) { 
@@ -27,6 +25,15 @@ module.exports = {
 			listID: listID,
 			messageID: messageID
 		});
-		console.log('archive from action-creater');
+	},
+
+	createMessage(listID, text) { 
+		Dispatcher.dispatch({
+			type: Constants.CREATE_MESSAGE,
+			listID: listID,
+			messageID: Date.now(),
+			text: text,
+			isArchived: false
+		});
 	}
 }

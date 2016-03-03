@@ -7,25 +7,57 @@ var _messages = [];
 
 let messageStore = Object.assign({}, BaseStore, {
 	getAll() { 
-		return (_messages);
+		return _messages;
 	},
 
 	getOne(messageID) {
 		return _messages.find( message => message.messageID == messageID);
-	}
+	},
+
+	addChangeListener: function(callback) {
+		this.on('change', callback);
+	},
+
+
+
 });
 
 messageStore.dispatchToken = Dispatcher.register(function(payload){
 
 	switch(payload.type) {
 		case Constants.DELETE_MESSAGE:
-			console.log('delete from messageStore');
+
+			_messages = _messages.filter( message => message.messageID != payload.messageID );
+
 			break;
 		case Constants.ARCHIVE_MESSAGE:
-			console.log('archive from messageStore');
+
+			let archivedMessage = _messages.find( message => message.messageID == payload.messageID);
+			archivedMessage.isArchived = !archivedMessage.isArchived;
+			let restOfmessages = _messages.filter( message => message.messageID != payload.messageID );
+			_messages = restOfmessages.concat(archivedMessage);
+
 			break;
 		case Constants.MOVE_MESSAGE:
-			console.log('move from messageStore');
+			let message = _messages.find( message => message.messageID == payload.messageID );
+			let otherMessages = _messages.filter( message => message.messageID != payload.messageID );
+			console.log(payload.listID);
+
+			message.listID = payload.listID;
+
+			_messages = otherMessages.concat(message);
+
+
+			break;
+		case Constants.CREATE_MESSAGE:
+
+			_messages.push({ 
+				listID: payload.listID,
+				messageID: payload.messageID,
+				text: payload.text,
+				isArchived: payload.isArchived
+			});
+
 			break;
 		default:
 			return;

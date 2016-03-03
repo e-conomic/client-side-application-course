@@ -14,6 +14,16 @@ let listStore = Object.assign({}, BaseStore, {
 		return Object.assign({}, _list.find(function(l) { return l.id == id }));
 	},
 
+	getListProperties() { 
+
+		let listProperties = _list.filter( list => { 
+			return { listName: list.listName, listID: list.listID }
+		});
+
+		return listProperties;
+
+	},
+
 	addChangeListener: function(callback) {
 		this.on('change', callback);
 	},
@@ -22,8 +32,6 @@ let listStore = Object.assign({}, BaseStore, {
 
 // update
 listStore.dispatchToken = Dispatcher.register(function(payload){
-	console.log(payload);
-
 	switch(payload.type) {
 		case Constants.CREATE_LIST:
 
@@ -31,13 +39,9 @@ listStore.dispatchToken = Dispatcher.register(function(payload){
 				listID: Date.now(),
 				listName: payload.listName
 			});
-
-			console.log('create list from listStore');
-			console.log(_list);
 			break;
 
 		default:
-			console.log('default');
 			return;
 	}
 

@@ -2,25 +2,17 @@ let React = require('react');
 let MenuItem = require('./menu-item');
 let MessageActions = require('./message-actions');
 
-let Message = React.createClass({ 
+let ListStore = require("./list-store"); 
 
+
+
+let Message = React.createClass({ 
 	propTypes: { 
 		listID: React.PropTypes.number,
 		messageID: React.PropTypes.number,
 		listName: React.PropTypes.string,
-		createMsg: React.PropTypes.func,
-		archiveMsg: React.PropTypes.func,
-		moveMsg: React.PropTypes.func,
-		deletesg: React.PropTypes.func,
 		isArchived: React.PropTypes.bool,
 		listProperties: React.PropTypes.arrayOf(React.PropTypes.object)
-	},
-
-	getInitialState() { 
-		return { 
-			isArchived: false, 
-			showMenu: false 
-		};
 	},
 
 	moveMessage() {
@@ -66,7 +58,7 @@ let Message = React.createClass({
 					</div> 
 				</div>
 		);
-	}
+	},
 }); 
 
 module.exports = Message;
