@@ -42,13 +42,11 @@ var MessageStore = Object.assign({}, BaseStore, {
 
         case Constants.MOVE_MESSAGE:
             break
+    }
 
-		default:
-			return;
-	}
-
-	MessageStore.emitChange();
+    MessageStore.emitChange();
 });
 
 module.exports = MessageStore;
+
 

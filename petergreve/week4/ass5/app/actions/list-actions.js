@@ -3,8 +3,7 @@ var Dispatcher = require('../dispatcher/dispatcher');
 
 module.exports = {
 	createList: function(listName) {
-
-		Dispatcher.dispatch({
+				Dispatcher.dispatch({
 			type: Constants.CREATE_LIST,
 			listName: listName,
 		});
