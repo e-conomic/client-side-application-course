@@ -10,6 +10,10 @@ module.exports = React.createClass({
 	},
 	
 	render: function() {
+        var otherLists = ListStore.getAll().filter(l => l.id != this.props.message.list).map((list, index) => {
+            return <option value={list.id}>{list.name}</option>
+        });
+                         
 		var archivedMessage =	<div className="archived-message">
 									{this.props.message.id}. {this.props.message.text}
 									<button onClick={this.handleUnarchive}>Unarchive</button>
@@ -23,8 +27,9 @@ module.exports = React.createClass({
 										{this.state.listSelectionVisible &&
 											<div>
 												<label>New list: </label>
-												<input type="text" ref="newList" />
+                                                <select ref="newList">{otherLists}</select>
 												<button onClick={this.handleMoveMessage}>Move</button>
+                                                <button onClick={this.handleHideListSelection}>Cancel</button>
 											</div>}
 									</div>
 									
@@ -39,13 +44,19 @@ module.exports = React.createClass({
 			listSelectionVisible: true
 		})
 	},
+    
+    handleHideListSelection: function() {
+        this.setState({
+            listSelectionVisible: false
+        })
+    },
 	
 	handleMoveMessage: function() {
-        var list = ListStore.getByName(this.refs.newList.Value);
-        if (list) {
-            MessageActions.moveMessage(this.props.message.id, list.id);
-        };
-	},
+        MessageActions.moveMessage(this.props.message.id, this.refs.newList.value);
+        this.setState({
+            listSelectionVisible: false
+        })
+ 	},
 	
 	handleDelete: function() {
         MessageActions.deleteMessage(this.props.message.id);
