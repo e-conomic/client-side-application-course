@@ -64,7 +64,6 @@ var MessageBox = React.createClass({
 			},
 			moveMessage: function(listId, newListId, messageId){
 				var lists = this.state.lists.slice()
-				//var messageToMove = lists[listId].messages[messageId]
 				var messageToMove = Object.assign({}, lists[listId].messages[messageId])
 
 				lists[listId].messages.splice(messageId, 1)
@@ -74,17 +73,17 @@ var MessageBox = React.createClass({
 			},
 			deleteMessage : function(listId, messageId, archived){
 				var newLists = this.state.lists.slice()
-				var index = newLists[listId].messages.indexOf(messageId);
+				var index = newLists[listId].messages.findIndex(function(x){return x.messageId == messageId;});
 
-				if(archived)
+				if(archived){
 					newLists[listId].archivedMessages.splice(index, 1)
-				else 
+				}else{
 					newLists[listId].messages.splice(index, 1)
-
+				} 
+					
 				this.setState({lists : newLists})
 			},
 			archiveMessage : function (listId, messageId){
-				//var messageToArchive = newLists[listId].messages[messageId]
 				var messageToArchive = Object.assign({}, this.state.lists[listId].messages[messageId])
 				var archiveId = this.state.lists[listId].archivedMessages.length
 
@@ -96,10 +95,9 @@ var MessageBox = React.createClass({
 			},
 			unarchiveMessage : function (listId, messageId){
 				var archivedMessages = this.state.lists[listId].archivedMessages.slice()
-				//var index = this.findIndexById(archivedMessages, messageId)
 				var index = archivedMessages.findIndex(function(archivedMessage){
 					return archivedMessage.messageId === messageId
-				}) // Don't know why this wont work.
+				}) 
 
 				var messageToUnarchive = archivedMessages[index]
 				var newMessageId = this.state.lists[listId].messages.length
