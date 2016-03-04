@@ -1,3 +1,5 @@
+var MessageActions = require("../Actions/message-actions");
+var ListStore = require("../Stores/list-store");
 var React = require("react");
 
 module.exports = React.createClass({
@@ -39,21 +41,21 @@ module.exports = React.createClass({
 	},
 	
 	handleMoveMessage: function() {
-		this.props.onMoveMessage(this.props.message, this.refs.newList.value);
-		this.setState({
-			listSelectionVisible: false
-		})
+        var list = ListStore.getByName(this.refs.newList.Value);
+        if (list) {
+            MessageActions.moveMessage(this.props.message.id, list.id);
+        };
 	},
 	
 	handleDelete: function() {
-		this.props.onDeleteMessage(this.props.message);
+        MessageActions.deleteMessage(this.props.message.id);
 	},
 	
 	handleArchive: function() {
-		this.props.onArchiveMessage(this.props.message);
+        MessageActions.toggleIsArchived(this.props.message.id);
 	},
 	
 	handleUnarchive: function() {
-		this.props.onUnarchiveMessage(this.props.message);
+        MessageActions.toggleIsArchived(this.props.message.id);
 	}
 })

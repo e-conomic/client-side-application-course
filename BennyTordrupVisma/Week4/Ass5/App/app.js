@@ -1,7 +1,7 @@
 var React = require("react");
 
-var List = require("./list");
-var InputField = require("./inputfield");
+var List = require("./Components/list");
+var InputField = require("./Components/inputfield");
 
 var ListActions = require("./Actions/list-actions");
 var MessageActions = require("./Actions/message-actions");
@@ -9,75 +9,35 @@ var MessageActions = require("./Actions/message-actions");
 var ListStore = require("./Stores/list-store");
 var MessageStore = require("./Stores/message-store");
 
-module.exports = React.createClass({
-	getInitialState: function() {
-		return {
-			//lists: []
-			lists: [{
-				name: "List 1", 
-				messages: [ {
-						id: 1,
-						text: "Test 1-1"
-					},
-					{
-						id: 2,
-						text: "Test 1-2",
-						isArchived: true
-					},
-					{
-						id: 3,
-						text: "Test 1-3"
-					},
-					{
-						id: 4,
-						text: "Test 1-4",
-						isArchived: true
-					},
-					{
-						id: 5,
-						text: "Test 1-5"
-					}] 
-			},
-			{
-				name: "List 2", 
-				messages: [ {
-						id: 1,
-						text: "Test 2-1"
-					},
-					{
-						id: 2,
-						text: "Test 2-2",
-						isArchived: true
-					},
-					{
-						id: 3,
-						text: "Test 2-3"
-					},
-					{
-						id: 4,
-						text: "Test 2-4",
-						isArchived: true
-					},
-					{
-						id: 5,
-						text: "Test 2-5"
-					}] 
-			}]
-		}
-	},
-	
+function getAppState(){
+    return {
+        allLists: ListStore.getAll(),
+        allMessages: MessageStore.getAll(),
+    }    
+}
+
+var App = React.createClass({
+    getInitialState: function() {
+        return getAppState();
+    },
+    
+    componentDidMount: function() {
+        ListStore.addChangeListener(this._onChange);
+        MessageStore.addChangeListener(this._onChange);
+    },
+    
+    componentWillUnmount: function() {
+        ListStore.removeChangeListener(this._onChange);
+        MessageStore.removeChangeListener(this._onChange);
+    },
+    
 	render: function() {
-		var listList = this.state.lists.map(function(list, index) {
-			return <List key={index} 
-						list={list} 
-						onArchiveMessage={this.archiveMessage} 
-						onDeleteMessage={this.deleteMessage}
-						onUnarchiveMessage={this.unarchiveMessage}
-						onMoveMessage={this.moveMessage} />
-		}.bind(this));
+        var listList = this.state.allLists.map(function (list, index) {
+            return <List key={index} list={list} messages={this.state.allMessages.filter(m => m.list == list.id)}/>
+        }.bind(this));
 		
 		return 	<div>
-					<InputField handleCommit={this.commitMessage} lists={this.state.lists}/>
+					<InputField handleCommit={this.commitMessage} lists={this.state.allLists}/>
 					<div>
 						<h3>Lists</h3>
 						<div>
@@ -86,6 +46,10 @@ module.exports = React.createClass({
 					</div>
 				</div>
 	},
+    
+    _onChange: function() {
+         this.setState(getAppState());
+    },
 
 	moveMessage: function(message, oldList, newListName) {
 		console.log("Moving message from " + oldList.name + " to " + newListName)
@@ -183,4 +147,6 @@ module.exports = React.createClass({
 			});
 		}
 	},
-})
+});
+
+module.exports = App;

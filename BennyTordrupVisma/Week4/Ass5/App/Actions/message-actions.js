@@ -25,7 +25,7 @@ module.exports = {
         });
     },
     
-    toggleIsArchived: function(messageid) {
+    toggleIsArchived: function(messageId) {
         AppDispatcher.dispatch({
             type: Constants.TOGGLE_IS_ARCHIVED,
             messageId: messageId,

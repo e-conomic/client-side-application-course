@@ -2,12 +2,61 @@ var AppDispatcher = require("../Dispatcher/appDispatcher");
 var Constants = require("../constants");
 var BaseStore = require("./base");
 
-var _messages = [];
+var _messages = [{
+    id: 1,
+    list: 1,
+    text: "Test 1-1"
+}, {
+    id: 2,
+    list: 2,
+    text: "Test 2-1"
+}, {
+    id: 3,
+    list: 1,
+    text: "Test 1-2",
+    isArchived: true
+}, {
+    id: 4,
+    list: 2,
+    text: "Test 2-2",
+    isArchived: true
+}, {
+    id: 5,
+    list: 1,
+    text: "Test 1-3"
+}, {
+    id: 6,
+    list: 2,
+    text: "Test 2-3"
+}, {
+    id: 7,
+    list: 1,
+    text: "Test 1-4",
+    isArchived: true
+}, {
+    id: 8,
+    list: 2,
+    text: "Test 2-4",
+    isArchived: true
+}, {
+    id: 9,
+    list: 1,
+    text: "Test 1-5"
+}, {
+    id: 10,
+    list: 2,
+    text: "Test 2-5"
+}];
 
 var MessageStore = Object.assign({}, BaseStore, {
     getAll: function() {
         var newMessages = _messages.slice();
         return newMessages;
+    },
+    
+    getAllByListId: function(listId) {
+        var listMessages = _messages.filter(m => m.list == listId);
+        return listMessages;
     },
     
     get: function(messageId) {
@@ -41,7 +90,7 @@ function moveMessage(messageId, newListId) {
 }
 
 function toggleIsArchived(messageId){
-    var msgToChange = _messages.find(m => m-id == messageId);
+    var msgToChange = _messages.find(m => m.id == messageId);
     msgToChange.isArchived = !msgToChange.isArchived;
 }
 
