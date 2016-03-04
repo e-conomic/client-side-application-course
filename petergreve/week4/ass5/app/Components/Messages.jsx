@@ -1,21 +1,22 @@
 var React = require('react');
+var MessageActions = require('../actions/message-actions')
 
 module.exports = React.createClass({
 
         handleDeleteClick: function(message) {
-            // this.props.deleteMessage(message.messageId);
+            MessageActions.deleteMessage(message);
         },
         handleArchiveClick: function(message) {
-            // this.props.toggleArchive(message.messageId, true);
+            MessageActions.archiveMessage(message);
         },
         handleUnarchiveClick: function(message) {
-            // this.props.toggleArchive(message.messageId, false);
+            MessageActions.unarchiveMessage(message);
         },
         handleDownClick: function(message) {
-            // this.props.moveMessage(message.messageId, true);
+            MessageActions.moveDownMessage(message);
         },
         handleUpClick: function(message) {
-            // this.props.moveMessage(message.messageId, false);
+            MessageActions.moveUpMessage(message);
         },
         render: function () {
 

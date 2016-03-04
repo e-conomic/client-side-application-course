@@ -1,26 +1,10 @@
 
 var React = require('react');
 var Messages = require('./Messages')
-// var ErrorMessage = require('./ErrorMessage')
 var MessageActions = require('../actions/message-actions')
+var MessageStore = require('../stores/message-store')
 
 module.exports = React.createClass({
-
-        getInitialState: function() {
-            return  {
-                        errorMessage: ''
-                    }
-        },
-
-        handleInput: function() {
-            var message = this.input.value;
-            if (message>200) {
-                this.toggleErrorMessage('Message too long')
-            } else {
-                this.props.createMessage(message,this.props.list.listId);
-                this.toggleErrorMessage('');
-            }
-        },
         render: function() {
             return  <div>
                         {this.props.list.id} - {this.props.list.name}
@@ -35,11 +19,7 @@ module.exports = React.createClass({
                 text: this.input.value,
             }
             MessageActions.createMessage(newMessage);
-        },
-        toggleErrorMessage: function(message) {
-                this.setState({
-                    errorMessage: message
-                 });
-        },
+        }
+
 })
 
