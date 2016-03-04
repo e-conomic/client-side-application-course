@@ -7,21 +7,24 @@ var ListActions = require('../actions/list-actions');
 var MessageStore = require('../stores/message-store');
 
 
-function getListState() {
+function getAppState() {
   return {
-    allLists: ListStore.getAll()
+    allLists: ListStore.getAll(),
+    allMessages: MessageStore.getAll()
   };
 }
 
 module.exports = React.createClass({
         getInitialState: function() {
-            return Object.assign({}, getListState());
+            return Object.assign({}, getAppState());
         },
         componentDidMount: function() {
             ListStore.addChangeListener(this._onChange);
+            MessageStore.addChangeListener(this._onChange);
         },
         componentWillUnmount: function() {
             ListStore.removeChangeListener(this._onChange);
+            MessageStore.removeChangeListener(this._onChange);
         },
         render: function() {
             return  <div>
@@ -31,7 +34,8 @@ module.exports = React.createClass({
                             {this.state.allLists.map(function(list, i) {
                                 return <List
                                             key={i}
-                                            list={list} />;
+                                            list={list}
+                                            messages={this.getMessagesForList(list.id)} />;
                             },this)}
                         </ol>
 
@@ -41,7 +45,12 @@ module.exports = React.createClass({
             ListActions.createList(this.newListName.value);
         },
         _onChange: function() {
-            this.setState(getListState());
+            this.setState(getAppState());
+        },
+        getMessagesForList: function(listId) {
+            return this.state.allMessages.filter((m) => {
+                return m.listId == listId;
+            });
         }
 
 

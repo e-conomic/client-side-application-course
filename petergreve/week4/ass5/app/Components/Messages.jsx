@@ -3,19 +3,19 @@ var React = require('react');
 module.exports = React.createClass({
 
         handleDeleteClick: function(message) {
-            this.props.deleteMessage(message.messageId);
+            // this.props.deleteMessage(message.messageId);
         },
         handleArchiveClick: function(message) {
-            this.props.toggleArchive(message.messageId, true);
+            // this.props.toggleArchive(message.messageId, true);
         },
         handleUnarchiveClick: function(message) {
-            this.props.toggleArchive(message.messageId, false);
+            // this.props.toggleArchive(message.messageId, false);
         },
         handleDownClick: function(message) {
-            this.props.moveMessage(message.messageId, true);
+            // this.props.moveMessage(message.messageId, true);
         },
         handleUpClick: function(message) {
-            this.props.moveMessage(message.messageId, false);
+            // this.props.moveMessage(message.messageId, false);
         },
         render: function () {
 
@@ -25,7 +25,7 @@ module.exports = React.createClass({
 
             return  <div>
                         <ol>
-                            {this.props.messages.map(function(message,i) {
+                            {this.filterArchived(false).map(function(message,i) {
                                 return <div key={i}>
                                             {message.text}
                                             <button type="button" onClick={this.handleDeleteClick.bind(null, message)}>Delete</button>
@@ -36,7 +36,7 @@ module.exports = React.createClass({
                             },this)}
                         </ol>
                         <ol>
-                            {this.props.archived.map(function(message,i) {
+                            {this.filterArchived(true).map(function(message,i) {
                                 return <div style={style} key={i}>
                                             {message.text}
                                             <button type="button" onClick={this.handleUnarchiveClick.bind(null, message)}>Unarchive</button>
@@ -44,6 +44,11 @@ module.exports = React.createClass({
                             },this)}
                         </ol>
                     </div>
+        },
+        filterArchived: function(isArchived) {
+            return this.props.messages.filter((m) => {
+                return m.isArchived == isArchived;
+            });
         }
 
     });

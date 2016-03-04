@@ -2,6 +2,7 @@
 var React = require('react');
 var Messages = require('./Messages')
 // var ErrorMessage = require('./ErrorMessage')
+var MessageActions = require('../actions/message-actions')
 
 module.exports = React.createClass({
 
@@ -24,9 +25,16 @@ module.exports = React.createClass({
             return  <div>
                         {this.props.list.id} - {this.props.list.name}
                         <br />
-                        <input type="text" ref={(component) => this.input = component} /><button type="button" onClick={this.handleInput}>Submit Message</button>
-                        <Messages messages={this.props.messages}} />
+                        <input type="text" ref={(component) => this.input = component} /><button type="button" onClick={this.createMessage}>Submit Message</button>
+                        <Messages messages={this.props.messages} />
                     </div>
+        },
+        createMessage: function() {
+            var newMessage = {
+                listId: this.props.list.id,
+                text: this.input.value,
+            }
+            MessageActions.createMessage(newMessage);
         },
         toggleErrorMessage: function(message) {
                 this.setState({
