@@ -1,34 +1,34 @@
-var Dispatcher = require('flux').Dispatcher;
-var Constants = require('./constants');
+var Dispatcher = require('../dispatcher/dispatcher');
+var Constants = require('../constants/constants');
 var BaseStore = require('./base');
 
-var _list = [];
+var _lists = [{id: 0, name: "first list"},{id: 1, name: "second list"}];
 
-store = Object.assign({}, BaseStore, {
+var ListStore = Object.assign({}, BaseStore, {
 	getAll: function() {
-		return deepCopy(_list);
+		return _lists;
 	},
 	get: function(id) {
-		return Object.assign({}, _list.find(function(l) { return l.id == id }));
-	}
+		return Object.assign({}, _lists.find(function(l) { return l.id == id }));
+	},
+
+
 });
 
-store.dispatchToken = Dispatcher.register(function(payload){
 
-	switch(payload.type) {
-		case Constants.CREATE_LIST:
-			_list.push({
-				id: createId(),
-				name: payload.listName
-			})
-			break
+Dispatcher.register(function(payload){
 
-		default:
-			return;
-	}
+    switch(payload.type) {
+        case Constants.CREATE_LIST:
+            _lists.push({
+                id: _lists.length,
+                name: payload.listName
+            })
+            ListStore.emitChange();
+            break
+    }
+})
 
-	store.emitChange();
-});
 
-return store;
+module.exports = ListStore;
 

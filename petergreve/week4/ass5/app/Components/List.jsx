@@ -1,7 +1,7 @@
 
 var React = require('react');
 var Messages = require('./Messages')
-var ErrorMessage = require('./ErrorMessage')
+// var ErrorMessage = require('./ErrorMessage')
 
 module.exports = React.createClass({
 
@@ -22,16 +22,10 @@ module.exports = React.createClass({
         },
         render: function() {
             return  <div>
-                        {this.props.list.listId} - {this.props.list.listName}
+                        {this.props.list.id} - {this.props.list.name}
                         <br />
                         <input type="text" ref={(component) => this.input = component} /><button type="button" onClick={this.handleInput}>Submit Message</button>
-                        <ErrorMessage errorMessage={this.state.errorMessage} />
-                        <Messages
-                         messages={this.props.messages}
-                         archived={this.props.archived}
-                         toggleArchive={this.props.toggleArchive}
-                         deleteMessage={this.props.deleteMessage}
-                         moveMessage={this.props.moveMessage} />
+                        <Messages messages={this.props.messages}} />
                     </div>
         },
         toggleErrorMessage: function(message) {
@@ -39,4 +33,4 @@ module.exports = React.createClass({
                     errorMessage: message
                  });
         },
-    })
+})
