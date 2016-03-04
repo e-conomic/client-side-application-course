@@ -6,7 +6,7 @@ var _lists = [{id: 0, name: "first list"},{id: 1, name: "second list"}];
 
 var ListStore = Object.assign({}, BaseStore, {
 	getAll: function() {
-		return _lists;
+		return JSON.parse(JSON.stringify(_lists));
 	},
 	get: function(id) {
 		return Object.assign({}, _lists.find(function(l) { return l.id == id }));
