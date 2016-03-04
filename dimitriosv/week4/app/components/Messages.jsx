@@ -20,7 +20,6 @@ var Messages = React.createClass({
                                             messageIsArchived={message.isArchived} 
                                             deleteMessageParent={this.props.deleteMessageParent}
                                             toggleArchiveMessageParent={this.props.toggleArchiveMessageParent}
-                                            addMessageParent={this.props.addMessageParent}
                                             allLists={this.props.allLists}
                                         />
                                     </div>)
@@ -37,9 +36,6 @@ var Messages = React.createClass({
                                         <Message  messageId={message.messageId} 
                                             messageText={message.text}
                                             messageIsArchived={message.isArchived} 
-                                            deleteMessageParent={this.props.deleteMessageParent}
-                                            toggleArchiveMessageParent={this.props.toggleArchiveMessageParent}
-                                            addMessageParent={this.props.addMessageParent}
                                             allLists={this.props.allLists}
                                         />
                                     </div>)

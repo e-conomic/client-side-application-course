@@ -1,6 +1,7 @@
 import Messages from './Messages.jsx';
 var React = require('react');
 var ReactDOM = require('react-dom');
+var MessageActions = require('../actions/message-actions.js');
 
 var List = React.createClass({
         getInitialState: function() {
@@ -19,7 +20,6 @@ var List = React.createClass({
                          {/*console.log(thats how you comment inside return)*/}
                          <Messages  deleteMessageParent={this.props.deleteMessageParent}
                                     toggleArchiveMessageParent={this.props.toggleArchiveMessageParent}
-                                    addMessageParent={this.props.addMessageParent}
                                     messages={this.filterMessages()} 
                                     allLists={this.props.allLists}/> 
                     </div>
@@ -28,7 +28,7 @@ var List = React.createClass({
             if (!this.state.inputMessageName || this.state.inputMessageName.length>200) {
                 alert("Message length not valid!")
             } else {
-                this.props.addMessageParent(this.state.listId, this.state.inputMessageName)
+                MessageActions.addMessage(this.state.listId,this.state.inputMessageName);
             }
         },
         filterMessages: function() {
@@ -48,7 +48,5 @@ var List = React.createClass({
         }
     })
 
- 
- 
 
- module.exports = List;
+module.exports = List;

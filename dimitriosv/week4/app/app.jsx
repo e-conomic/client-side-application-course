@@ -2,115 +2,50 @@ import List from './components/List.jsx';
 var React = require('react');
 var ReactDOM = require('react-dom');
 var ListActions = require('./actions/list-actions.js');
+var ListStore = require('./stores/list-store.js');
+var MessageActions = require('./actions/message-actions.js');
+var MessageStore = require('./stores/message-store.js');
+
+
 
 var App = React.createClass({
     componentDidMount: function() {
-
+        ListStore.addChangeListener(this.onStoreChange);
+        MessageStore.addChangeListener(this.onStoreChange);
+    },
+    onStoreChange: function() {
+        console.log("onStoreChange")
+        //console.log(ListStore.getAll())
+        this.setState({
+            totalLists: ListStore.getTotalElements(),
+            totalMessages: MessageStore.getTotalElements(),
+            lists: ListStore.getAll(),
+            allMessages: MessageStore.getAll(),
+        });
     },
     getInitialState: function() {
-            return {  //This state can be changed to empty of course
-                totalLists:2,
-                totalMessages:4,
-                inputListName:"",
-                lists: [{listId: 1, listName: "first list1"},{listId: 2, listName: "second list2"}],
-                allMessages: [  {messageId:1, belongsToList: 1, text: "testmessage1", isArchived: false},
-                {messageId:2, belongsToList: 1, text: "testmessage2", isArchived: false},
-                {messageId:3, belongsToList: 1, text: "testmessage3", isArchived: false},
-                {messageId:4, belongsToList: 2, text: "testmessage4", isArchived: false}]
-            };
-        },
-        eachList: function(list, i) {  
-            return (
-                <List key={list.listId}
-                index={i}
-                listName={list.listName}
-                listId={list.listId}
-                allLists={this.state.lists}
-                addMessageParent={this.addMessageParent}
-                deleteMessageParent={this.deleteMessageParent}
-                toggleArchiveMessageParent={this.toggleArchiveMessageParent}
-                allMessages={this.state.allMessages}
-                >{list}</List>
-                );
-        },
-        createList: function(evt) {
-
-            var listName = this.state.inputListName;
-            ListActions.createList(listName);
-            /*
-            if (this.state.inputListName=="") {
-                alert("Cannot add list with no name!")
-            } else {
-                var newlistId=this.state.totalLists
-                newlistId++; 
-                var newList = {
-                    listId: newlistId,
-                    listName: this.state.inputListName
-                };
-
-            //var lists=this.state.lists; //WRONG! THIS DOES NOT CREATE A NEW INSTANCE
-            var lists =Array.from(this.state.lists);   //this creates a new instance
-
-            lists.push(newList)   
-
-            this.setState({
-                lists: lists,
-                totalLists: this.state.totalLists+1
-            });
-        }
-
-        */
-    },
-    addMessageParent: function(listId,MessageToAdd) {
-
-        var newMessageId=this.state.totalMessages
-        newMessageId++; 
-
-
-        var newMessage = {
-            messageId:newMessageId,
-            belongsToList: listId,
-            text: MessageToAdd,
-            isArchived: false
+        return {
+            totalLists: ListStore.getTotalElements(),
+            totalMessages: MessageStore.getTotalElements(),
+            inputListName:"",
+            lists: ListStore.getAll(),
+            allMessages: MessageStore.getAll(),
         };
-
-        var allMessages=this.state.allMessages;
-
-        allMessages.push(newMessage)
-
-        this.setState({
-            allMessages: allMessages,
-            totalMessages: this.state.totalMessages+1
-
-        });
     },
-    deleteMessageParent: function(messageId) {
-        var allMessages=this.state.allMessages;
-
-        var newArray = allMessages.filter(function(obj) {
-            return messageId!=(obj.messageId) 
-        });
-
-        this.setState({
-            allMessages: newArray
-        });
-
+    eachList: function(list, i) {  
+        return (
+            <List key={list.listId}
+            index={i}
+            listName={list.listName}
+            listId={list.listId}
+            allLists={this.state.lists}
+            allMessages={this.state.allMessages}
+            >{list}</List>
+            );
     },
-    toggleArchiveMessageParent: function(messageId) {
-        var allMessages=this.state.allMessages;
-        allMessages.forEach(function(obj) {
-            if (obj.messageId === messageId) {
-                if (obj.isArchived) {
-                    obj.isArchived=false;
-                } else {
-                    obj.isArchived=true;
-                }
-            }
-        });
-
-        this.setState({
-          allMessages: allMessages
-      });
+    createList: function(evt) {
+        var listName = this.state.inputListName;
+        ListActions.createList(listName);
     },
     handleChange: function(evt) {
         this.setState({

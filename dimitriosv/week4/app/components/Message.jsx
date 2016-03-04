@@ -1,5 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var MessageActions = require('../actions/message-actions.js');
 
 
 var Message = React.createClass({
@@ -30,15 +31,15 @@ var Message = React.createClass({
     },
     moveMessage: function(e) {
         var Listid=e.target.value;  
-        //i am not sure if this is the correct way to communicate with the "grand-parent"
-        this.props.addMessageParent(Listid,this.props.messageText)        
-        this.props.deleteMessageParent(this.props.messageId)
+        MessageActions.addMessage(Listid,this.props.messageText);
+        MessageActions.deleteMessage(this.props.messageId);
+
     },
     deleteMessageChild: function(messageid) {
-        this.props.deleteMessageParent(messageid)
+        MessageActions.deleteMessage(messageid)
     },
     toggleArchiveMessageChild: function(messageid) {
-        this.props.toggleArchiveMessageParent(messageid)
+        MessageActions.toggleArchiveMessage(messageid)
     }
 });
 
