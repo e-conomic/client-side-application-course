@@ -2,6 +2,10 @@ var React = require('react');
 
 var OnPressingEnterMixin = require('../mixins/on-pressing-enter-mixin');
 var GeneratedList = require('./generated-list');
+var GeneratedListActions = require('../actions/list-actions');
+var GeneratedListStore = require('../stores/list-store');
+var MessageListActions = require('../actions/message-actions');
+var MessageListStore = require('../stores/message-store');
 
 var AssignmentApp = React.createClass({
 	mixins: [
@@ -16,32 +20,32 @@ var AssignmentApp = React.createClass({
 
 	getInitialState: function() {
 		return {
-			generatedLists: [],
-			listName: '',
-			index: 0
+			generatedLists: GeneratedListStore.getAll(),
+			listName: ''
 		}
+	},
+
+	componentDidMount: function() {
+		GeneratedListStore.addChangeListener(this._onChange);
+	},
+
+	componentWillUnmount: function() {
+		GeneratedListStore.removeChangeListener(this._onChange);
 	},
 
 	onChange: function(e) {
 		this.setState({ listName: e.target.value });
 	},
 
+	_onChange: function() {
+		this.setState({ 
+			generatedLists: GeneratedListStore.getAll(),
+			listName: ''
+		});
+	},
+
 	submitNewList: function() {
-		if (this.state.listName === '') { return; };
-		var listsCopy = this.state.generatedLists.slice();
-		var newIndex = this.state.index;
-		listsCopy.push({
-			name: this.state.listName,
-			index: this.state.index,
-			messageList: [],
-			archivedList: []
-		});
-		newIndex++;
-		this.setState({
-			generatedLists: listsCopy,
-			listName: '',
-			index: newIndex
-		});
+		GeneratedListActions.createList(this.state.listName);
 	},
 
 	submitMessage: function(listKey, msgText) {

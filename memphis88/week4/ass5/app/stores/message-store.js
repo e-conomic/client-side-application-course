@@ -1,8 +1,10 @@
-var Dispatcher = require('flux').Dispatcher;
-var Constants = require('./constants');
-var BaseStore = require('./base');
+var Dispatcher = require('../dispatcher/dispatcher');
+var Constants = require('../dispatcher/constants');
+var BaseStore = require('../dispatcher/base');
 
-store = Object.assign({}, BaseStore, {
+var _messages = [];
+
+var store = Object.assign({}, BaseStore, {
 	// TODO
 });
 
@@ -17,5 +19,5 @@ store.dispatchToken = Dispatcher.register(function(payload){
 	store.emitChange();
 });
 
-return store;
+module.exports = store;
 

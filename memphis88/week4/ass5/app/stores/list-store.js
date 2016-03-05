@@ -1,10 +1,18 @@
-var Dispatcher = require('flux').Dispatcher;
-var Constants = require('./constants');
-var BaseStore = require('./base');
+var Dispatcher = require('../dispatcher/dispatcher');
+var Constants = require('../dispatcher/constants');
+var BaseStore = require('../dispatcher/base');
 
 var _list = [];
 
-store = Object.assign({}, BaseStore, {
+function deepCopy(list) {
+	return JSON.parse(JSON.stringify(list));
+}
+
+function createId() {
+	return Date.now();
+}
+
+var store = Object.assign({}, BaseStore, {
 	getAll: function() {
 		return deepCopy(_list);
 	},
@@ -14,14 +22,15 @@ store = Object.assign({}, BaseStore, {
 });
 
 store.dispatchToken = Dispatcher.register(function(payload){
-
 	switch(payload.type) {
 		case Constants.CREATE_LIST:
 			_list.push({
-				id: createId(),
-				name: payload.listName
-			})
-			break
+				index: createId(),
+				name: payload.listName,
+				messageList: [],
+				archivedList: []
+			});
+			break;
 
 		default:
 			return;
@@ -30,5 +39,4 @@ store.dispatchToken = Dispatcher.register(function(payload){
 	store.emitChange();
 });
 
-return store;
-
+module.exports = store;
