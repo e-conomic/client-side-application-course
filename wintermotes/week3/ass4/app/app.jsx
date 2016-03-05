@@ -15,7 +15,7 @@ var DeleteMessageField = require('./components/fields').DeleteMessageField
 var ArchiveMessageField = require('./components/fields').ArchiveMessageField
 
 var MessageBox = React.createClass({
-	    	getInitialState : function() {
+			getInitialState : function() {
 				var lists = [
 					{
 						listId : 0, 
@@ -72,7 +72,6 @@ var MessageBox = React.createClass({
 			},
 			moveMessage: function(listId, newListId, messageId){
 				var lists = this.state.lists.slice()
-				//var messageToMove = lists[listId].messages[messageId]
 				var messageToMove = Object.assign({}, lists[listId].messages[messageId])
 
 				lists[listId].messages.splice(messageId, 1)
@@ -82,7 +81,7 @@ var MessageBox = React.createClass({
 			},
 			deleteMessage : function(listId, messageId, archived){
 				var newLists = this.state.lists.slice()
-				var index = newLists[listId].messages.indexOf(messageId);
+				var index = newLists[listId].messages.findIndex(function(x){return x.messageId == messageId;});
 
 				if(archived)
 					newLists[listId].archivedMessages.splice(index, 1)
@@ -92,7 +91,6 @@ var MessageBox = React.createClass({
 				this.setState({lists : newLists})
 			},
 			archiveMessage : function (listId, messageId){
-				//var messageToArchive = newLists[listId].messages[messageId]
 				var messageToArchive = Object.assign({}, this.state.lists[listId].messages[messageId])
 				var archiveId = this.state.lists[listId].archivedMessages.length
 
@@ -104,10 +102,9 @@ var MessageBox = React.createClass({
 			},
 			unarchiveMessage : function (listId, messageId){
 				var archivedMessages = this.state.lists[listId].archivedMessages.slice()
-				//var index = this.findIndexById(archivedMessages, messageId)
 				var index = archivedMessages.findIndex(function(archivedMessage){
 					return archivedMessage.messageId === messageId
-				}) // Don't know why this wont work.
+				}) 
 
 				var messageToUnarchive = archivedMessages[index]
 				var newMessageId = this.state.lists[listId].messages.length
@@ -126,30 +123,30 @@ var MessageBox = React.createClass({
 				}
 			},
 			render: function() {
-		    	return (
-		    		<div id="container">
-			      		<h1>Message box Week 2, Assignment 3: Create lists and messages</h1>
-			      		<CreateListField onListSubmit={this.createList}/>
-			      		<CreateMessageField onMessageSubmit={this.createMessage} lists={this.state.lists} />
-			      		<OutputField lists={this.state.lists} onMessageArchive={this.archiveMessage} onMessageChange={this.moveMessage} onMessageDelete={this.deleteMessage}
-			      		 onMessageUnarchive={this.unarchiveMessage}/>
-		      		</div>
-		    	);
-		  	}
+				return (
+					<div id="container">
+						<h1>Message box Week 2, Assignment 3: Create lists and messages</h1>
+						<CreateListField onListSubmit={this.createList}/>
+						<CreateMessageField onMessageSubmit={this.createMessage} lists={this.state.lists} />
+						<OutputField lists={this.state.lists} onMessageArchive={this.archiveMessage} onMessageChange={this.moveMessage} onMessageDelete={this.deleteMessage}
+						 onMessageUnarchive={this.unarchiveMessage}/>
+					</div>
+				);
+			}
 		});
 
 		var OutputField = React.createClass({
 			render: function() {
-			    var lists = this.props.lists.map(function(list) {
-		        	return (
-		        	<div>
-			      		<List data={list} onMessageUnarchive={this.props.onMessageUnarchive}/>
-			      		<MoveMessageField lists={this.props.lists} listId={list.listId} onMessageChange={this.props.onMessageChange} />
-			      		<DeleteMessageField onMessageDelete={this.props.onMessageDelete} listId={list.listId} messages={list.messages}/>
-			      		<ArchiveMessageField onMessageArchive={this.props.onMessageUnarchive} listId={list.listId} messages={list.messages}/>
-			      	</div>
-			        );
-			    }.bind(this));
+				var lists = this.props.lists.map(function(list) {
+					return (
+					<div>
+						<List data={list} onMessageUnarchive={this.props.onMessageUnarchive}/>
+						<MoveMessageField lists={this.props.lists} listId={list.listId} onMessageChange={this.props.onMessageChange} />
+						<DeleteMessageField onMessageDelete={this.props.onMessageDelete} listId={list.listId} messages={list.messages}/>
+						<ArchiveMessageField onMessageArchive={this.props.onMessageUnarchive} listId={list.listId} messages={list.messages}/>
+					</div>
+					);
+				}.bind(this));
 				return (
 					<div>
 						<p>Hello there this is the Output box, listing the lists</p>
