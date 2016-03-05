@@ -31,10 +31,11 @@ We will continue to work on the code from last week.
 * You will be paired before code-review
 * All review comments/feedback should be reported using GitHub 
 
-Review peers:
+__Review peers:__
 
-pcolliander - memphis88
-BennyTordrupVisma - DenLilleMand
-dimitriosv - petergreve
+pcolliander - memphis88  
+BennyTordrupVisma - DenLilleMand  
+dimitriosv - petergreve  
 wintermotes - hulvei3
 
+Code review is an essential part of software development at e-conomic. Focussing on readability and common sense, you should review each others code and a constructive manner, but still challenge the solutions and question everything you, as reviewer don't get. Come with suggestions for improvements and _remember to complement_ brilliant solutions or ways of doing things you haven't thought of yourself.
