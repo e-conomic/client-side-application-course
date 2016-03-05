@@ -23,7 +23,7 @@ export default class Message extends React.Component {
                 {this.props.message.id}:
                 {this.props.message.text}:
                 {this.props.message.isArchived ? "ARCHIVED" : "NOT ARCHIVED"}
-                <button onClick={this.archive}>{this.props.message.isArchived ? "Unarchive" : "isArchived"}</button>
+                <button onClick={this.archive}>{this.props.message.isArchived ? "Unarchive" : "Archive"}</button>
                 <button onClick={this.deleteMessage}>Delete</button>
             </div>
 
