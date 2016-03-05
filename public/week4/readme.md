@@ -31,3 +31,10 @@ We will continue to work on the code from last week.
 * You will be paired before code-review
 * All review comments/feedback should be reported using GitHub 
 
+Review peers:
+
+pcolliander - memphis88
+BennyTordrupVisma - DenLilleMand
+dimitriosv - petergreve
+wintermotes - hulvei3
+
