@@ -38,7 +38,7 @@ var AssignmentApp = React.createClass({
 	},
 
 	_onChange: function() {
-		this.setState({ 
+		this.setState({
 			generatedLists: GeneratedListStore.getAll(),
 			listName: ''
 		});
@@ -49,16 +49,17 @@ var AssignmentApp = React.createClass({
 	},
 
 	submitMessage: function(listKey, msgText) {
-		if (msgText === '') { return; };
-		if (this.isValidMessage(msgText)) {	
-			var updatedGeneratedLists = JSON.parse(JSON.stringify(this.state.generatedLists));
-			var generatedList = this.getGeneratedListFromArray(listKey, updatedGeneratedLists);
-			generatedList.messageList.push({
-				text: msgText,
-				index: Date.now()
-			});
-			this.setState({	generatedLists: updatedGeneratedLists });
-		}
+		// if (msgText === '') { return; };
+		// if (this.isValidMessage(msgText)) {
+		// 	var updatedGeneratedLists = JSON.parse(JSON.stringify(this.state.generatedLists));
+		// 	var generatedList = this.getGeneratedListFromArray(listKey, updatedGeneratedLists);
+		// 	generatedList.messageList.push({
+		// 		text: msgText,
+		// 		index: Date.now()
+		// 	});
+		// 	this.setState({	generatedLists: updatedGeneratedLists });
+		// }
+		MessageListActions.createMessage(listKey, msgText);
 	},
 
 	deleteMessage: function(listKey, msgKey) {
@@ -131,15 +132,15 @@ var AssignmentApp = React.createClass({
 
 	render: function() {
 		var createLists = function(generatedList) {
-			return <GeneratedList 
-				key={generatedList.index} 
-				myListKey={generatedList.index} 
+			return <GeneratedList
+				key={generatedList.index}
+				myListKey={generatedList.index}
 				data={generatedList}
-				generatedLists={this.state.generatedLists} 
-				onMoveMessage={this.moveMessage} 
-				onSubmitMessage={this.submitMessage} 
-				onArchiveMessage={this.archiveMessage} 
-				onDeleteMessage={this.deleteMessage} 
+				generatedLists={this.state.generatedLists}
+				onMoveMessage={this.moveMessage}
+				onSubmitMessage={this.submitMessage}
+				onArchiveMessage={this.archiveMessage}
+				onDeleteMessage={this.deleteMessage}
 				onExtractMessage={this.extractMessage} />
 		};
 		return (

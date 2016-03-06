@@ -1,6 +1,6 @@
 var Dispatcher = require('../dispatcher/dispatcher');
 var Constants = require('../dispatcher/constants');
-var BaseStore = require('../dispatcher/base');
+var BaseStore = require('./base');
 
 var _list = [];
 
