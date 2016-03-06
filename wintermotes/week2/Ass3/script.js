@@ -148,7 +148,7 @@ var MessageBox = React.createClass({
 			render: function() {
 				var messageNodes = this.props.messages.map(function(message){
 					return (
-						<Message listId={message.listId} messageId={message.messageId} messageText={message.messageText} archived={message.archived} />	
+						<Message key={message.messageId} listId={message.listId} messageId={message.messageId} messageText={message.messageText} archived={message.archived} />	
 					);
 				});
 				return(
@@ -167,16 +167,14 @@ var MessageBox = React.createClass({
 					margin: '48px 0 0 0',
 					color: 'gray'
 				}
-				var unarchiveFunction = this.props.onMessageUnarchive
 				var messageNodes = this.props.archivedMessages.map(function(message){
 					return (
-						<span>
-
+						<span key={"archived-message" + message.messageId}>
 							<ArchivedMessage listId={message.listId} messageId={message.messageId} messageText={message.messageText} archived={message.archived} 
-							 onMessageUnarchive={unarchiveFunction}/>		
+							 onMessageUnarchive={this.props.onMessageUnarchive}/>		
 						</span>
 					);
-				});
+				}.bind(this));
 				return (
 					<div style={archiveStyle}>
 						<p><b>Archived Messages: </b></p>
@@ -233,7 +231,7 @@ var MessageBox = React.createClass({
 			render: function() {
 			var listOptionValues = this.props.lists.map(function(list) {
 		        return (
-			      <option value={list.listId}>{list.listName}</option>
+			      <option key={list.listId} value={list.listId}>{list.listName}</option>
 			    );
 		    });
 				return (
@@ -241,7 +239,7 @@ var MessageBox = React.createClass({
 					<p>Add a new message to one of the lists:</p>
 			        <input type="text" onChange={this.handleText} />
 			        <select name="list" onChange={this.handleListId}>
-			        <option selected>Choose List: </option>
+			        <option>Choose List: </option>
 					    {listOptionValues}
 					</select>
 					<input type="submit" value="Submit Message" onClick={this.submitMessage} />
@@ -287,19 +285,19 @@ var MessageBox = React.createClass({
 			render: function() {
 			var listOptionValues = this.props.lists.map(function(list) {
 		        return (
-			      <option value={list.listId}>{list.listName}</option>
+			      <option key={list.listId} value={list.listId}>{list.listName}</option>
 			    );
 		    });
 		    var messageOptionValues = this.props.lists[this.props.listId].messages.map(function(message) {
 		        return (
-			      <option value={message.messageId}>{message.messageText}</option>
+			      <option key={message.messageId} value={message.messageId}>{message.messageText}</option>
 			    );
 		    });
 			    return (
 			      <div>
 			        <p><b>Move message from list {this.props.listId}: </b></p> 
 					<select onChange={this.handleMessageOptionValues}>
-			        	<option selected>Choose Message</option>
+			        	<option>Choose Message</option>
 					    {messageOptionValues}
 					</select>
 					<select onChange={this.handleListOptionValues}>
@@ -323,14 +321,14 @@ var MessageBox = React.createClass({
 			render: function(){
 				var messageOptionValues = this.props.messages.map(function(message) {
 			        return (
-				      <option value={message.messageId}>{message.messageText}</option>
+				      <option key={message.messageId} value={message.messageId}>{message.messageText}</option>
 				    );
 		   		});
 				return (
 					<div>
 						<p><b>DeleteMessageField</b></p>
 						<select onChange={this.handleMessageChange}>
-				        	<option value="" selected>Choose message to delete:</option>
+				        	<option value="">Choose message to delete:</option>
 						    {messageOptionValues}
 						</select>
 						<input type="submit" value="Delete Message" onClick={this.submitMessageDelete} />
@@ -350,14 +348,14 @@ var MessageBox = React.createClass({
 			render: function(){
 				var messageOptionValues = this.props.messages.map(function(message) {
 			        return (
-				      <option value={message.messageId}>{message.messageText}</option>
+				      <option key={message.messageId} value={message.messageId}>{message.messageText}</option>
 				    );
 		   		});
 				return (
 					<div>
 						<p><b>ArchiveMessageField</b></p>
 							<select onChange={this.handleMessageValue}>
-					        	<option value="" selected>Choose message to archive:</option>
+					        	<option value="">Choose message to archive:</option>
 							    {messageOptionValues}
 							</select>
 							<input type="submit" value="Archive Message" onClick={this.handleMessageArchive} />
@@ -371,18 +369,13 @@ var MessageBox = React.createClass({
 		var OutputField = React.createClass({
 			render: function() {
 				// Question 5: how to access props inside of a map() function, or is there another more clean way?
-				var data = this.props.lists
-				var editFunction = this.props.onMessageChange
-				var deleteMessageFunction = this.props.onMessageDelete
-				var archiveMessageFunction = this.props.onMessageArchive
-				var unarchiveMessageFunction = this.props.onMessageUnarchive
 			    var lists = this.props.lists.map(function(list) {
 		        	return (
-		        	<div>
+		        	<div key ={"output" + list.listId}>
 			      		<List data={list} onMessageUnarchive={this.props.onMessageUnarchive}/>
 			      		<EditListField lists={this.props.lists} listId={list.listId} onMessageChange={this.props.onMessageChange} />
 			      		<DeleteMessageField onMessageDelete={this.props.onMessageDelete} listId={list.listId} messages={list.messages}/>
-			      		<ArchiveMessageField onMessageArchive={archiveMessageFunction} listId={list.listId} messages={list.messages}/>
+			      		<ArchiveMessageField onMessageArchive={this.props.archiveMessageFunction} listId={list.listId} messages={list.messages}/>
 			      	</div>
 			        );
 			    }.bind(this));
