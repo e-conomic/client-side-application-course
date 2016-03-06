@@ -11,7 +11,7 @@ module.exports = React.createClass({
 	
 	render: function() {
         var otherLists = ListStore.getAll().filter(l => l.id != this.props.message.list).map((list, index) => {
-            return <option value={list.id}>{list.name}</option>
+            return <option key={list.id} value={list.id}>{list.name}</option>
         });
                          
 		var archivedMessage =	<div className="archived-message">

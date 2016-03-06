@@ -1,3 +1,7 @@
+var MessageStore = require("../Stores/message-store");
+var ListStore = require("../Stores/list-store");
+var MessageActions = require("../Actions/message-actions");
+var ListActions = require("../Actions/list-actions");
 var React = require("react");
 
 module.exports = React.createClass({
@@ -21,8 +25,9 @@ module.exports = React.createClass({
 			window.alert("You have to enter a name on the list to add message to.");
 			return false;
 		}
-		
-		if (this.props.lists.some(l => l.messages.some(m => m.text == input))) {
+
+        var messages = MessageStore.getAll();
+        if (messages.some(m => m.text == input)) {		
 			window.alert("The message is already member of a list and cannot be added");
 			return false;
 		}
@@ -32,9 +37,16 @@ module.exports = React.createClass({
 	
 	handleCommit: function() {
 		var input = this.refs.input.value;
-		var list = this.refs.listInput.value;
-		if (this.isInputValid(input, list)) {
-			this.props.handleCommit(input, list);
+		var listName = this.refs.listInput.value;
+		if (this.isInputValid(input, listName)) {
+            var list = ListStore.getByName(listName);
+            if (!list) {
+                ListActions.createList(listName);
+                list = ListStore.getByName(listName);
+            }
+            if (list){
+                MessageActions.createMessage(input, list.id);
+            }
 			this.refs.input.value = '';
 			this.refs.listInput.value = '';
 			this.refs.input.focus();

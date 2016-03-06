@@ -61,7 +61,7 @@ var MessageStore = Object.assign({}, BaseStore, {
     
     get: function(messageId) {
         var message = _messages.find(m => m.id == messageId);
-        return Object.assign({}, message);
+        return (message) ? Object.assign({}, message) : null;
     },
 });
 

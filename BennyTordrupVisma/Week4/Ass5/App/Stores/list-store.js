@@ -19,12 +19,12 @@ var ListStore = Object.assign({}, BaseStore, {
     
     get: function(listId) {
         var list = _lists.find(l => l.id == listId);
-        return Object.assign({}, list);
+        return (list) ? Object.assign({}, list) : null;
     },
     
     getByName: function(listName) {
         var list = _lists.find(l => l.name == listName);
-        return Object.assign({}, list);
+        return (list) ? Object.assign({}, list) : null;
     }
     
 });
