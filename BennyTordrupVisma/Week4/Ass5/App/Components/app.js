@@ -1,13 +1,13 @@
 var React = require("react");
 
-var List = require("./Components/list");
-var InputField = require("./Components/inputfield");
+var List = require("../Components/list");
+var InputField = require("../Components/inputfield");
 
-var ListActions = require("./Actions/list-actions");
-var MessageActions = require("./Actions/message-actions");
+var ListActions = require("../Actions/list-actions");
+var MessageActions = require("../Actions/message-actions");
 
-var ListStore = require("./Stores/list-store");
-var MessageStore = require("./Stores/message-store");
+var ListStore = require("../Stores/list-store");
+var MessageStore = require("../Stores/message-store");
 
 function getAppState(){
     return {

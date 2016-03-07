@@ -2,6 +2,7 @@ var AppDispatcher = require("../Dispatcher/appDispatcher");
 var Constants = require("../constants");
 var BaseStore = require("./base");
 
+//var _lists = [];
 var _lists = [{
     id: 1,
     name: 'List 1',
@@ -30,8 +31,12 @@ var ListStore = Object.assign({}, BaseStore, {
 });
 
 function generateId() {
-    var ids = _lists.map(l => l.id);
-    return Math.max(...ids) + 1;
+    if (_lists.length == 0) {
+        return 1;
+    } else {
+        var ids = _lists.map(l => l.id);
+        return Math.max(...ids) + 1;
+    }
 }
 
 function createList(listName) {

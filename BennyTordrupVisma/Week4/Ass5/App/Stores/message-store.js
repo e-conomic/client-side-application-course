@@ -1,7 +1,10 @@
 var AppDispatcher = require("../Dispatcher/appDispatcher");
 var Constants = require("../constants");
 var BaseStore = require("./base");
+var ListStore = require("../Stores/list-store");
+var ListActions = require("../Actions/list-actions");
 
+//var _messages = [];
 var _messages = [{
     id: 1,
     list: 1,
@@ -66,17 +69,48 @@ var MessageStore = Object.assign({}, BaseStore, {
 });
 
 function generateId() {
-    var ids = _messages.map(m => m.id);
-    return Math.max(...ids) + 1;
+    if (_messages.length == 0) {
+        return 1;
+    } else {
+        var ids = _messages.map(m => m.id);
+        return Math.max(...ids) + 1;
+    }
 }
 
+function isMessageValid(input, listId) {
+    if (input.length == 0) {
+        window.alert("You must enter a text to add.");
+        return false;
+    }
+    
+    if (input.length > 200)	{
+        window.alert("The input may not exceed 200 characters.");
+        return false;
+    }
+    
+    if (listId == 0) {
+        window.alert("You have to select a list to add message to.");
+        return false;
+    }
+
+    var messages = MessageStore.getAll();
+    if (messages.some(m => m.text == input)) {		
+        window.alert("The message is already member of a list and cannot be added");
+        return false;
+    }
+    
+    return true;
+}
+	
 function createMessage(messageText, listId) {
-    _messages.push({
-        id: generateId(),
-        text: messageText,
-        isArchived: false,
-        list: listId
-    });
+    if (isMessageValid(messageText, listId)) {
+        _messages.push({
+            id: generateId(),
+            text: messageText,
+            isArchived: false,
+            list: listId
+        });
+    }
 }
 
 function deleteMessage(messageId) {
