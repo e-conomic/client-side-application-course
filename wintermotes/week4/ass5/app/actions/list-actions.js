@@ -1,5 +1,5 @@
-var Constants = require('../constants');
-var Dispatcher = require('../dispatcher').Dispatcher;
+var Constants = require('../constants')
+var Dispatcher = require('../dispatcher')
 
 console.log(Dispatcher)
 

@@ -42,9 +42,9 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/*!*****************!*\
-  !*** ./app.jsx ***!
-  \*****************/
+/*!****************!*\
+  !*** ./app.js ***!
+  \****************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -68,99 +68,31 @@
 	var ListActions = __webpack_require__(/*! ./actions/list-actions */ 162);
 	var ListStore = __webpack_require__(/*! ./stores/list-store */ 168);
 
+	function getAppState() {
+		return {
+			lists: ListStore.getAll()
+		};
+	}
+
 	var MessageBox = React.createClass({
 		displayName: 'MessageBox',
 
 		getInitialState: function getInitialState() {
-			var lists = [{
-				listId: 0,
-				listName: 'List1',
-				messages: [{ messageId: 0, messageText: "List1 msg1", archived: false, listId: 0 }, { messageId: 1, messageText: "List1 msg2", archived: false, listId: 0 }],
-				archivedMessages: [{ messageId: 0, messageText: "Archived: List1 msg1", archived: true, listId: 0 }, { messageId: 1, messageText: "Archived: List1 msg2", archived: true, listId: 0 }]
-			}, {
-				listId: 1,
-				listName: 'List2',
-				messages: [{ messageId: 0, messageText: "List2 msg1", archived: false, listId: 1 }, { messageId: 1, messageText: "List2 msg2", archived: false, listId: 1 }, { messageId: 2, messageText: "List2 msg3", archived: false, listId: 1 }],
-				archivedMessages: [{ messageId: 0, messageText: "Archived: List1 msg1", archived: true, listId: 1 }, { messageId: 1, messageText: "Archived: List1 msg2", archived: true, listId: 1 }]
-			}];
-			return { lists: lists };
+			var storeLists = getAppState();
+			return storeLists;
 		},
-		createList: function createList(listName) {
-			var listId = this.state.lists.length;
-			var listObject = { listId: listId, listName: listName, messages: [], archivedMessages: [] };
-			ListActions.createList(listName);
 
-			this.setState({
-				lists: this.state.lists.concat([listObject])
-			});
+		// Question/discussion 1: ComponentDidMount and componentWillUnmount seems essential to FLUX: http://stackoverflow.com/questions/26325675/how-to-handle-data-changes-in-flux-react
+		// But how would you describe them? Any comparisons to other applications? 
+		componentDidMount: function componentDidMount() {
+			console.log("Componenet did mount: ");
+			ListStore.addChangeListener(this._onChange);
 		},
-		createMessage: function createMessage(messageObject, listId) {
-			console.log("Create Message call");
-			var newList = Object.assign({}, this.state.lists[listId]);
-			if (messageObject.archived) {
-				var newMessages = newList.archivedMessages.slice();
-				newMessages.push(messageObject);
-				newList.archivedMessages = newMessages;
-			} else {
-				var newMessages = newList.messages.slice();
-				newMessages.push(messageObject);
-				newList.messages = newMessages;
-			}
-
-			this.setState({ lists: this.state.lists.map(function (list) {
-					return list.listId === parseInt(listId) ? newList : list;
-				}) });
+		componentWillUnmount: function componentWillUnmount() {
+			ListStore.removeChangeListener(this._onChange);
 		},
-		moveMessage: function moveMessage(listId, newListId, messageId) {
-			var lists = this.state.lists.slice();
-			var messageToMove = Object.assign({}, lists[listId].messages[messageId]);
-
-			lists[listId].messages.splice(messageId, 1);
-			messageToMove.messageId = lists[newListId].messages.length;
-			messageToMove.listId = newListId;
-			this.createMessage(messageToMove, newListId);
-		},
-		deleteMessage: function deleteMessage(listId, messageId, archived) {
-			var newLists = this.state.lists.slice();
-			var index = newLists[listId].messages.findIndex(function (x) {
-				return x.messageId == messageId;
-			});
-
-			if (archived) newLists[listId].archivedMessages.splice(index, 1);else newLists[listId].messages.splice(index, 1);
-
-			this.setState({ lists: newLists });
-		},
-		archiveMessage: function archiveMessage(listId, messageId) {
-			var messageToArchive = Object.assign({}, this.state.lists[listId].messages[messageId]);
-			var archiveId = this.state.lists[listId].archivedMessages.length;
-
-			messageToArchive.archived = true;
-			messageToArchive.messageId = archiveId;
-
-			this.deleteMessage(listId, messageId, false);
-			this.createMessage(messageToArchive, listId);
-		},
-		unarchiveMessage: function unarchiveMessage(listId, messageId) {
-			var archivedMessages = this.state.lists[listId].archivedMessages.slice();
-			var index = archivedMessages.findIndex(function (archivedMessage) {
-				return archivedMessage.messageId === messageId;
-			});
-
-			var messageToUnarchive = archivedMessages[index];
-			var newMessageId = this.state.lists[listId].messages.length;
-
-			messageToUnarchive.archived = false;
-			messageToUnarchive.messageId = newMessageId;
-
-			this.deleteMessage(listId, messageId, true);
-			this.createMessage(messageToUnarchive, listId);
-		},
-		findIndexById: function findIndexById(list, id) {
-			for (var i = 0; i < list.length; i++) {
-				if (list[i].messageId == id) {
-					return i;
-				}
-			}
+		_onChange: function _onChange() {
+			this.setState(getAppState());
 		},
 		render: function render() {
 			return React.createElement(
@@ -186,7 +118,7 @@
 			var lists = this.props.lists.map(function (list) {
 				return React.createElement(
 					'div',
-					null,
+					{ key: "output-" + list.listId },
 					React.createElement(List, { data: list, onMessageUnarchive: this.props.onMessageUnarchive }),
 					React.createElement(MoveMessageField, { lists: this.props.lists, listId: list.listId, onMessageChange: this.props.onMessageChange }),
 					React.createElement(DeleteMessageField, { onMessageDelete: this.props.onMessageDelete, listId: list.listId, messages: list.messages }),
@@ -20338,9 +20270,9 @@
 
 /***/ },
 /* 159 */
-/*!*****************************!*\
-  !*** ./components/list.jsx ***!
-  \*****************************/
+/*!****************************!*\
+  !*** ./components/list.js ***!
+  \****************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20375,8 +20307,8 @@
 						' |'
 					)
 				),
-				React.createElement(Messages, { messages: this.props.data.messages }),
-				React.createElement(ArchivedMessages, { archivedMessages: this.props.data.archivedMessages, onMessageUnarchive: this.props.onMessageUnarchive })
+				React.createElement(Messages, { listId: this.props.data.listId }),
+				React.createElement(ArchivedMessages, { listId: this.props.data.listId })
 			);
 		}
 	});
@@ -20385,9 +20317,9 @@
 
 /***/ },
 /* 160 */
-/*!********************************!*\
-  !*** ./components/message.jsx ***!
-  \********************************/
+/*!*******************************!*\
+  !*** ./components/message.js ***!
+  \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20398,13 +20330,10 @@
 		displayName: 'Messages',
 
 		render: function render() {
-			var messageNodes = this.props.messages.map(function (message) {
-				return React.createElement(Message, { listId: message.listId, messageId: message.messageId, messageText: message.messageText, archived: message.archived });
-			});
 			return React.createElement(
 				'div',
 				null,
-				messageNodes
+				'Messages from store:'
 			);
 		}
 	});
@@ -20413,7 +20342,7 @@
 		displayName: 'ArchivedMessage',
 
 		handleMessageUnarchive: function handleMessageUnarchive() {
-			this.props.onMessageUnarchive(this.props.listId, this.props.messageId);
+			//this.props.onMessageUnarchive(this.props.listId, this.props.messageId)
 		},
 		render: function render() {
 			var boolToString = this.props.archived.toString();
@@ -20424,14 +20353,7 @@
 				React.createElement(
 					'p',
 					null,
-					'messageId: ',
-					this.props.messageId,
-					' | Text: ',
-					this.props.messageText,
-					' | Archived: ',
-					boolToString,
-					' | ListId: ',
-					this.props.listId
+					' Archived Message goes here: '
 				)
 			);
 		}
@@ -20446,15 +20368,7 @@
 				margin: '48px 0 0 0',
 				color: 'gray'
 			};
-			var unarchiveFunction = this.props.onMessageUnarchive;
-			var messageNodes = this.props.archivedMessages.map(function (message) {
-				return React.createElement(
-					'span',
-					null,
-					React.createElement(ArchivedMessage, { listId: message.listId, messageId: message.messageId, messageText: message.messageText, archived: message.archived,
-						onMessageUnarchive: unarchiveFunction })
-				);
-			});
+			//var unarchiveFunction = this.props.onMessageUnarchive
 			return React.createElement(
 				'div',
 				{ style: archiveStyle },
@@ -20466,8 +20380,7 @@
 						null,
 						'Archived Messages: '
 					)
-				),
-				messageNodes
+				)
 			);
 		}
 	});
@@ -20476,18 +20389,11 @@
 		displayName: 'Message',
 
 		render: function render() {
-			var boolToString = this.props.archived.toString();
+			//var boolToString = this.props.archived.toString()
 			return React.createElement(
 				'p',
 				null,
-				'messageId: ',
-				this.props.messageId,
-				' | Text: ',
-				this.props.messageText,
-				' | Archived: ',
-				boolToString,
-				' | ListId: ',
-				this.props.listId
+				' Message goes here: '
 			);
 		}
 	});
@@ -20496,9 +20402,9 @@
 
 /***/ },
 /* 161 */
-/*!*******************************!*\
-  !*** ./components/fields.jsx ***!
-  \*******************************/
+/*!******************************!*\
+  !*** ./components/fields.js ***!
+  \******************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20510,6 +20416,8 @@
 	var archivedMessages = __webpack_require__(/*! ./message */ 160).ArchivedMessages;
 	var ArchivedMessage = __webpack_require__(/*! ./message */ 160).ArchivedMessage;
 
+	var ListActions = __webpack_require__(/*! ../actions/list-actions */ 162);
+
 	var CreateListField = React.createClass({
 		displayName: 'CreateListField',
 
@@ -20518,7 +20426,7 @@
 		},
 		submitList: function submitList(event) {
 			event.preventDefault();
-			this.props.onListSubmit(this.state.text);
+			ListActions.createList(this.state.text);
 		},
 		render: function render() {
 			return React.createElement(
@@ -20552,18 +20460,11 @@
 			event.preventDefault(); // So we don't refresh page when submitting a message
 			if (this.state.messageText.length >= 200) return;
 			var listId = this.state.listId;
-			var messageId = this.props.lists[this.state.listId].messages.length;
-			var message = { messageId: messageId, messageText: this.state.messageText, archived: false, listId: listId };
-			this.props.onMessageSubmit(message, listId);
+			//var messageId = this.props.lists[this.state.listId].messages.length
+			var message = { messageId: 1, messageText: this.state.messageText, archived: false, listId: listId };
+			//this.props.onMessageSubmit(message, listId)
 		},
 		render: function render() {
-			var listOptionValues = this.props.lists.map(function (list) {
-				return React.createElement(
-					'option',
-					{ value: list.listId },
-					list.listName
-				);
-			});
 			return React.createElement(
 				'div',
 				null,
@@ -20578,10 +20479,9 @@
 					{ name: 'list', onChange: this.handleListId },
 					React.createElement(
 						'option',
-						{ selected: true },
+						null,
 						'Choose List: '
-					),
-					listOptionValues
+					)
 				),
 				React.createElement('input', { type: 'submit', value: 'Submit Message', onClick: this.submitMessage })
 			);
@@ -20597,7 +20497,6 @@
 			};
 		},
 		handleListOptionValues: function handleListOptionValues(event) {
-			var list = this.props.lists[event.target.value];
 			this.setState({ newListId: event.target.value });
 		},
 		handleMessageOptionValues: function handleMessageOptionValues(event) {
@@ -20605,23 +20504,9 @@
 		},
 		submitMessageChange: function submitMessageChange(event) {
 			event.preventDefault();
-			this.props.onMessageChange(this.props.listId, this.state.newListId, this.state.messageId);
+			//this.props.onMessageChange(this.props.listId, this.state.newListId, this.state.messageId)
 		},
 		render: function render() {
-			var listOptionValues = this.props.lists.map(function (list) {
-				return React.createElement(
-					'option',
-					{ value: list.listId },
-					list.listName
-				);
-			});
-			var messageOptionValues = this.props.lists[this.props.listId].messages.map(function (message) {
-				return React.createElement(
-					'option',
-					{ value: message.messageId },
-					message.messageText
-				);
-			});
 			return React.createElement(
 				'div',
 				null,
@@ -20631,9 +20516,7 @@
 					React.createElement(
 						'b',
 						null,
-						'Move message from list ',
-						this.props.listId,
-						': '
+						'Move message from list: '
 					)
 				),
 				React.createElement(
@@ -20641,10 +20524,9 @@
 					{ onChange: this.handleMessageOptionValues },
 					React.createElement(
 						'option',
-						{ selected: true },
+						null,
 						'Choose Message'
-					),
-					messageOptionValues
+					)
 				),
 				React.createElement(
 					'select',
@@ -20653,8 +20535,7 @@
 						'option',
 						null,
 						'Choose list'
-					),
-					listOptionValues
+					)
 				),
 				React.createElement('input', { type: 'submit', value: 'Move Message', onClick: this.submitMessageChange })
 			);
@@ -20666,19 +20547,12 @@
 
 		submitMessageDelete: function submitMessageDelete(event) {
 			event.preventDefault();
-			this.props.onMessageDelete(this.props.listId, this.state.messageId);
+			//this.props.onMessageDelete(this.props.listId, this.state.messageId)
 		},
 		handleMessageChange: function handleMessageChange(event) {
 			this.setState({ messageId: event.target.value });
 		},
 		render: function render() {
-			var messageOptionValues = this.props.messages.map(function (message) {
-				return React.createElement(
-					'option',
-					{ value: message.messageId },
-					message.messageText
-				);
-			});
 			return React.createElement(
 				'div',
 				null,
@@ -20696,10 +20570,9 @@
 					{ onChange: this.handleMessageChange },
 					React.createElement(
 						'option',
-						{ value: '', selected: true },
+						null,
 						'Choose message to delete:'
-					),
-					messageOptionValues
+					)
 				),
 				React.createElement('input', { type: 'submit', value: 'Delete Message', onClick: this.submitMessageDelete })
 			);
@@ -20711,19 +20584,12 @@
 
 		handleMessageArchive: function handleMessageArchive(event) {
 			event.preventDefault();
-			this.props.onMessageArchive(this.props.listId, this.state.messageId);
+			//this.props.onMessageArchive(this.props.listId, this.state.messageId)
 		},
 		handleMessageValue: function handleMessageValue(event) {
 			this.setState({ messageId: event.target.value });
 		},
 		render: function render() {
-			var messageOptionValues = this.props.messages.map(function (message) {
-				return React.createElement(
-					'option',
-					{ value: message.messageId },
-					message.messageText
-				);
-			});
 			return React.createElement(
 				'div',
 				null,
@@ -20741,10 +20607,9 @@
 					{ onChange: this.handleMessageValue },
 					React.createElement(
 						'option',
-						{ value: '', selected: true },
+						null,
 						'Choose message to archive:'
-					),
-					messageOptionValues
+					)
 				),
 				React.createElement('input', { type: 'submit', value: 'Archive Message', onClick: this.handleMessageArchive })
 			);
@@ -20763,7 +20628,7 @@
 	'use strict';
 
 	var Constants = __webpack_require__(/*! ../constants */ 163);
-	var Dispatcher = __webpack_require__(/*! ../dispatcher */ 164).Dispatcher;
+	var Dispatcher = __webpack_require__(/*! ../dispatcher */ 164);
 
 	console.log(Dispatcher);
 
@@ -20804,7 +20669,7 @@
 
 	'use strict';
 
-	// Any reasons for having this file?
+	// Any ways to get around to have a file for it?
 	var Dispatcher = __webpack_require__(/*! flux */ 165).Dispatcher;
 
 	module.exports = new Dispatcher();
@@ -21144,38 +21009,50 @@
 	var Constants = __webpack_require__(/*! ../constants */ 163);
 	var BaseStore = __webpack_require__(/*! ./base */ 169);
 
-	var _list = [];
+	var _lists = [{
+		listId: 0,
+		listName: 'StoreList1'
+	}, {
+		listId: 1,
+		listName: 'StoreList2'
+	}];
 
-	var listStore = Object.assign({}, BaseStore, {
+	var ListStore = Object.assign({}, BaseStore, {
 		getAll: function getAll() {
-			return deepCopy(_list);
+			return JSON.parse(JSON.stringify(_lists));
 		},
 		get: function get(id) {
-			return Object.assign({}, _list.find(function (l) {
+			return Object.assign({}, _lists.find(function (l) {
 				return l.id == id;
 			}));
 		}
 	});
 
+	console.log("list-store here: ");
 	console.log(Dispatcher);
 
-	listStore.dispatchToken = Dispatcher.register(function (payload) {
+	ListStore.dispatchToken = Dispatcher.register(function (payload) {
 		console.log("Registering dispatcher with paylod: ");
 		console.log(payload);
 		switch (payload.type) {
 			case Constants.CREATE_LIST:
-				_list.push({
-					id: 125,
-					name: payload.listName
+				_lists.push({
+					listId: _lists.length + 1,
+					listName: payload.listName
 				});
+				console.log("Lists is now: ");
+				console.log(_lists);
+				ListStore.emitChange();
 				break;
 
 			default:
 				return;
 		}
 
-		store.emitChange();
+		ListStore.emitChange();
 	});
+
+	module.exports = ListStore;
 
 /***/ },
 /* 169 */

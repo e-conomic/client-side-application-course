@@ -2,33 +2,48 @@ var Dispatcher = require('../dispatcher');
 var Constants = require('../constants');
 var BaseStore = require('./base');
 
-var _list = [];
+var _lists = [
+				{
+					listId : 0, 
+					listName : 'StoreList1', 
+				},
+				{
+					listId : 1, 
+					listName : 'StoreList2', 
+				}
+			];
 
-var listStore = Object.assign({}, BaseStore, {
+var ListStore = Object.assign({}, BaseStore, {
 	getAll: function() {
-		return deepCopy(_list);
+		return JSON.parse(JSON.stringify(_lists));
 	},
 	get: function(id) {
-		return Object.assign({}, _list.find(function(l) { return l.id == id }));
+		return Object.assign({}, _lists.find(function(l) { return l.id == id }));
 	}
 });
 
+console.log("list-store here: ")
 console.log(Dispatcher)
 
-listStore.dispatchToken = Dispatcher.register(function(payload){
+ListStore.dispatchToken = Dispatcher.register(function(payload){
 	console.log("Registering dispatcher with paylod: ")
 	console.log(payload)
 	switch(payload.type) {
 		case Constants.CREATE_LIST:
-			_list.push({
-				id: 125,
-				name: payload.listName
+			_lists.push({
+				listId: _lists.length + 1,
+				listName: payload.listName
 			})
+			console.log("Lists is now: ")
+			console.log(_lists)
+			ListStore.emitChange()
 			break
 
 		default:
 			return;
 	}
 
-	store.emitChange();
+	ListStore.emitChange();
 });
+
+module.exports = ListStore;

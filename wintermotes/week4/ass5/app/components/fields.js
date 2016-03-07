@@ -5,13 +5,15 @@ var Message = require('./message').Message
 var archivedMessages = require('./message').ArchivedMessages
 var ArchivedMessage = require('./message').ArchivedMessage
 
+var ListActions = require('../actions/list-actions');
+
 var CreateListField = React.createClass({
 	handleText: function(event){
 		this.setState({text: event.target.value})
 	},
 	submitList: function(event){
 		event.preventDefault();
-		this.props.onListSubmit(this.state.text)
+		ListActions.createList(this.state.text)
 	},
 	render:function() {
 		return (
@@ -36,23 +38,17 @@ var CreateMessageField = React.createClass({
 		if(this.state.messageText.length >= 200)
 			return
 		var listId = this.state.listId
-		var messageId = this.props.lists[this.state.listId].messages.length
-		var message = {messageId : messageId, messageText : this.state.messageText, archived : false, listId : listId}
-		this.props.onMessageSubmit(message, listId)
+		//var messageId = this.props.lists[this.state.listId].messages.length
+		var message = {messageId : 1, messageText : this.state.messageText, archived : false, listId : listId}
+		//this.props.onMessageSubmit(message, listId)
 	},
 	render: function() {
-	var listOptionValues = this.props.lists.map(function(list) {
-        return (
-	      <option value={list.listId}>{list.listName}</option>
-	    );
-    });
 		return (
 		<div>
 			<p>Add a new message to one of the lists:</p>
 	        <input type="text" onChange={this.handleText} />
 	        <select name="list" onChange={this.handleListId}>
-	        <option selected>Choose List: </option>
-			    {listOptionValues}
+	        <option>Choose List: </option>
 			</select>
 			<input type="submit" value="Submit Message" onClick={this.submitMessage} />
       	</div>
@@ -67,7 +63,6 @@ var MoveMessageField = React.createClass({
 		}
 	},
 	handleListOptionValues: function(event){
-		var list = this.props.lists[event.target.value]
 		this.setState({newListId : event.target.value})
 	},
 	handleMessageOptionValues : function(event){
@@ -75,30 +70,18 @@ var MoveMessageField = React.createClass({
 	},
 	submitMessageChange : function (event){
 		event.preventDefault();
-		this.props.onMessageChange(this.props.listId, this.state.newListId, this.state.messageId)
+		//this.props.onMessageChange(this.props.listId, this.state.newListId, this.state.messageId)
 	},
 	render: function() {
-	var listOptionValues = this.props.lists.map(function(list) {
-        return (
-	      <option value={list.listId}>{list.listName}</option>
-	    );
-    });
-    var messageOptionValues = this.props.lists[this.props.listId].messages.map(function(message) {
-        return (
-	      <option value={message.messageId}>{message.messageText}</option>
-	    );
-    });
 	    return (
 	      <div>
-	        <p><b>Move message from list {this.props.listId}: </b></p> 
+	        <p><b>Move message from list: </b></p> 
 			<select onChange={this.handleMessageOptionValues}>
-	        	<option selected>Choose Message</option>
-			    {messageOptionValues}
+	        	<option>Choose Message</option>
 			</select>
 			<select onChange={this.handleListOptionValues}>
 	        	<option>Choose list</option>
-			    {listOptionValues}
-			</select>
+			 </select>
 			<input type="submit" value="Move Message" onClick={this.submitMessageChange} />
         </div>
 	    );
@@ -108,23 +91,17 @@ var MoveMessageField = React.createClass({
 var DeleteMessageField = React.createClass({
 	submitMessageDelete : function(event) {
 		event.preventDefault();
-		this.props.onMessageDelete(this.props.listId, this.state.messageId)
+		//this.props.onMessageDelete(this.props.listId, this.state.messageId)
 	},
 	handleMessageChange : function(event) {
 		this.setState({messageId : event.target.value})
 	},
 	render: function(){
-		var messageOptionValues = this.props.messages.map(function(message) {
-	        return (
-		      <option value={message.messageId}>{message.messageText}</option>
-		    );
-   		});
 		return (
 			<div>
 				<p><b>DeleteMessageField</b></p>
 				<select onChange={this.handleMessageChange}>
-		        	<option value="" selected>Choose message to delete:</option>
-				    {messageOptionValues}
+		        	<option>Choose message to delete:</option>
 				</select>
 				<input type="submit" value="Delete Message" onClick={this.submitMessageDelete} />
 			</div>
@@ -135,23 +112,17 @@ var DeleteMessageField = React.createClass({
 var ArchiveMessageField = React.createClass({
 	handleMessageArchive : function (event) {
 		event.preventDefault();
-		this.props.onMessageArchive(this.props.listId, this.state.messageId)
+		//this.props.onMessageArchive(this.props.listId, this.state.messageId)
 	},
 	handleMessageValue : function (event){
 		this.setState({messageId : event.target.value})
 	},
 	render: function(){
-		var messageOptionValues = this.props.messages.map(function(message) {
-	        return (
-		      <option value={message.messageId}>{message.messageText}</option>
-		    );
-   		});
 		return (
 			<div>
 				<p><b>ArchiveMessageField</b></p>
 					<select onChange={this.handleMessageValue}>
-			        	<option value="" selected>Choose message to archive:</option>
-					    {messageOptionValues}
+			        	<option>Choose message to archive:</option>
 					</select>
 					<input type="submit" value="Archive Message" onClick={this.handleMessageArchive} />
 			</div>
