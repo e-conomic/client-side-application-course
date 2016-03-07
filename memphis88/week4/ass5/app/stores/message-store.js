@@ -27,8 +27,13 @@ store.dispatchToken = Dispatcher.register(function(payload){
 
 	switch(payload.type) {
 		case Constants.CREATE_MESSAGE:
-			list = ListStore.get(payload.listKey);
-			
+			var list = ListStore.get(payload.listKey);
+			/*
+			 * Should stores communicate with eachother and in what way?
+			 * What happens with complex models, how can a store retrieve state from another store and manipulate it?
+			 * It feels that react discourages models with deep nested objects; more like 1 store for every top level object
+			 * and avoid deep nesting - it is better to create multuple shallow objects and cross-relate those?
+			 */
 			break;
 
 		default:
