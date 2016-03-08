@@ -3,7 +3,6 @@ Going forward - focus on new assignments
 
 #### Week 4 follow up
 * drilldown of one of the reviews. 
-*
 
 ### Week 5 - Flux part 2
 
@@ -11,7 +10,7 @@ Going forward - focus on new assignments
 
 Expand your app from assginment 5:
 
-- Create a new components that shows all messages across the system according to the mockup
+- Create a new components that shows all messages across the system according to [the mockup](https://github.com/e-conomic/client-side-application-course/master/public/week5/readme.md#Mockup)
 - The user should be able to filter out some lists (using checkboxes) and thereby only see messages on the component for the selected lists
 - The new component should list the messages alphabetically
 - The user should be able to perform the same actions on each message in the new component (archive, move, delete, _not create_)
@@ -23,3 +22,6 @@ New Validation rules:
 - Each message must have unique content across the system.
 - If a message doesn't validate upon creation, the notification bar should show an error message.
 - If a message _do_ validate, the notification bar should show an success message.
+
+##### Mockup
+<img width=700 src="https://github.com/e-conomic/client-side-application-course/blob/master/public/week5/mockup.png" />
