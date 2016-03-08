@@ -2,38 +2,54 @@ var React = require('react');
 
 var Message = require('./message');
 var GeneratedListDropDown = require('./generated-list-dropdown');
+var MessageStore = require('../stores/message-store');
+var MessageListActions = require('../actions/message-actions');
 
 var MessageList = React.createClass({
 
-	handleMessageDelete: function(key) {
-		this.props.onDeleteMessage(key);
+	getInitialState: function() {
+		return {
+			messageList: MessageStore.getAll()
+		};
 	},
 
-	handleMessageArchive: function(key) {
-		this.props.onArchiveMessage(key);
+	componentDidMount: function() {
+		MessageStore.addChangeListener(this._onChange);
 	},
 
-	onMoveMessage: function(msg, targetListKey) {
-		this.props.onMoveMessage(msg, targetListKey);
+	componentWillUnmount: function() {
+		MessageStore.removeChangeListener(this._onChange);
+	},
+
+	_onChange: function() {
+		this.setState({messageList: MessageStore.getAll()});
+	},
+
+	onDeleteMessage: function(msgId) {
+		MessageListActions.deleteMessage(msgId);
+	},
+
+	onArchiveMessage: function(msgId) {
+		MessageListActions.archiveMessage(msgId);
 	},
 
 	render: function() {
+		var messages = [];
+		var myListKey = this.props.myListKey;
+		messages = this.state.messageList.filter(function(msg) { return msg.listKey == myListKey });
 		var createMessage = function(msg) {
 			return (
-				<tr key={msg.index}>
-					<td><Message text={msg.text} /></td>
+				<tr key={msg.id}>
+					<td><Message text={msg.message} /></td>
 					<td><GeneratedListDropDown 
-						generatedLists={this.props.generatedLists} 
 						myListKey={this.props.myListKey} 
-						msg={msg} 
-						onMoveMessage={this.onMoveMessage} 
-					/></td>
-					<td><input type="button" value="X" onClick={this.handleMessageDelete.bind(this, msg.index)} /></td>
-					<td><input type="button" value="Archive" onClick={this.handleMessageArchive.bind(this, msg.index)} /></td>
+						msgId={msg.id} /></td>
+					<td><input type="button" value="X" onClick={this.onDeleteMessage.bind(this, msg.id)} /></td>
+					<td><input type="button" value="Archive" onClick={this.onArchiveMessage.bind(this, msg.id)} /></td>
 				</tr>
 			);
 		}
-		return <table><tbody>{this.props.messageList.map(createMessage, this)}</tbody></table>;
+		return <table><tbody>{messages.map(createMessage, this)}</tbody></table>;
 	}
 });
 

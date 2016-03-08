@@ -17,5 +17,34 @@ module.exports = {
 				message: msgText
 			});
 		}
+	},
+
+	deleteMessage: function(msgId) {
+		Dispatcher.dispatch({
+			type: Constants.DELETE_MESSAGE,
+			id: msgId
+		});
+	},
+
+	moveMessage: function(msgId, targetListId) {
+		Dispatcher.dispatch({
+			type: Constants.MOVE_MESSAGE,
+			id: msgId,
+			listKey: targetListId
+		});
+	},
+
+	archiveMessage: function(msgId) {
+		Dispatcher.dispatch({
+			type: Constants.ARCHIVE_MESSAGE,
+			id: msgId
+		});
+	},
+
+	extractMessage: function(msgId) {
+		Dispatcher.dispatch({
+			type: Constants.EXTRACT_MESSAGE,
+			id: msgId
+		});
 	}
 }

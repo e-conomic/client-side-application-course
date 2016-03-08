@@ -1,7 +1,7 @@
 var Dispatcher = require('../dispatcher/dispatcher');
 var Constants = require('../dispatcher/constants');
 var BaseStore = require('./base');
-var ListStore = require('./list-store');
+var ArchiveMessageStore = require('../stores/archive-message-store');
 
 var _messages = [];
 
@@ -27,13 +27,24 @@ store.dispatchToken = Dispatcher.register(function(payload){
 
 	switch(payload.type) {
 		case Constants.CREATE_MESSAGE:
-			var list = ListStore.get(payload.listKey);
-			/*
-			 * Should stores communicate with eachother and in what way?
-			 * What happens with complex models, how can a store retrieve state from another store and manipulate it?
-			 * It feels that react discourages models with deep nested objects; more like 1 store for every top level object
-			 * and avoid deep nesting - it is better to create multuple shallow objects and cross-relate those?
-			 */
+			_messages.push({
+				id: createId(),
+				listKey: payload.listKey,
+				message: payload.message
+			});
+			break;
+		case Constants.DELETE_MESSAGE:
+			var msgToDelete = _messages.find(function(l) { return l.id == payload.id });
+			_messages.splice(_messages.indexOf(msgToDelete), 1);
+			break;
+		case Constants.MOVE_MESSAGE:
+			
+			break;
+		case Constants.ARCHIVE_MESSAGE:
+			console.log(ArchiveMessageStore);
+			Dispatcher.waitFor([ArchiveMessageStore.dispatchToken]);
+			var msgToDelete = _messages.find(function(l) { return l.id == payload.id });
+			_messages.splice(_messages.indexOf(msgToDelete), 1);
 			break;
 
 		default:

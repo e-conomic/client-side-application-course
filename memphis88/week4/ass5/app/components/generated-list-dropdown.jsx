@@ -1,4 +1,5 @@
 var React = require('react');
+var ListStore = require('../stores/list-store');
 
 var GeneratedListDropDown = React.createClass({
 	propTypes: {
@@ -21,13 +22,13 @@ var GeneratedListDropDown = React.createClass({
 
 	render: function() {
 		var createDropdownList = function(list) {
-			if (this.props.myListKey == list.index) { return; }
-			return <option key={list.index} value={list.index}>{list.name}</option>
+			if (this.props.myListKey == list.id) { return; }
+			return <option key={list.id} value={list.id}>{list.name}</option>
 		};
 		return (
 			<select onChange={this.onChange}>
 				<option key="null" value="-" />
-				{this.props.generatedLists.map(createDropdownList, this)}
+				{ListStore.getAll().map(createDropdownList, this)}
 			</select>
 		);
 	}

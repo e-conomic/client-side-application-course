@@ -1,8 +1,16 @@
 var React = require('react');
 
 var Message = require('./message');
+var ArchiveListStore = require('../stores/archive-message-store');
 
 var ArchiveList = React.createClass({
+
+	getInitialState: function() {
+		return {
+			archivedList: ArchiveListStore.getAll()
+		}
+	},
+
 	handleMessageExtract: function(key) {
 		this.props.onExtractMessage(key);
 	},
@@ -20,7 +28,7 @@ var ArchiveList = React.createClass({
 			<table>
 				<thead><tr><td colSpan="2">{"---Archive---"}</td></tr></thead>
 				<tbody>
-					{this.props.archivedList.map(createMessage, this)}
+					{this.state.archivedList.map(createMessage, this)}
 				</tbody>
 			</table>
 		);

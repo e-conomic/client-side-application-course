@@ -3,6 +3,7 @@ var React = require('react');
 var OnPressingEnterMixin = require('../mixins/on-pressing-enter-mixin');
 var ArchiveList = require('./archive-list');
 var MessageList = require('./message-list');
+var MessageListActions = require('../actions/message-actions');
 
 var GeneratedList = React.createClass({
 	mixins: [
@@ -17,7 +18,6 @@ var GeneratedList = React.createClass({
 
 	getInitialState: function () {
 		return {
-			messageList: [],
 			text: ''
 		};
 	},
@@ -26,30 +26,16 @@ var GeneratedList = React.createClass({
 		this.setState({ text: e.target.value });
 	},
 
-	onMoveMessage: function(msg, targetListKey) {
-		this.props.onMoveMessage(msg, this.props.data.index, targetListKey);
-	},
-
-	onDeleteMessage: function(msgKey) {
-		this.props.onDeleteMessage(this.props.data.index, msgKey);
-	},
-
-	onArchiveMessage: function(msgKey) {
-		this.props.onArchiveMessage(this.props.data.index, msgKey);
-	},
-
-	onExtractMessage: function(msgKey) {
-		this.props.onExtractMessage(this.props.data.index, msgKey);
-	},
-
 	onClick: function() { 
-		this.props.onSubmitMessage(this.props.data.index, this.state.text);
+		MessageListActions.createMessage(this.props.data.id, this.state.text);
 		this.setState({
 			text: ''
-		})
+		});
+
 	},
 
 	render: function() {
+
 		return (
 			<div className="generatedLists">
 				<h3>{this.props.data.name}</h3>
@@ -57,14 +43,9 @@ var GeneratedList = React.createClass({
 				<input type="text" onChange={this.onChange} value={this.state.text} onKeyDown={this.onPressingEnter} />
 				<input type="button" value="add" onClick={this.onClick} />
 				<MessageList 
-					messageList={this.props.data.messageList} 
-					generatedLists={this.props.generatedLists} 
-					onDeleteMessage={this.onDeleteMessage} 
-					onArchiveMessage={this.onArchiveMessage} 
-					onMoveMessage={this.onMoveMessage} 
-					myListKey={this.props.myListKey} 
+					myListKey={this.props.data.id} 
 				/>
-				<ArchiveList archivedList={this.props.data.archivedList} onExtractMessage={this.onExtractMessage} />
+				<ArchiveList onExtractMessage={this.onExtractMessage} />
 			</div>
 		);
 	}

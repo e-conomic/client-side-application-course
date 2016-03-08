@@ -5,7 +5,6 @@ var GeneratedList = require('./generated-list');
 var GeneratedListActions = require('../actions/list-actions');
 var GeneratedListStore = require('../stores/list-store');
 var MessageListActions = require('../actions/message-actions');
-var MessageListStore = require('../stores/message-store');
 
 var AssignmentApp = React.createClass({
 	mixins: [
@@ -15,7 +14,6 @@ var AssignmentApp = React.createClass({
 	propTypes: {
 		generatedLists: React.PropTypes.array,
 		listName: React.PropTypes.string,
-		index: React.PropTypes.number
 	},
 
 	getInitialState: function() {
@@ -48,25 +46,11 @@ var AssignmentApp = React.createClass({
 		GeneratedListActions.createList(this.state.listName);
 	},
 
-	submitMessage: function(listKey, msgText) {
-		// if (msgText === '') { return; };
-		// if (this.isValidMessage(msgText)) {
-		// 	var updatedGeneratedLists = JSON.parse(JSON.stringify(this.state.generatedLists));
-		// 	var generatedList = this.getGeneratedListFromArray(listKey, updatedGeneratedLists);
-		// 	generatedList.messageList.push({
-		// 		text: msgText,
-		// 		index: Date.now()
-		// 	});
-		// 	this.setState({	generatedLists: updatedGeneratedLists });
-		// }
-		MessageListActions.createMessage(listKey, msgText);
-	},
-
 	deleteMessage: function(listKey, msgKey) {
 		var updatedGeneratedLists = JSON.parse(JSON.stringify(this.state.generatedLists));
 		var generatedList = this.getGeneratedListFromArray(listKey, updatedGeneratedLists);
 		generatedList.messageList = generatedList.messageList.filter(function(message) {
-			return message.index != msgKey;
+			return message.id != msgKey;
 		});
 		this.setState({	generatedLists: updatedGeneratedLists });
 	},
@@ -76,7 +60,7 @@ var AssignmentApp = React.createClass({
 		var generatedList = this.getGeneratedListFromArray(listKey, updatedGeneratedLists);
 		var msgToArchive;
 		var updatedList = generatedList.messageList.filter(function(message) {
-			if (message.index == msgKey) {
+			if (message.id == msgKey) {
 				msgToArchive = message;
 				return false;
 			}
@@ -92,7 +76,7 @@ var AssignmentApp = React.createClass({
 		var generatedList = this.getGeneratedListFromArray(listKey, updatedGeneratedLists);
 		var msgToExtract;
 		generatedList.archivedList = generatedList.archivedList.filter(function(message) {
-			if (message.index == msgKey) {
+			if (message.id == msgKey) {
 				msgToExtract = message;
 				return false;
 			}
@@ -109,39 +93,25 @@ var AssignmentApp = React.createClass({
 		var targetList = this.getGeneratedListFromArray(targetListKey, updatedGeneratedLists);
 		targetList.messageList.push(msg);
 		oldList.messageList = oldList.messageList.filter(function(message) {
-			return message.index != msg.index;
+			return message.id != msg.id;
 		});
 		this.setState({ generatedLists: updatedGeneratedLists });
 	},
 
 	getGeneratedListFromArray: function(listKey, clonedList) {
 		var generatedList = clonedList.filter(function(list) {
-			return list.index == listKey;
+			return list.id == listKey;
 		});
 		return generatedList[0];
 	},
 
 	onClick: function() { this.submitNewList() },
 
-	isValidMessage: function(msg) {
-		if (msg.length <= 200) {
-			return true;
-		}
-		return false;
-	},
-
 	render: function() {
 		var createLists = function(generatedList) {
 			return <GeneratedList
-				key={generatedList.index}
-				myListKey={generatedList.index}
-				data={generatedList}
-				generatedLists={this.state.generatedLists}
-				onMoveMessage={this.moveMessage}
-				onSubmitMessage={this.submitMessage}
-				onArchiveMessage={this.archiveMessage}
-				onDeleteMessage={this.deleteMessage}
-				onExtractMessage={this.extractMessage} />
+				key={generatedList.id}
+				data={generatedList} />
 		};
 		return (
 			<div>

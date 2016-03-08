@@ -25,10 +25,8 @@ store.dispatchToken = Dispatcher.register(function(payload){
 	switch(payload.type) {
 		case Constants.CREATE_LIST:
 			_list.push({
-				index: createId(),
-				name: payload.listName,
-				messageList: [],
-				archivedList: []
+				id: createId(),
+				name: payload.listName
 			});
 			break;
 
