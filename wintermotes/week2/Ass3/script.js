@@ -76,8 +76,12 @@ var MessageBox = React.createClass({
 				var index = newLists[listId].messages.findIndex(function(x){return x.messageId == messageId;});
 
 				if(archived){
-					newLists[listId].archivedMessages.splice(index, 1)
+					var archivedMessages = newLists[listId].archivedMessages
+					archivedMessages.splice(index, 1)
+					newLists[listId].archivedMessages = archivedMessages
 				}else{
+					var messages = newLists[listId].messages
+					messages.splice(index, 1)
 					newLists[listId].messages.splice(index, 1)
 				} 
 					
