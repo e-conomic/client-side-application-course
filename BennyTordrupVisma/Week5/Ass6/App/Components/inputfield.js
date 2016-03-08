@@ -4,7 +4,7 @@ var MessageActions = require("../Actions/message-actions");
 var ListActions = require("../Actions/list-actions");
 var React = require("react");
 
-module.exports = React.createClass({
+var InputField = React.createClass({
     getInitialState : function() {
         return {
             message: '',
@@ -85,3 +85,5 @@ module.exports = React.createClass({
         })        
 	},
 });
+
+module.exports = InputField;
