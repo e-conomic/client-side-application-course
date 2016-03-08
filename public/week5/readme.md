@@ -1,4 +1,4 @@
-_Before we begin_
+_Before we begin_  
 Going forward - focus on new assignments
 
 #### Week 4 follow up
