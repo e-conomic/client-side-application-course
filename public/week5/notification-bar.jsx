@@ -10,8 +10,7 @@ const NotificationBar = React.createClass({
 	},
 
 	render: function() {
-
-		const notificationBarStyle = {
+		const barStyle = {
 			position: 'absolute',
 			top: 0,
 			left: 0,
@@ -23,9 +22,15 @@ const NotificationBar = React.createClass({
 			fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif'
 		}
 
-		return <div style={notificationBarStyle}>
+		const closeBtnStyle = {
+			marginLeft: '20px',
+			color: 'blue',
+			cursor: 'pointer',
+		}
+
+		return <div style={barStyle}>
 			{this.props.message}
-			<a onClick={this.props.onDismissed}>close</a>
+			<a style={closeBtnStyle} onClick={this.props.onDismissed}>close</a>
 		</div>
 	}
 
