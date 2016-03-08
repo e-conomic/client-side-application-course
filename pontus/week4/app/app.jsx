@@ -3,7 +3,7 @@ let NamedList = require('./named-list');
 let ReactDOM = require('react-dom');
 
 let ListActions = require('./list-actions');
-let ListStore = require("./list-store"); // why do I need to import this to run the action-creator? 
+let ListStore = require("./list-store");
 
 let MessageStore = require('./message-store');
 let MessageActions = require('./message-actions');

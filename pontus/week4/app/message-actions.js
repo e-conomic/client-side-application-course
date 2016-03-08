@@ -11,18 +11,16 @@ module.exports = {
 		});
 	},
 
-	deleteMessage(listID, messageID) { 
+	deleteMessage(messageID) { 
 		Dispatcher.dispatch({
 			type: Constants.DELETE_MESSAGE,
-			listID: listID,
 			messageID: messageID
 		});
 	},
 
-	archiveMessage(listID, messageID) { 
+	archiveMessage(messageID) { 
 		Dispatcher.dispatch({
 			type: Constants.ARCHIVE_MESSAGE,
-			listID: listID,
 			messageID: messageID
 		});
 	},

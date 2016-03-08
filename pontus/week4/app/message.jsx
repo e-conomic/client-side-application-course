@@ -25,18 +25,18 @@ let Message = React.createClass({
 	},
 
 	archiveMessage() { 
-		MessageActions.archiveMessage(this.props.listID, this.props.messageID);
+		MessageActions.archiveMessage(this.props.messageID);
 	},
 
 	deleteMessage() {
-		MessageActions.deleteMessage(this.props.listID, this.props.messageID);
+		MessageActions.deleteMessage(this.props.messageID);
 	},
 
 	render() {
 		let isArchived = this.props.isArchived;
 		let msgStyle = (isArchived) ? { color: 'grey', display:'inline', marginRight: '10px'} : { display: 'inline', marginRight: '10px' };
 		let archiveAction = (isArchived) ? "unarchive" : "archive";
-		let btnState = (isArchived) ? true : false;
+		let isDisabled = (isArchived) ? true : false;
 
 		let listItems = [];
 		for (let key in this.props.listProperties) { 
@@ -49,12 +49,12 @@ let Message = React.createClass({
 					<li style={msgStyle}>{this.props.text}</li>
 					<div style={msgStyle}>
 						<button onClick={this.archiveMessage}>{archiveAction}</button>
-						<button onClick={this.deleteMessage} disabled={btnState}>Delete</button>
-						<select disabled={btnState} ref="menu" defaultValue="move to">
+						<button onClick={this.deleteMessage} disabled={isDisabled}>Delete</button>
+						<select disabled={isDisabled} ref="menu" defaultValue="move to">
 							<option value="move to">Move to</option>
 							{listItems} 
 						</select>
-						<button disabled={btnState} onClick={this.moveMessage}>Move</button>
+						<button disabled={isDisabled} onClick={this.moveMessage}>Move</button>
 					</div> 
 				</div>
 		);

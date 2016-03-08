@@ -63,9 +63,9 @@ let NamedList = React.createClass({
 			/> ;
 		});
 
-		let errorMsg =  (this.state.isError) ? { color: 'red' } : { color: 'black'};
-		let btnState = (this.state.isError) ? true : false;
-		let displayChars = (this.state.displayChars) ? {display: 'inline'} : {display: 'none' };
+		let errorMessageColor =  (this.state.isError) ? { color: 'red' } : { color: 'black'};
+		let isDisabled = (this.state.isError) ? true : false;
+		let displayCharsStyle = (this.state.displayChars) ? {display: 'inline'} : {display: 'none' };
 
 		return (
 			<div>
@@ -74,10 +74,10 @@ let NamedList = React.createClass({
 					{messages}
 				</ul> 
 				<input onBlur={this.displayCharCount} onKeyDown={this.createMsg} onFocus={this.displayCharCount} onKeyUp={this.charValidation} ref='inputField' type="text" />
-				<button disabled={btnState} onClick={this.createMsg}>Create New Message</button>
+				<button disabled={isDisabled} onClick={this.createMsg}>Create New Message</button>
 				<br/>
-				<div style={errorMsg}>
-					<span style={displayChars}> {this.state.charCount} </span>
+				<div style={errorMessageColor}>
+					<span style={displayCharsStyle}> {this.state.charCount} </span>
 					<span>{this.state.errorMsg}</span>
 				</div>
 			</div>

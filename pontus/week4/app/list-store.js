@@ -10,24 +10,16 @@ let listStore = Object.assign({}, BaseStore, {
 		return _list;
 	},
 
-	get: function(id) {
+	getOne: function(id) {
 		return Object.assign({}, _list.find(function(l) { return l.id == id }));
-	},
+	}
 
-	getListProperties() { 
-
-		let listProperties = _list.filter( list => { 
-			return { listName: list.listName, listID: list.listID }
-		});
-
-		return listProperties;
-
-	},
-
-	addChangeListener: function(callback) {
-		this.on('change', callback);
-	},
-
+	// getListProperties() { 
+	// 	let listProperties = _list.filter( list => { 
+	// 		return { listName: list.listName, listID: list.listID }
+	// 	});
+	// 	return listProperties;
+	// }
 });
 
 // update

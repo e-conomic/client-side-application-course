@@ -13,13 +13,6 @@ let messageStore = Object.assign({}, BaseStore, {
 	getOne(messageID) {
 		return _messages.find( message => message.messageID == messageID);
 	},
-
-	addChangeListener: function(callback) {
-		this.on('change', callback);
-	},
-
-
-
 });
 
 messageStore.dispatchToken = Dispatcher.register(function(payload){
@@ -41,8 +34,6 @@ messageStore.dispatchToken = Dispatcher.register(function(payload){
 		case Constants.MOVE_MESSAGE:
 			let message = _messages.find( message => message.messageID == payload.messageID );
 			let otherMessages = _messages.filter( message => message.messageID != payload.messageID );
-			console.log(payload.listID);
-
 			message.listID = payload.listID;
 
 			_messages = otherMessages.concat(message);
