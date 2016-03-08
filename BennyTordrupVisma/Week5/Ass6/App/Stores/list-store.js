@@ -6,10 +6,12 @@ var BaseStore = require("./base");
 var _lists = [{
     id: 1,
     name: 'List 1',
+    isSelected: true,
 },
 {
     id: 2,
     name: 'List 2',
+    isSelected: true,
 }];
 
 var ListStore = Object.assign({}, BaseStore, {
@@ -42,7 +44,8 @@ function generateId() {
 function createList(listName) {
     _lists.push({
         id: generateId(),
-        name: listName
+        name: listName,
+        isSelected: true
     });
 }
 
