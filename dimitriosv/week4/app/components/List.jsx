@@ -18,9 +18,7 @@ var List = React.createClass({
                             <button type="button" onClick={this.addMessageChild}>Submit</button>
                         </div>
                          {/*console.log(thats how you comment inside return)*/}
-                         <Messages  deleteMessageParent={this.props.deleteMessageParent}
-                                    toggleArchiveMessageParent={this.props.toggleArchiveMessageParent}
-                                    messages={this.filterMessages()} 
+                         <Messages  messages={this.filterMessages()} 
                                     allLists={this.props.allLists}/> 
                     </div>
         },

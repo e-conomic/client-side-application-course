@@ -17,9 +17,7 @@ var Messages = React.createClass({
                                 return (<div className="message" key={message.messageId}  >
                                         <Message  messageId={message.messageId} 
                                             messageText={message.text}
-                                            messageIsArchived={message.isArchived} 
-                                            deleteMessageParent={this.props.deleteMessageParent}
-                                            toggleArchiveMessageParent={this.props.toggleArchiveMessageParent}
+                                            messageIsArchived={message.isArchived}
                                             allLists={this.props.allLists}
                                         />
                                     </div>)
