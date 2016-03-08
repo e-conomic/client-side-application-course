@@ -68,13 +68,9 @@
 	var ListActions = __webpack_require__(/*! ./actions/list-actions */ 171);
 	var ListStore = __webpack_require__(/*! ./stores/list-store */ 172);
 
-	var MessageActions = __webpack_require__(/*! ./actions/message-actions */ 161);
-	var MessageStore = __webpack_require__(/*! ./stores/message-store */ 167);
-
 	function getAppState() {
 		return {
-			lists: ListStore.getAll(),
-			messages: MessageStore.getAll()
+			lists: ListStore.getAll()
 		};
 	}
 
@@ -88,7 +84,6 @@
 		componentDidMount: function componentDidMount() {
 			console.log("Componenet did mount: ");
 			ListStore.addChangeListener(this._onChange);
-			MessageStore.addChangeListener(this._onChange);
 		},
 		componentWillUnmount: function componentWillUnmount() {
 			ListStore.removeChangeListener(this._onChange);
@@ -879,9 +874,9 @@
 
 /***/ },
 /* 9 */
-/*!*****************************************************!*\
-  !*** ../~/react/~/fbjs/lib/ExecutionEnvironment.js ***!
-  \*****************************************************/
+/*!*********************************************!*\
+  !*** ../~/fbjs/lib/ExecutionEnvironment.js ***!
+  \*********************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -923,9 +918,9 @@
 
 /***/ },
 /* 10 */
-/*!******************************************************!*\
-  !*** ../~/react/~/fbjs/lib/createNodesFromMarkup.js ***!
-  \******************************************************/
+/*!**********************************************!*\
+  !*** ../~/fbjs/lib/createNodesFromMarkup.js ***!
+  \**********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1016,9 +1011,9 @@
 
 /***/ },
 /* 11 */
-/*!*****************************************************!*\
-  !*** ../~/react/~/fbjs/lib/createArrayFromMixed.js ***!
-  \*****************************************************/
+/*!*********************************************!*\
+  !*** ../~/fbjs/lib/createArrayFromMixed.js ***!
+  \*********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1111,9 +1106,9 @@
 
 /***/ },
 /* 12 */
-/*!****************************************!*\
-  !*** ../~/react/~/fbjs/lib/toArray.js ***!
-  \****************************************/
+/*!********************************!*\
+  !*** ../~/fbjs/lib/toArray.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1179,9 +1174,9 @@
 
 /***/ },
 /* 13 */
-/*!******************************************!*\
-  !*** ../~/react/~/fbjs/lib/invariant.js ***!
-  \******************************************/
+/*!**********************************!*\
+  !*** ../~/fbjs/lib/invariant.js ***!
+  \**********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1238,9 +1233,9 @@
 
 /***/ },
 /* 14 */
-/*!**********************************************!*\
-  !*** ../~/react/~/fbjs/lib/getMarkupWrap.js ***!
-  \**********************************************/
+/*!**************************************!*\
+  !*** ../~/fbjs/lib/getMarkupWrap.js ***!
+  \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1342,9 +1337,9 @@
 
 /***/ },
 /* 15 */
-/*!**********************************************!*\
-  !*** ../~/react/~/fbjs/lib/emptyFunction.js ***!
-  \**********************************************/
+/*!**************************************!*\
+  !*** ../~/fbjs/lib/emptyFunction.js ***!
+  \**************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -1428,9 +1423,9 @@
 
 /***/ },
 /* 17 */
-/*!******************************************!*\
-  !*** ../~/react/~/fbjs/lib/keyMirror.js ***!
-  \******************************************/
+/*!**********************************!*\
+  !*** ../~/fbjs/lib/keyMirror.js ***!
+  \**********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -2294,9 +2289,9 @@
 
 /***/ },
 /* 25 */
-/*!****************************************!*\
-  !*** ../~/react/~/fbjs/lib/warning.js ***!
-  \****************************************/
+/*!********************************!*\
+  !*** ../~/fbjs/lib/warning.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -7079,9 +7074,9 @@
 
 /***/ },
 /* 58 */
-/*!********************************************!*\
-  !*** ../~/react/~/fbjs/lib/emptyObject.js ***!
-  \********************************************/
+/*!************************************!*\
+  !*** ../~/fbjs/lib/emptyObject.js ***!
+  \************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -7108,9 +7103,9 @@
 
 /***/ },
 /* 59 */
-/*!*********************************************!*\
-  !*** ../~/react/~/fbjs/lib/containsNode.js ***!
-  \*********************************************/
+/*!*************************************!*\
+  !*** ../~/fbjs/lib/containsNode.js ***!
+  \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -7171,9 +7166,9 @@
 
 /***/ },
 /* 60 */
-/*!*******************************************!*\
-  !*** ../~/react/~/fbjs/lib/isTextNode.js ***!
-  \*******************************************/
+/*!***********************************!*\
+  !*** ../~/fbjs/lib/isTextNode.js ***!
+  \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -7204,9 +7199,9 @@
 
 /***/ },
 /* 61 */
-/*!***************************************!*\
-  !*** ../~/react/~/fbjs/lib/isNode.js ***!
-  \***************************************/
+/*!*******************************!*\
+  !*** ../~/fbjs/lib/isNode.js ***!
+  \*******************************/
 /***/ function(module, exports) {
 
 	/**
@@ -9865,9 +9860,9 @@
 
 /***/ },
 /* 79 */
-/*!**************************************!*\
-  !*** ../~/react/~/fbjs/lib/keyOf.js ***!
-  \**************************************/
+/*!******************************!*\
+  !*** ../~/fbjs/lib/keyOf.js ***!
+  \******************************/
 /***/ function(module, exports) {
 
 	/**
@@ -12156,9 +12151,9 @@
 
 /***/ },
 /* 95 */
-/*!******************************************!*\
-  !*** ../~/react/~/fbjs/lib/focusNode.js ***!
-  \******************************************/
+/*!**********************************!*\
+  !*** ../~/fbjs/lib/focusNode.js ***!
+  \**********************************/
 /***/ function(module, exports) {
 
 	/**
@@ -12523,9 +12518,9 @@
 
 /***/ },
 /* 98 */
-/*!**************************************************!*\
-  !*** ../~/react/~/fbjs/lib/camelizeStyleName.js ***!
-  \**************************************************/
+/*!******************************************!*\
+  !*** ../~/fbjs/lib/camelizeStyleName.js ***!
+  \******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -12571,9 +12566,9 @@
 
 /***/ },
 /* 99 */
-/*!*****************************************!*\
-  !*** ../~/react/~/fbjs/lib/camelize.js ***!
-  \*****************************************/
+/*!*********************************!*\
+  !*** ../~/fbjs/lib/camelize.js ***!
+  \*********************************/
 /***/ function(module, exports) {
 
 	/**
@@ -12674,9 +12669,9 @@
 
 /***/ },
 /* 101 */
-/*!***************************************************!*\
-  !*** ../~/react/~/fbjs/lib/hyphenateStyleName.js ***!
-  \***************************************************/
+/*!*******************************************!*\
+  !*** ../~/fbjs/lib/hyphenateStyleName.js ***!
+  \*******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -12721,9 +12716,9 @@
 
 /***/ },
 /* 102 */
-/*!******************************************!*\
-  !*** ../~/react/~/fbjs/lib/hyphenate.js ***!
-  \******************************************/
+/*!**********************************!*\
+  !*** ../~/fbjs/lib/hyphenate.js ***!
+  \**********************************/
 /***/ function(module, exports) {
 
 	/**
@@ -12762,9 +12757,9 @@
 
 /***/ },
 /* 103 */
-/*!**************************************************!*\
-  !*** ../~/react/~/fbjs/lib/memoizeStringOnly.js ***!
-  \**************************************************/
+/*!******************************************!*\
+  !*** ../~/fbjs/lib/memoizeStringOnly.js ***!
+  \******************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -15080,9 +15075,9 @@
 
 /***/ },
 /* 117 */
-/*!*********************************************!*\
-  !*** ../~/react/~/fbjs/lib/shallowEqual.js ***!
-  \*********************************************/
+/*!*************************************!*\
+  !*** ../~/fbjs/lib/shallowEqual.js ***!
+  \*************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -15359,9 +15354,9 @@
 
 /***/ },
 /* 119 */
-/*!**********************************************!*\
-  !*** ../~/react/~/fbjs/lib/EventListener.js ***!
-  \**********************************************/
+/*!**************************************!*\
+  !*** ../~/fbjs/lib/EventListener.js ***!
+  \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -15452,9 +15447,9 @@
 
 /***/ },
 /* 120 */
-/*!***********************************************************!*\
-  !*** ../~/react/~/fbjs/lib/getUnboundedScrollPosition.js ***!
-  \***********************************************************/
+/*!***************************************************!*\
+  !*** ../~/fbjs/lib/getUnboundedScrollPosition.js ***!
+  \***************************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -17180,9 +17175,9 @@
 
 /***/ },
 /* 129 */
-/*!*************************************************!*\
-  !*** ../~/react/~/fbjs/lib/getActiveElement.js ***!
-  \*************************************************/
+/*!*****************************************!*\
+  !*** ../~/fbjs/lib/getActiveElement.js ***!
+  \*****************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -19174,9 +19169,9 @@
 
 /***/ },
 /* 144 */
-/*!***********************************************!*\
-  !*** ../~/react/~/fbjs/lib/performanceNow.js ***!
-  \***********************************************/
+/*!***************************************!*\
+  !*** ../~/fbjs/lib/performanceNow.js ***!
+  \***************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -19216,9 +19211,9 @@
 
 /***/ },
 /* 145 */
-/*!********************************************!*\
-  !*** ../~/react/~/fbjs/lib/performance.js ***!
-  \********************************************/
+/*!************************************!*\
+  !*** ../~/fbjs/lib/performance.js ***!
+  \************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -20106,9 +20101,9 @@
 
 /***/ },
 /* 155 */
-/*!******************************************!*\
-  !*** ../~/react/~/fbjs/lib/mapObject.js ***!
-  \******************************************/
+/*!**********************************!*\
+  !*** ../~/fbjs/lib/mapObject.js ***!
+  \**********************************/
 /***/ function(module, exports) {
 
 	/**
@@ -20334,15 +20329,20 @@
 	var MessageActions = __webpack_require__(/*! ../actions/message-actions */ 161);
 	var MessageStore = __webpack_require__(/*! ../stores/message-store */ 167);
 
-	function getMessagesToList(id) {
+	//Question 1: I am sure there is a shorthand for checking whether we have any messages or not, so we only call map() if we have elements. Any suggestions?
+
+	function getMessages(id) {
 		return {
-			messages: MessageStore.getMessagesFromId(id)
+			messages: MessageStore.getMessagesFromId(id, false),
+			listId: id
 		};
 	}
 
-	function getArchivedMessagesToList(id) {
+	function getArchivedMessages(id) {
 		return {
-			messages: MessageStore.getArchivedMessagesFromId(id)
+			archivedMessages: MessageStore.getMessagesFromId(id, true),
+			listId: id,
+			archiveStyle: { margin: '48px 0 0 0', color: 'gray' }
 		};
 	}
 
@@ -20350,26 +20350,24 @@
 		displayName: 'Messages',
 
 		getInitialState: function getInitialState() {
-			var messages = getMessagesToList(this.props.listId);
+			var messages = getMessages(this.props.listId);
 			return messages;
 		},
-		getMessageNodes: function getMessageNodes() {
-			messages = this.state.messages;
-		},
 		_onChange: function _onChange() {
-			this.setState(getMessagesState());
+			this.setState(getMessages(this.props.id));
 		},
 		render: function render() {
-			var listId = this.props.listId;
-			console.log("ListId from props: " + listId);
-			var messageNodes = this.state.messages.map(function (message) {
-				return React.createElement(Message, { key: message.messageId, messageId: message.messageId, messageContent: message.messageContent });
-			});
+			var messageNodes = null;
+			if (this.state.messages) {
+				messageNodes = this.state.messages.map(function (message) {
+					return React.createElement(Message, { key: message.messageId, messageId: message.messageId, messageContent: message.messageContent });
+				});
+			}
 			return React.createElement(
 				'div',
 				null,
 				'Messages for list: ',
-				listId,
+				this.state.listId,
 				messageNodes
 			);
 		}
@@ -20398,28 +20396,23 @@
 		displayName: 'ArchivedMessages',
 
 		getInitialState: function getInitialState() {
-			var messages = getMessagesToList(this.props.listId);
+			var messages = getArchivedMessages(this.props.listId);
 			return messages;
 		},
 		render: function render() {
-			// Question 4: how to achieve "border-top" property without causing a syntax?
-			var archiveStyle = {
-				margin: '48px 0 0 0',
-				color: 'gray'
-			};
-			//var unarchiveFunction = this.props.onMessageUnarchive
+			var messgageNodes = [];
+			if (this.state.archivedMessages) {
+				// If any archived messages
+				var messageNodes = this.state.archivedMessages.map(function (message) {
+					return React.createElement(ArchivedMessage, { key: message.messageId, messageId: message.messageId, messageContent: message.messageContent });
+				});
+			}
 			return React.createElement(
 				'div',
-				{ style: archiveStyle },
-				React.createElement(
-					'p',
-					null,
-					React.createElement(
-						'b',
-						null,
-						'Archived Messages: '
-					)
-				)
+				{ style: this.state.archiveStyle },
+				'Archived Messages for list: ',
+				this.state.listId,
+				messageNodes
 			);
 		}
 	});
@@ -20427,11 +20420,8 @@
 	var ArchivedMessage = React.createClass({
 		displayName: 'ArchivedMessage',
 
-		handleMessageUnarchive: function handleMessageUnarchive() {
-			//this.props.onMessageUnarchive(this.props.listId, this.props.messageId)
-		},
+		handleMessageUnarchive: function handleMessageUnarchive() {},
 		render: function render() {
-			var boolToString = this.props.archived.toString();
 			return React.createElement(
 				'span',
 				null,
@@ -20439,7 +20429,10 @@
 				React.createElement(
 					'p',
 					null,
-					' Archived Message goes here: '
+					'id: ',
+					this.props.messageId,
+					' | text: ',
+					this.props.messageContent
 				)
 			);
 		}
@@ -20768,9 +20761,9 @@
 
 /***/ },
 /* 166 */
-/*!**********************************!*\
-  !*** ../~/fbjs/lib/invariant.js ***!
-  \**********************************/
+/*!*****************************************!*\
+  !*** ../~/flux/~/fbjs/lib/invariant.js ***!
+  \*****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -20837,59 +20830,45 @@
 	var Constants = __webpack_require__(/*! ../constants */ 162);
 	var BaseStore = __webpack_require__(/*! ./base */ 168);
 
+	//TODO: Create messages of all kinds of messages and do filtering
 	var _messages = [{
 		messageId: 0,
 		listId: 0,
-		messageContent: 'Message1, list1'
+		messageContent: 'Message1, list1',
+		archived: false
 	}, {
 		messageId: 1,
 		listId: 0,
-		messageContent: 'Message2, list1'
+		messageContent: 'Message2, list1',
+		archived: false
 	}, {
 		messageId: 2,
 		listId: 1,
-		messageContent: 'Message2, list2'
-	}];
-
-	var _archivedMessages = [{
-		messageId: 0,
-		listId: 0,
-		messageContent: 'Archived msg1, list1'
+		messageContent: 'Message2, list2',
+		archived: false
 	}, {
-		messageId: 0,
-		listId: 0,
-		messageContent: 'Archived msg2 list1'
+		messageId: 3,
+		listId: 1,
+		messageContent: 'Archived Message2, list2',
+		archived: true
 	}];
 
 	var MessageStore = Object.assign({}, BaseStore, {
-		getAll: function getAll() {
+		getAllMessages: function getAllMessages() {
 			return JSON.parse(JSON.stringify(_messages));
 		},
-		getMessagesFromId: function getMessagesFromId(id) {
-			var messages = this.findMessagesFromId(id, _messages);
+		getMessagesFromId: function getMessagesFromId(id, archived) {
+			var messages = this.findAllMessagesFromId(id, _messages, archived);
 			return messages;
 		},
-		getAllArchivedMessages: function getAllArchivedMessages() {
-			return JSON.parse(JSON.stringify(_archivedMessages));
-		},
-		getArchivedMessagesFromId: function getArchivedMessagesFromId(id) {
-			var messages = this.findMessagesFromId(id, _archivedMessages);
-			return messages;
-		},
-		// Should be moved into baseclass
-		findMessagesFromId: function findMessagesFromId(id, array) {
+		findAllMessagesFromId: function findAllMessagesFromId(id, array, archived) {
 			var messages = [];
 			for (var i = 0; i < array.length; i++) {
-				if (array[i].listId == id) {
+				if (array[i].listId == id && array[i].archived == archived) {
 					messages.push(array[i]);
 				}
 			}
 			return messages;
-		},
-		findMessageById: function findMessageById(id) {
-			return Object.assign({}, _messages.find(function (message) {
-				return message.messageId == id;
-			}));
 		}
 	});
 
@@ -21453,8 +21432,6 @@
 
 	var Constants = __webpack_require__(/*! ../constants */ 162);
 	var Dispatcher = __webpack_require__(/*! ../dispatcher */ 163);
-
-	console.log(Dispatcher);
 
 	module.exports = {
 		createList: function createList(listName) {

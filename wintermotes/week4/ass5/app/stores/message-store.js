@@ -8,60 +8,46 @@ var _messages = [
 					messageId : 0, 
 					listId : 0,
 					messageContent : 'Message1, list1', 
+					archived : false 
 				},
 				{
 					messageId : 1, 
 					listId : 0, 
 					messageContent : 'Message2, list1', 
+					archived : false
 				}, 
 				{
 					messageId : 2, 
 					listId : 1,
 					messageContent : 'Message2, list2', 
+					archived : false 
+				}, 
+				{
+					messageId : 3, 
+					listId : 1,
+					messageContent : 'Archived Message2, list2', 
+					archived : true 
 				}
 			];
 
-var _archivedMessages = [
-	{
-		messageId : 0, 
-		listId : 0,
-		messageContent : 'Archived msg1, list1', 
-	}, 
-	{
-		messageId : 0, 
-		listId : 0,
-		messageContent : 'Archived msg2 list1', 
-	}
-]
 
 var MessageStore = Object.assign({}, BaseStore, {
-	getAll: function() {
+	getAllMessages: function() {
 		return JSON.parse(JSON.stringify(_messages));
 	},
-	getMessagesFromId: function(id) {
-		var messages = this.findMessagesFromId(id, _messages)
+	getMessagesFromId: function(id, archived) {
+		var messages = this.findAllMessagesFromId(id, _messages, archived)
 		return messages
 	},
-	getAllArchivedMessages : function() {
-		return JSON.parse(JSON.stringify(_archivedMessages));
-	},
-	getArchivedMessagesFromId : function(id) {
-		var messages = this.findMessagesFromId(id, _archivedMessages)
-		return messages
-	},
-	// Should be moved into baseclass?
-	findMessagesFromId : function(id, array){
+	findAllMessagesFromId : function(id, array, archived){
 		var messages = []
 		for(var i = 0; i<array.length; i++){
-			if(array[i].listId == id){
+			if(array[i].listId == id && array[i].archived == archived){
 				messages.push(array[i])
 			}
 		}
 		return messages
-	},
-	findMessageById: function(id){
-		return Object.assign({}, _messages.find(function(message) { return message.messageId == id }));
-	},
+	}
 });
 
 console.log("message-store here: ")

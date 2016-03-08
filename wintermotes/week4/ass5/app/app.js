@@ -17,13 +17,9 @@ var ArchiveMessageField = require('./components/fields').ArchiveMessageField
 var ListActions = require('./actions/list-actions');
 var ListStore = require('./stores/list-store')
 
-var MessageActions = require('./actions/message-actions');
-var MessageStore = require('./stores/message-store')
-
 function getAppState(){
 	return {
 		lists : ListStore.getAll(), 
-		messages : MessageStore.getAll()
 	}
 }
 
@@ -35,7 +31,6 @@ var MessageBox = React.createClass({
 			componentDidMount : function() {
 				console.log("Componenet did mount: ")
 				ListStore.addChangeListener(this._onChange);
-				MessageStore.addChangeListener(this._onChange)
 		    },
 		    componentWillUnmount: function() {
 		        ListStore.removeChangeListener(this._onChange);
