@@ -1,4 +1,6 @@
 import List from './components/List.jsx';
+import Message from './components/Message.jsx';
+import NotificationBar from './components/notification-bar.jsx';
 var React = require('react');
 var ReactDOM = require('react-dom');
 var ListActions = require('./actions/list-actions.js');
@@ -14,13 +16,13 @@ var App = React.createClass({
         MessageStore.addChangeListener(this.onStoreChange);
     },
     onStoreChange: function() {
-        console.log("onStoreChange")
-        //console.log(ListStore.getAll())
         this.setState({
             totalLists: ListStore.getTotalElements(),
             totalMessages: MessageStore.getTotalElements(),
             lists: ListStore.getAll(),
             allMessages: MessageStore.getAll(),
+            errorMessage: "",
+            showNotification: false,
         });
     },
     getInitialState: function() {
@@ -30,9 +32,11 @@ var App = React.createClass({
             inputListName:"",
             lists: ListStore.getAll(),
             allMessages: MessageStore.getAll(),
+            errorMessage: "hi",
+            showNotification: false,
         };
     },
-    eachList: function(list, i) {  
+    renderLists: function(list, i) {
         return (
             <List key={list.listId}
             index={i}
@@ -41,6 +45,25 @@ var App = React.createClass({
             allLists={this.state.lists}
             allMessages={this.state.allMessages}
             >{list}</List>
+            );
+    },
+    renderListsAsCheckboxes: function(list, i) {  
+        return (
+            <div>
+            <input defaultChecked type="checkbox" key={list.listId+"checkbox"} name={list.listName} value={list.listName} />
+            {list.listName}
+            </div>
+            );
+    },
+    renderMessages: function(message, i) {
+        return (
+            <div className="message" key={message.messageId+"_2"}>
+            <Message    messageId={message.messageId} 
+                        messageText={message.text}
+                        messageIsArchived={message.isArchived}
+                        allLists={this.state.lists}
+            />
+            </div>
             );
     },
     createList: function(evt) {
@@ -53,16 +76,47 @@ var App = React.createClass({
       });
     },
     render: function() {
-        return  <div className="container">
-        <span>Add new list with name: </span>
-        <input onChange={this.handleChange} type="text"/>
-        <button type="button" onClick={this.createList}>Add</button>
-        <div className="llistcont">
-        {this.state.lists.map(this.eachList)}
+        var allMessagesDeepCopy = JSON.parse(JSON.stringify(this.state.allMessages));
+        var allMessagesSortedByName = allMessagesDeepCopy.sort(compare);
+        return  (
+
+        <div>
+            {this.state.showNotification
+            ? <NotificationBar 
+                message={this.state.errorMessage}
+            />
+            : <div></div>
+            }
+            <div className="container">
+                <span>Add new list with name:</span>
+                <input onChange={this.handleChange} type="text"/>
+                <button type="button" onClick={this.createList}>Add</button>
+                <div className="llistcont">
+                    {this.state.lists.map(this.renderLists)}
+                </div>
+            </div>
+            <div className="sidecontainer">
+                <div>All messages</div>
+                <div className="allmessagescontainer">
+                    {allMessagesSortedByName.map(this.renderMessages)}
+                </div>
+                <div className="alllistsascheckboxes">
+                    {this.state.lists.map(this.renderListsAsCheckboxes)}
+                </div>
+            </div>
         </div>
-        </div>
+        );
     },
 });
 
+//helper for messages sorting according to their text
+function compare(a,b) {
+  if (a.text < b.text)
+    return -1;
+  else if (a.text > b.text)
+    return 1;
+  else 
+    return 0;
+}
 
 ReactDOM.render(<App/>, document.getElementById('app'));

@@ -21,7 +21,7 @@ var Message = React.createClass({
                         : <div>
                         <div className="messageText" >{this.props.messageText}</div>
                         <button type="button"  onClick={this.deleteMessageChild.bind(null,this.props.messageId)}>Delete</button>
-                            <select className="llistcont" defaultValue="0"  onChange={this.moveMessage}>
+                            <select className="llistcontselect" defaultValue="0"  onChange={this.moveMessage}>
                                 <option key="0" value="0"  >Move to:</option>
                                 {this.props.allLists.map(this.renderListOptions(this.props.messageId))}
                              </select>

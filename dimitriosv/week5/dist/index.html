@@ -4,9 +4,35 @@
     <title>Deep dive into React</title>
      
     <style>
+
+        .none {
+            display: none;
+        }
+
+
+        .sidecontainer {
+            width: 39%;
+            display: inline-block;
+            border: 1px solid blue;
+            vertical-align: top;
+            margin-left: 20px;
+            padding: 5px;
+        }
+
+
         .container {
             padding: 5px;
             border: 1px solid red;
+            width: 57%;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .alllistsascheckboxes {
+            display: inline-block;
+            vertical-align: text-top;
+            float: right;
+            max-width: 40%;
         }
 
         .llist {
@@ -16,21 +42,27 @@
             margin-right: 5px;
             border: 1px solid black;
             margin-top: 20px;
-            width: 300px;
+            width: 260px;
             display: inline-block;
 
         }
         
         .message {
             padding: 5px;
-            margin: 10px auto;
-            width: 90%;
+            margin-top: 10px;
+            width: 248px;
             border: 1px solid #444;
         }
 
-        input {
-            width: 240px;
+        .llistcontselect {
+            max-width: 100px;
         }
+
+        input[type=text] {
+            width: 250px;
+        }
+
+
 
         .listname{
             padding: 5px;
@@ -43,9 +75,16 @@
             margin-bottom: 11px;
         }
 
+        .allmessagescontainer {
+            display: inline-block;
+            max-width: 50%;
+            vertical-align: top;
+        }
+
         .archived {
             border: 1px solid grey;
             color: grey;
+
         }
     </style>
 </head>
