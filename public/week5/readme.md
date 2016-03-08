@@ -10,7 +10,7 @@ Going forward - focus on new assignments
 
 Expand your app from assginment 5:
 
-- Create a new components that shows all messages across the system according to [the mockup](https://github.com/e-conomic/client-side-application-course/tree/master/public/week5/readme.md#Mockup)
+- Create a new components that shows all messages across the system according to [the mockup](https://github.com/e-conomic/client-side-application-course/blob/master/public/week5/readme.md#mockup)
 - The user should be able to filter out some lists (using checkboxes) and thereby only see messages on the component for the selected lists
 - The new component should list the messages alphabetically
 - The user should be able to perform the same actions on each message in the new component (archive, move, delete, _not create_)
