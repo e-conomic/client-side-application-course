@@ -47,12 +47,17 @@ var App = React.createClass({
 		return 	<div>
                     <Options />
 					<InputField lists={this.state.allLists}/>
-					<div>
-						<h3>Lists</h3>
-						<div>
-							{listList}
-						</div>
-					</div>
+                    {!this.state.options.showCombinedMessages &&
+                        <div>
+                            <h3>Lists</h3>
+                            <div>
+                                {listList}
+                            </div>
+                        </div>}
+                    {this.state.options.showCombinedMessages &&
+                        <div>
+                            <h3>All messages</h3>
+                        </div>}
 				</div>
 	},
     

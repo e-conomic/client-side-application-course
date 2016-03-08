@@ -14,7 +14,9 @@ var OptionsStore = Object.assign({}, BaseStore, {
 });
 
 function updateOptions(showCombinedMessages) {
-    _options.showCombinedMessages = showCombinedMessages;
+    _options = {
+        showCombinedMessages: showCombinedMessages
+    };
 }
 
 AppDispatcher.register(payload => {

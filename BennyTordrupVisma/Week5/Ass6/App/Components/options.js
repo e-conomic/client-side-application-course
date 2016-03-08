@@ -13,7 +13,7 @@ var Options = React.createClass({
     },
     
     handleChange: function(event) {
-        OptionsActions.updateOptions(!event.target.value);
+        OptionsActions.updateOptions(event.target.checked);
     }
 });
 

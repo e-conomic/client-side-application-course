@@ -19,7 +19,7 @@ var InputField = React.createClass({
             return <option key={list.id} value={list.id}>{list.name}</option>
         });
         
-		return <div>
+		return <div className="inputfield">
 				<label>Text to add: </label>
 				<input type="text" onChange={this.onMessageChange} value={this.state.message}/>
                 <div>
