@@ -32,9 +32,11 @@ var App = React.createClass({
     },
     
 	render: function() {
-        var listList = this.state.allLists.map((list, index) => {
-            return <List key={index} list={list} messages={this.state.allMessages.filter(m => m.list == list.id)}/>
-        });
+        var listList = this.state.allLists.map((list, index) => <List key={index} list={list} messages={this.state.allMessages.filter(m => m.list == list.id)}/>);
+
+        // var listList = this.state.allLists.map((list, index) => {
+        //     return <List key={index} list={list} messages={this.state.allMessages.filter(m => m.list == list.id)}/>
+        // });
 		
 		return 	<div>
 					<InputField lists={this.state.allLists}/>
