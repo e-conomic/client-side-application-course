@@ -18,7 +18,7 @@ var ListStore = Object.assign({}, BaseStore, {
 		return JSON.parse(JSON.stringify(_lists));
 	},
 	get: function(id) {
-		return Object.assign({}, _lists.find(function(l) { return l.id == id }));
+		return Object.assign({}, _lists.find(function(l) { return l.listId == id }));
 	}
 });
 
@@ -27,15 +27,12 @@ console.log(Dispatcher)
 
 ListStore.dispatchToken = Dispatcher.register(function(payload){
 	console.log("Registering dispatcher with paylod: ")
-	console.log(payload)
 	switch(payload.type) {
 		case Constants.CREATE_LIST:
 			_lists.push({
 				listId: _lists.length + 1,
 				listName: payload.listName
 			})
-			console.log("Lists is now: ")
-			console.log(_lists)
 			ListStore.emitChange()
 			break
 

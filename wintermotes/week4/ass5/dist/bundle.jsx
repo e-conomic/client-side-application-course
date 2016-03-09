@@ -59,18 +59,22 @@
 	var ArchivedMessages = __webpack_require__(/*! ./components/message */ 160).ArchivedMessages;
 	var ArchivedMessage = __webpack_require__(/*! ./components/message */ 160).ArchivedMessage;
 
-	var CreateListField = __webpack_require__(/*! ./components/fields */ 161).CreateListField;
-	var CreateMessageField = __webpack_require__(/*! ./components/fields */ 161).CreateMessageField;
-	var MoveMessageField = __webpack_require__(/*! ./components/fields */ 161).MoveMessageField;
-	var DeleteMessageField = __webpack_require__(/*! ./components/fields */ 161).DeleteMessageField;
-	var ArchiveMessageField = __webpack_require__(/*! ./components/fields */ 161).ArchiveMessageField;
+	var CreateListField = __webpack_require__(/*! ./components/fields */ 170).CreateListField;
+	var CreateMessageField = __webpack_require__(/*! ./components/fields */ 170).CreateMessageField;
+	var MoveMessageField = __webpack_require__(/*! ./components/fields */ 170).MoveMessageField;
+	var DeleteMessageField = __webpack_require__(/*! ./components/fields */ 170).DeleteMessageField;
+	var ArchiveMessageField = __webpack_require__(/*! ./components/fields */ 170).ArchiveMessageField;
 
-	var ListActions = __webpack_require__(/*! ./actions/list-actions */ 162);
-	var ListStore = __webpack_require__(/*! ./stores/list-store */ 168);
+	var ListActions = __webpack_require__(/*! ./actions/list-actions */ 171);
+	var ListStore = __webpack_require__(/*! ./stores/list-store */ 172);
+
+	var MessageActions = __webpack_require__(/*! ./actions/message-actions */ 161);
+	var MessageStore = __webpack_require__(/*! ./stores/message-store */ 167);
 
 	function getAppState() {
 		return {
-			lists: ListStore.getAll()
+			lists: ListStore.getAll(),
+			messages: MessageStore.getAll()
 		};
 	}
 
@@ -78,15 +82,13 @@
 		displayName: 'MessageBox',
 
 		getInitialState: function getInitialState() {
-			var storeLists = getAppState();
-			return storeLists;
+			var lists = getAppState();
+			return lists;
 		},
-
-		// Question/discussion 1: ComponentDidMount and componentWillUnmount seems essential to FLUX: http://stackoverflow.com/questions/26325675/how-to-handle-data-changes-in-flux-react
-		// But how would you describe them? Any comparisons to other applications? 
 		componentDidMount: function componentDidMount() {
 			console.log("Componenet did mount: ");
 			ListStore.addChangeListener(this._onChange);
+			MessageStore.addChangeListener(this._onChange);
 		},
 		componentWillUnmount: function componentWillUnmount() {
 			ListStore.removeChangeListener(this._onChange);
@@ -139,6 +141,9 @@
 	});
 
 	ReactDOM.render(React.createElement(MessageBox, null), document.getElementById('app'));
+
+	// Ressources:
+	// - http://stackoverflow.com/questions/26325675/how-to-handle-data-changes-in-flux-react
 
 /***/ },
 /* 1 */
@@ -874,9 +879,9 @@
 
 /***/ },
 /* 9 */
-/*!*********************************************!*\
-  !*** ../~/fbjs/lib/ExecutionEnvironment.js ***!
-  \*********************************************/
+/*!*****************************************************!*\
+  !*** ../~/react/~/fbjs/lib/ExecutionEnvironment.js ***!
+  \*****************************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -918,9 +923,9 @@
 
 /***/ },
 /* 10 */
-/*!**********************************************!*\
-  !*** ../~/fbjs/lib/createNodesFromMarkup.js ***!
-  \**********************************************/
+/*!******************************************************!*\
+  !*** ../~/react/~/fbjs/lib/createNodesFromMarkup.js ***!
+  \******************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1011,9 +1016,9 @@
 
 /***/ },
 /* 11 */
-/*!*********************************************!*\
-  !*** ../~/fbjs/lib/createArrayFromMixed.js ***!
-  \*********************************************/
+/*!*****************************************************!*\
+  !*** ../~/react/~/fbjs/lib/createArrayFromMixed.js ***!
+  \*****************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1106,9 +1111,9 @@
 
 /***/ },
 /* 12 */
-/*!********************************!*\
-  !*** ../~/fbjs/lib/toArray.js ***!
-  \********************************/
+/*!****************************************!*\
+  !*** ../~/react/~/fbjs/lib/toArray.js ***!
+  \****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1174,9 +1179,9 @@
 
 /***/ },
 /* 13 */
-/*!**********************************!*\
-  !*** ../~/fbjs/lib/invariant.js ***!
-  \**********************************/
+/*!******************************************!*\
+  !*** ../~/react/~/fbjs/lib/invariant.js ***!
+  \******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1233,9 +1238,9 @@
 
 /***/ },
 /* 14 */
-/*!**************************************!*\
-  !*** ../~/fbjs/lib/getMarkupWrap.js ***!
-  \**************************************/
+/*!**********************************************!*\
+  !*** ../~/react/~/fbjs/lib/getMarkupWrap.js ***!
+  \**********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1337,9 +1342,9 @@
 
 /***/ },
 /* 15 */
-/*!**************************************!*\
-  !*** ../~/fbjs/lib/emptyFunction.js ***!
-  \**************************************/
+/*!**********************************************!*\
+  !*** ../~/react/~/fbjs/lib/emptyFunction.js ***!
+  \**********************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -1423,9 +1428,9 @@
 
 /***/ },
 /* 17 */
-/*!**********************************!*\
-  !*** ../~/fbjs/lib/keyMirror.js ***!
-  \**********************************/
+/*!******************************************!*\
+  !*** ../~/react/~/fbjs/lib/keyMirror.js ***!
+  \******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -2289,9 +2294,9 @@
 
 /***/ },
 /* 25 */
-/*!********************************!*\
-  !*** ../~/fbjs/lib/warning.js ***!
-  \********************************/
+/*!****************************************!*\
+  !*** ../~/react/~/fbjs/lib/warning.js ***!
+  \****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -7074,9 +7079,9 @@
 
 /***/ },
 /* 58 */
-/*!************************************!*\
-  !*** ../~/fbjs/lib/emptyObject.js ***!
-  \************************************/
+/*!********************************************!*\
+  !*** ../~/react/~/fbjs/lib/emptyObject.js ***!
+  \********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -7103,9 +7108,9 @@
 
 /***/ },
 /* 59 */
-/*!*************************************!*\
-  !*** ../~/fbjs/lib/containsNode.js ***!
-  \*************************************/
+/*!*********************************************!*\
+  !*** ../~/react/~/fbjs/lib/containsNode.js ***!
+  \*********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -7166,9 +7171,9 @@
 
 /***/ },
 /* 60 */
-/*!***********************************!*\
-  !*** ../~/fbjs/lib/isTextNode.js ***!
-  \***********************************/
+/*!*******************************************!*\
+  !*** ../~/react/~/fbjs/lib/isTextNode.js ***!
+  \*******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -7199,9 +7204,9 @@
 
 /***/ },
 /* 61 */
-/*!*******************************!*\
-  !*** ../~/fbjs/lib/isNode.js ***!
-  \*******************************/
+/*!***************************************!*\
+  !*** ../~/react/~/fbjs/lib/isNode.js ***!
+  \***************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -9860,9 +9865,9 @@
 
 /***/ },
 /* 79 */
-/*!******************************!*\
-  !*** ../~/fbjs/lib/keyOf.js ***!
-  \******************************/
+/*!**************************************!*\
+  !*** ../~/react/~/fbjs/lib/keyOf.js ***!
+  \**************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -12151,9 +12156,9 @@
 
 /***/ },
 /* 95 */
-/*!**********************************!*\
-  !*** ../~/fbjs/lib/focusNode.js ***!
-  \**********************************/
+/*!******************************************!*\
+  !*** ../~/react/~/fbjs/lib/focusNode.js ***!
+  \******************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -12518,9 +12523,9 @@
 
 /***/ },
 /* 98 */
-/*!******************************************!*\
-  !*** ../~/fbjs/lib/camelizeStyleName.js ***!
-  \******************************************/
+/*!**************************************************!*\
+  !*** ../~/react/~/fbjs/lib/camelizeStyleName.js ***!
+  \**************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -12566,9 +12571,9 @@
 
 /***/ },
 /* 99 */
-/*!*********************************!*\
-  !*** ../~/fbjs/lib/camelize.js ***!
-  \*********************************/
+/*!*****************************************!*\
+  !*** ../~/react/~/fbjs/lib/camelize.js ***!
+  \*****************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -12669,9 +12674,9 @@
 
 /***/ },
 /* 101 */
-/*!*******************************************!*\
-  !*** ../~/fbjs/lib/hyphenateStyleName.js ***!
-  \*******************************************/
+/*!***************************************************!*\
+  !*** ../~/react/~/fbjs/lib/hyphenateStyleName.js ***!
+  \***************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -12716,9 +12721,9 @@
 
 /***/ },
 /* 102 */
-/*!**********************************!*\
-  !*** ../~/fbjs/lib/hyphenate.js ***!
-  \**********************************/
+/*!******************************************!*\
+  !*** ../~/react/~/fbjs/lib/hyphenate.js ***!
+  \******************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -12757,9 +12762,9 @@
 
 /***/ },
 /* 103 */
-/*!******************************************!*\
-  !*** ../~/fbjs/lib/memoizeStringOnly.js ***!
-  \******************************************/
+/*!**************************************************!*\
+  !*** ../~/react/~/fbjs/lib/memoizeStringOnly.js ***!
+  \**************************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -15075,9 +15080,9 @@
 
 /***/ },
 /* 117 */
-/*!*************************************!*\
-  !*** ../~/fbjs/lib/shallowEqual.js ***!
-  \*************************************/
+/*!*********************************************!*\
+  !*** ../~/react/~/fbjs/lib/shallowEqual.js ***!
+  \*********************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -15354,9 +15359,9 @@
 
 /***/ },
 /* 119 */
-/*!**************************************!*\
-  !*** ../~/fbjs/lib/EventListener.js ***!
-  \**************************************/
+/*!**********************************************!*\
+  !*** ../~/react/~/fbjs/lib/EventListener.js ***!
+  \**********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -15447,9 +15452,9 @@
 
 /***/ },
 /* 120 */
-/*!***************************************************!*\
-  !*** ../~/fbjs/lib/getUnboundedScrollPosition.js ***!
-  \***************************************************/
+/*!***********************************************************!*\
+  !*** ../~/react/~/fbjs/lib/getUnboundedScrollPosition.js ***!
+  \***********************************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -17175,9 +17180,9 @@
 
 /***/ },
 /* 129 */
-/*!*****************************************!*\
-  !*** ../~/fbjs/lib/getActiveElement.js ***!
-  \*****************************************/
+/*!*************************************************!*\
+  !*** ../~/react/~/fbjs/lib/getActiveElement.js ***!
+  \*************************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -19169,9 +19174,9 @@
 
 /***/ },
 /* 144 */
-/*!***************************************!*\
-  !*** ../~/fbjs/lib/performanceNow.js ***!
-  \***************************************/
+/*!***********************************************!*\
+  !*** ../~/react/~/fbjs/lib/performanceNow.js ***!
+  \***********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -19211,9 +19216,9 @@
 
 /***/ },
 /* 145 */
-/*!************************************!*\
-  !*** ../~/fbjs/lib/performance.js ***!
-  \************************************/
+/*!********************************************!*\
+  !*** ../~/react/~/fbjs/lib/performance.js ***!
+  \********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -20101,9 +20106,9 @@
 
 /***/ },
 /* 155 */
-/*!**********************************!*\
-  !*** ../~/fbjs/lib/mapObject.js ***!
-  \**********************************/
+/*!******************************************!*\
+  !*** ../~/react/~/fbjs/lib/mapObject.js ***!
+  \******************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -20326,14 +20331,95 @@
 
 	var React = __webpack_require__(/*! react */ 1);
 
+	var MessageActions = __webpack_require__(/*! ../actions/message-actions */ 161);
+	var MessageStore = __webpack_require__(/*! ../stores/message-store */ 167);
+
+	function getMessagesToList(id) {
+		return {
+			messages: MessageStore.getMessagesFromId(id)
+		};
+	}
+
+	function getArchivedMessagesToList(id) {
+		return {
+			messages: MessageStore.getArchivedMessagesFromId(id)
+		};
+	}
+
 	var Messages = React.createClass({
 		displayName: 'Messages',
+
+		getInitialState: function getInitialState() {
+			var messages = getMessagesToList(this.props.listId);
+			return messages;
+		},
+		getMessageNodes: function getMessageNodes() {
+			messages = this.state.messages;
+		},
+		_onChange: function _onChange() {
+			this.setState(getMessagesState());
+		},
+		render: function render() {
+			var listId = this.props.listId;
+			console.log("ListId from props: " + listId);
+			var messageNodes = this.state.messages.map(function (message) {
+				return React.createElement(Message, { key: message.messageId, messageId: message.messageId, messageContent: message.messageContent });
+			});
+			return React.createElement(
+				'div',
+				null,
+				'Messages for list: ',
+				listId,
+				messageNodes
+			);
+		}
+	});
+
+	var Message = React.createClass({
+		displayName: 'Message',
 
 		render: function render() {
 			return React.createElement(
 				'div',
 				null,
-				'Messages from store:'
+				React.createElement(
+					'p',
+					null,
+					'id: ',
+					this.props.messageId,
+					' | text: ',
+					this.props.messageContent
+				)
+			);
+		}
+	});
+
+	var ArchivedMessages = React.createClass({
+		displayName: 'ArchivedMessages',
+
+		getInitialState: function getInitialState() {
+			var messages = getMessagesToList(this.props.listId);
+			return messages;
+		},
+		render: function render() {
+			// Question 4: how to achieve "border-top" property without causing a syntax?
+			var archiveStyle = {
+				margin: '48px 0 0 0',
+				color: 'gray'
+			};
+			//var unarchiveFunction = this.props.onMessageUnarchive
+			return React.createElement(
+				'div',
+				{ style: archiveStyle },
+				React.createElement(
+					'p',
+					null,
+					React.createElement(
+						'b',
+						null,
+						'Archived Messages: '
+					)
+				)
 			);
 		}
 	});
@@ -20359,291 +20445,33 @@
 		}
 	});
 
-	var ArchivedMessages = React.createClass({
-		displayName: 'ArchivedMessages',
-
-		render: function render() {
-			// Question 4: how to achieve "border-top" property without causing a syntax?
-			var archiveStyle = {
-				margin: '48px 0 0 0',
-				color: 'gray'
-			};
-			//var unarchiveFunction = this.props.onMessageUnarchive
-			return React.createElement(
-				'div',
-				{ style: archiveStyle },
-				React.createElement(
-					'p',
-					null,
-					React.createElement(
-						'b',
-						null,
-						'Archived Messages: '
-					)
-				)
-			);
-		}
-	});
-
-	var Message = React.createClass({
-		displayName: 'Message',
-
-		render: function render() {
-			//var boolToString = this.props.archived.toString()
-			return React.createElement(
-				'p',
-				null,
-				' Message goes here: '
-			);
-		}
-	});
-
 	module.exports = { Message: Message, Messages: Messages, ArchivedMessages: ArchivedMessages, ArchivedMessage: ArchivedMessage };
 
 /***/ },
 /* 161 */
-/*!******************************!*\
-  !*** ./components/fields.js ***!
-  \******************************/
+/*!************************************!*\
+  !*** ./actions/message-actions.js ***!
+  \************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(/*! react */ 1);
-	var List = __webpack_require__(/*! ./list */ 159);
-	var Messages = __webpack_require__(/*! ./message */ 160).Messages;
-	var Message = __webpack_require__(/*! ./message */ 160).Message;
-	var archivedMessages = __webpack_require__(/*! ./message */ 160).ArchivedMessages;
-	var ArchivedMessage = __webpack_require__(/*! ./message */ 160).ArchivedMessage;
-
-	var ListActions = __webpack_require__(/*! ../actions/list-actions */ 162);
-
-	var CreateListField = React.createClass({
-		displayName: 'CreateListField',
-
-		handleText: function handleText(event) {
-			this.setState({ text: event.target.value });
-		},
-		submitList: function submitList(event) {
-			event.preventDefault();
-			ListActions.createList(this.state.text);
-		},
-		render: function render() {
-			return React.createElement(
-				'div',
-				null,
-				React.createElement(
-					'p',
-					null,
-					React.createElement(
-						'b',
-						null,
-						'CreateListField'
-					)
-				),
-				React.createElement('input', { type: 'text', onChange: this.handleText }),
-				React.createElement('input', { type: 'submit', value: 'Create List', onClick: this.submitList })
-			);
-		}
-	});
-
-	var CreateMessageField = React.createClass({
-		displayName: 'CreateMessageField',
-
-		handleText: function handleText(event) {
-			this.setState({ messageText: event.target.value });
-		},
-		handleListId: function handleListId(event) {
-			this.setState({ listId: event.target.value });
-		},
-		submitMessage: function submitMessage(event) {
-			event.preventDefault(); // So we don't refresh page when submitting a message
-			if (this.state.messageText.length >= 200) return;
-			var listId = this.state.listId;
-			//var messageId = this.props.lists[this.state.listId].messages.length
-			var message = { messageId: 1, messageText: this.state.messageText, archived: false, listId: listId };
-			//this.props.onMessageSubmit(message, listId)
-		},
-		render: function render() {
-			return React.createElement(
-				'div',
-				null,
-				React.createElement(
-					'p',
-					null,
-					'Add a new message to one of the lists:'
-				),
-				React.createElement('input', { type: 'text', onChange: this.handleText }),
-				React.createElement(
-					'select',
-					{ name: 'list', onChange: this.handleListId },
-					React.createElement(
-						'option',
-						null,
-						'Choose List: '
-					)
-				),
-				React.createElement('input', { type: 'submit', value: 'Submit Message', onClick: this.submitMessage })
-			);
-		}
-	});
-
-	var MoveMessageField = React.createClass({
-		displayName: 'MoveMessageField',
-
-		getInitialState: function getInitialState() {
-			return {
-				newListId: -1
-			};
-		},
-		handleListOptionValues: function handleListOptionValues(event) {
-			this.setState({ newListId: event.target.value });
-		},
-		handleMessageOptionValues: function handleMessageOptionValues(event) {
-			this.setState({ messageId: event.target.value });
-		},
-		submitMessageChange: function submitMessageChange(event) {
-			event.preventDefault();
-			//this.props.onMessageChange(this.props.listId, this.state.newListId, this.state.messageId)
-		},
-		render: function render() {
-			return React.createElement(
-				'div',
-				null,
-				React.createElement(
-					'p',
-					null,
-					React.createElement(
-						'b',
-						null,
-						'Move message from list: '
-					)
-				),
-				React.createElement(
-					'select',
-					{ onChange: this.handleMessageOptionValues },
-					React.createElement(
-						'option',
-						null,
-						'Choose Message'
-					)
-				),
-				React.createElement(
-					'select',
-					{ onChange: this.handleListOptionValues },
-					React.createElement(
-						'option',
-						null,
-						'Choose list'
-					)
-				),
-				React.createElement('input', { type: 'submit', value: 'Move Message', onClick: this.submitMessageChange })
-			);
-		}
-	});
-
-	var DeleteMessageField = React.createClass({
-		displayName: 'DeleteMessageField',
-
-		submitMessageDelete: function submitMessageDelete(event) {
-			event.preventDefault();
-			//this.props.onMessageDelete(this.props.listId, this.state.messageId)
-		},
-		handleMessageChange: function handleMessageChange(event) {
-			this.setState({ messageId: event.target.value });
-		},
-		render: function render() {
-			return React.createElement(
-				'div',
-				null,
-				React.createElement(
-					'p',
-					null,
-					React.createElement(
-						'b',
-						null,
-						'DeleteMessageField'
-					)
-				),
-				React.createElement(
-					'select',
-					{ onChange: this.handleMessageChange },
-					React.createElement(
-						'option',
-						null,
-						'Choose message to delete:'
-					)
-				),
-				React.createElement('input', { type: 'submit', value: 'Delete Message', onClick: this.submitMessageDelete })
-			);
-		}
-	});
-
-	var ArchiveMessageField = React.createClass({
-		displayName: 'ArchiveMessageField',
-
-		handleMessageArchive: function handleMessageArchive(event) {
-			event.preventDefault();
-			//this.props.onMessageArchive(this.props.listId, this.state.messageId)
-		},
-		handleMessageValue: function handleMessageValue(event) {
-			this.setState({ messageId: event.target.value });
-		},
-		render: function render() {
-			return React.createElement(
-				'div',
-				null,
-				React.createElement(
-					'p',
-					null,
-					React.createElement(
-						'b',
-						null,
-						'ArchiveMessageField'
-					)
-				),
-				React.createElement(
-					'select',
-					{ onChange: this.handleMessageValue },
-					React.createElement(
-						'option',
-						null,
-						'Choose message to archive:'
-					)
-				),
-				React.createElement('input', { type: 'submit', value: 'Archive Message', onClick: this.handleMessageArchive })
-			);
-		}
-	});
-
-	module.exports = { CreateListField: CreateListField, CreateMessageField: CreateMessageField, MoveMessageField: MoveMessageField, DeleteMessageField: DeleteMessageField, ArchiveMessageField: ArchiveMessageField };
-
-/***/ },
-/* 162 */
-/*!*********************************!*\
-  !*** ./actions/list-actions.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var Constants = __webpack_require__(/*! ../constants */ 163);
-	var Dispatcher = __webpack_require__(/*! ../dispatcher */ 164);
-
-	console.log(Dispatcher);
+	var Constants = __webpack_require__(/*! ../constants */ 162);
+	var Dispatcher = __webpack_require__(/*! ../dispatcher */ 163);
 
 	module.exports = {
-		createList: function createList(listName) {
-			console.log("list-actions called with listName: " + listName);
+		createMessage: function createMessage(messageContent, listId) {
+			console.log("message-actions called with params: " + messageContent + ", " + listId);
 			Dispatcher.dispatch({
-				type: Constants.CREATE_LIST,
-				listName: listName
+				type: Constants.CREATE_MESSAGE,
+				listId: listId,
+				messageContent: messageContent
 			});
 		}
 	};
 
 /***/ },
-/* 163 */
+/* 162 */
 /*!**********************!*\
   !*** ./constants.js ***!
   \**********************/
@@ -20661,7 +20489,7 @@
 	};
 
 /***/ },
-/* 164 */
+/* 163 */
 /*!***********************!*\
   !*** ./dispatcher.js ***!
   \***********************/
@@ -20670,12 +20498,12 @@
 	'use strict';
 
 	// Any ways to get around to have a file for it?
-	var Dispatcher = __webpack_require__(/*! flux */ 165).Dispatcher;
+	var Dispatcher = __webpack_require__(/*! flux */ 164).Dispatcher;
 
 	module.exports = new Dispatcher();
 
 /***/ },
-/* 165 */
+/* 164 */
 /*!**************************!*\
   !*** ../~/flux/index.js ***!
   \**************************/
@@ -20692,10 +20520,10 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 
-	module.exports.Dispatcher = __webpack_require__(/*! ./lib/Dispatcher */ 166);
+	module.exports.Dispatcher = __webpack_require__(/*! ./lib/Dispatcher */ 165);
 
 /***/ },
-/* 166 */
+/* 165 */
 /*!***********************************!*\
   !*** ../~/flux/lib/Dispatcher.js ***!
   \***********************************/
@@ -20724,7 +20552,7 @@
 	  }
 	}
 
-	var invariant = __webpack_require__(/*! fbjs/lib/invariant */ 167);
+	var invariant = __webpack_require__(/*! fbjs/lib/invariant */ 166);
 
 	var _prefix = 'ID_';
 
@@ -20939,10 +20767,10 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ../~/process/browser.js */ 4)))
 
 /***/ },
-/* 167 */
-/*!*****************************************!*\
-  !*** ../~/flux/~/fbjs/lib/invariant.js ***!
-  \*****************************************/
+/* 166 */
+/*!**********************************!*\
+  !*** ../~/fbjs/lib/invariant.js ***!
+  \**********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -20997,65 +20825,101 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ../~/process/browser.js */ 4)))
 
 /***/ },
-/* 168 */
-/*!******************************!*\
-  !*** ./stores/list-store.js ***!
-  \******************************/
+/* 167 */
+/*!*********************************!*\
+  !*** ./stores/message-store.js ***!
+  \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Dispatcher = __webpack_require__(/*! ../dispatcher */ 164);
-	var Constants = __webpack_require__(/*! ../constants */ 163);
-	var BaseStore = __webpack_require__(/*! ./base */ 169);
+	var Dispatcher = __webpack_require__(/*! ../dispatcher */ 163);
+	var Constants = __webpack_require__(/*! ../constants */ 162);
+	var BaseStore = __webpack_require__(/*! ./base */ 168);
 
-	var _lists = [{
+	var _messages = [{
+		messageId: 0,
 		listId: 0,
-		listName: 'StoreList1'
+		messageContent: 'Message1, list1'
 	}, {
+		messageId: 1,
+		listId: 0,
+		messageContent: 'Message2, list1'
+	}, {
+		messageId: 2,
 		listId: 1,
-		listName: 'StoreList2'
+		messageContent: 'Message2, list2'
 	}];
 
-	var ListStore = Object.assign({}, BaseStore, {
+	var _archivedMessages = [{
+		messageId: 0,
+		listId: 0,
+		messageContent: 'Archived msg1, list1'
+	}, {
+		messageId: 0,
+		listId: 0,
+		messageContent: 'Archived msg2 list1'
+	}];
+
+	var MessageStore = Object.assign({}, BaseStore, {
 		getAll: function getAll() {
-			return JSON.parse(JSON.stringify(_lists));
+			return JSON.parse(JSON.stringify(_messages));
 		},
-		get: function get(id) {
-			return Object.assign({}, _lists.find(function (l) {
-				return l.id == id;
+		getMessagesFromId: function getMessagesFromId(id) {
+			var messages = this.findMessagesFromId(id, _messages);
+			return messages;
+		},
+		getAllArchivedMessages: function getAllArchivedMessages() {
+			return JSON.parse(JSON.stringify(_archivedMessages));
+		},
+		getArchivedMessagesFromId: function getArchivedMessagesFromId(id) {
+			var messages = this.findMessagesFromId(id, _archivedMessages);
+			return messages;
+		},
+		// Should be moved into baseclass
+		findMessagesFromId: function findMessagesFromId(id, array) {
+			var messages = [];
+			for (var i = 0; i < array.length; i++) {
+				if (array[i].listId == id) {
+					messages.push(array[i]);
+				}
+			}
+			return messages;
+		},
+		findMessageById: function findMessageById(id) {
+			return Object.assign({}, _messages.find(function (message) {
+				return message.messageId == id;
 			}));
 		}
 	});
 
-	console.log("list-store here: ");
-	console.log(Dispatcher);
+	console.log("message-store here: ");
 
-	ListStore.dispatchToken = Dispatcher.register(function (payload) {
-		console.log("Registering dispatcher with paylod: ");
-		console.log(payload);
+	MessageStore.dispatchToken = Dispatcher.register(function (payload) {
 		switch (payload.type) {
-			case Constants.CREATE_LIST:
-				_lists.push({
-					listId: _lists.length + 1,
-					listName: payload.listName
+			case Constants.CREATE_MESSAGE:
+				_messages.push({
+					messageId: _lists.length + 1,
+					listId: payload.listId,
+					messageContent: payload.messageName
 				});
-				console.log("Lists is now: ");
-				console.log(_lists);
 				ListStore.emitChange();
 				break;
-
+			case Constants.DELETE_MESSAGE:
+				_messages.splice(payload.messageId, 1);
+				ListStore.emitChange();
+				break;
 			default:
 				return;
 		}
 
-		ListStore.emitChange();
+		store.emitChange();
 	});
 
-	module.exports = ListStore;
+	module.exports = MessageStore;
 
 /***/ },
-/* 169 */
+/* 168 */
 /*!************************!*\
   !*** ./stores/base.js ***!
   \************************/
@@ -21063,7 +20927,7 @@
 
 	'use strict';
 
-	var EventEmitter = __webpack_require__(/*! events */ 170).EventEmitter;
+	var EventEmitter = __webpack_require__(/*! events */ 169).EventEmitter;
 
 	var CHANGE_EVENT = 'change';
 
@@ -21084,7 +20948,7 @@
 	module.exports.setMaxListeners(0);
 
 /***/ },
-/* 170 */
+/* 169 */
 /*!*****************************!*\
   !*** ../~/events/events.js ***!
   \*****************************/
@@ -21359,6 +21223,303 @@
 	function isUndefined(arg) {
 	  return arg === void 0;
 	}
+
+/***/ },
+/* 170 */
+/*!******************************!*\
+  !*** ./components/fields.js ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(/*! react */ 1);
+	var List = __webpack_require__(/*! ./list */ 159);
+	var Messages = __webpack_require__(/*! ./message */ 160).Messages;
+	var Message = __webpack_require__(/*! ./message */ 160).Message;
+	var archivedMessages = __webpack_require__(/*! ./message */ 160).ArchivedMessages;
+	var ArchivedMessage = __webpack_require__(/*! ./message */ 160).ArchivedMessage;
+
+	var ListActions = __webpack_require__(/*! ../actions/list-actions */ 171);
+
+	var CreateListField = React.createClass({
+		displayName: 'CreateListField',
+
+		handleText: function handleText(event) {
+			this.setState({ text: event.target.value });
+		},
+		submitList: function submitList(event) {
+			event.preventDefault();
+			ListActions.createList(this.state.text);
+		},
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'p',
+					null,
+					React.createElement(
+						'b',
+						null,
+						'CreateListField'
+					)
+				),
+				React.createElement('input', { type: 'text', onChange: this.handleText }),
+				React.createElement('input', { type: 'submit', value: 'Create List', onClick: this.submitList })
+			);
+		}
+	});
+
+	var CreateMessageField = React.createClass({
+		displayName: 'CreateMessageField',
+
+		handleText: function handleText(event) {
+			this.setState({ messageText: event.target.value });
+		},
+		handleListId: function handleListId(event) {
+			this.setState({ listId: event.target.value });
+		},
+		submitMessage: function submitMessage(event) {
+			event.preventDefault(); // So we don't refresh page when submitting a message
+			if (this.state.messageText.length >= 200) return;
+			var listId = this.state.listId;
+			//var messageId = this.props.lists[this.state.listId].messages.length
+			var message = { messageId: 1, messageText: this.state.messageText, archived: false, listId: listId };
+			//this.props.onMessageSubmit(message, listId)
+		},
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'p',
+					null,
+					'Add a new message to one of the lists:'
+				),
+				React.createElement('input', { type: 'text', onChange: this.handleText }),
+				React.createElement(
+					'select',
+					{ name: 'list', onChange: this.handleListId },
+					React.createElement(
+						'option',
+						null,
+						'Choose List: '
+					)
+				),
+				React.createElement('input', { type: 'submit', value: 'Submit Message', onClick: this.submitMessage })
+			);
+		}
+	});
+
+	var MoveMessageField = React.createClass({
+		displayName: 'MoveMessageField',
+
+		getInitialState: function getInitialState() {
+			return {
+				newListId: -1
+			};
+		},
+		handleListOptionValues: function handleListOptionValues(event) {
+			this.setState({ newListId: event.target.value });
+		},
+		handleMessageOptionValues: function handleMessageOptionValues(event) {
+			this.setState({ messageId: event.target.value });
+		},
+		submitMessageChange: function submitMessageChange(event) {
+			event.preventDefault();
+			//this.props.onMessageChange(this.props.listId, this.state.newListId, this.state.messageId)
+		},
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'p',
+					null,
+					React.createElement(
+						'b',
+						null,
+						'Move message from list: '
+					)
+				),
+				React.createElement(
+					'select',
+					{ onChange: this.handleMessageOptionValues },
+					React.createElement(
+						'option',
+						null,
+						'Choose Message'
+					)
+				),
+				React.createElement(
+					'select',
+					{ onChange: this.handleListOptionValues },
+					React.createElement(
+						'option',
+						null,
+						'Choose list'
+					)
+				),
+				React.createElement('input', { type: 'submit', value: 'Move Message', onClick: this.submitMessageChange })
+			);
+		}
+	});
+
+	var DeleteMessageField = React.createClass({
+		displayName: 'DeleteMessageField',
+
+		submitMessageDelete: function submitMessageDelete(event) {
+			event.preventDefault();
+			//this.props.onMessageDelete(this.props.listId, this.state.messageId)
+		},
+		handleMessageChange: function handleMessageChange(event) {
+			this.setState({ messageId: event.target.value });
+		},
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'p',
+					null,
+					React.createElement(
+						'b',
+						null,
+						'DeleteMessageField'
+					)
+				),
+				React.createElement(
+					'select',
+					{ onChange: this.handleMessageChange },
+					React.createElement(
+						'option',
+						null,
+						'Choose message to delete:'
+					)
+				),
+				React.createElement('input', { type: 'submit', value: 'Delete Message', onClick: this.submitMessageDelete })
+			);
+		}
+	});
+
+	var ArchiveMessageField = React.createClass({
+		displayName: 'ArchiveMessageField',
+
+		handleMessageArchive: function handleMessageArchive(event) {
+			event.preventDefault();
+			//this.props.onMessageArchive(this.props.listId, this.state.messageId)
+		},
+		handleMessageValue: function handleMessageValue(event) {
+			this.setState({ messageId: event.target.value });
+		},
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'p',
+					null,
+					React.createElement(
+						'b',
+						null,
+						'ArchiveMessageField'
+					)
+				),
+				React.createElement(
+					'select',
+					{ onChange: this.handleMessageValue },
+					React.createElement(
+						'option',
+						null,
+						'Choose message to archive:'
+					)
+				),
+				React.createElement('input', { type: 'submit', value: 'Archive Message', onClick: this.handleMessageArchive })
+			);
+		}
+	});
+
+	module.exports = { CreateListField: CreateListField, CreateMessageField: CreateMessageField, MoveMessageField: MoveMessageField, DeleteMessageField: DeleteMessageField, ArchiveMessageField: ArchiveMessageField };
+
+/***/ },
+/* 171 */
+/*!*********************************!*\
+  !*** ./actions/list-actions.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Constants = __webpack_require__(/*! ../constants */ 162);
+	var Dispatcher = __webpack_require__(/*! ../dispatcher */ 163);
+
+	console.log(Dispatcher);
+
+	module.exports = {
+		createList: function createList(listName) {
+			console.log("list-actions called with listName: " + listName);
+			Dispatcher.dispatch({
+				type: Constants.CREATE_LIST,
+				listName: listName
+			});
+		}
+	};
+
+/***/ },
+/* 172 */
+/*!******************************!*\
+  !*** ./stores/list-store.js ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Dispatcher = __webpack_require__(/*! ../dispatcher */ 163);
+	var Constants = __webpack_require__(/*! ../constants */ 162);
+	var BaseStore = __webpack_require__(/*! ./base */ 168);
+
+	var _lists = [{
+		listId: 0,
+		listName: 'StoreList1'
+	}, {
+		listId: 1,
+		listName: 'StoreList2'
+	}];
+
+	var ListStore = Object.assign({}, BaseStore, {
+		getAll: function getAll() {
+			return JSON.parse(JSON.stringify(_lists));
+		},
+		get: function get(id) {
+			return Object.assign({}, _lists.find(function (l) {
+				return l.listId == id;
+			}));
+		}
+	});
+
+	console.log("list-store here: ");
+	console.log(Dispatcher);
+
+	ListStore.dispatchToken = Dispatcher.register(function (payload) {
+		console.log("Registering dispatcher with paylod: ");
+		switch (payload.type) {
+			case Constants.CREATE_LIST:
+				_lists.push({
+					listId: _lists.length + 1,
+					listName: payload.listName
+				});
+				ListStore.emitChange();
+				break;
+
+			default:
+				return;
+		}
+
+		ListStore.emitChange();
+	});
+
+	module.exports = ListStore;
 
 /***/ }
 /******/ ]);

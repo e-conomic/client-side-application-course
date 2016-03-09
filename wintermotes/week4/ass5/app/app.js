@@ -17,23 +17,25 @@ var ArchiveMessageField = require('./components/fields').ArchiveMessageField
 var ListActions = require('./actions/list-actions');
 var ListStore = require('./stores/list-store')
 
+var MessageActions = require('./actions/message-actions');
+var MessageStore = require('./stores/message-store')
+
 function getAppState(){
 	return {
 		lists : ListStore.getAll(), 
+		messages : MessageStore.getAll()
 	}
 }
 
 var MessageBox = React.createClass({
 			getInitialState : function() {
-				var storeLists = getAppState()
-				return storeLists; 
+				var lists = getAppState()
+				return lists; 
 			},
-
-			// Question/discussion 1: ComponentDidMount and componentWillUnmount seems essential to FLUX: http://stackoverflow.com/questions/26325675/how-to-handle-data-changes-in-flux-react
-			// But how would you describe them? Any comparisons to other applications?  
 			componentDidMount : function() {
 				console.log("Componenet did mount: ")
 				ListStore.addChangeListener(this._onChange);
+				MessageStore.addChangeListener(this._onChange)
 		    },
 		    componentWillUnmount: function() {
 		        ListStore.removeChangeListener(this._onChange);
@@ -79,3 +81,6 @@ var MessageBox = React.createClass({
 	  <MessageBox />,
 	  document.getElementById('app')
 	);    
+
+// Ressources: 
+// - http://stackoverflow.com/questions/26325675/how-to-handle-data-changes-in-flux-react 
