@@ -45,65 +45,6 @@ var AssignmentApp = React.createClass({
 		ListActions.createList(this.state.listName);
 	},
 
-	deleteMessage: function(listKey, msgKey) {
-		var updatedGeneratedLists = JSON.parse(JSON.stringify(this.state.generatedLists));
-		var generatedList = this.getGeneratedListFromArray(listKey, updatedGeneratedLists);
-		generatedList.messageList = generatedList.messageList.filter(function(message) {
-			return message.id != msgKey;
-		});
-		this.setState({	generatedLists: updatedGeneratedLists });
-	},
-
-	archiveMessage: function(listKey, msgKey) {
-		var updatedGeneratedLists = JSON.parse(JSON.stringify(this.state.generatedLists));
-		var generatedList = this.getGeneratedListFromArray(listKey, updatedGeneratedLists);
-		var msgToArchive;
-		var updatedList = generatedList.messageList.filter(function(message) {
-			if (message.id == msgKey) {
-				msgToArchive = message;
-				return false;
-			}
-			return true;
-		});
-		generatedList.messageList = updatedList;
-		generatedList.archivedList.push(msgToArchive);
-		this.setState({ generatedLists: updatedGeneratedLists });
-	},
-
-	extractMessage: function(listKey, msgKey) {
-		var updatedGeneratedLists = JSON.parse(JSON.stringify(this.state.generatedLists));
-		var generatedList = this.getGeneratedListFromArray(listKey, updatedGeneratedLists);
-		var msgToExtract;
-		generatedList.archivedList = generatedList.archivedList.filter(function(message) {
-			if (message.id == msgKey) {
-				msgToExtract = message;
-				return false;
-			}
-			return true;
-		});
-		generatedList.messageList.push(msgToExtract);
-		this.setState({ generatedLists: updatedGeneratedLists });
-	},
-
-	moveMessage: function(msg, oldListKey, targetListKey) {
-		if (oldListKey == undefined || targetListKey == undefined || msg == undefined) { return; }
-		var updatedGeneratedLists = JSON.parse(JSON.stringify(this.state.generatedLists));
-		var oldList = this.getGeneratedListFromArray(oldListKey, updatedGeneratedLists);
-		var targetList = this.getGeneratedListFromArray(targetListKey, updatedGeneratedLists);
-		targetList.messageList.push(msg);
-		oldList.messageList = oldList.messageList.filter(function(message) {
-			return message.id != msg.id;
-		});
-		this.setState({ generatedLists: updatedGeneratedLists });
-	},
-
-	getGeneratedListFromArray: function(listKey, clonedList) {
-		var generatedList = clonedList.filter(function(list) {
-			return list.id == listKey;
-		});
-		return generatedList[0];
-	},
-
 	onClick: function() { this.submitNewList() },
 
 	render: function() {
