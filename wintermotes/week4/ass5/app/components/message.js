@@ -1,5 +1,9 @@
 var React = require('react');
 
+var DeleteMessageField = require('../components/fields').DeleteMessageField
+var ArchiveMessageField = require('../components/fields').ArchiveMessageField
+var UnarchiveMessageField = require('../components/fields').UnarchiveMessageField
+
 var MessageActions = require('../actions/message-actions');
 var MessageStore = require('../stores/message-store')
 
@@ -31,16 +35,15 @@ var Messages = React.createClass({
 	},
 	componentWillUnmount : function() {
 		console.log("Componenet did mount: ")
-		MessageStore.addChangeListener(this._onChange);
+		MessageStore.removeChangeListener(this._onChange);
 	},
 	_onChange : function(){
-		this.setState(getMessages(this.props.id))
+		this.setState(getMessages(this.props.listId))
 	},
 	render : function() {
 		var messageNodes = this.state.messages.map(function(message) {
-
 			return(
-				<Message key={message.messageId} messageId={message.messageId} messageContent={message.messageContent}/>
+				<Message key={message.messageId} messageId={message.messageId} content={message.content}/>
 			)
 		});
 		return(
@@ -56,7 +59,9 @@ var Message = React.createClass({
 	render: function() {
 	    return (
 		    <div>
-		        <p>id: {this.props.messageId} | text: {this.props.messageContent}</p>
+		        <p>id: {this.props.messageId} | text: {this.props.content}</p>
+				<DeleteMessageField messageId={this.props.messageId}/>
+				<ArchiveMessageField messageId={this.props.messageId}/>
 		    </div>
 	    );
 	}
@@ -67,11 +72,22 @@ var ArchivedMessages = React.createClass({
 		var messages = getArchivedMessages(this.props.listId)
 		return messages; 
 	},
+	componentDidMount : function() {
+		console.log("ArchivedMessage: componentDidMount() ")
+		MessageStore.addChangeListener(this._onChange);
+	},
+	componentWillUnmount : function() {
+		console.log("Componenet did mount: ")
+		MessageStore.removeChangeListener(this._onChange);
+	},
+	_onChange : function(){
+		this.setState(getArchivedMessages(this.props.listId))
+	},
 	render : function () {
 		var messgageNodes = [];
 			var messageNodes = this.state.archivedMessages.map(function(message) {
 				return(
-					<ArchivedMessage key={message.messageId} messageId={message.messageId} messageContent={message.messageContent}/>
+					<ArchivedMessage key={message.messageId} messageId={message.messageId} content={message.content}/>
 				)
 			});
 		return(
@@ -88,10 +104,10 @@ var ArchivedMessage = React.createClass({
 	},
 	render : function() {
 		return(
-			<span>
-				<input style={{float : 'right'}} type="submit" value="Unarchive Message" onClick={this.handleMessageUnarchive} />
-		        <p>id: {this.props.messageId} | text: {this.props.messageContent}</p>
-			</span>
+			<div key={this.props.messageId}>
+				<UnarchiveMessageField messageId={this.props.messageId}/>
+		        <p>id: {this.props.messageId} | text: {this.props.content}</p>
+			</div>
 		);
 	}
 });

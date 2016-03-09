@@ -1,12 +1,21 @@
-var React = require('react')
-var List = require('./list')
-var Messages = require('./message').Messages
-var Message = require('./message').Message 
-var archivedMessages = require('./message').ArchivedMessages
-var ArchivedMessage = require('./message').ArchivedMessage
+var React = require('react');
+var List = require('./list');
+var Messages = require('./message').Messages;
+var Message = require('./message').Message; 
+var archivedMessages = require('./message').ArchivedMessages;
+var ArchivedMessage = require('./message').ArchivedMessage;
 
+var ListStore = require('../stores/list-store');
 var ListActions = require('../actions/list-actions');
-var MessageActions = require('../actions/list-actions');
+
+var MessageStore = require('../stores/message-store');
+var MessageActions = require('../actions/message-actions');
+
+function getLists(){
+	return {
+		lists : ListStore.getAll()
+	};
+}
 
 var CreateListField = React.createClass({
 	handleText: function(event){
@@ -20,7 +29,7 @@ var CreateListField = React.createClass({
 		return (
 			<div>
 				<p><b>CreateListField</b></p>
-		        <input type="text" onChange={this.handleText} />
+		        <input type="text" onChange={this.handleText} id=""  />
 		      	<input type="submit" value="Create List" onClick={this.submitList} />
 	      	</div>
 		)
@@ -28,27 +37,43 @@ var CreateListField = React.createClass({
 });
 
 var CreateMessageField = React.createClass({
+	getInitialState : function(){
+		return getLists(); 
+	},
 	handleText: function(event){
-		this.setState({messageText: event.target.value})
+		this.setState({messageContent: event.target.value})
 	},
 	handleListId: function(event){
-		this.setState({listId: event.target.value})
+		console.log("Setting listId to: " + event.target.value.charAt(0))
+		this.setState({listId: event.target.value.charAt(0)})
 	},
 	submitMessage: function(event){
-		event.preventDefault(); // So we don't refresh page when submitting a message
-		var listId = this.state.listId
-		var message = {messageId : 1, messageText : this.state.messageText, archived : false, listId : listId}
-		//this.props.onMessageSubmit(message, listId)
+		MessageActions.createMessage(this.state.messageContent, this.state.listId)
+	},
+	componentDidMount : function() {
+		ListStore.addChangeListener(this._onChange);
+	},
+	componentWillUnmount : function() {
+		ListStore.removeChangeListener(this._onChange);
+	},
+	_onChange : function(){
+		this.setState(getLists())
 	},
 	render: function() {
+		var listChoices = this.state.lists.map(function(list){
+			return(
+				<option key={list.listId} onChange={this.handleListId}>{list.listId + " : " + list.listName}</option>
+			)
+		}.bind(this));
 		return (
 		<div>
-			<p>Add a new message to one of the lists:</p>
+			<p>Add a new message to one of the lists</p>
 	        <input type="text" onChange={this.handleText} />
 	        <select name="list" onChange={this.handleListId}>
-	        <option>Choose List: </option>
+	        	<option>Choose List: </option>
+	        	{listChoices}
 			</select>
-			<input type="submit" value="Submit Message" onClick={this.submitMessage} />
+			<button onClick={this.submitMessage} type="button">Create Message</button>
       	</div>
 		);
 	}
@@ -88,44 +113,35 @@ var MoveMessageField = React.createClass({
 
 var DeleteMessageField = React.createClass({
 	submitMessageDelete : function(event) {
-		event.preventDefault();
-		//this.props.onMessageDelete(this.props.listId, this.state.messageId)
-	},
-	handleMessageChange : function(event) {
-		this.setState({messageId : event.target.value})
+		MessageActions.deleteMessage(this.props.messageId)
 	},
 	render: function(){
 		return (
-			<div>
-				<p><b>DeleteMessageField</b></p>
-				<select onChange={this.handleMessageChange}>
-		        	<option>Choose message to delete:</option>
-				</select>
-				<input type="submit" value="Delete Message" onClick={this.submitMessageDelete} />
-			</div>
-		)
+			<button type="submit" onClick={this.submitMessageDelete}>Delete Message</button>
+		);
 	}
 });
 
 var ArchiveMessageField = React.createClass({
-	handleMessageArchive : function (event) {
-		event.preventDefault();
-		//this.props.onMessageArchive(this.props.listId, this.state.messageId)
-	},
-	handleMessageValue : function (event){
-		this.setState({messageId : event.target.value})
+	submitMessageArchive : function () {
+		MessageActions.archiveMessage(this.props.messageId)
 	},
 	render: function(){
 		return (
-			<div>
-				<p><b>ArchiveMessageField</b></p>
-					<select onChange={this.handleMessageValue}>
-			        	<option>Choose message to archive:</option>
-					</select>
-					<input type="submit" value="Archive Message" onClick={this.handleMessageArchive} />
-			</div>
+			<button type="submit" onClick={this.submitMessageArchive}>Archive</button>
 		)
 	}
-		});
+});
 
-module.exports = {CreateListField, CreateMessageField, MoveMessageField, DeleteMessageField, ArchiveMessageField};
+var UnarchiveMessageField = React.createClass({
+	submitMessageUnarchive : function () {
+		MessageActions.unarchiveMessage(this.props.messageId)
+	},
+	render: function(){
+		return (
+			<button type="submit" onClick={this.submitMessageUnarchive}>Unarchive</button>
+		)
+	}
+});
+
+module.exports = {CreateListField, CreateMessageField, MoveMessageField, DeleteMessageField, ArchiveMessageField, UnarchiveMessageField};

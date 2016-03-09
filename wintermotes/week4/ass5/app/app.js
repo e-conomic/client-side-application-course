@@ -11,7 +11,6 @@ var ArchivedMessage = require('./components/message').ArchivedMessage
 var CreateListField = require('./components/fields').CreateListField
 var CreateMessageField = require('./components/fields').CreateMessageField
 var MoveMessageField = require('./components/fields').MoveMessageField
-var DeleteMessageField = require('./components/fields').DeleteMessageField
 var ArchiveMessageField = require('./components/fields').ArchiveMessageField
 
 var ListActions = require('./actions/list-actions');
@@ -58,8 +57,6 @@ var MessageBox = React.createClass({
 					<div key ={"output-" + list.listId}>
 						<List data={list} onMessageUnarchive={this.props.onMessageUnarchive}/>
 						<MoveMessageField lists={this.props.lists} listId={list.listId} onMessageChange={this.props.onMessageChange} />
-						<DeleteMessageField onMessageDelete={this.props.onMessageDelete} listId={list.listId} messages={list.messages}/>
-						<ArchiveMessageField onMessageArchive={this.props.onMessageUnarchive} listId={list.listId} messages={list.messages}/>
 					</div>
 					);
 				}.bind(this));
