@@ -4,11 +4,11 @@ var CHANGE_EVENT = 'change';
 var ERROR_EVENT = 'error';
 
 module.exports = Object.assign({}, EventEmitter.prototype, {
-	addChangeListener: function(callback) {
-		this.on(CHANGE_EVENT, callback);
+    addChangeListener: function(callback) {
+        this.on(CHANGE_EVENT, callback);
 	},
-	removeChangeListener: function(callback) {
-		this.removeListener(CHANGE_EVENT, callback);
+    removeChangeListener: function(callback) {
+	   this.removeListener(CHANGE_EVENT, callback);
 	},
     addErrorListener: function(callback) {
         this.on(ERROR_EVENT, callback);
@@ -16,8 +16,8 @@ module.exports = Object.assign({}, EventEmitter.prototype, {
     removeErrorListener: function(callback) {
         this.removeListener(ERROR_EVENT, callback);
     },
-	emitChange: function() {
-		this.emit(CHANGE_EVENT);
+    emitChange: function() {
+        this.emit(CHANGE_EVENT);
 	},
     emitError: function() {
         this.emit(ERROR_EVENT);
