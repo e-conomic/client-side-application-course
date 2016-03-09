@@ -49,12 +49,9 @@ var MessageStore = Object.assign({}, BaseStore, {
 	},
 	findMessageById : function(id){
 		var index = _messages.findIndex(function(m){return m.messageId == id});
-		console.log("index is: " + index)
 		return index
 	}
 });
-
-console.log("message-store here: ")
 
 MessageStore.dispatchToken = Dispatcher.register(function(payload){
 	switch(payload.type) {
@@ -74,6 +71,11 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 			break;
 		case Constants.UNARCHIVE_MESSAGE: 
 			_messages[MessageStore.findMessageById(payload.messageId)].archived = false
+			break; 
+		case Constants.MOVE_MESSAGE: 
+			console.log(payload)
+			var index = MessageStore.findMessageById(payload.messageId)
+			_messages[index].listId = payload.listId;
 			break; 
 		default:
 			return;

@@ -13,7 +13,7 @@ var MessageActions = require('../actions/message-actions');
 
 function getLists(){
 	return {
-		lists : ListStore.getAll()
+		lists : ListStore.getAll(),
 	};
 }
 
@@ -44,8 +44,7 @@ var CreateMessageField = React.createClass({
 		this.setState({messageContent: event.target.value})
 	},
 	handleListId: function(event){
-		console.log("Setting listId to: " + event.target.value.charAt(0))
-		this.setState({listId: event.target.value.charAt(0)})
+		this.setState({listId: event.target.value.charAt(0)}) // First char is listId
 	},
 	submitMessage: function(event){
 		MessageActions.createMessage(this.state.messageContent, this.state.listId)
@@ -80,32 +79,39 @@ var CreateMessageField = React.createClass({
 });
 
 var MoveMessageField = React.createClass({
-	getInitialState: function(){
-		return {
-			newListId : -1, 
-		}
+	getInitialState : function(){
+		return getLists(); 
 	},
-	handleListOptionValues: function(event){
-		this.setState({newListId : event.target.value})
+	handleListId: function(event){
+		var listId = event.target.value.charAt(event.target.value.search(/\d/))
+		this.setState({listId: listId })
 	},
-	handleMessageOptionValues : function(event){
-		this.setState({messageId : event.target.value})
+	submitMoveMessage : function(){
+		MessageActions.moveMessage(this.state.listId, this.props.messageId)
 	},
-	submitMessageChange : function (event){
-		event.preventDefault();
-		//this.props.onMessageChange(this.props.listId, this.state.newListId, this.state.messageId)
+	componentDidMount : function() {
+		ListStore.addChangeListener(this._onChange);
+	},
+	componentWillUnmount : function() {
+		ListStore.removeChangeListener(this._onChange);
+	},
+	_onChange : function(){
+		this.setState(getLists())
 	},
 	render: function() {
+		var listChoices = this.state.lists.map(function(list){
+			return(
+				<option key={list.listId} >move message to list: {list.listId + " : " + list.listName}</option>
+			)
+		}.bind(this));
 	    return (
 	      <div>
-	        <p><b>Move message from list: </b></p> 
-			<select onChange={this.handleMessageOptionValues}>
-	        	<option>Choose Message</option>
-			</select>
-			<select onChange={this.handleListOptionValues}>
+	        <p></p> 
+			<select  style={{display: 'inline-block', marginRight : '10px'}} onChange={this.handleListId}>
 	        	<option>Choose list</option>
+	        	{listChoices}
 			 </select>
-			<input type="submit" value="Move Message" onClick={this.submitMessageChange} />
+			<input type="submit" value="Move Message" onClick={this.submitMoveMessage} />
         </div>
 	    );
 	}
@@ -117,7 +123,7 @@ var DeleteMessageField = React.createClass({
 	},
 	render: function(){
 		return (
-			<button type="submit" onClick={this.submitMessageDelete}>Delete Message</button>
+			<button type="submit" style={{display: 'inline-block', marginRight : '10px'}} onClick={this.submitMessageDelete}>Delete Message</button>
 		);
 	}
 });
@@ -128,7 +134,7 @@ var ArchiveMessageField = React.createClass({
 	},
 	render: function(){
 		return (
-			<button type="submit" onClick={this.submitMessageArchive}>Archive</button>
+			<button type="submit"  style={{display: 'inline-block', marginRight : '10px'}} onClick={this.submitMessageArchive}>Archive</button>
 		)
 	}
 });
@@ -139,7 +145,7 @@ var UnarchiveMessageField = React.createClass({
 	},
 	render: function(){
 		return (
-			<button type="submit" onClick={this.submitMessageUnarchive}>Unarchive</button>
+			<button type="submit"  style={{display: 'inline-block', marginRight : '10px'}} onClick={this.submitMessageUnarchive}>Unarchive</button>
 		)
 	}
 });

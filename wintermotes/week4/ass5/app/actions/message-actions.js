@@ -3,11 +3,17 @@ var Dispatcher = require('../dispatcher')
 
 module.exports = {
 	createMessage : function(content, listId){
-		console.log("message-actions called with params: " + content + ", " + listId)
 		Dispatcher.dispatch({
 			type : Constants.CREATE_MESSAGE, 
 			listId : listId, 
 			content : content
+		});
+	},
+	moveMessage : function(newListId, messageId){
+		Dispatcher.dispatch({
+			type : Constants.MOVE_MESSAGE, 
+			listId : newListId,
+			messageId : messageId,
 		});
 	},
 	deleteMessage : function(id){

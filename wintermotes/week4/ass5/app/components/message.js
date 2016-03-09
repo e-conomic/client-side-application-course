@@ -3,11 +3,10 @@ var React = require('react');
 var DeleteMessageField = require('../components/fields').DeleteMessageField
 var ArchiveMessageField = require('../components/fields').ArchiveMessageField
 var UnarchiveMessageField = require('../components/fields').UnarchiveMessageField
+var MoveMessageField = require('../components/fields').MoveMessageField
 
 var MessageActions = require('../actions/message-actions');
 var MessageStore = require('../stores/message-store')
-
-//Question 1: I am sure there is a shorthand for checking whether we have any messages or not, so we only call map() if we have elements. Any suggestions?
 
 function getMessages(id){
 	return {
@@ -30,11 +29,9 @@ var Messages = React.createClass({
 		return messages; 
 	},
 	componentDidMount : function() {
-		console.log("Componenet did mount: ")
 		MessageStore.addChangeListener(this._onChange);
 	},
 	componentWillUnmount : function() {
-		console.log("Componenet did mount: ")
 		MessageStore.removeChangeListener(this._onChange);
 	},
 	_onChange : function(){
@@ -48,7 +45,6 @@ var Messages = React.createClass({
 		});
 		return(
 			<div>
-				Messages for list: {this.state.listId}
 				{messageNodes}
 			</div>
 		);		
@@ -58,10 +54,11 @@ var Messages = React.createClass({
 var Message = React.createClass({
 	render: function() {
 	    return (
-		    <div>
+		    <div style={{marginTop : '60px', border : '1px solid blue'}}>
 		        <p>id: {this.props.messageId} | text: {this.props.content}</p>
 				<DeleteMessageField messageId={this.props.messageId}/>
 				<ArchiveMessageField messageId={this.props.messageId}/>
+				<MoveMessageField messageId={this.props.messageId} />
 		    </div>
 	    );
 	}
@@ -73,11 +70,9 @@ var ArchivedMessages = React.createClass({
 		return messages; 
 	},
 	componentDidMount : function() {
-		console.log("ArchivedMessage: componentDidMount() ")
 		MessageStore.addChangeListener(this._onChange);
 	},
 	componentWillUnmount : function() {
-		console.log("Componenet did mount: ")
 		MessageStore.removeChangeListener(this._onChange);
 	},
 	_onChange : function(){
