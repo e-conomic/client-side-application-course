@@ -29,7 +29,7 @@ var MessageBox = React.createClass({
 				return lists; 
 			},
 			componentDidMount : function() {
-				console.log("Componenet did mount: ")
+				console.log("MessageBox Component did mount: ")
 				ListStore.addChangeListener(this._onChange);
 		    },
 		    componentWillUnmount: function() {

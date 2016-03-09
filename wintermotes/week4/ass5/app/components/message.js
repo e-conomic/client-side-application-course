@@ -25,18 +25,24 @@ var Messages = React.createClass({
 		var messages = getMessages(this.props.listId)
 		return messages; 
 	},
+	componentDidMount : function() {
+		console.log("Componenet did mount: ")
+		MessageStore.addChangeListener(this._onChange);
+	},
+	componentWillUnmount : function() {
+		console.log("Componenet did mount: ")
+		MessageStore.addChangeListener(this._onChange);
+	},
 	_onChange : function(){
 		this.setState(getMessages(this.props.id))
 	},
 	render : function() {
-		var messageNodes = null
-		if(this.state.messages){
-			messageNodes = this.state.messages.map(function(message) {
-				return(
-					<Message key={message.messageId} messageId={message.messageId} messageContent={message.messageContent}/>
-				)
-			});
-		} 
+		var messageNodes = this.state.messages.map(function(message) {
+
+			return(
+				<Message key={message.messageId} messageId={message.messageId} messageContent={message.messageContent}/>
+			)
+		});
 		return(
 			<div>
 				Messages for list: {this.state.listId}
@@ -63,16 +69,14 @@ var ArchivedMessages = React.createClass({
 	},
 	render : function () {
 		var messgageNodes = [];
-		if(this.state.archivedMessages){ // If any archived messages
 			var messageNodes = this.state.archivedMessages.map(function(message) {
 				return(
 					<ArchivedMessage key={message.messageId} messageId={message.messageId} messageContent={message.messageContent}/>
 				)
 			});
-		} 
 		return(
 			<div style={this.state.archiveStyle}>
-				Archived Messages for list: {this.state.listId}
+				Archived Messages for LIST: {this.state.listId}
 				{messageNodes}
 			</div>
 		);		

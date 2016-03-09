@@ -6,6 +6,7 @@ var archivedMessages = require('./message').ArchivedMessages
 var ArchivedMessage = require('./message').ArchivedMessage
 
 var ListActions = require('../actions/list-actions');
+var MessageActions = require('../actions/list-actions');
 
 var CreateListField = React.createClass({
 	handleText: function(event){
@@ -35,10 +36,7 @@ var CreateMessageField = React.createClass({
 	},
 	submitMessage: function(event){
 		event.preventDefault(); // So we don't refresh page when submitting a message
-		if(this.state.messageText.length >= 200)
-			return
 		var listId = this.state.listId
-		//var messageId = this.props.lists[this.state.listId].messages.length
 		var message = {messageId : 1, messageText : this.state.messageText, archived : false, listId : listId}
 		//this.props.onMessageSubmit(message, listId)
 	},
