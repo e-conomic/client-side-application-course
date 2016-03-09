@@ -2,9 +2,8 @@ var React = require('react');
 
 var OnPressingEnterMixin = require('../mixins/on-pressing-enter-mixin');
 var GeneratedList = require('./generated-list');
-var GeneratedListActions = require('../actions/list-actions');
-var GeneratedListStore = require('../stores/list-store');
-var MessageListActions = require('../actions/message-actions');
+var ListActions = require('../actions/list-actions');
+var ListStore = require('../stores/list-store');
 
 var AssignmentApp = React.createClass({
 	mixins: [
@@ -18,17 +17,17 @@ var AssignmentApp = React.createClass({
 
 	getInitialState: function() {
 		return {
-			generatedLists: GeneratedListStore.getAll(),
+			generatedLists: ListStore.getAll(),
 			listName: ''
 		}
 	},
 
 	componentDidMount: function() {
-		GeneratedListStore.addChangeListener(this._onChange);
+		ListStore.addChangeListener(this._onChange);
 	},
 
 	componentWillUnmount: function() {
-		GeneratedListStore.removeChangeListener(this._onChange);
+		ListStore.removeChangeListener(this._onChange);
 	},
 
 	onChange: function(e) {
@@ -37,13 +36,13 @@ var AssignmentApp = React.createClass({
 
 	_onChange: function() {
 		this.setState({
-			generatedLists: GeneratedListStore.getAll(),
+			generatedLists: ListStore.getAll(),
 			listName: ''
 		});
 	},
 
 	submitNewList: function() {
-		GeneratedListActions.createList(this.state.listName);
+		ListActions.createList(this.state.listName);
 	},
 
 	deleteMessage: function(listKey, msgKey) {

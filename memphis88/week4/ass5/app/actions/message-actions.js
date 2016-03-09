@@ -10,6 +10,7 @@ function isValidMessage(msg) {
 
 module.exports = {
 	createMessage: function(listKey, msgText) {
+		if (msgText == '') return;
 		if (isValidMessage(msgText)) {
 			Dispatcher.dispatch({
 				type: Constants.CREATE_MESSAGE,

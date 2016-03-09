@@ -18,12 +18,15 @@ var store = Object.assign({}, BaseStore, {
 	getAll: function() {
 		return deepCopy(_messages);
 	},
+	getAllForList: function(listKey) {
+		return deepCopy(_messages.filter(function(msg) { return msg.listKey == listKey }));
+	},
 	get: function(id) {
 		return Object.assign({}, _messages.find(function(l) { return l.id == id }));
 	}
 });
 
-store.dispatchToken = Dispatcher.register(function(payload){
+store.dispatchToken = Dispatcher.register(function(payload) {
 
 	switch(payload.type) {
 		case Constants.CREATE_MESSAGE:
@@ -38,13 +41,16 @@ store.dispatchToken = Dispatcher.register(function(payload){
 			_messages.splice(_messages.indexOf(msgToDelete), 1);
 			break;
 		case Constants.MOVE_MESSAGE:
-			
+			var msgToMove = _messages.find(function(l) { return l.id == payload.id });
+			msgToMove.listKey = payload.listKey;
 			break;
 		case Constants.ARCHIVE_MESSAGE:
-			console.log(ArchiveMessageStore);
 			Dispatcher.waitFor([ArchiveMessageStore.dispatchToken]);
 			var msgToDelete = _messages.find(function(l) { return l.id == payload.id });
 			_messages.splice(_messages.indexOf(msgToDelete), 1);
+			break;
+		case Constants.EXTRACT_MESSAGE:
+			_messages.push(ArchiveMessageStore.get(payload.id));
 			break;
 
 		default:

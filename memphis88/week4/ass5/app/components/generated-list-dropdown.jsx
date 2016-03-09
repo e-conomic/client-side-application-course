@@ -1,5 +1,6 @@
 var React = require('react');
 var ListStore = require('../stores/list-store');
+var MessageActions = require('../actions/message-actions');
 
 var GeneratedListDropDown = React.createClass({
 	propTypes: {
@@ -8,8 +9,17 @@ var GeneratedListDropDown = React.createClass({
 
 	getInitialState: function() {
 		return {
+			lists: ListStore.getAll(),
 			value: ''
 		};
+	},
+
+	componentDidMount: function() {
+		ListStore.addChangeListener(this._onChange);
+	},
+
+	componentWillUnmount: function() {
+		ListStore.removeChangeListener(this._onChange);
 	},
 
 	handleMessageMove: function(msg, targetListKey) {
@@ -17,7 +27,13 @@ var GeneratedListDropDown = React.createClass({
 	},
 
 	onChange: function(e) {
-		this.handleMessageMove(this.props.msg, e.target.value);
+		MessageActions.moveMessage(this.props.msgId, e.target.value);
+	},
+
+	_onChange: function() {
+		this.setState({
+			lists: ListStore.getAll()
+		});
 	},
 
 	render: function() {
@@ -27,8 +43,8 @@ var GeneratedListDropDown = React.createClass({
 		};
 		return (
 			<select onChange={this.onChange}>
-				<option key="null" value="-" />
-				{ListStore.getAll().map(createDropdownList, this)}
+				<option key="null" value="null">Move to</option>
+				{this.state.lists.map(createDropdownList, this)}
 			</select>
 		);
 	}

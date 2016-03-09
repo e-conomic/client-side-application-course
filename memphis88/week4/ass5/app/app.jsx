@@ -4,6 +4,6 @@ var ReactDOM = require('react-dom');
 var AssignmentApp = require('./components/assignment-app');
 
 ReactDOM.render(
-	<AssignmentApp />, 
+	<AssignmentApp />,
 	document.getElementById('app')
 );

@@ -21,7 +21,7 @@ var store = Object.assign({}, BaseStore, {
 	}
 });
 
-store.dispatchToken = Dispatcher.register(function(payload){
+store.dispatchToken = Dispatcher.register(function(payload) {
 	switch(payload.type) {
 		case Constants.CREATE_LIST:
 			_list.push({

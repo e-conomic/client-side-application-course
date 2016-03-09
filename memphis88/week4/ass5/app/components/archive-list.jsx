@@ -2,25 +2,40 @@ var React = require('react');
 
 var Message = require('./message');
 var ArchiveListStore = require('../stores/archive-message-store');
+var MessageActions = require('../actions/message-actions');
 
 var ArchiveList = React.createClass({
 
 	getInitialState: function() {
 		return {
-			archivedList: ArchiveListStore.getAll()
+			messages: ArchiveListStore.getAllForList(this.props.myListKey)
 		}
 	},
 
-	handleMessageExtract: function(key) {
-		this.props.onExtractMessage(key);
+	handleMessageExtract: function(msgId) {
+		MessageActions.extractMessage(msgId);
+	},
+
+	componentDidMount: function() {
+		ArchiveListStore.addChangeListener(this._onChange);
+	},
+
+	componentWillUnmount: function() {
+		ArchiveListStore.removeChangeListener(this._onChange);
+	},
+
+	_onChange: function() {
+		this.setState({
+			messages: ArchiveListStore.getAllForList(this.props.myListKey)
+		});
 	},
 
 	render: function() {
 		var createMessage = function(msg) {
 			return (
-				<tr key={msg.index}>
-					<td><Message text={msg.text} /></td>
-					<td><input type="button" value="Extract" onClick={this.handleMessageExtract.bind(this, msg.index)} /></td>
+				<tr key={msg.id}>
+					<td><Message text={msg.message} /></td>
+					<td><input type="button" value="Extract" onClick={this.handleMessageExtract.bind(this, msg.id)} /></td>
 				</tr>
 			);
 		};
@@ -28,7 +43,7 @@ var ArchiveList = React.createClass({
 			<table>
 				<thead><tr><td colSpan="2">{"---Archive---"}</td></tr></thead>
 				<tbody>
-					{this.state.archivedList.map(createMessage, this)}
+					{this.state.messages.map(createMessage, this)}
 				</tbody>
 			</table>
 		);

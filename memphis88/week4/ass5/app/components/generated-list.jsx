@@ -3,7 +3,7 @@ var React = require('react');
 var OnPressingEnterMixin = require('../mixins/on-pressing-enter-mixin');
 var ArchiveList = require('./archive-list');
 var MessageList = require('./message-list');
-var MessageListActions = require('../actions/message-actions');
+var MessageActions = require('../actions/message-actions');
 
 var GeneratedList = React.createClass({
 	mixins: [
@@ -26,8 +26,8 @@ var GeneratedList = React.createClass({
 		this.setState({ text: e.target.value });
 	},
 
-	onClick: function() { 
-		MessageListActions.createMessage(this.props.data.id, this.state.text);
+	onClick: function() {
+		MessageActions.createMessage(this.props.data.id, this.state.text);
 		this.setState({
 			text: ''
 		});
@@ -42,10 +42,8 @@ var GeneratedList = React.createClass({
 				<h5>Add new message</h5>
 				<input type="text" onChange={this.onChange} value={this.state.text} onKeyDown={this.onPressingEnter} />
 				<input type="button" value="add" onClick={this.onClick} />
-				<MessageList 
-					myListKey={this.props.data.id} 
-				/>
-				<ArchiveList onExtractMessage={this.onExtractMessage} />
+				<MessageList myListKey={this.props.data.id} />
+				<ArchiveList myListKey={this.props.data.id} />
 			</div>
 		);
 	}
