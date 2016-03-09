@@ -13,7 +13,6 @@ var GeneratedList = React.createClass({
 	propTypes: {
 		messageList: React.PropTypes.array,
 		text: React.PropTypes.string,
-		index: React.PropTypes.number
 	},
 
 	getInitialState: function () {
@@ -31,11 +30,9 @@ var GeneratedList = React.createClass({
 		this.setState({
 			text: ''
 		});
-
 	},
 
 	render: function() {
-
 		return (
 			<div className="generatedLists">
 				<h3>{this.props.data.name}</h3>
