@@ -16,6 +16,11 @@ var MessageStore = Object.assign({}, BaseStore, {
     get: function(id) {
         var message = _messages.find(function(m) { return m.id == id });
         return JSON.parse(JSON.stringify(message));
+    },
+    getForList: function(listId) {
+        return _messages.filter((m) => {
+            return m.listId == listId;
+        });
     }
 });
 
