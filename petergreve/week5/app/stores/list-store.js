@@ -2,7 +2,7 @@ var Dispatcher = require('../dispatcher/dispatcher');
 var Constants = require('../constants/constants');
 var BaseStore = require('./base');
 
-var _lists = [{id: 0, name: "first list"},{id: 1, name: "second list"}];
+var _lists = [{id: 0, name: "first list", hideMessages: false},{id: 1, name: "second list", hideMessages: false}];
 
 var ListStore = Object.assign({}, BaseStore, {
 	getAll: function() {
@@ -25,6 +25,20 @@ Dispatcher.register(function(payload){
                 name: payload.listName
             })
             ListStore.emitChange();
+            break
+        case Constants.HIDEMESSAGES_LIST:
+ 
+            var filteredList= _lists.find((l) => {
+                return l.id == payload.listId;
+            });
+            filteredList.hideMessages = true;
+            break
+        case Constants.UNHIDEMESSAGES_LIST:
+
+            var filteredList= _lists.find((l) => {
+                return l.id == payload.listId;
+            });
+            filteredList.hideMessages = false;
             break
     }
 })

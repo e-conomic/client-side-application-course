@@ -7,5 +7,17 @@ module.exports = {
 			type: Constants.CREATE_LIST,
 			listName: listName,
 		});
-	}
+	},
+    hideListMessages: function(listId){
+        Dispatcher.dispatch({
+            type: Constants.HIDEMESSAGES_LIST,
+            listId: listId
+        });
+    },
+    unHideListMessages: function(listId){
+        Dispatcher.dispatch({
+            type: Constants.UNHIDEMESSAGES_LIST,
+            listId: listId
+        });
+    }
 }

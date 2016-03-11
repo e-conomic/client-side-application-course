@@ -39,5 +39,17 @@ module.exports = {
             listId: message.listId,
             targetListId: targetListId
         });
+    },
+    hideMessages: function(listId){
+        Dispatcher.dispatch({
+            type: Constants.HIDE_MESSAGE,
+            listId: listId
+        });
+    },
+    unHideMessages: function(listId){
+        Dispatcher.dispatch({
+            type: Constants.UNHIDE_MESSAGE,
+            listId: listId
+        });
     }
 }

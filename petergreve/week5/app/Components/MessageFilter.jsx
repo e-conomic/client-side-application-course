@@ -1,7 +1,11 @@
 var React = require('react');
 var Messages = require('./Messages')
 var ListStore = require('../stores/list-store');
+var ListActions = require('../actions/list-actions')
+
 var MessageStore = require('../stores/message-store');
+var MessageActions = require('../actions/message-actions')
+
 
 module.exports = React.createClass({
         getInitialState: function() {
@@ -11,8 +15,8 @@ module.exports = React.createClass({
             }
         },
         componentDidMount: function() {
-            MessageStore.addChangeListener(() => this.setState({messages: MessageStore.getAll}));
-            ListStore.addChangeListener(() => this.setState({lists: ListStore.getAll}));
+            MessageStore.addChangeListener(() => this.setState({messages: MessageStore.getAll()}));
+            ListStore.addChangeListener(() => this.setState({lists: ListStore.getAll()}));
         },
         render: function () {
 
@@ -21,24 +25,25 @@ module.exports = React.createClass({
             };
 
             return  <div>
-                        <ol>
-                            {this.state.lists.map((list,i) => {
-                                return
-                                    <div>
-                                        <input type="checkbox" name={list.name} value={list.name} />
-                                    </div>;
-                            }, this)}
-                        </ol>
+                        <div>
+                            Filter on lists:
+                        </div>
+                        {this.state.lists.map(function(list, i) {
+                            return <span key={i}>
+                                        {list.name}
+                                        <input type="checkbox" value={list.id} onChange={this.handleCheckboxClick} /> 
+                                    </span>
+                        },this)}
                         <div>
                             <ol>
-                                {this.filterArchived(false).map(function(message,i) {
+                                {this.sortMessages(this.filterArchived(false)).filter((m) => {return m.isHidden == false}).map(function(message,i) {
                                     return <div key={i}>
                                                 {message.text}
                                             </div>;
                                 },this)}
                             </ol>
                             <ol>
-                                {this.filterArchived(true).map(function(message,i) {
+                                {this.sortMessages(this.filterArchived(true)).map(function(message,i) {
                                     return <div style={style} key={i}>
                                                 {message.text}
                                             </div>;
@@ -52,12 +57,23 @@ module.exports = React.createClass({
                     return m.isArchived == isArchived;
            });
        },
-        sortMessages: function(messages) {
-            objArray.sort(function(a, b) {
-                var textA = a.name.toUpperCase();
-                var textB = b.name.toUpperCase();
+        sortMessages: function(arr) {
+           return arr.sort(function(a, b) {
+                var textA = a.text.toUpperCase();
+                var textB = b.text.toUpperCase();
                 return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
             });
+        },
+        handleCheckboxClick: function(event) {
+            if (!event.target.checked) {
+                MessageActions.hideMessages(event.target.value)
+                ListActions.hideListMessages(event.target.value)
+
+            } else {
+                MessageActions.unHideMessages(event.target.value)
+                ListActions.unHideListMessages(event.target.value)
+
+            }
         }
 
 });

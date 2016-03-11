@@ -3,10 +3,10 @@ var Constants = require('../constants/constants');
 var BaseStore = require('./base');
 
 var _messages = [
-                    {id: 0, listId: 0, text: "testmessage for list 0", isArchived: false, isFiltered: false},
-                    {id: 3, listId: 0, text: "testmessage for list 0", isArchived: true, isFiltered: false},
-                    {id: 1, listId: 1, text: "testmessage for list 1", isArchived: false, isFiltered: false},
-                    {id: 2 ,listId: 2, text: "testmessage for list 2", isArchived: false, isFiltered: false}
+                    {id: 0, listId: 0, text: "testmessage for list 0", isArchived: false, isHidden: false},
+                    {id: 3, listId: 0, text: "testmessage for list 0", isArchived: true, isHidden: false},
+                    {id: 1, listId: 1, text: "testmessage for list 1", isArchived: false, isHidden: false},
+                    {id: 2 ,listId: 2, text: "testmessage for list 2", isArchived: false, isHidden: false}
                  ];
 
 var MessageStore = Object.assign({}, BaseStore, {
@@ -71,17 +71,23 @@ var MessageStore = Object.assign({}, BaseStore, {
                 message.listId = payload.targetListId
 
             break
-        case Constants.FILTER_MESSAGE:
-                var message = _messages.find((m) => {
-                                    return m.id == payload.id;
-                                });
-                message.isFiltered = true
+        case Constants.HIDE_MESSAGES:
+ 
+                var filteredMessages = _messages.filter((m) => {
+                    return m.listId == payload.listId;
+                });
+                filteredMessages.forEach((message, index, array) => {
+                    message.isHidden = true;
+                });
             break
-        case Contants.UNFILTER_MESSAGE:
-                var message = _messages.find((m) => {
-                                    return m.id == payload.id;
-                                });
-                message.isFiltered = false
+        case Constants.UNHIDE_MESSAGES:
+  
+                var filteredMessages = _messages.filter((m) => {
+                    return m.listId == payload.listId;
+                });
+                filteredMessages.forEach((message, index, array) => {
+                    message.isHidden = false;
+                });
             break
     }
 
