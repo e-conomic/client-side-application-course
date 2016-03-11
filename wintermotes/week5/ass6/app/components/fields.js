@@ -154,7 +154,7 @@ var ListCheckboxes = React.createClass({
 	render : function(){
 		var listNodes = this.props.lists.map(function(list){
 			return(
-				<label>ID: {list.listId} | Name: {list.listName}<input type="checkbox" value={list.listId} onChange={this.props.onCheckboxChange}/></label>
+				<label key={list.listId}>ID: {list.listId} | Name: {list.listName}<input type="checkbox" value={list.listId} onChange={this.props.onCheckboxChange}/></label>
 			)
 		}.bind(this));
 		return (

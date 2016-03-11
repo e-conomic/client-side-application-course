@@ -8,11 +8,4 @@ module.exports = {
 			listName: listName,
 		});
 	}, 
-	updateFilter: function(listId, visible) {
-		Dispatcher.dispatch({
-			type: Constants.UPDATE_FILTER,
-			listId: listId,
-			visible: visible
-		});
-	}
 }

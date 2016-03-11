@@ -26,8 +26,7 @@ function getArchivedMessages(id){
 
 var Messages = React.createClass({
 	getInitialState : function() {
-		var messages = getMessagesById(this.props.listId)
-		return messages; 
+		return getMessagesById(this.props.listId)
 	},
 	componentDidMount : function() {
 		MessageStore.addChangeListener(this._onChange);
@@ -38,13 +37,7 @@ var Messages = React.createClass({
 	_onChange : function(){
 		this.setState(getMessagesById(this.props.listId))
 	},
-	checkState : function(){
-		if(this.props.listId != this.state.listId)
-			this.setState(getMessagesById(this.props.listId))
-	},
 	render : function() {
-		//TODO: Get help with this
-		this.checkState()
 		var messageNodes = this.state.messages.map(function(message) {
 			return(
 				<Message key={message.messageId} messageId={message.messageId} content={message.content}/>
@@ -107,7 +100,7 @@ var ArchivedMessage = React.createClass({
 	},
 	render : function() {
 		return(
-			<div key={this.props.messageId}>
+			<div style={{color : 'gray'}} key={this.props.messageId}>
 				<UnarchiveMessageField messageId={this.props.messageId}/>
 		        <p>id: {this.props.messageId} | text: {this.props.content}</p>
 			</div>

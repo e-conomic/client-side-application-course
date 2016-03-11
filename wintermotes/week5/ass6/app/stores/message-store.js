@@ -2,6 +2,8 @@ var Dispatcher = require('../dispatcher');
 var Constants = require('../constants');
 var BaseStore = require('./base');
 
+var notificationBar = require("../components/notification-bar")
+
 var _messages = [
 				{
 					messageId : 0, 
@@ -29,13 +31,32 @@ var _messages = [
 				}
 			];
 
+var _messageFilters = [
+	{
+			listIds : [], 
+			alphabetic : true
+	} 
+]
 
+//TODO: Refactoring of filter functions
 var MessageStore = Object.assign({}, BaseStore, {
 	getAllMessages: function() {
 		return JSON.parse(JSON.stringify(_messages));
 	},
 	getMessagesFromId: function(id, archived) {
 		var messages = this.findAllMessagesFromId(id, _messages, archived)
+		return messages
+	},
+	getMessagesFromFilters : function (){
+		if(_messageFilters[0].listIds.length == 0){
+			var messages = JSON.parse(JSON.stringify(_messages))
+			messages = this.sortArrayAlphabetically(messages)
+			return messages;
+		}
+
+		var messages = this.sortArrayByListIds(_messages, _messageFilters[0].listIds)
+		if(_messageFilters[0].alphabetic == true)
+			
 		return messages
 	},
 	findAllMessagesFromId : function(id, array, archived){
@@ -50,18 +71,40 @@ var MessageStore = Object.assign({}, BaseStore, {
 	findMessageById : function(id){
 		var index = _messages.findIndex(function(m){return m.messageId == id});
 		return index
+	}, 
+	sortArrayByListIds : function(array, listIds){
+		var messages = []
+		for(var i = 0; i<array.length; i++){
+			for(var j = 0; j<_messageFilters[0].listIds.length; j++){
+				if(_messageFilters[0].listIds[j] != array[i].listId){
+					messages.push(_messages[i])
+				}
+			}
+		}
+		return messages
+	},
+	sortArrayAlphabetically : function(array){
+		array.sort(function(msg1, msg2) {
+		    var msg1 = msg1.content.toUpperCase();
+		    var msg2 = msg2.content.toUpperCase();
+		    return (msg1 < msg2) ? -1 : (msg1 > msg2) ? 1 : 0;
+		});
+		return array
 	}
 });
 
 MessageStore.dispatchToken = Dispatcher.register(function(payload){
 	switch(payload.type) {
 		case Constants.CREATE_MESSAGE:
-			_messages.push({
-				messageId : _messages.length + 1,
-				listId : payload.listId,
-				content : payload.content,
-				archived : false 
-			});
+			if(payload.content.length > 5){
+				console.log("Accepting message!")
+				_messages.push({
+					messageId : _messages.length + 1,
+					listId : payload.listId,
+					content : payload.content,
+					archived : false 
+				});
+			}
 			break;
 		case Constants.DELETE_MESSAGE:
 			_messages.splice(MessageStore.findMessageById(payload.messageId), 1)
@@ -73,10 +116,20 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 			_messages[MessageStore.findMessageById(payload.messageId)].archived = false
 			break; 
 		case Constants.MOVE_MESSAGE: 
-			console.log(payload)
 			var index = MessageStore.findMessageById(payload.messageId)
 			_messages[index].listId = payload.listId;
 			break; 
+		case Constants.UPDATE_FILTERS: 
+			_messageFilters = payload.filters
+			break; 
+		case Constants.ADD_FILTER: 
+			if(payload.filterType = 'listFilter')
+				_messageFilters[0].listIds.push(payload.filter)
+			break; 
+		case Constants.REMOVE_FILTER: 
+			if(payload.filterType = 'listFilter')
+				_messageFilters[0].listIds.splice(payload.listId, 1)
+			break; 						
 		default:
 			return;
 	}

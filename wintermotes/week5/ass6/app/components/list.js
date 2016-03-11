@@ -4,22 +4,26 @@ var Message = require('./message').Message
 var ArchivedMessages = require('./message').ArchivedMessages
 var ArchivedMessage = require('./message').ArchivedMessage
 var ListCheckboxes = require('../components/fields').ListCheckboxes
-var FilteredMessages = require('../components/message').FilteredMessages
+
 var ListStore = require('../stores/list-store')
 var ListActions = require('../actions/list-actions');
+
+var MessageStore = require('../stores/message-store')
+var MessageActions = require('../actions/message-actions');
 
 function getAllLists(){
 	return ListStore.getAllLists()
 }
 
-function getFilteredLists(){
-	var lists = ListStore.getAllLists()
-	var filteredLists = []
-	for(var i = 0; i<lists.length; i++){
-		if(lists[i].visible == true)
-			filteredLists.push(lists[i])
+function getMessagesFromFilters(filters){
+	return MessageStore.getMessagesFromFilters(filters)
+}
+
+function getFilterState(){
+	return {
+		lists : getAllLists(), 
+		messages : getMessagesFromFilters()
 	}
-	return filteredLists
 }
 
 var List = React.createClass({		
@@ -41,45 +45,45 @@ var FilteredList = React.createClass({
 	getInitialState : function () {
 		return {
 			lists : getAllLists(),
-			filteredLists : getFilteredLists()
+			messages : getMessagesFromFilters()
 		}
+	},
+	handleCheckboxChange : function(event){
+		if(event.target.checked)
+			MessageActions.addListFilter(event.target.value)
+		else if(!event.target.checked)
+			MessageActions.removeListFilter(event.target.value)
 	},
 	componentDidMount : function() {
 		ListStore.addChangeListener(this._onChange);
+		MessageStore.addChangeListener(this._onChange);
 	},
 	componentWillUnmount : function() {
 		ListStore.removeChangeListener(this._onChange);
 	},
-	handleCheckboxChange : function(event){
-		this.filterList(event.target.value, event.target.checked)
-	},
 	_onChange : function(){
-		this.setState({filteredLists : getFilteredLists()})
-	},
-	filterList : function(listId, checked){
-		ListActions.updateFilter(listId, !checked)
+		this.setState(getFilterState())
 	},
 	render : function(){
 	var listStyle = {
 		border: '1px solid red',
 		margin: '24px 0 24px 0'
 	}
-	var messages = this.state.filteredLists.map(function(list){
-		return(
-			<div>
-				<Messages listId={list.listId} />
-			</div>
-		)
+	var messages = this.state.messages.map(function(message){
+		if(message.archived == false){
+			return(<Message key={message.messageId} messageId={message.messageId} content={message.content}/>)
+		} else {
+			return (<ArchivedMessage key={message.messageId} messageId={message.messageId} content={message.content}/>)
+		}
 	});
 	return (
 		<div style={listStyle}>
 			<h2>FilteredList, outputting the filtered messages and checkboxes</h2>
-			<ListCheckboxes lists={this.state.lists} onCheckboxChange={this.handleCheckboxChange} />
+			<ListCheckboxes lists={this.state.lists} onCheckboxChange={this.handleCheckboxChange} />		
 			{messages}
 		</div>
 	);
 	}
 });
-
 
 module.exports = {List, FilteredList};

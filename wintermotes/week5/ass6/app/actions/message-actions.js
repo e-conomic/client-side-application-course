@@ -33,6 +33,26 @@ module.exports = {
 			type : Constants.UNARCHIVE_MESSAGE, 
 			messageId : id
 		});
+	}, 
+	updateFilters : function(filters){
+		Dispatcher.dispatch({
+			type : Constants.UPDATE_FILTERS, 
+			filters : filters
+		});
+	}, 
+	addListFilter : function(filter){
+		Dispatcher.dispatch({
+			type : Constants.ADD_FILTER, 
+			filterType : 'listFilter',
+			filter : filter
+		});
+	}, 
+	removeListFilter : function(filter){
+		Dispatcher.dispatch({
+			type : Constants.REMOVE_FILTER, 
+			filterType : 'listFilter',
+			filter : filter
+		});
 	}
 }
 
