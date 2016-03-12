@@ -53,6 +53,13 @@ module.exports = {
 			filterType : 'listFilter',
 			filter : filter
 		});
+	}, 
+	dismissNotification : function(id){
+		Dispatcher.dispatch({
+			type : Constants.DISMISS_NOTIFICATION, 
+			id : id
+		});
 	}
+
 }
 

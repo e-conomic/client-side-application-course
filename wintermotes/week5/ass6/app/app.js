@@ -5,6 +5,7 @@ var FilteredList = require('./components/list').FilteredList
 
 var CreateListField = require('./components/fields').CreateListField
 var CreateMessageField = require('./components/fields').CreateMessageField
+var NotificationBox = require('./components/fields').NotificationBox
 var ListActions = require('./actions/list-actions');
 var ListStore = require('./stores/list-store')
 
@@ -42,8 +43,8 @@ var Wrapper = React.createClass({
 				<FilteredMessageBox />
 				<CreateListField />
 				<CreateMessageField />
+				<NotificationBox />
 				<ListOutputBox lists={this.state.lists} />
-				
 			</div>
 		);
 	}

@@ -11,12 +11,15 @@ var ListActions = require('../actions/list-actions');
 var MessageStore = require('../stores/message-store');
 var MessageActions = require('../actions/message-actions');
 
+import NotificationBar from '../components/notification-bar'
+
 function getLists(){
-	return {
-		lists : ListStore.getAllLists(),
-	};
+	return ListStore.getAllLists();
 }
 
+function getNotifications(){
+	return MessageStore.getNotifications()
+}
 var CreateListField = React.createClass({
 	handleText: function(event){
 		this.setState({text: event.target.value})
@@ -38,7 +41,9 @@ var CreateListField = React.createClass({
 
 var CreateMessageField = React.createClass({
 	getInitialState : function(){
-		return getLists(); 
+		return {
+			lists : getLists(), 
+		}; 
 	},
 	handleText: function(event){
 		this.setState({messageContent: event.target.value})
@@ -56,7 +61,7 @@ var CreateMessageField = React.createClass({
 		ListStore.removeChangeListener(this._onChange);
 	},
 	_onChange : function(){
-		this.setState(getLists())
+		this.setState({lists : getLists()})
 	},
 	render: function() {
 		var listChoices = this.state.lists.map(function(list){
@@ -80,7 +85,7 @@ var CreateMessageField = React.createClass({
 
 var MoveMessageField = React.createClass({
 	getInitialState : function(){
-		return getLists(); 
+		return {lists : getLists()}; 
 	},
 	handleListId: function(event){
 		var listId = event.target.value.charAt(event.target.value.search(/\d/))
@@ -96,7 +101,7 @@ var MoveMessageField = React.createClass({
 		ListStore.removeChangeListener(this._onChange);
 	},
 	_onChange : function(){
-		this.setState(getLists())
+		this.setState({lists : getLists()})
 	},
 	render: function() {
 		var listChoices = this.state.lists.map(function(list){
@@ -166,4 +171,50 @@ var ListCheckboxes = React.createClass({
 	}
 });
 
-module.exports = {CreateListField, CreateMessageField, MoveMessageField, DeleteMessageField, ArchiveMessageField, UnarchiveMessageField, ListCheckboxes};
+var NotificationBox = React.createClass({
+	getInitialState : function() {
+		return {notifications : getNotifications()}
+	},
+	componentDidMount : function() {
+		MessageStore.addChangeListener(this._onChange);
+	},
+	componentWillUnmount : function() {
+		ListStore.removeChangeListener(this._onChange);
+	},
+	_onChange : function(){
+		this.setState({notifications : getNotifications()})
+	},
+	render : function(){
+		if(this.state.notifications.length > 0){
+			var notifications = this.state.notifications.map(function(notification){
+				return (
+					<Notification key={notification.id} id={notification.id} message={notification.message} isError={notification.isError} />
+				)
+			}.bind(this))
+			return (
+				<div>
+					{notifications}
+				</div>
+				)
+		} else {
+			return (
+				null
+			)
+		}
+	}
+});
+
+var Notification = React.createClass({
+	dismissNotification : function() {
+		MessageActions.dismissNotification(this.props.id)
+	},
+	render : function(){
+		return(
+			<div>
+				<NotificationBar key={this.props.id} message={this.props.message} isError={this.props.isError} onDismissed={this.dismissNotification} />
+			</div>
+		)
+	}
+})
+
+module.exports = {CreateListField, CreateMessageField, MoveMessageField, DeleteMessageField, ArchiveMessageField, UnarchiveMessageField, ListCheckboxes, NotificationBox};

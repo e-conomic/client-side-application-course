@@ -33,10 +33,50 @@ var _messages = [
 
 var _messageFilters = [
 	{
-			listIds : [], 
-			alphabetic : true
+		listIds : [], 
+		alphabetic : true
+	}, 
+	{
+		messageLength : 200		
 	} 
 ]
+
+var _notifications = []
+
+var ValidationObject = Object.assign({}, BaseStore, {
+	validateString : function(string){
+		console.log("Recieved string: " + string)
+		if(string.length > _messageFilters[1].messageLength){
+			var notification = {
+				message : "Message cannot be more than " + _messageFilters[1].messageLength + " long.", 
+				isError : true, 
+				id : _notifications.length + 1
+			}
+			_notifications.push(notification)
+			return false
+
+		}
+
+		if(!this.validateMessageContent(string)){
+			var notification = {
+				message : "Message content has to be unique.", 
+				isError : true, 
+				id : _notifications.length + 1
+			}
+			_notifications.push(notification)
+			return false
+		}
+		return true
+	},
+	validateMessageContent : function(string){
+		for(var i = 0; i<_messages.length; i++){
+			if(_messages[i].content == string)
+				return false
+		}
+		return true
+	}
+
+})
 
 //TODO: Refactoring of filter functions
 var MessageStore = Object.assign({}, BaseStore, {
@@ -58,6 +98,9 @@ var MessageStore = Object.assign({}, BaseStore, {
 		if(_messageFilters[0].alphabetic == true)
 			
 		return messages
+	},
+	getNotifications : function(){
+		return _notifications
 	},
 	findAllMessagesFromId : function(id, array, archived){
 		var messages = []
@@ -96,15 +139,20 @@ var MessageStore = Object.assign({}, BaseStore, {
 MessageStore.dispatchToken = Dispatcher.register(function(payload){
 	switch(payload.type) {
 		case Constants.CREATE_MESSAGE:
-			if(payload.content.length > 5){
-				console.log("Accepting message!")
+			if(ValidationObject.validateString(payload.content)){
 				_messages.push({
 					messageId : _messages.length + 1,
 					listId : payload.listId,
 					content : payload.content,
 					archived : false 
 				});
-			}
+				var notification = {
+					message : "Message created", 
+					isError : false, 
+					id : _notifications.length + 1
+				}
+				_notifications.push(notification)
+			} 
 			break;
 		case Constants.DELETE_MESSAGE:
 			_messages.splice(MessageStore.findMessageById(payload.messageId), 1)
@@ -129,7 +177,10 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 		case Constants.REMOVE_FILTER: 
 			if(payload.filterType = 'listFilter')
 				_messageFilters[0].listIds.splice(payload.listId, 1)
-			break; 						
+			break; 	
+		case Constants.DISMISS_NOTIFICATION: 
+			_notifications.splice(0, 1) // TODO: Make this find index through id. 
+			break; 					
 		default:
 			return;
 	}
