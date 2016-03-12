@@ -1,20 +1,20 @@
 var React = require('react');
 
 var List = require('./List');
-var MessageFilter = require('./MessageFilter');
+var FilterCheckbox = require('./FilterCheckbox');
 
-var ErrorMessage = require('./ErrorMessage');
 var MessageStore = require('../stores/message-store');
 
 var ListStore = require('../stores/list-store');
 var ListActions = require('../actions/list-actions');
 
+import NotificationBar from './notification-bar';
 
 
 function getAppState() {
   return {
     allLists: ListStore.getAll(),
-    errorMessage: ''
+    messageError: false
   };
 }
 
@@ -32,7 +32,7 @@ module.exports = React.createClass({
         },
         render: function() {
             return  <div>
-                        <ErrorMessage errorMessage={this.state.errorMessage} />
+                        <NotificationBar message='message too long' isError={this.state.messageError} onDismissed={this.handleDismissError}/> 
                         <input type="text" ref={(component) => this.newListName = component} />
                         <button type="button" onClick={this.createList}>New List</button>
                         <ol>
@@ -40,7 +40,7 @@ module.exports = React.createClass({
                                 return <List key={i} list={list} />;
                             },this)}
                         </ol>
-                        <MessageFilter />
+                        <FilterCheckbox />
                     </div>
         },
         createList: function() {
@@ -50,7 +50,10 @@ module.exports = React.createClass({
             this.setState(getAppState());
         },
         _onError: function () {
-            this.setState({errorMessage: 'message is too long'})
+            this.setState({messageError: true})
+        },
+        handleDismissError: function() {
+            this.setState({messageError:false})
         }
 
     });

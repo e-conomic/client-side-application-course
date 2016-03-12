@@ -42,13 +42,13 @@ module.exports = {
     },
     hideMessages: function(listId){
         Dispatcher.dispatch({
-            type: Constants.HIDE_MESSAGE,
+            type: Constants.HIDE_MESSAGES,
             listId: listId
         });
     },
     unHideMessages: function(listId){
         Dispatcher.dispatch({
-            type: Constants.UNHIDE_MESSAGE,
+            type: Constants.UNHIDE_MESSAGES,
             listId: listId
         });
     }
