@@ -13,13 +13,18 @@ let MessageActions = require('./message-actions');
 let getListState = () => {
   return {
 		lists: ListStore.getAll(),
-		messages: MessageStore.getAll()
+		messages: MessageStore.getAll(),
+		isVisibleNotificationbar: true
   };
 }
 
 let Wrapper = React.createClass({ 
 	getInitialState() { 
-		return getListState();
+		return { 
+			lists: ListStore.getAll(),
+			messages: MessageStore.getAll(),
+			isVisibleNotificationbar: false
+		};
 	},
 
 	createList(e) { 
@@ -47,7 +52,9 @@ let Wrapper = React.createClass({
 	},
 
 	onDismissed() { 
-		// console.log('onDismissed');
+		this.setState({ 
+			isVisibleNotificationbar: false
+		});
 	},
 
 	render() {
@@ -71,7 +78,7 @@ let Wrapper = React.createClass({
 		let errorMessage = MessageStore.getErrorMessage() || "OK";
 		let isError = (errorMessage != "OK") ? true : false;
 
-		let notificationBar = <NotificationBar message={errorMessage} isError={isError} onDismissed={this.onDismissed} />;
+		let notificationBar = <NotificationBar visible={this.state.isVisibleNotificationbar} message={errorMessage} isError={isError} onDismissed={this.onDismissed} />;
 
 		let view = (this.state.viewLists) ? lists : messages;
 		let buttonText = (this.state.viewLists) ? 'view messages' : 'view lists';

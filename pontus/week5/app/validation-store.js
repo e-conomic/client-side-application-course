@@ -2,14 +2,7 @@ var Dispatcher = require('./dispatcher');
 var BaseStore = require('./base');
 var Constants = require('./constants');
 
-// var MessageActions = require('./message-actions');
-// var MessageStore = require('./message-store');
-
-// var _messages = [];
 var _validationQueue = []; 
-
-// store validation of messages in this queue, with messageID and error status. Then listen from
-// message-store.
 
 var ValidationStore = Object.assign({}, BaseStore, {
 	get() { 

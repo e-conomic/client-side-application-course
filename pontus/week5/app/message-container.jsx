@@ -65,7 +65,8 @@ const MessageContainer = React.createClass({
 
 		let messagesStyle = { 
 			display: 'flex',
-			flexDirection: 'column'
+			flexDirection: 'column',
+			flex: 0.2
 		};
 
 		return ( 
@@ -76,6 +77,7 @@ const MessageContainer = React.createClass({
 					</div>
 
 					<div style={checkboxesStyle} >
+						<h3>Lists</h3>
 						<ul style={listStyle}>
 							{ listCheckboxes }
 						</ul>
