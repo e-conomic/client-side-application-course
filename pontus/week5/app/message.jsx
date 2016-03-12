@@ -27,8 +27,6 @@ let Message = React.createClass({
 	},
 
 	deleteMessage() {
-		console.log('msg id');
-		console.log(this.props.messageID);
 		MessageActions.deleteMessage(this.props.messageID);
 	},
 

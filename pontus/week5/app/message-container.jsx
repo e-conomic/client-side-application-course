@@ -7,11 +7,7 @@ let MessageStore = require('./message-store');
 let ListActions = require('./list-actions');
 let ListStore = require("./list-store");
 
-
-
-
 let getMessageContainerState = () => { 
-	console.log('getMessageContainerState running');
 	return { 
 		filteredMessages: MessageStore.getMessagesFilteredByListID(),
 	};
@@ -45,7 +41,6 @@ const MessageContainer = React.createClass({
 
 		let filteredMessages = this.state.filteredMessages || [];
 
-		console.log(this.state.filteredMessages);
 		let messages = filteredMessages.map( message => { 
 			return <Message 
 				key={message.messageID}
@@ -64,6 +59,10 @@ const MessageContainer = React.createClass({
 			display: 'flex'
 		};
 
+		let checkboxesStyle = { 
+			display: 'flex'
+		};
+
 		let messagesStyle = { 
 			display: 'flex',
 			flexDirection: 'column'
@@ -76,7 +75,7 @@ const MessageContainer = React.createClass({
 						{ messages } 
 					</div>
 
-					<div>
+					<div style={checkboxesStyle} >
 						<ul style={listStyle}>
 							{ listCheckboxes }
 						</ul>
@@ -86,7 +85,6 @@ const MessageContainer = React.createClass({
 	},
 
 	_onChange() { 
-		console.log('onChange');
 		this.setState( getMessageContainerState());
 	}
 

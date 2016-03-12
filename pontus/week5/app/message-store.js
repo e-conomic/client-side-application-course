@@ -6,7 +6,6 @@ var ValidationStore = require('./validation-store');
 
 var _messages = [];
 var _errorMessages = [];
-
 var _filteredListIDs = [];
 var _filteredMessages = [];
 
@@ -25,8 +24,6 @@ var MessageStore = Object.assign({}, BaseStore, {
 	},
 	
 	getMessagesFilteredByListID() { 
-		console.log('getMessagesFilteredByListID');
-		console.log(_filteredMessages);
 		 return _filteredMessages;
 	},
 
@@ -39,12 +36,7 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 
 	switch(payload.type) {
 		case Constants.DELETE_MESSAGE:
-
-			console.log('before delete');
-			console.log(_messages);
 			_messages = _messages.filter( message => message.messageID != payload.messageID );
-			console.log('after delete');
-			console.log(_messages);
 
 			break;
 		case Constants.ARCHIVE_MESSAGE:
@@ -92,11 +84,11 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 			if (index == -1)  _filteredListIDs.push(payload.listID); 
 			else _filteredListIDs.splice(index, 1); 
 
-			let filteredIDsRegex = new RegExp(_filteredListIDs.join());
+			let filteredIDsRegex = _filteredListIDs.join(',');
 
 			_filteredMessages = _messages.filter( message => { 
-					console.log(filteredIDsRegex.test(message.listID));
-					return filteredIDsRegex.test(message.listID); 
+					let re = new RegExp(message.listID);
+					return re.test(filteredIDsRegex); 
 			});
 
 		break;

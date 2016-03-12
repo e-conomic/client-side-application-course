@@ -35,7 +35,6 @@ module.exports = {
 	},
 
 	addListIDToFilter(listID) { 
-		console.log('sending acton addListIDToFilter');
 		Dispatcher.dispatch({ 
 			type: Constants.ADD_LISTID_TO_FILTER,
 			listID: listID

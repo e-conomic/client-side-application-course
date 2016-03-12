@@ -21,8 +21,6 @@ ValidationStore.dispatchToken = Dispatcher.register(function(payload){
 	switch(payload.type) {
 		case Constants.CREATE_MESSAGE:
 
-			console.log('VALIDATE_MESSAGE action from validation-store');
-
 			let isErrorCharacters=false;
 			if ( payload.text.length >= 200) isErrorCharacters=true; 
 
