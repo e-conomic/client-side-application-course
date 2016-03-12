@@ -65,15 +65,21 @@ let Wrapper = React.createClass({
 
 		// let error = // some condition gotten from the validation store.
 
-		let notificationBar = <NotificationBar message={'test message'} isError={true} onDismissed={this.onDismissed} />;
+		let errorMessage = MessageStore.getErrorMessage() || "OK";
+		let isError = (errorMessage != "OK") ? true : false;
 
+
+		let notificationBar = <NotificationBar message={errorMessage} isError={isError} onDismissed={this.onDismissed} />;
 
 		let view = (this.state.viewLists) ? lists : messages;
 		let buttonText = (this.state.viewLists) ? 'view messages' : 'view lists';
 
+		let divStyle = { margin: '1.5em', padding: '1em' };
+
 		return (
 			<div>
 					{ notificationBar }
+				<div style={divStyle}></div>
 				<button onClick={this.viewToggle}>{buttonText}</button>
 				<h3>Create New List</h3>
 				<input type="text" ref='inputField' onKeyDown={this.createList} placeholder="title" />

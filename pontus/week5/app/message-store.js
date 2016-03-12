@@ -1,23 +1,33 @@
-var Constants = require('./constants');
-var BaseStore = require('./base');
 var Dispatcher = require('./dispatcher');
+var BaseStore = require('./base');
+var Constants = require('./constants');
 
-var _messages = [ ];
-// 	{messageID: Date.now(), text: 'message 1'},
-// 	{messageID: 1515, text: 'message 2'},
-// ];
+var ValidationStore = require('./validation-store');
 
-let messageStore = Object.assign({}, BaseStore, {
+var _messages = [];
+var _errorMessages = [];
+
+var MessageStore = Object.assign({}, BaseStore, {
 	getAll() { 
 		return _messages;
 	},
 
-	getOne(messageID) {
+	testing() {
+		console.log('testing');
+	},
+
+	get(messageID) {
 		return _messages.find( message => message.messageID == messageID);
 	},
+
+	// if undefined then set the notification bar green.
+	getErrorMessage() { 
+		return _errorMessages.shift();
+	}
+
 });
 
-messageStore.dispatchToken = Dispatcher.register(function(payload){
+MessageStore.dispatchToken = Dispatcher.register(function(payload){
 
 	switch(payload.type) {
 		case Constants.DELETE_MESSAGE:
@@ -42,21 +52,37 @@ messageStore.dispatchToken = Dispatcher.register(function(payload){
 
 
 			break;
+			// make this wait for the validation.
 		case Constants.CREATE_MESSAGE:
+			Dispatcher.waitFor([ ValidationStore.dispatchToken]);
+			
+			// gets the first message in the queue.
+			let validatedMessage = ValidationStore.get();
+			console.log(validatedMessage);
 
-			_messages.push({ 
-				listID: payload.listID,
-				messageID: payload.messageID,
-				text: payload.text,
-				isArchived: payload.isArchived
-			});
+			console.log(_messages.find( message => message.text != validatedMessage.text) );
 
+			if ( !validatedMessage.isErrorCharacters && !_messages.find( message => message.text == validatedMessage.text) ) { 
+				_messages.push({ 
+					listID: payload.listID,
+					messageID: payload.messageID,
+					text: payload.text,
+					isArchived: payload.isArchived
+				});
+			} 
+
+			else if (validatedMessage.isErrorCharacters) { 
+				_errorMessages.push("Too many characters.");
+			}
+			else {
+				_errorMessages.push("Message is not unique");
+			}
+                                                      
 			break;
 		default:
 			return;
 	}
-
-	messageStore.emitChange();
+	MessageStore.emitChange();
 });
 
-module.exports = messageStore;
+module.exports = MessageStore;

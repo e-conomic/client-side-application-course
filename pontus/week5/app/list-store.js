@@ -5,7 +5,7 @@ var Dispatcher = require('./dispatcher');
 var _list = [];
 
 // read
-let listStore = Object.assign({}, BaseStore, {
+let ListStore = Object.assign({}, BaseStore, {
 	getAll: function() {
 		return _list;
 	},
@@ -23,7 +23,7 @@ let listStore = Object.assign({}, BaseStore, {
 });
 
 // update
-listStore.dispatchToken = Dispatcher.register(function(payload){
+ListStore.dispatchToken = Dispatcher.register(function(payload){
 	switch(payload.type) {
 		case Constants.CREATE_LIST:
 
@@ -37,7 +37,7 @@ listStore.dispatchToken = Dispatcher.register(function(payload){
 			return;
 	}
 
-	listStore.emitChange();
+	ListStore.emitChange();
 });
 
-module.exports = listStore;
+module.exports = ListStore;

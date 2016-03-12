@@ -29,7 +29,6 @@ module.exports = {
 		Dispatcher.dispatch({
 			type: Constants.CREATE_MESSAGE,
 			listID: listID,
-			messageID: Date.now(),
 			text: text,
 			isArchived: false
 		});

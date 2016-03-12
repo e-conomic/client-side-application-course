@@ -19,7 +19,8 @@ const NotificationBar = React.createClass({
 			width: '100%',
 			textAlign: 'center',
 			fontSize: '20px',
-			fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif'
+			fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+			marginBottom: '1em'
 		};
 
 		const closeBtnStyle = {

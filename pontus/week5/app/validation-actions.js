@@ -3,11 +3,19 @@ var Dispatcher = require('./dispatcher');
 
 module.exports = {
 
-	validateMessage(text) { 
+	validateMessage(listID, text) { 
 		Dispatcher.dispatch({
 			type: Constants.VALIDATE_MESSAGE,
+			listID: listID,
 			text: text
 		});
-		console.log('validation-action validateMessage');
+	},
+	createMessage(listID, text) { 
+		Dispatcher.dispatch({
+			type: Constants.CREATE_MESSAGE,
+			listID: listID,
+			text: text
+		});
 	}
 }
+

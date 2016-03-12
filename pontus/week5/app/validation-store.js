@@ -1,57 +1,41 @@
-var Constants = require('./constants');
-var BaseStore = require('./base');
 var Dispatcher = require('./dispatcher');
+var BaseStore = require('./base');
+var Constants = require('./constants');
 
-// let MessageStore = require('./message-store');
+// var MessageActions = require('./message-actions');
+// var MessageStore = require('./message-store');
 
-var _messages = [];
+// var _messages = [];
+var _validationQueue = []; 
 
 // store validation of messages in this queue, with messageID and error status. Then listen from
 // message-store.
-// let _validationQueue = []; 
 
+var ValidationStore = Object.assign({}, BaseStore, {
+	get() { 
+		return _validationQueue.shift();
+	}
+});
 
-let validationStore = Object.assign({}, BaseStore, {});
-
-
-validationStore.dispatchToken = Dispatcher.register(function(payload){
-
+ValidationStore.dispatchToken = Dispatcher.register(function(payload){
 	switch(payload.type) {
-		case Constants.VALIDATE_MESSAGE:
+		case Constants.CREATE_MESSAGE:
 
-			console.log(payload.text.length);
+			console.log('VALIDATE_MESSAGE action from validation-store');
 
-			// check that I have access to the message-store.
-			// let _messages = MessageStore.getAll();
+			let isErrorCharacters=false;
+			if ( payload.text.length >= 200) isErrorCharacters=true; 
 
-			console.log(_messages);
-
-			// console.log(_messages.find(message => message.text == payload.text));
-
-			// let isErrorCharacters;
-			// let isErrorUnique;
-
-
-			// if ( payload.text.length <= 200  ) {
-			// 	isErrorCharacters:true;
-			// }
-			// 		
-			// if ( _messages.find(payload.text) )  {
-			// 	isErrorUnique: true;
-			// }
-
-
-			// _validationQueue.push( { payload.text, isErrorUnique, isErrorCharacters } );
-
-			// console.log(_validationQueue);
-
+			_validationQueue.push( { 
+				listID: payload.listID,
+				text: payload.text,
+				isErrorCharacters:isErrorCharacters 
+			});
 
 			break;
 		default:
 			return;
 	}
-
-	validationStore.emitChange();
 });
 
-module.exports = validationStore;
+module.exports = ValidationStore;

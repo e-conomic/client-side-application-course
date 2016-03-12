@@ -11,9 +11,11 @@ let MessageActions = require('./message-actions');
 const MessageContainer = React.createClass({ 
 
 	render() { 
-		let listsForFilter = this.props.lists.map( list => { 
-			return list.listName;
-		});
+		let listCheckboxes = this.props.lists.map( list => list.listName )
+			.map(listName => <li><input type="checkbox"/>{listName}</li> );
+
+
+                                                                             
 
 		let messages = this.props.messages.map( message => { 
 			return <Message 
@@ -27,26 +29,34 @@ const MessageContainer = React.createClass({
 			/> ;
 		});
 
-		// let messages = this.props.messages.filter( message => { 
-      //
-      //
-		// 	this.props.filterIDs.filter( filterID => { 
-		// 		return message.messageID == this.props.filterIDs;
-		// 	});
-		// });
-
-		//
                        
 
-		let listCheckboxesStyle = { 
-			display:'flex'
+		let listStyle = { 
+			// display: 'inline', 
+			listStyle: 'none'
+		};                 
+		
+		let MessageContainerStyle = { 
+			display: 'flex'
 		};
-			
-						// {listsForFilter}
-					// { messages } 
+
+		let messagesStyle = { 
+			display: 'flex',
+			flexDirection: 'column'
+		};
+
 		return ( 
-				<div>
-				hello world.
+				<div style={MessageContainerStyle}>
+					<div style={messagesStyle}>
+						<h2>Messages:</h2>
+						{ messages } 
+					</div>
+
+					<div>
+						<ul style={listStyle}>
+							{ listCheckboxes }
+						</ul>
+					</div>
 				</div>
 		);
 	}
