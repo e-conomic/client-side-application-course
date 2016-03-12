@@ -36,6 +36,11 @@ let Wrapper = React.createClass({
 		MessageStore.addChangeListener(this._onChange);
 	},
 
+	componentWillUnmount() { 
+		ListStore.removeChangeListener(this._onChange);
+		MessageStore.removeChangeListener(this._onChange);
+	},
+
 	viewToggle() {
 		this.setState({
 			viewLists: !this.state.viewLists
@@ -43,13 +48,13 @@ let Wrapper = React.createClass({
 	},
 
 	onDismissed() { 
-		console.log('onDismissed');
+		// console.log('onDismissed');
 	},
 
 	render() {
 		let listProperties = ListStore.getListProperties();
 
-		let messages = <MessageContainer messages={this.state.messages} lists={this.state.lists}/>;
+		let messages = <MessageContainer lists={this.state.lists}/>;
 
 		let lists = this.state.lists.map( (list) => { 
 			let messages = this.state.messages.filter( message => message.listID === list.listID );
@@ -63,11 +68,8 @@ let Wrapper = React.createClass({
 			/>; 
 		});
 
-		// let error = // some condition gotten from the validation store.
-
 		let errorMessage = MessageStore.getErrorMessage() || "OK";
 		let isError = (errorMessage != "OK") ? true : false;
-
 
 		let notificationBar = <NotificationBar message={errorMessage} isError={isError} onDismissed={this.onDismissed} />;
 
@@ -97,3 +99,4 @@ let Wrapper = React.createClass({
 });
 
 ReactDOM.render( <Wrapper/>, document.getElementById('app'));
+

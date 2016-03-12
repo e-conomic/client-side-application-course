@@ -7,13 +7,12 @@ var ValidationStore = require('./validation-store');
 var _messages = [];
 var _errorMessages = [];
 
+var _filteredListIDs = [];
+var _filteredMessages = [];
+
 var MessageStore = Object.assign({}, BaseStore, {
 	getAll() { 
 		return _messages;
-	},
-
-	testing() {
-		console.log('testing');
 	},
 
 	get(messageID) {
@@ -23,8 +22,13 @@ var MessageStore = Object.assign({}, BaseStore, {
 	// if undefined then set the notification bar green.
 	getErrorMessage() { 
 		return _errorMessages.shift();
-	}
-
+	},
+	
+	getMessagesFilteredByListID() { 
+		console.log('getMessagesFilteredByListID');
+		console.log(_filteredMessages);
+		 return _filteredMessages;
+	},
 });
 
 MessageStore.dispatchToken = Dispatcher.register(function(payload){
@@ -58,9 +62,6 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 			
 			// gets the first message in the queue.
 			let validatedMessage = ValidationStore.get();
-			console.log(validatedMessage);
-
-			console.log(_messages.find( message => message.text != validatedMessage.text) );
 
 			if ( !validatedMessage.isErrorCharacters && !_messages.find( message => message.text == validatedMessage.text) ) { 
 				_messages.push({ 
@@ -79,9 +80,30 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 			}
                                                       
 			break;
+
+		case Constants.ADD_LISTID_TO_FILTER:
+
+			let index = _filteredListIDs.indexOf(payload.listID);
+			if (index == -1)  _filteredListIDs.push(payload.listID); 
+			else _filteredListIDs.splice(index, 1); 
+
+			console.log('filteredListIDs');
+			console.log(_filteredListIDs);
+
+			let filteredIDsRegex = new RegExp(_filteredListIDs.join());
+			console.log(filteredIDsRegex);
+
+			_filteredMessages = _messages.filter( message => { 
+					console.log(filteredIDsRegex.test(message.listID));
+					return filteredIDsRegex.test(message.listID); 
+			});
+
+			 // console.log('filtered messages');
+			 // console.log(_filteredMessages);
 		default:
 			return;
 	}
+
 	MessageStore.emitChange();
 });
 
