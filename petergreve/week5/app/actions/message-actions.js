@@ -51,5 +51,10 @@ module.exports = {
             type: Constants.UNHIDE_MESSAGES,
             listId: listId
         });
+    },
+    dismissNotification: function() {
+        Dispatcher.dispatch({
+            type: Constants.DISMISS_NOTIFICATION,
+        });
     }
 }

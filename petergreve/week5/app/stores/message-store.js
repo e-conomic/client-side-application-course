@@ -9,6 +9,8 @@ var _messages = [
                     {id: 2 ,listId: 1, text: "testmessage for list 2", isArchived: false, isHidden: false}
                  ];
 
+var _validationMessage = {isError: false, message: "Message is ok", isDismissed: true };
+
 var MessageStore = Object.assign({}, BaseStore, {
     getAll: function() {
         return JSON.parse(JSON.stringify(_messages));
@@ -22,6 +24,9 @@ var MessageStore = Object.assign({}, BaseStore, {
             return m.listId == listId;
         });
         return JSON.parse(JSON.stringify(messages))
+    },
+    getValidationMessage: function() {
+        return Object.assign({}, _validationMessage);
     }
 });
 
@@ -30,18 +35,21 @@ var MessageStore = Object.assign({}, BaseStore, {
     switch(payload.type) {
 
         case Constants.CREATE_MESSAGE:
-            if (payload.text.length < 200) {
+            if (payload.text.length < 1) {
                 _messages.push({
                     id: _messages.length,
                     listId: payload.listId,
                     text: payload.text,
                     isArchived: false,
                     isHidden: false
-                })
+                });
+                _validationMessage.isError = false;
+                _validationMessage.message = 'Message is OK';
             } else {
-                MessageStore.emitError();
-                return
+                _validationMessage.isError = true;
+                _validationMessage.message = 'Message is too long';
             }
+                _validationMessage.isDismissed = false;
 
             break
 
@@ -89,6 +97,9 @@ var MessageStore = Object.assign({}, BaseStore, {
                 filteredMessages.forEach((message, index, array) => {
                     message.isHidden = false;
                 });
+            break
+        case Constants.DISMISS_NOTIFICATION:
+                _validationMessage.isDismissed = true;
             break
     }
 

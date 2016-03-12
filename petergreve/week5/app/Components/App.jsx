@@ -4,7 +4,7 @@ var List = require('./List');
 var FilterCheckbox = require('./FilterCheckbox');
 
 var MessageStore = require('../stores/message-store');
-
+var MessageActions = require('../actions/message-actions');
 var ListStore = require('../stores/list-store');
 var ListActions = require('../actions/list-actions');
 
@@ -14,7 +14,7 @@ import NotificationBar from './notification-bar';
 function getAppState() {
   return {
     allLists: ListStore.getAll(),
-    messageError: false
+    validationMessage: MessageStore.getValidationMessage(),
   };
 }
 
@@ -24,15 +24,18 @@ module.exports = React.createClass({
         },
         componentDidMount: function() {
             ListStore.addChangeListener(this._onChange);
-            MessageStore.addErrorListener(this._onError);
+            MessageStore.addChangeListener(this._onChange);
         },
         componentWillUnmount: function() {
             ListStore.removeChangeListener(this._onChange);
-            MessageStore.removeErrorListener(this._onError);
+            MessageStore.addChangeListener(this._onChange);
+        },
+        handleDismissError: function() {
+            MessageActions.dismissNotification();
         },
         render: function() {
             return  <div>
-                        <NotificationBar message='message too long' isError={this.state.messageError} onDismissed={this.handleDismissError}/> 
+                        {this.state.validationMessage.isDismissed ? null : <NotificationBar message={this.state.validationMessage.message} isError={this.state.validationMessage.isError} onDismissed={this.handleDismissError}/> }
                         <input type="text" ref={(component) => this.newListName = component} />
                         <button type="button" onClick={this.createList}>New List</button>
                         <ol>
@@ -48,13 +51,6 @@ module.exports = React.createClass({
         },
         _onChange: function() {
             this.setState(getAppState());
-        },
-        _onError: function () {
-            this.setState({messageError: true})
-        },
-        handleDismissError: function() {
-            this.setState({messageError:false})
         }
-
     });
 
