@@ -9,6 +9,7 @@ let ListStore = require("./list-store");
 
 
 
+
 let getMessageContainerState = () => { 
 	console.log('getMessageContainerState running');
 	return { 
@@ -85,6 +86,7 @@ const MessageContainer = React.createClass({
 	},
 
 	_onChange() { 
+		console.log('onChange');
 		this.setState( getMessageContainerState());
 	}
 

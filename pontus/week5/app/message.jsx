@@ -4,8 +4,6 @@ let MessageActions = require('./message-actions');
 
 let ListStore = require("./list-store"); 
 
-
-
 let Message = React.createClass({ 
 	propTypes: { 
 		listID: React.PropTypes.number,
@@ -29,6 +27,8 @@ let Message = React.createClass({
 	},
 
 	deleteMessage() {
+		console.log('msg id');
+		console.log(this.props.messageID);
 		MessageActions.deleteMessage(this.props.messageID);
 	},
 

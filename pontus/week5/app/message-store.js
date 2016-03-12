@@ -29,6 +29,10 @@ var MessageStore = Object.assign({}, BaseStore, {
 		console.log(_filteredMessages);
 		 return _filteredMessages;
 	},
+
+	getIDs() { 
+		return _filteredListIDs;
+	}
 });
 
 MessageStore.dispatchToken = Dispatcher.register(function(payload){
@@ -36,7 +40,11 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 	switch(payload.type) {
 		case Constants.DELETE_MESSAGE:
 
+			console.log('before delete');
+			console.log(_messages);
 			_messages = _messages.filter( message => message.messageID != payload.messageID );
+			console.log('after delete');
+			console.log(_messages);
 
 			break;
 		case Constants.ARCHIVE_MESSAGE:
@@ -56,17 +64,15 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 
 
 			break;
-			// make this wait for the validation.
 		case Constants.CREATE_MESSAGE:
 			Dispatcher.waitFor([ ValidationStore.dispatchToken]);
 			
-			// gets the first message in the queue.
 			let validatedMessage = ValidationStore.get();
 
 			if ( !validatedMessage.isErrorCharacters && !_messages.find( message => message.text == validatedMessage.text) ) { 
 				_messages.push({ 
 					listID: payload.listID,
-					messageID: payload.messageID,
+					messageID: Date.now(),
 					text: payload.text,
 					isArchived: payload.isArchived
 				});
@@ -78,28 +84,22 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 			else {
 				_errorMessages.push("Message is not unique");
 			}
-                                                      
-			break;
 
+			break;
 		case Constants.ADD_LISTID_TO_FILTER:
 
 			let index = _filteredListIDs.indexOf(payload.listID);
 			if (index == -1)  _filteredListIDs.push(payload.listID); 
 			else _filteredListIDs.splice(index, 1); 
 
-			console.log('filteredListIDs');
-			console.log(_filteredListIDs);
-
 			let filteredIDsRegex = new RegExp(_filteredListIDs.join());
-			console.log(filteredIDsRegex);
 
 			_filteredMessages = _messages.filter( message => { 
 					console.log(filteredIDsRegex.test(message.listID));
 					return filteredIDsRegex.test(message.listID); 
 			});
 
-			 // console.log('filtered messages');
-			 // console.log(_filteredMessages);
+		break;
 		default:
 			return;
 	}

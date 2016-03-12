@@ -53,6 +53,10 @@ let Wrapper = React.createClass({
 
 	render() {
 		let listProperties = ListStore.getListProperties();
+		let ids = MessageStore.getIDs();
+		console.log('ids');
+		console.log(ids);
+
 
 		let messages = <MessageContainer lists={this.state.lists}/>;
 
@@ -94,6 +98,7 @@ let Wrapper = React.createClass({
 	},
 
 	_onChange() { 
+		console.log('on change in app');
 		this.setState(getListState());
 	}
 });
