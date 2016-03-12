@@ -18,7 +18,6 @@ var MessageStore = Object.assign({}, BaseStore, {
 		return _messages.find( message => message.messageID == messageID);
 	},
 
-	// if undefined then set the notification bar green.
 	getErrorMessage() { 
 		return _errorMessages.shift();
 	},
@@ -27,7 +26,7 @@ var MessageStore = Object.assign({}, BaseStore, {
 		 return _filteredMessages;
 	},
 
-	getIDs() { 
+	getFilteredIDs() { 
 		return _filteredListIDs;
 	}
 });
@@ -84,11 +83,11 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 			if (index == -1)  _filteredListIDs.push(payload.listID); 
 			else _filteredListIDs.splice(index, 1); 
 
-			let filteredIDsRegex = _filteredListIDs.join(',');
+			let filteredListIds = _filteredListIDs.join(',');
 
 			_filteredMessages = _messages.filter( message => { 
 					let re = new RegExp(message.listID);
-					return re.test(filteredIDsRegex); 
+					return re.test(filteredListIds); 
 			});
 
 		break;

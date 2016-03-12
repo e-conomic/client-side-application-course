@@ -59,11 +59,10 @@ let Wrapper = React.createClass({
 
 	render() {
 		let listProperties = ListStore.getListProperties();
-		let ids = MessageStore.getIDs();
 
 		let messages = <MessageContainer lists={this.state.lists}/>;
 
-		let lists = this.state.lists.map( (list) => { 
+		let lists = this.state.lists.map( list => { 
 			let messages = this.state.messages.filter( message => message.listID === list.listID );
 
 			return <NamedList 

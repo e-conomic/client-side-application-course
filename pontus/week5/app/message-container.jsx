@@ -1,5 +1,6 @@
 let React = require('react');
 let Message = require('./message');
+let Checkbox = require('./checkbox');
 
 let MessageActions = require('./message-actions');
 let MessageStore = require('./message-store');
@@ -14,15 +15,8 @@ let getMessageContainerState = () => {
 }
 
 const MessageContainer = React.createClass({ 
-
 	getInitialState() { 
 		return getMessageContainerState();
-	},
-
-	handleClick(e) {
-		let listID = e.target.value;
-
-		MessageActions.addListIDToFilter(listID);
 	},
 
 	componentDidMount() { 
@@ -36,7 +30,7 @@ const MessageContainer = React.createClass({
 	render() { 
 
 		let listCheckboxes = this.props.lists.map(list => { 
-		  return <li><input type="checkbox" value={list.listID} onClick={this.handleClick} />{list.listName}</li> 
+		  return <Checkbox key={list.listID} listID={list.listID} listName={list.listName} />;
 		});
 
 		let filteredMessages = this.state.filteredMessages || [];

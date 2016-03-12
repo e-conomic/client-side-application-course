@@ -11,9 +11,20 @@ const NotificationBar = React.createClass({
 
 	render: function() {
 
-		console.log(this.props.isVisibleNotificationbar);
-		
-		let barStyle = (this.props.visible) ?  { position: 'absolute', top: 0, left: 0, padding: '20px', backgroundColor: this.props.isError ? '#FF6666' : '#66FF6B', width: '100%', textAlign: 'center', fontSize: '20px', fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', marginBottom: '1em' } : {display: 'none' } ;
+		const barWithStyle =  { 
+			position: 'absolute', 
+			top: 0, 
+			left: 0, 
+			padding: '20px', 
+			backgroundColor: this.props.isError ? '#FF6666' : '#66FF6B',
+			width: '100%', 
+			textAlign: 'center', 
+			fontSize: '20px', 
+			fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', 
+			marginBottom: '1em'
+		}; 
+
+		let barStyle = (this.props.visible) ? barWithStyle : {display: 'none' } ;
 
 		const closeBtnStyle = {
 			marginLeft: '20px',
