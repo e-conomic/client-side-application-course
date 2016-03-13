@@ -1,8 +1,6 @@
 var AppDispatcher = require("../Dispatcher/appDispatcher");
 var Constants = require("../constants");
 var BaseStore = require("./base");
-// var ListStore = require("../Stores/list-store");
-// var ListActions = require("../Actions/list-actions");
 
 //var _messages = [];
 var _messages = [{
