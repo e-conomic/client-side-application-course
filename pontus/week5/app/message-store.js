@@ -62,10 +62,10 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 
 			if ( !validatedMessage.isErrorCharacters && !_messages.find( message => message.text == validatedMessage.text) ) { 
 				_messages.push({ 
-					listID: payload.listID,
+					listID: validatedMessage.listID,
 					messageID: Date.now(),
-					text: payload.text,
-					isArchived: payload.isArchived
+					text: validatedMessage.text,
+					isArchived: validatedMessage.isArchived
 				});
 			} 
 

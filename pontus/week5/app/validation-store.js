@@ -20,7 +20,8 @@ ValidationStore.dispatchToken = Dispatcher.register(function(payload){
 			_validationQueue.push( { 
 				listID: payload.listID,
 				text: payload.text,
-				isErrorCharacters:isErrorCharacters 
+				isErrorCharacters:isErrorCharacters,
+				isArchived: payload.isArchived
 			});
 
 			break;
