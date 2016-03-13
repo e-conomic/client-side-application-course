@@ -49,10 +49,10 @@ function createList(listName) {
     });
 }
 
-AppDispatcher.register(payload => {
-    switch (payload.type){
+AppDispatcher.register(action => {
+    switch (action.type){
         case Constants.CREATE_LIST:
-            createList(payload.listName);
+            createList(action.listName);
             break;
             
         default:

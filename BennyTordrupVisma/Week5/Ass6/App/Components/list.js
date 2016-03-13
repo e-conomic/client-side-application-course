@@ -3,12 +3,12 @@ var Message = require("./message");
 
 module.exports = React.createClass({
 	render: function() {
-		var activeMessageList = this.props.messages.filter(e => !e.isArchived).map((message, index) => {
-			return <Message key={index} 
+		var activeMessageList = this.props.messages.filter(e => !e.isArchived).map((message) => {
+			return <Message key={message.id} 
 							message={message} />
 		});
-		var archivedMessageList = this.props.messages.filter(e => e.isArchived).map((message, index) => {
-			return <Message key={index} 
+		var archivedMessageList = this.props.messages.filter(e => e.isArchived).map((message) => {
+			return <Message key={message.id} 
 							message={message} />
 		});
 		
