@@ -8,7 +8,7 @@ var Options = React.createClass({
         
         return  <div>
                     <label>Show combined messages</label>
-                    <input type="checkbox" value={options.showCombinedMessages} onChange={this.handleChange} />
+                    <input type="checkbox" checked={options.showCombinedMessages} onChange={this.handleChange} />
                 </div>
     },
     

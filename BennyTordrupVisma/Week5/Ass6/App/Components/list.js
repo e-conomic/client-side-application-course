@@ -1,7 +1,7 @@
 var React = require("react");
 var Message = require("./message");
 
-module.exports = React.createClass({
+var List = React.createClass({
 	render: function() {
 		var activeMessageList = this.props.messages.filter(e => !e.isArchived).map((message) => {
 			return <Message key={message.id} 
@@ -24,19 +24,6 @@ module.exports = React.createClass({
 				</div>
 	},
 	
-	moveMessage: function(message, newListName)	{
-		this.props.onMoveMessage(message, this.props.list, newListName);
-	},
-	
-	deleteMessage: function(message) {
-		this.props.onDeleteMessage(message, this.props.list);
-	},
-	
-	archiveMessage: function(message) {
-		this.props.onArchiveMessage(message, this.props.list);
-	},
-	
-	unarchiveMessage: function(message) {
-		this.props.onUnarchiveMessage(message, this.props.list);
-	},
 });
+
+module.exports = List;

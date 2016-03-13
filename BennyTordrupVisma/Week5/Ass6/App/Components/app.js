@@ -10,7 +10,9 @@ var OptionsStore = require("../Stores/options-store");
 
 var List = require("../Components/list");
 var InputField = require("../Components/inputfield");
-var Options = require("../Components/options")
+var Options = require("../Components/options");
+var Message = require("../Components/message");
+var ListSelector = require("../Components/listSelector");
 
 function getAppState(){
     return {
@@ -38,7 +40,18 @@ var App = React.createClass({
     },
     
 	render: function() {
-        var listList = this.state.allLists.map((list, index) => <List key={index} list={list} messages={this.state.allMessages.filter(m => m.list == list.id)}/>);
+        var listList = this.state.allLists.map((list) => <List key={list.id} list={list} messages={this.state.allMessages.filter(m => m.list == list.id)}/>);
+        var selectedListIds = this.state.allLists.filter(list => list.isSelected).map(l => l.id);
+        var selectedListsMessages = this.state.allMessages.filter(m => selectedListIds.includes(m.list)).sort((a, b) => {
+            if (a.text < b.text)
+                return -1;
+                
+            if (a.text > b.text)
+                return 1;
+                
+            return 0;
+        });
+        var messagesList =  selectedListsMessages.map(msg => <Message key={msg.id} message={msg}/>);
 
         // var listList = this.state.allLists.map((list, index) => {
         //     return <List key={index} list={list} messages={this.state.allMessages.filter(m => m.list == list.id)}/>
@@ -56,7 +69,12 @@ var App = React.createClass({
                         </div>}
                     {this.state.options.showCombinedMessages &&
                         <div>
-                            <h3>All messages</h3>
+                            <div id="messages">
+                                {messagesList}
+                            </div>
+                            <div id="list-selection">
+                                <ListSelector lists={this.state.allLists} />
+                            </div>
                         </div>}
 				</div>
 	},

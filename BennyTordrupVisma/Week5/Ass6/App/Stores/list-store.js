@@ -49,10 +49,19 @@ function createList(listName) {
     });
 }
 
+function toggleIsSelected(listId) {
+    var listToChange = _lists.find(l => l.id == listId);
+    listToChange.isSelected = !listToChange.isSelected;
+}
+
 AppDispatcher.register(action => {
     switch (action.type){
         case Constants.CREATE_LIST:
             createList(action.listName);
+            break;
+            
+        case Constants.TOGGLE_IS_SELECTED:
+            toggleIsSelected(action.listId);
             break;
             
         default:

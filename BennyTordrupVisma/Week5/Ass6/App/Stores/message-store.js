@@ -129,19 +129,19 @@ function toggleIsArchived(messageId){
 AppDispatcher.register(action => {
 	switch(action.type) {
         case Constants.CREATE_MESSAGE:
-            createMessage(payload.messageText, payload.listId);
+            createMessage(action.messageText, action.listId);
             break;
             
         case Constants.MOVE_MESSAGE:
-            moveMessage(payload.messageId, payload.newListId);
+            moveMessage(action.messageId, action.newListId);
             break;
             
         case Constants.DELETE_MESSAGE:
-            deleteMessage(payload.messageId);
+            deleteMessage(action.messageId);
             break;
             
         case Constants.TOGGLE_IS_ARCHIVED:
-            toggleIsArchived(payload.messageId);
+            toggleIsArchived(action.messageId);
             break;
 
 		default:

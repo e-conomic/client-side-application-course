@@ -3,7 +3,7 @@ var Constants = require("../constants");
 var BaseStore = require("./base");
 
 var _options = {
-    showCombinedMessages: false
+    showCombinedMessages: true
 };
 
 var OptionsStore = Object.assign({}, BaseStore, {
@@ -19,10 +19,10 @@ function updateOptions(showCombinedMessages) {
     };
 }
 
-AppDispatcher.register(payload => {
-    switch (payload.type){
+AppDispatcher.register(action => {
+    switch (action.type){
         case Constants.UPDATE_OPTIONS:
-            updateOptions(payload.showCombinedMessages);
+            updateOptions(action.showCombinedMessages);
             break;
             
         default:

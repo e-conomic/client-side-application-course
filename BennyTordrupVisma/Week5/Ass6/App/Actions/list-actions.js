@@ -8,4 +8,11 @@ module.exports = {
 			listName: listName,
 		});
 	},
+    
+    toggleIsSelected: function(listId) {
+        AppDispatcher.dispatch({
+            type: Constants.TOGGLE_IS_SELECTED,
+            listId: listId,
+        });
+    },
 }
