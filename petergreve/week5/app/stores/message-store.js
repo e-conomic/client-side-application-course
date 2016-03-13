@@ -35,7 +35,16 @@ var MessageStore = Object.assign({}, BaseStore, {
     switch(payload.type) {
 
         case Constants.CREATE_MESSAGE:
-            if (payload.text.length < 1) {
+            if (payload.text.length > 200) {
+                _validationMessage.isError = true;
+                _validationMessage.message = 'Message is too long';
+            }
+            else if (_messages.some(m => m.text  === payload.text)) {
+                _validationMessage.isError = true;
+                _validationMessage.message = 'Message is not unique';                
+            }
+            else
+            {
                 _messages.push({
                     id: _messages.length,
                     listId: payload.listId,
@@ -45,11 +54,9 @@ var MessageStore = Object.assign({}, BaseStore, {
                 });
                 _validationMessage.isError = false;
                 _validationMessage.message = 'Message is OK';
-            } else {
-                _validationMessage.isError = true;
-                _validationMessage.message = 'Message is too long';
-            }
-                _validationMessage.isDismissed = false;
+            } 
+            
+            _validationMessage.isDismissed = false;
 
             break
 
@@ -104,6 +111,7 @@ var MessageStore = Object.assign({}, BaseStore, {
     }
 
     MessageStore.emitChange();
+
 });
 
 module.exports = MessageStore;

@@ -1,7 +1,7 @@
 var React = require('react');
 
 var MessageStore = require('../stores/message-store');
-
+var MessageActions = require('../actions/message-actions')
 
 module.exports = React.createClass({
         getInitialState: function() {
@@ -11,6 +11,15 @@ module.exports = React.createClass({
         },
         componentDidMount: function() {
             MessageStore.addChangeListener(() => this.setState({messages: MessageStore.getAll()}));
+        },
+        handleDeleteClick: function(message) {
+            MessageActions.deleteMessage(message);
+        },
+        handleArchiveClick: function(message) {
+            MessageActions.archiveMessage(message);
+        },
+        handleUnarchiveClick: function(message) {
+            MessageActions.unarchiveMessage(message);
         },
         render: function () {
 
@@ -23,6 +32,8 @@ module.exports = React.createClass({
                                 {this.sortMessages(this.filterArchived(false)).filter((m) => {return m.isHidden == false}).map((message,i) => {
                                     return <div key={i}>
                                                 {message.text}
+                                                    <button type="button" onClick={this.handleDeleteClick.bind(null, message)}>Delete</button>
+                                                    <button type="button" onClick={this.handleArchiveClick.bind(null, message)}>Archive</button>
                                             </div>;
                                 },this)}
                             </ol>
@@ -30,6 +41,8 @@ module.exports = React.createClass({
                                 {this.sortMessages(this.filterArchived(true)).filter((m) => {return m.isHidden == false}).map((message,i) => {
                                     return <div style={style} key={i}>
                                                 {message.text}
+                                                <button type="button" onClick={this.handleUnarchiveClick.bind(null, message)}>Unarchive</button>
+
                                             </div>;
                                 },this)}
                             </ol>
