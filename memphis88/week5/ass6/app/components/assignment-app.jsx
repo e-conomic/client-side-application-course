@@ -6,19 +6,13 @@ var ListActions = require('../actions/list-actions');
 var ListStore = require('../stores/list-store');
 
 var AssignmentApp = React.createClass({
-	mixins: [
-		OnPressingEnterMixin
-	],
-
 	propTypes: {
-		generatedLists: React.PropTypes.array,
-		listName: React.PropTypes.string,
+		generatedLists: React.PropTypes.array
 	},
 
 	getInitialState: function() {
 		return {
-			generatedLists: ListStore.getAll(),
-			listName: ''
+			generatedLists: ListStore.getAll()
 		}
 	},
 
@@ -30,19 +24,19 @@ var AssignmentApp = React.createClass({
 		ListStore.removeChangeListener(this._onChange);
 	},
 
-	onChange: function(e) {
-		this.setState({ listName: e.target.value });
+	onPressingEnter: function(e) {
+		if (e.keyCode == 13) { this.onClick() };
 	},
 
 	_onChange: function() {
 		this.setState({
-			generatedLists: ListStore.getAll(),
-			listName: ''
+			generatedLists: ListStore.getAll()
 		});
 	},
 
 	submitNewList: function() {
-		ListActions.createList(this.state.listName);
+		ListActions.createList(this.refs.listName.value);
+		this.refs.listName.value = '';
 	},
 
 	onClick: function() { this.submitNewList() },
@@ -57,7 +51,7 @@ var AssignmentApp = React.createClass({
 			<div>
 				<div className="listInput">
 					<h4>Add a new list</h4>
-					<input onChange={this.onChange} value={this.state.listName} onKeyDown={this.onPressingEnter} />
+					<input ref="listName" onKeyDown={this.onPressingEnter} />
 					<input type="button" value="Submit" onClick={this.submitNewList} />
 				</div>
 				<div>
