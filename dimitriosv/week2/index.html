@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Deep dive into React</title>
+    <script src="http://fb.me/react-0.14.7.js"></script>
+    <script src="http://fb.me/react-dom-0.14.7.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <style>
+        .container {
+            padding: 5px;
+            border: 1px solid red;
+        }
+
+        .llist {
+            vertical-align: top;
+            padding: 5px;
+            margin-left: 5px;
+            margin-right: 5px;
+            border: 1px solid black;
+            margin-top: 20px;
+            width: 300px;
+            display: inline-block;
+
+        }
+        
+        .message {
+            padding: 5px;
+            margin: 10px auto;
+            width: 90%;
+            border: 1px solid #444;
+        }
+
+        input {
+            width: 240px;
+        }
+
+        .listname{
+            padding: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .messagetext {
+            margin-top: 11px;
+            margin-bottom: 11px;
+        }
+
+        .archived {
+            border: 1px solid grey;
+            color: grey;
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+    <script type="text/jsx">
+
+    var App = React.createClass({
+        getInitialState: function() {
+            return {  //This state can be changed to empty of course
+                    totalLists:2,
+                    totalMessages:4,
+                    inputListName:"",
+                    lists: [{listId: 1, listName: "first list1"},{listId: 2, listName: "second list2"}],
+                    allMessages: [  {messageId:1, belongsToList: 1, text: "testmessage1", IsArchived: false},
+                                    {messageId:2, belongsToList: 1, text: "testmessage2", IsArchived: false},
+                                    {messageId:3, belongsToList: 1, text: "testmessage3", IsArchived: false},
+                                    {messageId:4, belongsToList: 2, text: "testmessage4", IsArchived: false}]
+                };
+        },
+        eachList: function(list, i) {  
+        return (
+                <List key={i}
+                    index={i}
+                    listName={list.listName}
+                    listId={list.listId}
+                    allLists={this.state.lists}
+                    addMessageParent={this.addMessageParent}
+                    deleteMessageParent={this.deleteMessageParent}
+                    archiveMessageParent={this.archiveMessageParent}
+                    allMessages={this.state.allMessages}
+                >{list}</List>
+            );
+        },
+        createList: function(evt) {
+        if (this.state.inputListName=="") {
+            alert("Cannot add list with no name!")
+        } else {
+            var newlistId=this.state.totalLists
+            newlistId++; 
+            var newList = {
+                listId: newlistId,
+                listName: this.state.inputListName
+            };
+         
+            var lists=this.state.lists;
+             
+            lists.push(newList)
+            
+            this.setState({
+                  lists: lists,
+                  totalLists: this.state.totalLists+1
+            });
+        }
+             
+            
+        },
+        addMessageParent: function(listId,MessageToAdd) {
+
+            var newMessageId=this.state.totalMessages
+            newMessageId++; 
+
+
+            var newMessage = {
+                messageId:newMessageId,
+                belongsToList: listId,
+                text: MessageToAdd,
+                IsArchived: false
+            };
+         
+            var allMessages=this.state.allMessages;
+             
+            allMessages.push(newMessage)
+             
+            this.setState({
+                  allMessages: allMessages,
+                  totalMessages: this.state.totalMessages+1
+
+            });
+        },
+        deleteMessageParent: function(messageId) {
+            var allMessages=this.state.allMessages;
+
+            var newArray = allMessages.filter(function(obj) {
+                return messageId!=(obj.messageId) 
+            });
+                       
+            this.setState({
+                  allMessages: newArray
+            });
+             
+        },
+        archiveMessageParent: function(messageId) {
+            var allMessages=this.state.allMessages;
+            allMessages.forEach(function(obj) {
+                if (obj.messageId === messageId) {
+                   if (obj.IsArchived) {
+                        obj.IsArchived=false;
+                   } else {
+                         obj.IsArchived=true;
+                   }
+                }
+            });
+ 
+            this.setState({
+                  allMessages: allMessages
+            });
+        },
+        handleChange: function(evt) {
+            this.setState({
+              inputListName: evt.target.value
+          });
+        },
+        render: function() {
+            return  <div className="container">
+                        <span>Add new list with name: </span>
+                        <input onChange={this.handleChange} type="text"/>
+                        <button type="button" onClick={this.createList}>Add</button>
+                        <div className="llistcont">
+                            {this.state.lists.map(this.eachList)}
+                        </div>
+                    </div>
+        },
+    });
+
+    var List = React.createClass({
+        getInitialState: function() {
+            return {
+                    inputMessageName:"",
+                    listId:this.props.listId
+                };
+        },
+        render: function() {
+            return  <div className="llist">
+                        <div className="listname" >{this.props.listName}</div>
+                        <div>
+                            <input onChange={this.handleMessageChange} type="text"/>
+                            <button type="button" onClick={this.addMessageChild}>Submit</button>
+                        </div>
+                         {/*console.log(thats how you comment inside return)*/}
+                         <Messages  deleteMessageParent={this.props.deleteMessageParent}
+                                    archiveMessageParent={this.props.archiveMessageParent}
+                                    addMessageParent={this.props.addMessageParent}
+                                    messages={this.filterMessages()} 
+                                    allLists={this.props.allLists}/> 
+                    </div>
+        },
+        addMessageChild: function() {
+            if (this.state.inputMessageName.length==0 || this.state.inputMessageName.length>200) {
+                alert("Message length not valid!")
+            } else {
+                this.props.addMessageParent(this.state.listId, this.state.inputMessageName)
+            }
+        },
+        filterMessages: function() {
+            var filteredArray=[]
+            for (index = 0; index < this.props.allMessages.length; ++index) {
+                if (this.props.allMessages[index].belongsToList==this.props.listId)
+                    {
+                        filteredArray.push(this.props.allMessages[index])
+                    }
+            }
+           return filteredArray;
+        },
+        handleMessageChange: function(evt) {
+            this.setState({
+              inputMessageName: evt.target.value
+          });
+        }
+    })
+
+
+    var Messages = React.createClass({
+        render: function () {
+            var deleteMessageParent=this.props.deleteMessageParent
+            var archiveMessageParent=this.props.archiveMessageParent
+            var addMessageParent=this.props.addMessageParent
+            var allLists=this.props.allLists
+            return  <div>
+                        <div>
+                            {this.props.messages.map(function(message,i) {
+                                if (message.IsArchived) {
+                                    ;
+                                } else {
+                                    return (<div className="message" key={i}  >
+                                            <Message  Mid={message.messageId} 
+                                                Mtext={message.text}
+                                                MisArchived={message.IsArchived} 
+                                                deleteMessageParent={deleteMessageParent}
+                                                archiveMessageParent={archiveMessageParent}
+                                                addMessageParent={addMessageParent}
+                                                allLists={allLists}
+                                            />
+                                        </div>)
+                                }
+                            })}
+                        </div>
+                        <div>Archived:</div>
+                        <div>
+                            {this.props.messages.map(function(message,i) {
+                                if (message.IsArchived) {
+                                    return (<div className="message" key={i}  >
+                                            <Message  Mid={message.messageId} 
+                                                Mtext={message.text}
+                                                MisArchived={message.IsArchived} 
+                                                deleteMessageParent={deleteMessageParent}
+                                                archiveMessageParent={archiveMessageParent}
+                                                addMessageParent={addMessageParent}
+                                                allLists={allLists}
+                                            />
+                                        </div>)
+                                } else {
+                                    ;
+                                }
+                            })}
+                        </div>
+                    </div>
+        },
+         
+
+    });
+
+    var Message = React.createClass({
+        eachList: function(list, i) {  
+        return (
+                 <option key={i} value={list.listId}>{list.listName}</option>
+            );
+        },
+        render: function () {
+            return (<div>
+                        {this.props.MisArchived
+                            ? <div className="archived">
+                            <div className="messagetext" >{this.props.Mtext}</div>
+                            <button type="button" onClick={this.archiveMessageChild.bind(null,this.props.Mid)}>Unarchive</button>
+                            </div>
+                            : <div>
+                            <div className="messagetext" >{this.props.Mtext}</div>
+                            <button type="button"  onClick={this.deleteMessageChild.bind(null,this.props.Mid)}>Delete</button>
+                                <select className="llistcont" defaultValue="0"  onChange={this.moveMessage}>
+                                    <option key="0" value="0" disabled >Move to:</option>
+                                    {this.props.allLists.map(this.eachList)}
+                                 </select>
+                            <button type="button" onClick={this.archiveMessageChild.bind(null,this.props.Mid)}>Archive</button></div>
+                        }
+                   </div>)
+        },
+        moveMessage: function(e) {
+            Listid=e.target.value;  
+            //i am not sure if this is the correct way to communicate with the "grand-parent"
+            this.props.addMessageParent(Listid,this.props.Mtext)        
+            this.props.deleteMessageParent(this.props.Mid)
+        },
+        deleteMessageChild: function(Messageid) {
+             this.props.deleteMessageParent(Messageid)
+        },
+        archiveMessageChild: function(Messageid) {
+              this.props.archiveMessageParent(Messageid)
+        }
+    });
+ 
+    ReactDOM.render(<App/>, document.getElementById('app'));
+
+    </script>
+</body>
+</html>
