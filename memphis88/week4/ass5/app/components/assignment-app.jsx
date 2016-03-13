@@ -1,6 +1,5 @@
 var React = require('react');
 
-var OnPressingEnterMixin = require('../mixins/on-pressing-enter-mixin');
 var GeneratedList = require('./generated-list');
 var ListActions = require('../actions/list-actions');
 var ListStore = require('../stores/list-store');

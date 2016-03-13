@@ -1,6 +1,5 @@
 var React = require('react');
 
-var OnPressingEnterMixin = require('../mixins/on-pressing-enter-mixin');
 var ArchiveList = require('./archive-list');
 var MessageList = require('./message-list');
 var MessageActions = require('../actions/message-actions');
