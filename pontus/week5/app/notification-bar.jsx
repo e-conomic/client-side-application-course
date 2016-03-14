@@ -7,6 +7,7 @@ const NotificationBar = React.createClass({
 		message: React.PropTypes.string.isRequired,
 		isError: React.PropTypes.bool,
 		onDismissed: React.PropTypes.func.isRequired,
+		isVisible: React.PropTypes.bool,
 	},
 
 	render: function() {
@@ -24,7 +25,7 @@ const NotificationBar = React.createClass({
 			marginBottom: '1em'
 		}; 
 
-		let barStyle = (this.props.visible) ? barWithStyle : {display: 'none' } ;
+		let barStyle = (this.props.isVisible) ? barWithStyle : {display: 'none' } ;
 
 		const closeBtnStyle = {
 			marginLeft: '20px',

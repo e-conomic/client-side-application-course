@@ -77,7 +77,7 @@ let Wrapper = React.createClass({
 		let errorMessage = MessageStore.getErrorMessage() || "OK";
 		let isError = (errorMessage != "OK") ? true : false;
 
-		let notificationBar = <NotificationBar visible={this.state.isVisibleNotificationbar} message={errorMessage} isError={isError} onDismissed={this.onDismissed} />;
+		let notificationBar = <NotificationBar isVisible={this.state.isVisibleNotificationbar} message={errorMessage} isError={isError} onDismissed={this.onDismissed} />;
 
 		let view = (this.state.viewLists) ? lists : messages;
 		let buttonText = (this.state.viewLists) ? 'view messages' : 'view lists';
