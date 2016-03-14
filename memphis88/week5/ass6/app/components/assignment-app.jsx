@@ -1,9 +1,9 @@
 var React = require('react');
 
-var OnPressingEnterMixin = require('../mixins/on-pressing-enter-mixin');
 var GeneratedList = require('./generated-list');
 var ListActions = require('../actions/list-actions');
 var ListStore = require('../stores/list-store');
+var FilteredMessageList = require('./filtered-message-list');
 
 var AssignmentApp = React.createClass({
 	propTypes: {
@@ -25,7 +25,7 @@ var AssignmentApp = React.createClass({
 	},
 
 	onPressingEnter: function(e) {
-		if (e.keyCode == 13) { this.onClick() };
+		if (e.keyCode == 13) { this.submitNewList() };
 	},
 
 	_onChange: function() {
@@ -38,8 +38,6 @@ var AssignmentApp = React.createClass({
 		ListActions.createList(this.refs.listName.value);
 		this.refs.listName.value = '';
 	},
-
-	onClick: function() { this.submitNewList() },
 
 	render: function() {
 		var createLists = function(generatedList) {
@@ -57,6 +55,7 @@ var AssignmentApp = React.createClass({
 				<div>
 					{this.state.generatedLists.map(createLists, this)}
 				</div>
+				<FilteredMessageList />
 			</div>
 		);
 	}
