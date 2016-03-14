@@ -14,6 +14,4 @@ module.exports = Object.assign({}, EventEmitter.prototype, {
 	},
 });
 
-// Remove the normal max-event-listeners warning. Since individual components
-// listen to flux stores, the default of 10 is a problem. 0 disables it.
 module.exports.setMaxListeners(0);

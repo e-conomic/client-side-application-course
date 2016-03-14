@@ -78,7 +78,6 @@ var ValidationObject = Object.assign({}, BaseStore, {
 
 })
 
-//TODO: Refactoring of filter functions
 var MessageStore = Object.assign({}, BaseStore, {
 	getAllMessages: function() {
 		return JSON.parse(JSON.stringify(_messages));

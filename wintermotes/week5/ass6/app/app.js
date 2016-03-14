@@ -20,8 +20,6 @@ function getAppState(){
 	}
 }
 
-// TODO: Move functions for getting the lists to ListOut
-
 var Wrapper = React.createClass({
 	getInitialState : function() {
 		var lists = getAppState()
@@ -80,8 +78,6 @@ var FilteredMessageBox = React.createClass({
 	);
 }
 });
-
-
 
 ReactDOM.render(
 <Wrapper />,
