@@ -20,5 +20,17 @@ module.exports = {
             type: Constants.TOGGLE_ARCHIVE_MESSAGE,
             messageId: messageId,
         });
-    }
+    },
+    hideMessages: function(listId) {
+        Dispatcher.dispatch({
+            type: Constants.HIDE_MESSAGES,
+            listId: listId,
+        });
+    },
+    showMessages: function(listId) {
+        Dispatcher.dispatch({
+            type: Constants.SHOW_MESSAGES,
+            listId: listId,
+        });
+    },
 }

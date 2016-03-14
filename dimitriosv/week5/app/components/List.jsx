@@ -23,11 +23,7 @@ var List = React.createClass({
                     </div>
         },
         addMessageChild: function() {
-            if (!this.state.inputMessageName || this.state.inputMessageName.length>200) {
-                alert("Message length not valid!")
-            } else {
                 MessageActions.addMessage(this.state.listId,this.state.inputMessageName);
-            }
         },
         filterMessages: function() {
             var filteredArray=[]

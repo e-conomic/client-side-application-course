@@ -15,25 +15,27 @@ var App = React.createClass({
         ListStore.addChangeListener(this.onStoreChange);
         MessageStore.addChangeListener(this.onStoreChange);
     },
+    componentWillUnmount: function() {
+        ListStore.removeChangeListener(this.onStoreChange);
+        MessageStore.removeChangeListener(this.onStoreChange);
+    },
     onStoreChange: function() {
         this.setState({
-            totalLists: ListStore.getTotalElements(),
-            totalMessages: MessageStore.getTotalElements(),
             lists: ListStore.getAll(),
             allMessages: MessageStore.getAll(),
-            errorMessage: "",
-            showNotification: false,
+            notificationMessage: MessageStore.getNotificationText(),
+            showNotification: MessageStore.getshowNotification(),
+            isError: MessageStore.getnotificationIsError(),
         });
     },
     getInitialState: function() {
         return {
-            totalLists: ListStore.getTotalElements(),
-            totalMessages: MessageStore.getTotalElements(),
             inputListName:"",
             lists: ListStore.getAll(),
             allMessages: MessageStore.getAll(),
-            errorMessage: "hi",
-            showNotification: false,
+            notificationMessage: MessageStore.getNotificationText(),
+            showNotification: MessageStore.getshowNotification(),
+            isError:   MessageStore.getnotificationIsError(),
         };
     },
     renderLists: function(list, i) {
@@ -50,13 +52,14 @@ var App = React.createClass({
     renderListsAsCheckboxes: function(list, i) {  
         return (
             <div>
-            <input defaultChecked type="checkbox" key={list.listId+"checkbox"} name={list.listName} value={list.listName} />
+            <input defaultChecked onChange={this.handleCheckboxClick} type="checkbox" key={list.listId+"checkbox"} name={list.listName} value={list.listId} />
             {list.listName}
             </div>
             );
     },
     renderMessages: function(message, i) {
-        return (
+        if (!message.isHidden) {
+            return (
             <div className="message" key={message.messageId+"_2"}>
             <Message    messageId={message.messageId} 
                         messageText={message.text}
@@ -65,25 +68,50 @@ var App = React.createClass({
             />
             </div>
             );
+        }
     },
     createList: function(evt) {
         var listName = this.state.inputListName;
         ListActions.createList(listName);
     },
-    handleChange: function(evt) {
+    handleChange: function(evt) {  
         this.setState({
           inputListName: evt.target.value
-      });
+        });
+    },
+    handleCheckboxClick: function(evt) {
+        var listId=evt.target.value
+            if (evt.target.checked) {
+                MessageActions.showMessages(listId)
+            } else {
+                MessageActions.hideMessages(listId)
+            }
+    },
+    onDismissed: function() {//handles the dismiss notification bar
+        //TODO in a flux way maybe?
+        this.setState({
+            showNotification: false
+        });
     },
     render: function() {
         var allMessagesDeepCopy = JSON.parse(JSON.stringify(this.state.allMessages));
-        var allMessagesSortedByName = allMessagesDeepCopy.sort(compare);
-        return  (
+        
+        var allUnarchivedMessages = allMessagesDeepCopy.filter(function(obj) {
+                return obj.isArchived==false; 
+            });
+        var allArchivedMessages = allMessagesDeepCopy.filter(function(obj) {
+                return obj.isArchived==true; 
+            });
 
+        var allUnarchivedMessagesSortedByName = allUnarchivedMessages.sort(compare);
+        var allArchivedMessagesSortedByName = allArchivedMessages.sort(compare);
+        return  (
         <div>
             {this.state.showNotification
             ? <NotificationBar 
-                message={this.state.errorMessage}
+                isError={this.state.isError}
+                message={this.state.notificationMessage}
+                onDismissed={this.onDismissed}
             />
             : <div></div>
             }
@@ -98,7 +126,11 @@ var App = React.createClass({
             <div className="sidecontainer">
                 <div>All messages</div>
                 <div className="allmessagescontainer">
-                    {allMessagesSortedByName.map(this.renderMessages)}
+                    {allUnarchivedMessagesSortedByName.map(this.renderMessages)}
+                </div>
+                <div>Archived:</div>
+                <div className="allmessagescontainer">
+                    {allArchivedMessagesSortedByName.map(this.renderMessages)}
                 </div>
                 <div className="alllistsascheckboxes">
                     {this.state.lists.map(this.renderListsAsCheckboxes)}

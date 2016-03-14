@@ -1,6 +1,8 @@
 var EventEmitter = require('events').EventEmitter;
 
 var CHANGE_EVENT = 'change';
+var ERROR_EVENT = 'error';
+
 
 module.exports = Object.assign({}, EventEmitter.prototype, {
 	addChangeListener: function(callback) {

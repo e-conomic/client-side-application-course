@@ -3,8 +3,6 @@ var Constants = require('../constants');
 var BaseStore = require('./base');
 
 var _list = [{listId: 1, listName: "first list1"},{listId: 2, listName: "second list2"}];
-var _totalElements = 2;
-
 
 function deepCopy(itemToCopy) {
     var listCopy = JSON.parse(JSON.stringify(itemToCopy));
@@ -16,9 +14,6 @@ var store = Object.assign({}, BaseStore, {
 	getAll: function() {
 		return deepCopy(_list);
 	},
-    getTotalElements: function() {
-        return _totalElements;
-    },
 	get: function(id) {
 		return Object.assign({}, _list.find(function(l) { return l.id == id }));
 	}
@@ -29,9 +24,9 @@ store.dispatchToken = Dispatcher.register(function(payload){
 
 	switch(payload.type) {
 		case Constants.CREATE_LIST:
-            _totalElements++;
+            var sizeOfList=_list.length;
 			_list.push({
-				 listId: _totalElements,
+				 listId: sizeOfList++,
 				 listName: payload.listName
 			})
 			break
