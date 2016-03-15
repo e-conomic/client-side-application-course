@@ -12,6 +12,7 @@ module.exports = React.createClass({
         componentDidMount: function() {
             MessageStore.addChangeListener(() => this.setState({messages: MessageStore.getAll()}));
         },
+        // remove change listener
         handleDeleteClick: function(message) {
             MessageActions.deleteMessage(message);
         },

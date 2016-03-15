@@ -1,14 +1,20 @@
 var Constants = require('../constants/constants');
 var Dispatcher = require('../dispatcher/dispatcher');
 
+// require message store
+
 module.exports = {
     createMessage: function(message) {
 
-        Dispatcher.dispatch({
-            type: Constants.CREATE_MESSAGE,
-            listId: message.listId,
-            text: message.text
-        });
+        // if validate
+            Dispatcher.dispatch({
+                type: Constants.CREATE_MESSAGE,
+                listId: message.listId,
+                text: message.text
+            });
+        // else
+            // dispatch validation failed
+
     },
     archiveMessage: function(message) {
 
@@ -38,18 +44,6 @@ module.exports = {
             id: message.id,
             listId: message.listId,
             targetListId: targetListId
-        });
-    },
-    hideMessages: function(listId){
-        Dispatcher.dispatch({
-            type: Constants.HIDE_MESSAGES,
-            listId: listId
-        });
-    },
-    unHideMessages: function(listId){
-        Dispatcher.dispatch({
-            type: Constants.UNHIDE_MESSAGES,
-            listId: listId
         });
     },
     dismissNotification: function() {

@@ -35,7 +35,13 @@ module.exports = React.createClass({
         },
         render: function() {
             return  <div>
-                        {this.state.validationMessage.isDismissed ? null : <NotificationBar message={this.state.validationMessage.message} isError={this.state.validationMessage.isError} onDismissed={this.handleDismissError}/> }
+                        {this.state.validationMessage.isDismissed
+                            ? null
+                            : <NotificationBar message={this.state.validationMessage.message}
+                                                isError={this.state.validationMessage.isError}
+                                                onDismissed={this.handleDismissError}
+                            />
+                        }
                         <input type="text" ref={(component) => this.newListName = component} />
                         <button type="button" onClick={this.createList}>New List</button>
                         <ol>

@@ -10,7 +10,14 @@ module.exports = React.createClass({
             }
         },
         componentDidMount: function() {
-            ListStore.addChangeListener(() => this.setState({lists: ListStore.getAll()}));
+            ListStore.addChangeListener(() => {
+                this.setState({
+                    lists: ListStore.getAll()
+                });
+            });
+        },
+        componentWillUnmount: function() {
+            // remove change listener
         },
         render: function() {
             return  <span>

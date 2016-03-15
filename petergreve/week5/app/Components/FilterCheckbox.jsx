@@ -5,7 +5,7 @@ var FilterMessages = require('./FilterMessages')
 
 var ListStore = require('../stores/list-store');
 
-var MessageActions = require('../actions/message-actions')
+var ListActions = require('../actions/list-actions')
 
 
 module.exports = React.createClass({
@@ -17,6 +17,7 @@ module.exports = React.createClass({
         componentDidMount: function() {
             ListStore.addChangeListener(() => this.setState({lists: ListStore.getAll()}));
         },
+        // impl remove change listener
         render: function () {
 
             var style = {
@@ -38,10 +39,10 @@ module.exports = React.createClass({
         },
         handleCheckboxClick: function(event) {
             if (!event.target.checked) {
-                MessageActions.hideMessages(event.target.value)
+                ListActions.hideMessages(event.target.value)
 
             } else {
-                MessageActions.unHideMessages(event.target.value)
+                ListActions.unHideMessages(event.target.value)
 
             }
         }

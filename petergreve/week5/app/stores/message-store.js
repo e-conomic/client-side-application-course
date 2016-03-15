@@ -87,7 +87,7 @@ var MessageStore = Object.assign({}, BaseStore, {
                 message.listId = payload.targetListId
 
             break
-        case Constants.HIDE_MESSAGES:
+        case Constants.HIDEMESSAGES_LIST:
  
                 var filteredMessages = _messages.filter((m) => {
                     return m.listId == payload.listId;
@@ -96,7 +96,7 @@ var MessageStore = Object.assign({}, BaseStore, {
                     message.isHidden = true;
                 });
             break
-        case Constants.UNHIDE_MESSAGES:
+        case Constants.UNHIDEMESSAGES_LIST:
   
                 var filteredMessages = _messages.filter((m) => {
                     return m.listId == payload.listId;
