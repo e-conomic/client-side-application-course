@@ -5,31 +5,39 @@ module.exports = {
 	createMessage: function(messageText, listId, messages) {
 		AppDispatcher.dispatch({
 			type: Constants.CREATE_MESSAGE,
-            messageText: messageText,
-            listId: listId,
-            messages: messages,
+            payload: {
+                messageText: messageText,
+                listId: listId,
+                messages: messages,
+            }
 		});
 	},
     
     deleteMessage: function(messageId) {
         AppDispatcher.dispatch({
             type: Constants.DELETE_MESSAGE,
-            messageId: messageId,
+            payload: {
+                messageId: messageId,
+            }
         });
     },
     
     moveMessage: function(messageId, newListId) {
         AppDispatcher.dispatch({
             type: Constants.MOVE_MESSAGE,
-            messageId: messageId,
-            newListId: newListId,
+            payload: {
+                messageId: messageId,
+                newListId: newListId,
+            }
         });
     },
     
     toggleIsArchived: function(messageId) {
         AppDispatcher.dispatch({
             type: Constants.TOGGLE_IS_ARCHIVED,
-            messageId: messageId,
+            payload: {
+                messageId: messageId,
+            }
         });
     },
 }

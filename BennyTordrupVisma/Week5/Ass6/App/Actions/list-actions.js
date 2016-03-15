@@ -5,14 +5,18 @@ module.exports = {
 	createList: function(listName) {
 		AppDispatcher.dispatch({
 			type: Constants.CREATE_LIST,
-			listName: listName,
+            payload: {
+                listName: listName
+            }
 		});
 	},
     
     toggleIsSelected: function(listId) {
         AppDispatcher.dispatch({
             type: Constants.TOGGLE_IS_SELECTED,
-            listId: listId,
+            payload: {
+                listId: listId
+            }
         });
     },
 }

@@ -22,7 +22,7 @@ function updateOptions(showCombinedMessages) {
 OptionsStore.dispatchToken = AppDispatcher.register(action => {
     switch (action.type){
         case Constants.UPDATE_OPTIONS:
-            updateOptions(action.showCombinedMessages);
+            updateOptions(action.payload.showCombinedMessages);
             break;
             
         default:

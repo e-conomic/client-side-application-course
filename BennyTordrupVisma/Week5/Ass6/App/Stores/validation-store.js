@@ -43,7 +43,7 @@ function _validateMessage(messageText, messages) {
 ValidationStore.distatchToken = AppDispatcher.register(action => {
     switch (action.type) {
         case Constants.CREATE_MESSAGE:
-            _validateMessage(action.messageText, action.messages);
+            _validateMessage(action.payload.messageText, action.payload.messages);
             break;
             
         default:

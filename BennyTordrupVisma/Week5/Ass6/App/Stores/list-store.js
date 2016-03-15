@@ -57,11 +57,11 @@ function toggleIsSelected(listId) {
 ListStore.dispatchToken = AppDispatcher.register(action => {
     switch (action.type){
         case Constants.CREATE_LIST:
-            createList(action.listName);
+            createList(action.payload.listName);
             break;
             
         case Constants.TOGGLE_IS_SELECTED:
-            toggleIsSelected(action.listId);
+            toggleIsSelected(action.payload.listId);
             break;
             
         default:

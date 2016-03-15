@@ -106,19 +106,19 @@ MessageStore.dispatchToken = AppDispatcher.register(action => {
             AppDispatcher.waitFor([ValidationStore.distatchToken]);
             var validationResult = ValidationStore.getValidationResult();
             if (!validationResult.isError)
-                createMessage(action.messageText, action.listId);
+                createMessage(action.payload.messageText, action.payload.listId);
             break;
             
         case Constants.MOVE_MESSAGE:
-            moveMessage(action.messageId, action.newListId);
+            moveMessage(action.payload.messageId, action.payload.newListId);
             break;
             
         case Constants.DELETE_MESSAGE:
-            deleteMessage(action.messageId);
+            deleteMessage(action.payload.messageId);
             break;
             
         case Constants.TOGGLE_IS_ARCHIVED:
-            toggleIsArchived(action.messageId);
+            toggleIsArchived(action.payload.messageId);
             break;
 
 		default:

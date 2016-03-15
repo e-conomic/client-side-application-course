@@ -5,8 +5,10 @@ module.exports = {
     validateMessage: function(messageText, messageList) {
         AppDispatcher.dipatch({
             type: Constants.VALIDATE_MESSAGE,
-            messageText: messageText,
-            messageList: messageList,
+            payload: {
+                messageText: messageText,
+                messageList: messageList,
+            }
         })
     }
 }

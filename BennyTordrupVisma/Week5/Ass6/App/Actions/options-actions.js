@@ -5,7 +5,9 @@ module.exports = {
 	updateOptions: function(showCombinedMessages) {
 		AppDispatcher.dispatch({
 			type: Constants.UPDATE_OPTIONS,
-			showCombinedMessages: showCombinedMessages,
+            payload: {
+			    showCombinedMessages: showCombinedMessages,
+            }
 		});
 	},
 }
