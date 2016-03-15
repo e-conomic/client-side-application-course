@@ -11,20 +11,20 @@ var MessageField = React.createClass({
 	submitMessageUnarchive : function () {
 		MessageActions.unarchiveMessage(this.props.messageId)
 	},
-	setOnClickAction : function () {
+	setOnClickAction : function (func) {
 		this.setState({
-			onClickAction : this.submitMessageDelete
+			onClickAction : func
 		});
 	},
 	componentWillMount : function () {
+		console.log("props: " + this.props.action)
 		if(this.props.action == 'delete') {
 			this.setOnClickAction(this.submitMessageDelete)
 		} else if(this.props.action == 'archive'){
-			this.setOnClickAction(this.archiveMessage);
+			this.setOnClickAction(this.submitMessageArchive);
 		} else if(this.props.action == 'unarchive'){
 			this.setOnClickAction(this.submitMessageUnarchive)
 		} else {
-			console.log("did not recognize action")
 		}
 	},
 	render: function () {

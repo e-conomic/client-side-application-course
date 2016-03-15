@@ -1,19 +1,18 @@
 var React = require('react');
 var MessageActions = require('../actions/message-actions');
 var MessageStore = require('../stores/message-store');
+var MessageField = require('../components/message-field');
 
-function getArchivedMessages(id){
-	return {
-		archivedMessages : MessageStore.getMessagesFromId(id, true),
-		listId : id, 
-		archiveStyle :{margin: '48px 0 0 0',color: 'gray'}
-	}
+var archiveStyle = {
+	margin: '48px 0 0 0',
+	color: 'gray'
 }
 
 var ArchivedMessages = React.createClass({
 	getInitialState : function() {
-		var messages = getArchivedMessages(this.props.listId)
-		return messages; 
+		return {
+			archivedMessages : MessageStore.getMessagesFromId(this.props.listId, true)
+		}
 	},
 	componentDidMount : function() {
 		MessageStore.addChangeListener(this._onChange);
@@ -22,18 +21,17 @@ var ArchivedMessages = React.createClass({
 		MessageStore.removeChangeListener(this._onChange);
 	},
 	_onChange : function(){
-		this.setState(getArchivedMessages(this.props.listId))
+		this.setState({archivedMessages : MessageStore.getMessagesFromId(this.props.listId, true)});
 	},
 	render : function () {
-		var messgageNodes = [];
-			var messageNodes = this.state.archivedMessages.map(function(message) {
-				return(
-					<ArchivedMessage key={message.messageId} messageId={message.messageId} content={message.content}/>
-				)
-			});
+		var messageNodes = this.state.archivedMessages.map(function(message) {
+			return(
+				<ArchivedMessage key={message.messageId} messageId={message.messageId} content={message.content}/>
+			)
+		});
 		return(
 			<div style={this.state.archiveStyle}>
-				Archived Messages for LIST: {this.state.listId}
+				archived message: 
 				{messageNodes}
 			</div>
 		);		

@@ -17,6 +17,7 @@ var List = React.createClass({
 			<div style={listStyle}>
 				<p><b>ListID: {this.props.data.listId} | ListName: {this.props.data.listName} |</b></p>
 				<Messages listId={this.props.data.listId}/>
+				<ArchivedMessages listId={this.props.data.listId} />
 			</div>
 		);
 	}

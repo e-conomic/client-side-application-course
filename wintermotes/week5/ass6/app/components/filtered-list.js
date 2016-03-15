@@ -4,8 +4,13 @@ var MessageStore = require('../stores/message-store');
 var MessageActions = require('../actions/message-actions');
 
 var Message = require('./messages').Message
-var ArchivedMessage = require('./message').ArchivedMessage
+var ArchivedMessage = require('./archived-messages').ArchivedMessage
 var ListCheckboxes = require('../components/list-checkboxes');
+
+var listStyle = {
+	border: '1px solid red',
+	margin: '24px 0 24px 0'
+}
 
 //TODO: make checkboxes listen to listStore instead of being passed props
 var FilteredList = React.createClass({
@@ -29,13 +34,12 @@ var FilteredList = React.createClass({
 		ListStore.removeChangeListener(this._onChange);
 	},
 	_onChange : function(){
-		this.setState(getFilterState())
+		this.setState({
+			lists : ListStore.getAllLists(),
+			messages : MessageStore.getMessagesFromFilters()
+		})
 	},
 	render : function(){
-	var listStyle = {
-		border: '1px solid red',
-		margin: '24px 0 24px 0'
-	}
 	var messages = this.state.messages.map(function(message){
 		if(message.archived == false){
 			return(<Message key={message.messageId} messageId={message.messageId} content={message.content}/>)

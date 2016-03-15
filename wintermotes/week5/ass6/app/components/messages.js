@@ -8,7 +8,7 @@ var MoveMessageField = require('../components/move-message-field');
 var Messages = React.createClass({
 	getInitialState : function () {
 		return {
-			messages : MessageStore.getMessagesFromId(this.props.listId, false),
+			messages : MessageStore.getMessagesFromId(this.props.listId, false)
 		}
 	},
 	componentDidMount : function() {
@@ -18,7 +18,7 @@ var Messages = React.createClass({
 		MessageStore.removeChangeListener(this._onChange);
 	},
 	_onChange : function(){
-		this.setState(getMessagesById(this.props.listId))
+		this.setState({messages : MessageStore.getMessagesFromId(this.props.listId, false)});
 	},
 	render : function() {
 		var messageNodes = this.state.messages.map(function(message) {

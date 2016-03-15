@@ -27,7 +27,9 @@ var Wrapper = React.createClass({
         ListStore.removeChangeListener(this._onChange);
     },
     _onChange : function(){
-    	this.setState(getAppState())
+    	this.setState({
+			lists : ListStore.getAllLists()
+		});
     },
 	render: function() {
 		return (

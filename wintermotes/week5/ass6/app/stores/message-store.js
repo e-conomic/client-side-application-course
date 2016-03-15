@@ -154,9 +154,11 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 			} 
 			break;
 		case Constants.DELETE_MESSAGE:
+			console.log("DELETE CALLED");
 			_messages.splice(MessageStore.findMessageById(payload.messageId), 1)
 			break;
 		case Constants.ARCHIVE_MESSAGE: 
+			console.log("ARCHIVE CALLED")
 			_messages[MessageStore.findMessageById(payload.messageId)].archived = true
 			break;
 		case Constants.UNARCHIVE_MESSAGE: 
