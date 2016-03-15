@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Deep dive into React</title>
+	<script src="http://fb.me/react-0.14.7.js"></script>
+	<script src="http://fb.me/react-dom-0.14.7.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+	<script type="text/babel">
+ 
+    class List extends React.Component{
+     
+     constructor(props){
+        super(props);
+        
+        this.handleMove = this.handleMove.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+      };
+      handleMove(ref, messageKey, fromListKey){
+        if(this.archived(fromListKey, messageKey)){
+          alert("cannot move archived messages");
+        } else{
+          const toListKey = this.refs[ref].value;
+          this.props.move(messageKey, fromListKey, toListKey);
+        }
+      }
+      handleDelete(listKey, messageKey){
+        if(this.archived(listKey, messageKey)){
+          alert("archived messages cannot be deleted");
+        } else{
+          this.props.delete(listKey, messageKey);
+        }
+      }
+      archived(listKey, messageKey){
+        return this.props.lists[listKey].messages[messageKey].archived;
+      }
+      render(){
+        const lists = this.props.lists;
+        const listKey = this.props.listKey; 
+        const messages = lists[listKey].messages;
+        // for fun: a new color on every render
+        const randomColor = "#"+Math.floor(Math.random()*16777215).toString(16);
+
+        const styles = {
+          list: {
+            listStyleType: 'none',
+            display: 'flex',
+            flexDirection: 'column'
+          },
+          listName: {
+            color: 'green',
+            textTransform: 'uppercase',
+            fontSize: '18'
+          },
+          unarchived: {
+            borderStyle: 'dotted',
+            borderColor: randomColor
+          },
+          archived: {
+            backgroundColor: 'cornflowerblue',
+          }
+        }
+
+return(
+            <ul style={styles.list}>
+            <span style={styles.listName}> {lists[listKey].name}</span>
+            {Object.keys(messages).map((messageKey, i) => {
+              const refToSelect = "select"+i;
+              
+              return(
+                messages[messageKey].archived?
+                <li key={i} style={Object.assign(styles.archived, {"order": i+1})}>
+                  
+                  {messages[messageKey].text}
+                  &nbsp; &nbsp;
+                  <button onClick={this.props.archive.bind(null, listKey, messageKey, false)}>Unarchive</button>
+                </li>
+                :
+                <li key={i} style={styles.unarchived}>
+                    {messages[messageKey].text}
+                    &nbsp; &nbsp;
+                  <button onClick={this.handleMove.bind(null, refToSelect, messageKey,listKey)}>Move to</button>
+                  &nbsp; &nbsp;
+                  <select ref={refToSelect}>
+                    {Object.keys(lists).map((list, j) => {
+                      return(
+                        listKey === list ? null: <option key={j} value={list}>{lists[list].name}</option>
+                      );
+                    })}
+                  </select>
+                    <button onClick={this.handleDelete.bind(null, listKey, messageKey)}>Delete</button>
+                    <button onClick={this.props.archive.bind(null, listKey, messageKey, true)}>Archive</button>
+                </li>
+                );
+              })}
+            </ul>
+          );
+      }
+    }
+    class ControlPanel extends React.Component {
+      constructor(){
+        super();
+        this.state = {
+          selectedListKey: null,
+          messageText: "",
+          listName: ""
+        }
+        this.listOptionChange = this.listOptionChange.bind(this);
+        this.messageTextChange = this.messageTextChange.bind(this);
+        this.listNameChange = this.listNameChange.bind(this);
+        this.handleAddMessage = this.handleAddMessage.bind(this);
+        this.handleAddList = this.handleAddList.bind(this);
+      }
+      listOptionChange(event){
+         this.setState({selectedListKey: event.target.value});
+      }
+      messageTextChange(event){
+        this.setState({messageText: event.target.value});
+      }
+      listNameChange(event){
+        this.setState({listName: event.target.value});
+      }
+
+      handleAddMessage(){
+        const messageText = this.state.messageText;
+        if(!this.validateMessage(messageText)){
+          alert("message not valid");
+          return;
+        }
+        var listKey = this.state.selectedListKey;
+        //onChange is not triggered by dynamically adding an option, so listKey might be null 
+        if(!listKey){
+            const select = this.refs.select;
+            listKey = select.value;
+            if(!listKey){
+              alert("you need to create a list before adding messages");
+              return
+            }
+        }
+        this.props.addMessage(listKey, messageText); 
+      }
+
+      validateMessage(messageText){
+        return messageText.length <= 200;
+      }
+
+      handleAddList(){
+        if(!this.state.listName){
+          alert("you need to add a name for the list to create");
+          return
+        }
+        this.props.addList(this.state.listName);
+      }
+  
+      render(){
+        const lists = this.props.lists;
+        return (
+          <div>
+            <label>List name</label>
+            <input onChange={this.listNameChange} type="text"/>
+            <button onClick={this.handleAddList}>Add List</button>
+            <br/>
+            <label>Message text</label>
+            <input onChange={this.messageTextChange} type="text"/>
+            <button onClick={this.handleAddMessage}>Add Message</button>
+            <label>To list: </label>
+            <select ref="select" onChange={this.listOptionChange}>
+            {Object.keys(lists).map((list, i) => {
+              return(
+                <option key={i} value={list}>{lists[list].name}</option>
+              );
+            })}
+            </select>
+          </div>
+        )
+      }
+    }
+   
+   class App extends React.Component {
+      constructor() {
+        super();
+        this.state = {
+          lists: {}
+        }
+        this.addMessage = this.addMessage.bind(this);
+      }
+      addList(listName){
+        var lists = JSON.parse(JSON.stringify(this.state.lists));
+        lists[Date.now()] = { name: listName, messages: {}};
+
+        this.setState({
+          lists: lists
+        });
+      }
+      addMessage(listKey, messageText){
+        const messageKey = Date.now(); //Date.now() not supported IE < 9
+        var lists = JSON.parse(JSON.stringify(this.state.lists));
+        lists[listKey].messages[messageKey] = {text: messageText, archived: false};
+        this.setState({
+          lists: lists
+        })
+      }
+      move(messageKey, fromListKey, toListKey){
+        var lists = JSON.parse(JSON.stringify(this.state.lists));
+        lists[toListKey].messages[messageKey] = lists[fromListKey].messages[messageKey];
+        delete lists[fromListKey].messages[messageKey];
+        this.setState({
+          lists: lists
+        });
+      }
+      delete(listKey, messageKey){
+        var lists = JSON.parse(JSON.stringify(this.state.lists));
+        delete lists[listKey].messages[messageKey];
+        this.setState({
+          lists: lists
+        })
+      }
+      archive(listKey, messageKey, archived){
+        var lists = JSON.parse(JSON.stringify(this.state.lists));
+        lists[listKey].messages[messageKey].archived = archived;
+        this.setState({
+          lists: lists
+        })
+      }
+
+      render(){
+        const lists = this.state.lists;
+        console.log("this is the state in app: "+JSON.stringify(this.state.lists));
+        return(
+          <div>
+            <ControlPanel addMessage={this.addMessage} addList={this.addList.bind(this)} lists={lists}/>
+              {Object.keys(lists).map((listKey, i) => {
+              return(
+                <List key={i} listKey={listKey} lists={lists} move={this.move.bind(this)}
+                delete={this.delete.bind(this)} archive={this.archive.bind(this)}/>
+              );
+            }, this)}
+          </div>
+        )
+      }
+    }
+    ReactDOM.render(<App/>, document.getElementById("root"));
+	</script>
+</body>
+</html>
