@@ -1,7 +1,6 @@
 var AppDispatcher = require("../Dispatcher/appDispatcher");
 var Constants = require("../constants");
 var BaseStore = require("./base");
-var MessageStore = require("./message-store");
 
 var _validationResult = {
     message: '',
@@ -14,9 +13,7 @@ var ValidationStore = Object.assign({}, BaseStore, {
     }
 });
 
-function _validateMessage(messageText) {
-    var messages = MessageStore.getAll();
-    
+function _validateMessage(messageText, messages) {
     if (messageText.length == 0) {
         _validationResult = {
             message: 'You must enter a text to add.',
@@ -46,7 +43,7 @@ function _validateMessage(messageText) {
 ValidationStore.distatchToken = AppDispatcher.register(action => {
     switch (action.type) {
         case Constants.CREATE_MESSAGE:
-            _validateMessage(action.messageText);
+            _validateMessage(action.messageText, action.messages);
             break;
             
         default:

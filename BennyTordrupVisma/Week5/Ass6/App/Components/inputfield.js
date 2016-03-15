@@ -76,7 +76,7 @@ var InputField = React.createClass({
     },
 	
 	handleCommit: function() {
-        MessageActions.createMessage(this.state.message, this.state.selectedList);
+        MessageActions.createMessage(this.state.message, this.state.selectedList, this.props.messages);
 
         this.setState({
             newListVisible: true,

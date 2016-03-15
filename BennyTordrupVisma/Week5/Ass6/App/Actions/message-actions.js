@@ -2,11 +2,12 @@ var Constants = require('../constants');
 var AppDispatcher = require('../Dispatcher/appDispatcher');
 
 module.exports = {
-	createMessage: function(messageText, listId) {
+	createMessage: function(messageText, listId, messages) {
 		AppDispatcher.dispatch({
 			type: Constants.CREATE_MESSAGE,
             messageText: messageText,
             listId: listId,
+            messages: messages,
 		});
 	},
     

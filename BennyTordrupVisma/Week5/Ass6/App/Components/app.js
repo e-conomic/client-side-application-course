@@ -64,7 +64,7 @@ var App = React.createClass({
                     {this.state.isNotificationBarVisible &&
                         <NotificationBar message={this.state.errorMessage} isError={this.state.isError} onDismissed={this._onDismissed} />}
                     <Options />
-					<InputField lists={this.state.allLists}/>
+					<InputField lists={this.state.allLists} messages={this.state.allMessages}/>
                     {!this.state.options.showCombinedMessages &&
                         <div>
                             <h3>Lists</h3>
