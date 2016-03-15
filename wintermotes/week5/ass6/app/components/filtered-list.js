@@ -21,6 +21,8 @@ var FilteredList = React.createClass({
 		}
 	},
 	handleCheckboxChange : function(event){
+		console.log(event.target.checked)
+		console.log(event.target.value)
 		if(event.target.checked)
 			MessageActions.addListFilter(event.target.value)
 		else if(!event.target.checked)

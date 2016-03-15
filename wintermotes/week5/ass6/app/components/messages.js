@@ -5,6 +5,7 @@ var MessageStore = require('../stores/message-store');
 var MessageField = require('../components/message-field');
 var MoveMessageField = require('../components/move-message-field');
 
+//TODO: Merge these 
 var Messages = React.createClass({
 	getInitialState : function () {
 		return {
@@ -33,7 +34,6 @@ var Messages = React.createClass({
 		);		
 	}
 });
-
 
 var Message = React.createClass({
 	render: function() {

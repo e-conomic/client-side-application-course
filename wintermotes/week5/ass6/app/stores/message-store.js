@@ -33,7 +33,7 @@ var _messages = [
 
 var _messageFilters = [
 	{
-		listIds : [], 
+		listIds : [0, 1], 
 		alphabetic : true
 	}, 
 	{
@@ -87,7 +87,9 @@ var MessageStore = Object.assign({}, BaseStore, {
 		return messages
 	},
 	getMessagesFromFilters : function (){
+		console.log("Getting message from filters")
 		if(_messageFilters[0].listIds.length == 0){
+			console.log("Returning ALL messages");
 			var messages = JSON.parse(JSON.stringify(_messages))
 			messages = this.sortArrayAlphabetically(messages)
 			return messages;
@@ -115,11 +117,12 @@ var MessageStore = Object.assign({}, BaseStore, {
 		return index
 	}, 
 	sortArrayByListIds : function(array, listIds){
+		//TODO: Needs to be rewritten
 		var messages = []
 		for(var i = 0; i<array.length; i++){
 			for(var j = 0; j<_messageFilters[0].listIds.length; j++){
-				if(_messageFilters[0].listIds[j] != array[i].listId){
-					messages.push(_messages[i])
+				if(array[i].listId != _messageFilters[0].listIds[j]){
+					messages.push(array[i])
 				}
 			}
 		}
@@ -172,8 +175,9 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 			_messageFilters = payload.filters
 			break; 
 		case Constants.ADD_FILTER: 
+			console.log("Adding filter: " + payload.filter)
 			if(payload.filterType = 'listFilter')
-				_messageFilters[0].listIds.push(payload.filter)
+				_messageFilters[0].listIds.push(parseInt(payload.filter))
 			break; 
 		case Constants.REMOVE_FILTER: 
 			if(payload.filterType = 'listFilter')
@@ -186,6 +190,8 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 			return;
 	}
 
+	console.log("EMTTING CHANGE")
+	console.log(_messageFilters);
 	MessageStore.emitChange();
 });
 

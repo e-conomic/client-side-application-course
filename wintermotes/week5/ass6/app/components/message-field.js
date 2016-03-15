@@ -17,7 +17,6 @@ var MessageField = React.createClass({
 		});
 	},
 	componentWillMount : function () {
-		console.log("props: " + this.props.action)
 		if(this.props.action == 'delete') {
 			this.setOnClickAction(this.submitMessageDelete)
 		} else if(this.props.action == 'archive'){
