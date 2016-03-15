@@ -1,6 +1,7 @@
 import List from './components/List.jsx';
 import Message from './components/Message.jsx';
 import NotificationBar from './components/notification-bar.jsx';
+import Translations from './components/Translations.jsx';
 var React = require('react');
 var ReactDOM = require('react-dom');
 var ListActions = require('./actions/list-actions.js');
@@ -136,6 +137,7 @@ var App = React.createClass({
                     {this.state.lists.map(this.renderListsAsCheckboxes)}
                 </div>
             </div>
+            <Translations />
         </div>
         );
     },
