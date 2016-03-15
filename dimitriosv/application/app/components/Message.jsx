@@ -5,11 +5,10 @@ var MessageActions = require('../actions/message-actions.js');
 
 var Message = React.createClass({
     renderListOptions: function(messageId) {  return function(list,i) {
-        return (
-             <option key={list.listId+messageId} value={list.listId}>{list.listName}</option>
-        );
-    }
-    
+            return (
+                 <option key={list.listId+messageId} value={list.listId}>{list.listName}</option>
+            );
+        }
     },
     render: function () {
         return (<div>
