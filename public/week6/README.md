@@ -1,6 +1,6 @@
 _Current design/setup using flux._  
 _The purpose of code reviews_  
-_Any interesting questions/discusions?_  
+_Any ~~interesting~~ questions/discusions?_  
 _Final project_
 
 NB! Next week is canceled due to easter
