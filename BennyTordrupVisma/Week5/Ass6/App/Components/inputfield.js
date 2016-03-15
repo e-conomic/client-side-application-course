@@ -15,7 +15,7 @@ var InputField = React.createClass({
     },
     
 	render: function() {
-        var lists = ListStore.getAll().map((list, index) => {
+        var lists = ListStore.getAll().map(list => {
             return <option key={list.id} value={list.id}>{list.name}</option>
         });
         
@@ -54,7 +54,7 @@ var InputField = React.createClass({
     },
      
     onListSelection: function(event) {
-        var listId = event.target.value;
+        var listId = Number(event.target.value);
         this.setState({
             newListVisible: listId == 0,
             selectedList: listId

@@ -19,7 +19,7 @@ function updateOptions(showCombinedMessages) {
     };
 }
 
-AppDispatcher.register(action => {
+OptionsStore.dispatchToken = AppDispatcher.register(action => {
     switch (action.type){
         case Constants.UPDATE_OPTIONS:
             updateOptions(action.showCombinedMessages);

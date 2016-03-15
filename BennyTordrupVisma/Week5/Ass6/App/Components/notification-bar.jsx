@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const NotificationBar = React.createClass({
+var NotificationBar = React.createClass({
 
 	propTypes: {
 		message: React.PropTypes.string.isRequired,
@@ -31,4 +31,4 @@ const NotificationBar = React.createClass({
 
 });
 
-export default NotificationBar;
+module.exports = NotificationBar;

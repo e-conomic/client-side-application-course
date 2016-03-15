@@ -54,7 +54,7 @@ function toggleIsSelected(listId) {
     listToChange.isSelected = !listToChange.isSelected;
 }
 
-AppDispatcher.register(action => {
+ListStore.dispatchToken = AppDispatcher.register(action => {
     switch (action.type){
         case Constants.CREATE_LIST:
             createList(action.listName);

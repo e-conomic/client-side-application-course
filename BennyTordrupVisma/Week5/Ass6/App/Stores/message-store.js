@@ -1,6 +1,7 @@
 var AppDispatcher = require("../Dispatcher/appDispatcher");
 var Constants = require("../constants");
 var BaseStore = require("./base");
+var ValidationStore = require("./validation-store");
 
 //var _messages = [];
 var _messages = [{
@@ -75,40 +76,13 @@ function generateId() {
     }
 }
 
-function isMessageValid(input, listId) {
-    if (input.length == 0) {
-        window.alert("You must enter a text to add.");
-        return false;
-    }
-    
-    if (input.length > 200)	{
-        window.alert("The input may not exceed 200 characters.");
-        return false;
-    }
-    
-    if (listId == 0) {
-        window.alert("You have to select a list to add message to.");
-        return false;
-    }
-
-    var messages = MessageStore.getAll();
-    if (messages.some(m => m.text == input)) {		
-        window.alert("The message is already member of a list and cannot be added");
-        return false;
-    }
-    
-    return true;
-}
-	
 function createMessage(messageText, listId) {
-    if (isMessageValid(messageText, listId)) {
-        _messages.push({
-            id: generateId(),
-            text: messageText,
-            isArchived: false,
-            list: listId
-        });
-    }
+    _messages.push({
+        id: generateId(),
+        text: messageText,
+        isArchived: false,
+        list: listId
+    });
 }
 
 function deleteMessage(messageId) {
@@ -126,10 +100,13 @@ function toggleIsArchived(messageId){
     msgToChange.isArchived = !msgToChange.isArchived;
 }
 
-AppDispatcher.register(action => {
+MessageStore.dispatchToken = AppDispatcher.register(action => {
 	switch(action.type) {
         case Constants.CREATE_MESSAGE:
-            createMessage(action.messageText, action.listId);
+            AppDispatcher.waitFor([ValidationStore.distatchToken]);
+            var validationResult = ValidationStore.getValidationResult();
+            if (!validationResult.isError)
+                createMessage(action.messageText, action.listId);
             break;
             
         case Constants.MOVE_MESSAGE:
