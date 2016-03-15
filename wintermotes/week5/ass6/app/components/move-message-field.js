@@ -2,7 +2,6 @@ var React = require('react');
 var ListStore = require('../stores/list-store');
 var MessageActions = require('../actions/message-actions');
 
-
 var MoveMessageField = React.createClass({
 	getInitialState : function(){
 		return {lists : ListStore.getAllLists()}; 

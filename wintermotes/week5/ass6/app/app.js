@@ -1,7 +1,7 @@
 var React = require('react')
 var ReactDOM = require('react-dom')
-var List = require('./components/list').List
-var FilteredList = require('./components/list').FilteredList
+var List = require('./components/list')
+var FilteredList = require('./components/filtered-list');
 
 var CreateListField = require('./components/create-list-field')
 var CreateMessageField = require('./components/create-message-field');
@@ -14,16 +14,11 @@ var ListStore = require('./stores/list-store')
 // - book: http://www.amazon.com/Developing-React-Edge-JavaScript-Interfaces-ebook/dp/B00PVCLFWY
 // - book: http://www.amazon.com/React-js-Essentials-Artemij-Fedosejev-ebook/dp/B00YSILZRW/ref=pd_sim_351_1?ie=UTF8&dpID=51ppMpK6XGL&dpSrc=sims&preST=_AC_UL160_SR130%2C160_&refRID=1YRAHY8QYTYCGC6A9JH3
 
-function getAppState(){
-	return {
-		lists : ListStore.getAllLists(), 
-	}
-}
-
 var Wrapper = React.createClass({
 	getInitialState : function() {
-		var lists = getAppState()
-		return lists; 
+		return {
+			lists : ListStore.getAllLists()
+		} 
 	},
 	componentDidMount : function() {
 		ListStore.addChangeListener(this._onChange);
@@ -80,7 +75,7 @@ var FilteredMessageBox = React.createClass({
 });
 
 ReactDOM.render(
-<Wrapper />,
-document.getElementById('app')
+	<Wrapper />,
+	document.getElementById('app')
 );    
 
