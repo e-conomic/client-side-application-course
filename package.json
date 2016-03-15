@@ -23,5 +23,8 @@
     "react-bootstrap": "^0.28.2",
     "react-dom": "^0.14.7",
     "send": "^0.13.1"
+  },
+  "devDependencies": {
+    "flux": "^2.1.1"
   }
 }
