@@ -26,6 +26,10 @@ store.dispatchToken = Dispatcher.register(function(payload){
         case Constants.LANGUAGES_REQUESTED:
             _showLoader = true;
             break
+        case Constants.LANGUAGES_RECEIVED:
+            _languages = payload.languages;
+            _showLoader = false;
+            break
         default:
             return;
     }
