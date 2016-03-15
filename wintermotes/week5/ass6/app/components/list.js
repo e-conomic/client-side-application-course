@@ -3,7 +3,7 @@ var Messages = require('./message').Messages
 var Message = require('./message').Message 
 var ArchivedMessages = require('./message').ArchivedMessages
 var ArchivedMessage = require('./message').ArchivedMessage
-var ListCheckboxes = require('../components/fields').ListCheckboxes
+var ListCheckboxes = require('../components/list-checkboxes')
 
 var ListStore = require('../stores/list-store')
 var ListActions = require('../actions/list-actions');

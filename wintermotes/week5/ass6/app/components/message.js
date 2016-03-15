@@ -1,13 +1,9 @@
 var React = require('react');
-
-var DeleteMessageField = require('../components/fields').DeleteMessageField
-var ArchiveMessageField = require('../components/fields').ArchiveMessageField
-var UnarchiveMessageField = require('../components/fields').UnarchiveMessageField
-var MoveMessageField = require('../components/fields').MoveMessageField
+var MessageField = require('../components/message-field');
+var MoveMessageField = require('../components/move-message-field');
 
 var MessageActions = require('../actions/message-actions');
-var MessageStore = require('../stores/message-store')
-
+var MessageStore = require('../stores/message-store');
 
 function getMessagesById(id){
 	return {
@@ -57,8 +53,8 @@ var Message = React.createClass({
 	    return (
 		    <div style={{marginTop : '60px', border : '1px solid blue'}}>
 		        <p>id: {this.props.messageId} | text: {this.props.content}</p>
-				<DeleteMessageField messageId={this.props.messageId}/>
-				<ArchiveMessageField messageId={this.props.messageId}/>
+		        <MessageField action='delete' text='delete' messageId={this.props.messageId}/>
+		        <MessageField action='archive' text='archive' messageId={this.props.messageId}/>
 				<MoveMessageField messageId={this.props.messageId} />
 		    </div>
 	    );
@@ -96,12 +92,10 @@ var ArchivedMessages = React.createClass({
 });
 
 var ArchivedMessage = React.createClass({
-	handleMessageUnarchive : function(){
-	},
 	render : function() {
 		return(
 			<div style={{color : 'gray'}} key={this.props.messageId}>
-				<UnarchiveMessageField messageId={this.props.messageId}/>
+				<MessageField action='unarchive' text='unarchive' messageId={this.props.messageId}/>
 		        <p>id: {this.props.messageId} | text: {this.props.content}</p>
 			</div>
 		);

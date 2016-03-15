@@ -3,9 +3,9 @@ var ReactDOM = require('react-dom')
 var List = require('./components/list').List
 var FilteredList = require('./components/list').FilteredList
 
-var CreateListField = require('./components/fields').CreateListField
-var CreateMessageField = require('./components/fields').CreateMessageField
-var NotificationBox = require('./components/fields').NotificationBox
+var CreateListField = require('./components/create-list-field')
+var CreateMessageField = require('./components/create-message-field');
+var NotificationBox = require('./components/notification-box');
 var ListActions = require('./actions/list-actions');
 var ListStore = require('./stores/list-store')
 
