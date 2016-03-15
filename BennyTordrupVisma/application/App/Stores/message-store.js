@@ -7,47 +7,57 @@ var ValidationStore = require("./validation-store");
 var _messages = [{
     id: 1,
     list: 1,
-    text: "Test 1-1"
+    text: "Hello world",
+    translatedText: ""
 }, {
     id: 2,
     list: 2,
-    text: "Test 2-1"
+    text: "This is a test",
+    translatedText: ""
 }, {
     id: 3,
     list: 1,
-    text: "Test 1-2",
-    isArchived: true
+    text: "Vil du have en is?",
+    isArchived: true,
+    translatedText: ""
 }, {
     id: 4,
     list: 2,
-    text: "Test 2-2",
-    isArchived: true
+    text: "Habla espanol?",
+    isArchived: true,
+    translatedText: ""
 }, {
     id: 5,
     list: 1,
-    text: "Test 1-3"
+    text: "Merry Christmas",
+    translatedText: ""
 }, {
     id: 6,
     list: 2,
-    text: "Test 2-3"
+    text: "Frohe Ostern",
+    translatedText: ""
 }, {
     id: 7,
     list: 1,
-    text: "Test 1-4",
-    isArchived: true
+    text: "We are going home",
+    isArchived: true,
+    translatedText: ""
 }, {
     id: 8,
     list: 2,
-    text: "Test 2-4",
-    isArchived: true
+    text: "Dette er dansk",
+    isArchived: true,
+    translatedText: ""
 }, {
     id: 9,
     list: 1,
-    text: "Test 1-5"
+    text: "This is English",
+    translatedText: ""
 }, {
     id: 10,
     list: 2,
-    text: "Test 2-5"
+    text: "Sidste besked",
+    translatedText: ""
 }];
 
 var MessageStore = Object.assign({}, BaseStore, {

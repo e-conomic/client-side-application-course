@@ -10,4 +10,13 @@ module.exports = {
             }
 		});
 	},
+    
+    updateSelectedLanguage: function(selectedLanguage) {
+        AppDispatcher.dispatch({
+            type: Constants.UPDATE_LANGUAGE,
+            payload: {
+                selectedLanguage: selectedLanguage,
+            }
+        });
+    },
 }

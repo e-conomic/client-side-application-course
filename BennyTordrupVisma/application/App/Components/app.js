@@ -14,7 +14,8 @@ var InputField = require("../Components/inputfield");
 var Options = require("../Components/options");
 var Message = require("../Components/message");
 var ListSelector = require("../Components/listSelector");
-var NotificationBar = require("../Components/notification-bar")
+var NotificationBar = require("../Components/notification-bar");
+var LanguageSelector = require("../Components/languageSelector");
 
 function getAppState(){
     return {
@@ -64,6 +65,7 @@ var App = React.createClass({
                     {this.state.isNotificationBarVisible &&
                         <NotificationBar message={this.state.errorMessage} isError={this.state.isError} onDismissed={this._onDismissed} />}
                     <Options />
+                    <LanguageSelector selectedLangauge={this.state.options.selectedLanguage}/>
 					<InputField lists={this.state.allLists} messages={this.state.allMessages}/>
                     {!this.state.options.showCombinedMessages &&
                         <div>
