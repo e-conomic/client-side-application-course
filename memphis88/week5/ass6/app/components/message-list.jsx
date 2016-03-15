@@ -27,26 +27,26 @@ var MessageList = React.createClass({
 		});
 	},
 
-	onDeleteMessage: function(msgId) {
-		MessageActions.deleteMessage(msgId);
-	},
-
-	onArchiveMessage: function(msgId) {
-		MessageActions.archiveMessage(msgId);
-	},
-
 	render: function() {
 		var createMessage = function(msg) {
-			return (
-				<tr key={msg.id}>
-					<td><Message text={msg.message} /></td>
-					<td><GeneratedListDropDown myListKey={this.props.myListKey}	msgId={msg.id} /></td>
-					<td><input type="button" value="X" onClick={this.onDeleteMessage.bind(this, msg.id)} /></td>
-					<td><input type="button" value="Archive" onClick={this.onArchiveMessage.bind(this, msg.id)} /></td>
-				</tr>
-			);
-		}
-		return <table><tbody>{this.state.messages.map(createMessage, this)}</tbody></table>;
+			if (msg.isArchived) return;
+			return <Message key={msg.id} message={msg} />;
+		};
+		var createArchivedMessage = function(msg) {
+			if (!msg.isArchived) return;
+			return <Message key={msg.id} message={msg} />;
+		};
+		return (
+			<div>
+				<table><tbody>{this.state.messages.map(createMessage, this)}</tbody></table>
+				<table>
+					<thead><tr><td colSpan="2">{"---Archive---"}</td></tr></thead>
+					<tbody>
+						{this.state.messages.map(createArchivedMessage, this)}
+					</tbody>
+				</table>
+			</div>
+		);
 	}
 });
 

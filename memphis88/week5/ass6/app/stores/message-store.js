@@ -1,9 +1,9 @@
 var Dispatcher = require('../dispatcher/dispatcher');
 var Constants = require('../dispatcher/constants');
 var BaseStore = require('./base');
-var ArchiveMessageStore = require('../stores/archive-message-store');
 
 var _messages = [];
+var _sortedMessages = [];
 
 function deepCopy(messages) {
 	return JSON.parse(JSON.stringify(messages));
@@ -13,10 +13,23 @@ function createId() {
 	return Date.now();
 }
 
+function makeAndSortMessageList(messages) {
+	_sortedMessages = deepCopy(messages);
+	_sortedMessages.sort(function(a, b) {
+		if (a.message > b.message) return 1;
+		if (a.message < b.message) return -1;
+		return 0;
+	});
+	return _sortedMessages;
+}
+
 
 var store = Object.assign({}, BaseStore, {
 	getAll: function() {
 		return deepCopy(_messages);
+	},
+	getAllSorted: function() {
+		return makeAndSortMessageList(_messages);
 	},
 	getAllForList: function(listKey) {
 		return deepCopy(_messages.filter(function(msg) { return msg.listKey == listKey }));
@@ -30,10 +43,13 @@ store.dispatchToken = Dispatcher.register(function(payload) {
 
 	switch(payload.type) {
 		case Constants.CREATE_MESSAGE:
+			var ListStore = require('./list-store');
 			_messages.push({
 				id: createId(),
 				listKey: payload.listKey,
-				message: payload.message
+				message: payload.message,
+				isArchived: false,
+				color: ListStore.get(payload.listKey).color
 			});
 			break;
 		case Constants.DELETE_MESSAGE:
@@ -45,12 +61,12 @@ store.dispatchToken = Dispatcher.register(function(payload) {
 			msgToMove.listKey = payload.listKey;
 			break;
 		case Constants.ARCHIVE_MESSAGE:
-			Dispatcher.waitFor([ArchiveMessageStore.dispatchToken]);
 			var msgToDelete = _messages.find(function(l) { return l.id == payload.id });
-			_messages.splice(_messages.indexOf(msgToDelete), 1);
+			msgToDelete.isArchived = true;
 			break;
 		case Constants.EXTRACT_MESSAGE:
-			_messages.push(ArchiveMessageStore.get(payload.id));
+			var msgToDelete = _messages.find(function(l) { return l.id == payload.id });
+			msgToDelete.isArchived = false;
 			break;
 
 		default:

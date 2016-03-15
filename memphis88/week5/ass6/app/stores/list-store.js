@@ -12,6 +12,15 @@ function createId() {
 	return Date.now();
 }
 
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
 var store = Object.assign({}, BaseStore, {
 	getAll: function() {
 		return deepCopy(_list);
@@ -26,7 +35,8 @@ store.dispatchToken = Dispatcher.register(function(payload) {
 		case Constants.CREATE_LIST:
 			_list.push({
 				id: createId(),
-				name: payload.listName
+				name: payload.listName,
+				color: getRandomColor()
 			});
 			break;
 

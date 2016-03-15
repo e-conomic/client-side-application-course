@@ -1,6 +1,5 @@
 var React = require('react');
 
-var ArchiveList = require('./archive-list');
 var MessageList = require('./message-list');
 var MessageActions = require('../actions/message-actions');
 
@@ -25,8 +24,7 @@ var GeneratedList = React.createClass({
 				<h5>Add new message</h5>
 				<input type="text" ref="text" onKeyDown={this.onPressingEnter} />
 				<input type="button" value="add" onClick={this.submitNewMessage} />
-				<MessageList myListKey={this.props.data.id} />
-				<ArchiveList myListKey={this.props.data.id} />
+				<MessageList myListKey={this.props.data.id} isSorted="false"/>
 			</div>
 		);
 	}
