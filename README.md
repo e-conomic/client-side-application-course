@@ -92,13 +92,8 @@ Please note, this outline is an approximation for the course schedule and subjec
  * Week 4: One way data flow - __Flux__ part 1
    * What is Flux and why should I care
  * Week 5: One way data flow - __Flux__ part 2
- * ~~Week 6: __(Im)mutable data__~~
-  * ~~How does mutability of data affect us?~~
-  * ~~How can we overcome that? Immutable data!~~
-  * ~~__Immutable.js__~~
- * Week 6: Testing client-side applications part 1
-   * Common tools for testing in javascript
- * Week 7: Testing client-side applications part 2
+ * Week 6: Asynchronous operations
+ * Week 7: Testing client-side applications
  * Week 8: Application state
    * How is app state kept track of?
    * How can we improve?
