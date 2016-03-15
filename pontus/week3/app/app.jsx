@@ -59,6 +59,7 @@ let Wrapper = React.createClass({
 			let messages = this.state.messages.filter( message => message.listID === list.listID );
 
 			return <NamedList 
+				key={list.listID}
 				listID={list.listID} 
 				listName={list.listName} 
 				messages={messages} 

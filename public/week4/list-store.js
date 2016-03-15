@@ -1,19 +1,16 @@
-var Dispatcher = require('flux').Dispatcher;
+var Dispatcher = require('../dispatcher/dispatcher');
 var Constants = require('./constants');
 var BaseStore = require('./base');
 
 var _list = [];
 
-store = Object.assign({}, BaseStore, {
+ListStore = Object.assign({}, BaseStore, {
 	getAll: function() {
 		return deepCopy(_list);
-	},
-	get: function(id) {
-		return Object.assign({}, _list.find(function(l) { return l.id == id }));
 	}
 });
 
-store.dispatchToken = Dispatcher.register(function(payload){
+Dispatcher.register(function(payload){
 
 	switch(payload.type) {
 		case Constants.CREATE_LIST:
@@ -27,8 +24,8 @@ store.dispatchToken = Dispatcher.register(function(payload){
 			return;
 	}
 
-	store.emitChange();
+	ListStore.emitChange();
 });
 
-return store;
+module.exports = ListStore;
 

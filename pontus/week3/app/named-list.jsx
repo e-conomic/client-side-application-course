@@ -53,6 +53,7 @@ let NamedList = React.createClass({
 
 		let messages = allMessages.map( (message) => {
 			return <Message 
+				key={message.messageID}
 				listID={message.listID} 
 				messageID={message.messageID} 
 				text={message.text} 
