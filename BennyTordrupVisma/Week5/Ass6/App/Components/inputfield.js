@@ -1,5 +1,3 @@
-var MessageStore = require("../Stores/message-store");
-var ListStore = require("../Stores/list-store");
 var MessageActions = require("../Actions/message-actions");
 var ListActions = require("../Actions/list-actions");
 var React = require("react");
@@ -15,7 +13,7 @@ var InputField = React.createClass({
     },
     
 	render: function() {
-        var lists = ListStore.getAll().map(list => {
+        var selectableLists = this.props.lists.map(list => {
             return <option key={list.id} value={list.id}>{list.name}</option>
         });
         
@@ -26,7 +24,7 @@ var InputField = React.createClass({
                     <label>List: </label>
                     <select onChange={this.onListSelection} value={this.state.selectedList}>
                         <option key={0} value={0}>New list</option>
-                        {lists}
+                        {selectableLists}
                     </select>
                     {this.state.newListVisible &&
                         <div>
