@@ -1,5 +1,11 @@
 _Current design/setup using flux._  
 _The purpose of code reviews_  
+  * _knowledge sharing_  
+    * _application_  
+    * _individual_  
+  * _prevent legacy_  
+  * _~~prevent catastrophe~~_ 
+
 _Any ~~interesting~~ questions/discusions?_  
 _Final project_
 
