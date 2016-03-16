@@ -58,7 +58,8 @@ store.dispatchToken = Dispatcher.register(function(payload) {
 			break;
 		case Constants.MOVE_MESSAGE:
 			var msgToMove = _messages.find(function(l) { return l.id == payload.id });
-			msgToMove.listKey = payload.listKey;
+			msgToMove.listKey = parseInt(payload.listKey);
+			msgToMove.color = payload.color;
 			break;
 		case Constants.ARCHIVE_MESSAGE:
 			var msgToDelete = _messages.find(function(l) { return l.id == payload.id });

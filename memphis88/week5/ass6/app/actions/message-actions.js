@@ -27,11 +27,12 @@ module.exports = {
 		});
 	},
 
-	moveMessage: function(msgId, targetListId) {
+	moveMessage: function(msgId, targetListId, color) {
 		Dispatcher.dispatch({
 			type: Constants.MOVE_MESSAGE,
 			id: msgId,
-			listKey: targetListId
+			listKey: targetListId,
+			color: color
 		});
 	},
 

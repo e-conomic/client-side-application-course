@@ -9,7 +9,7 @@ function deepCopy(list) {
 }
 
 function createId() {
-	return Date.now();
+	return parseInt(Date.now());
 }
 
 function getRandomColor() {

@@ -11,6 +11,7 @@ var Message = React.createClass({
 	},
 
 	onArchiveMessage: function(msgId) {
+		console.log('welp');
 		MessageActions.archiveMessage(msgId);
 	},
 
@@ -21,14 +22,14 @@ var Message = React.createClass({
 	render: function() {
 		if (this.props.message.isArchived) {
 			return (
-				<tr style={{color: this.props.message.color}}>
-					<td>{this.props.message.message}</td>
+				<tr style={{backgroundColor: this.props.message.color}}>
+					<td colSpan="3">{this.props.message.message}</td>
 					<td><input type="button" value="Extract" onClick={this.onExtractMessage.bind(this, this.props.message.id)} /></td>
 				</tr>
 			);
 		} else {
 			return (
-				<tr style={{color: this.props.message.color}}>
+				<tr style={{backgroundColor: this.props.message.color}}>
 					<td>{this.props.message.message}</td>
 					<td><GeneratedListDropDown myListKey={this.props.message.listKey} msgId={this.props.message.id} /></td>
 					<td>

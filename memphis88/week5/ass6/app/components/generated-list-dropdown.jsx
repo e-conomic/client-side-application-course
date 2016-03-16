@@ -22,12 +22,10 @@ var GeneratedListDropDown = React.createClass({
 		ListStore.removeChangeListener(this._onChange);
 	},
 
-	handleMessageMove: function(msg, targetListKey) {
-		this.props.onMoveMessage(msg, targetListKey);
-	},
-
 	onChange: function(e) {
-		MessageActions.moveMessage(this.props.msgId, e.target.value);
+		if (e.target.value == null) return;
+		var color = ListStore.get(e.target.value).color;
+		MessageActions.moveMessage(this.props.msgId, e.target.value, color);
 	},
 
 	_onChange: function() {
@@ -38,7 +36,7 @@ var GeneratedListDropDown = React.createClass({
 
 	render: function() {
 		var createDropdownList = function(list) {
-			if (this.props.myListKey == list.id) { return; }
+			if (this.props.myListKey == list.id) return;
 			return <option key={list.id} value={list.id}>{list.name}</option>
 		};
 		return (

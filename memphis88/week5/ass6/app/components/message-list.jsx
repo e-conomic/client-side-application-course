@@ -40,7 +40,7 @@ var MessageList = React.createClass({
 			<div>
 				<table><tbody>{this.state.messages.map(createMessage, this)}</tbody></table>
 				<table>
-					<thead><tr><td colSpan="2">{"---Archive---"}</td></tr></thead>
+					<thead><tr><td colSpan="4">{"---Archive---"}</td></tr></thead>
 					<tbody>
 						{this.state.messages.map(createArchivedMessage, this)}
 					</tbody>
