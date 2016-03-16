@@ -1,11 +1,14 @@
 var React = require('react');
 var ListStore = require('../stores/list-store');
 var MessageActions = require('../actions/message-actions');
+var MessageStore = require('../stores/message-store');
+
 
 var CreateMessageField = React.createClass({
 	getInitialState : function(){
 		return {
 			lists : ListStore.getAllLists(), 
+			messages : MessageStore.getAllMessages()
 		}; 
 	},
 	handleText: function(event){
@@ -15,16 +18,21 @@ var CreateMessageField = React.createClass({
 		this.setState({listId: event.target.value.charAt(0)}) // First char is listId
 	},
 	submitMessage: function(event){
-		MessageActions.createMessage(this.state.messageContent, this.state.listId)
+		MessageActions.createMessage(this.state.messageContent, this.state.listId, this.state.messages)
 	},
 	componentDidMount : function() {
 		ListStore.addChangeListener(this._onChange);
+		MessageStore.addChangeListener(this._onChange);
 	},
 	componentWillUnmount : function() {
 		ListStore.removeChangeListener(this._onChange);
 	},
 	_onChange : function(){
-		this.setState({lists : ListStore.getAllLists()})
+		console.log("Adding change CreateMessageField")
+		this.setState({
+			lists : ListStore.getAllLists(), 
+			messages : MessageStore.getAllMessages()
+		})
 	},
 	render: function() {
 		var listChoices = this.state.lists.map(function(list){

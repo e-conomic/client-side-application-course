@@ -1,13 +1,35 @@
 var Constants = require('../constants')
 var Dispatcher = require('../dispatcher')
 
+var errorMessage = "An error has happened"
+
+function validateString (string, messages){
+	if(string.length >= 200){
+		errorMessage = "Messages cant be longer than 200 characters."
+		return false
+	}
+
+	for(var i = 0; i<messages.length; i++){
+		if(messages[i].content == string){
+			errorMessage = "Message must be unique."
+			return false
+		}
+	}
+
+	return true
+}
+
 module.exports = {
-	createMessage : function(content, listId){
-		Dispatcher.dispatch({
-			type : Constants.CREATE_MESSAGE, 
-			listId : listId, 
-			content : content
-		});
+	createMessage : function(content, listId, messages){
+		if(validateString(content, messages)){
+			Dispatcher.dispatch({
+				type : Constants.CREATE_MESSAGE, 
+				listId : listId, 
+				content : content
+			});			
+		} else {
+			this.createNotification(true)
+		}
 	},
 	moveMessage : function(newListId, messageId){
 		Dispatcher.dispatch({
@@ -54,12 +76,17 @@ module.exports = {
 			filter : filter
 		});
 	}, 
+	createNotification : function(isError){
+		Dispatcher.dispatch({
+			type : Constants.CREATE_NOTIFICATION, 
+			isError : isError, 
+			text : errorMessage
+		});
+	},
 	dismissNotification : function(id){
 		Dispatcher.dispatch({
 			type : Constants.DISMISS_NOTIFICATION, 
 			id : id
 		});
 	}
-
 }
-

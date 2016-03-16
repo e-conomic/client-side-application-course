@@ -48,47 +48,6 @@ function sortArrayAlphabetically (array){
 	return array
 }
 
-// Move to message-actions? 
-function validateString (string){
-	if(string.length > _messageFilters[1].messageLength){
-		var notification = {
-			message : "Message cannot be more than " + _messageFilters[1].messageLength + " long.", 
-			isError : true, 
-			id : _notifications.length + 1
-		}
-		_notifications.push(notification)
-		return false
-
-	}
-
-	if(!validateMessageContent(string)){
-		var notification = {
-			message : "Message content has to be unique.", 
-			isError : true, 
-			id : _notifications.length + 1
-		}
-		_notifications.push(notification)
-		return false
-	}
-
-	var notification = {
-		message : "Message created", 
-		isError : false, 
-		id : _notifications.length + 1
-	}
-
-	_notifications.push(notification)
-	return true
-}
-
-function validateMessageContent (string){
-	for(var i = 0; i<_messages.length; i++){
-		if(_messages[i].content == string)
-			return false
-	}
-	return true
-}
-
 var _messages = [
 				{
 					messageId : 0, 
@@ -120,10 +79,7 @@ var _messageFilters = [
 				{
 					listIds : [], 
 					alphabetic : true
-				}, 
-				{
-					messageLength : 200		
-				} 
+				},
 ]
 
 var _notifications = []
@@ -154,14 +110,12 @@ var MessageStore = Object.assign({}, BaseStore, {
 MessageStore.dispatchToken = Dispatcher.register(function(payload){
 	switch(payload.type) {
 		case Constants.CREATE_MESSAGE:
-			if(validateString(payload.content)){
-				_messages.push({
-					messageId : _messages.length + 1,
-					listId : payload.listId,
-					content : payload.content,
-					archived : false 
-				});
-			} 
+			_messages.push({
+				messageId : _messages.length + 1,
+				listId : payload.listId,
+				content : payload.content,
+				archived : false 
+			});
 			break;
 		case Constants.DELETE_MESSAGE:
 			_messages.splice(findMessageById(payload.messageId), 1)
@@ -189,6 +143,14 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 			break; 	
 		case Constants.DISMISS_NOTIFICATION: 
 			_notifications.splice(0, 1) // TODO: Make this find index through id. 
+			break;
+		case Constants.CREATE_NOTIFICATION: 
+			var notification = {
+				message : payload.text,
+				isError : payload.isError,
+				id : _notifications.length + 1
+			}
+			_notifications.push(notification);
 			break; 					
 		default:
 			return;
