@@ -3,8 +3,7 @@ var ListStore = require('../stores/list-store');
 var MessageStore = require('../stores/message-store');
 var MessageActions = require('../actions/message-actions');
 
-var Message = require('./messages').Message
-var ArchivedMessage = require('./archived-messages').ArchivedMessage
+var Message = require('./message')
 var ListCheckboxes = require('../components/list-checkboxes');
 
 var listStyle = {
@@ -12,7 +11,6 @@ var listStyle = {
 	margin: '24px 0 24px 0'
 }
 
-//TODO: make checkboxes listen to listStore instead of being passed props
 var FilteredList = React.createClass({
 	getInitialState : function () {
 		return {
@@ -21,8 +19,6 @@ var FilteredList = React.createClass({
 		}
 	},
 	handleCheckboxChange : function(event){
-		console.log(event.target.checked)
-		console.log(event.target.value)
 		if(event.target.checked)
 			MessageActions.addListFilter(event.target.value)
 		else if(!event.target.checked)
@@ -44,9 +40,9 @@ var FilteredList = React.createClass({
 	render : function(){
 	var messages = this.state.messages.map(function(message){
 		if(message.archived == false){
-			return(<Message key={message.messageId} messageId={message.messageId} content={message.content}/>)
+			return(<Message key={message.messageId} messageId={message.messageId} content={message.content} archived={false} />)
 		} else {
-			return (<ArchivedMessage key={message.messageId} messageId={message.messageId} content={message.content}/>)
+			return(<Message key={message.messageId} messageId={message.messageId} content={message.content} archived={true} />)
 		}
 	});
 	return (

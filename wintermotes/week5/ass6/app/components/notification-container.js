@@ -6,7 +6,9 @@ import NotificationBar from '../components/notification-bar'
 
 var NotificationBox = React.createClass({
 	getInitialState : function() {
-		return {notifications : MessageStore.getNotifications()}
+		return {
+			notifications : MessageStore.getNotifications()
+		}
 	},
 	dismissNotification : function() {
 		MessageActions.dismissNotification(this.props.id)
