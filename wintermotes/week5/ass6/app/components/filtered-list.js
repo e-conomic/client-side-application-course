@@ -3,7 +3,7 @@ var ListStore = require('../stores/list-store');
 var MessageStore = require('../stores/message-store');
 var MessageActions = require('../actions/message-actions');
 
-var Message = require('./message').Message
+var Message = require('./messages').Message
 var ArchivedMessage = require('./message').ArchivedMessage
 var ListCheckboxes = require('../components/list-checkboxes');
 

@@ -1,7 +1,4 @@
 var React = require('react');
-var MessageField = require('../components/message-field');
-var MoveMessageField = require('../components/move-message-field');
-
 var MessageActions = require('../actions/message-actions');
 var MessageStore = require('../stores/message-store');
 

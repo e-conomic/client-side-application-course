@@ -1,8 +1,7 @@
 var React = require('react');
-var Messages = require('./message').Messages
-var Message = require('./message').Message 
-var ArchivedMessages = require('./message').ArchivedMessages
-var ArchivedMessage = require('./message').ArchivedMessage
+var Messages = require('./messages').Messages
+var ArchivedMessages = require('./archived-messages').ArchivedMessages
+var ArchivedMessage = require('./archived-messages').ArchivedMessage
 var ListStore = require('../stores/list-store')
 var ListActions = require('../actions/list-actions');
 
@@ -18,7 +17,6 @@ var List = React.createClass({
 			<div style={listStyle}>
 				<p><b>ListID: {this.props.data.listId} | ListName: {this.props.data.listName} |</b></p>
 				<Messages listId={this.props.data.listId}/>
-				<ArchivedMessages listId={this.props.data.listId}/>
 			</div>
 		);
 	}
