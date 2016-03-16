@@ -3,16 +3,13 @@ var React = require("react");
 
 var LanguageSelector = React.createClass({
    render: function() {
-        // Could languages be retrieved from web?
+       var langaugeList = this.props.availableLanguages.map(lang => <option key={lang.iso639_1} value={lang.iso639_1}>{lang.name}</option>)
         
         return  <div>
                     <label>Translate to language:</label>
                     <select onChange={this.onListSelection} value={this.props.selectedLangauge}>
                         <option key={0} value={''}>No translation</option>
-                        <option key={1} value={'da'}>Danish</option>
-                        <option key={2} value={'en'}>English</option>
-                        <option key={3} value={'de'}>German</option>
-                        <option key={4} value={'es'}>Spanish</option>
+                        {langaugeList}
                     </select>
                 </div>
     },

@@ -13,14 +13,16 @@ module.exports = React.createClass({
         var otherLists = ListStore.getAll().filter(l => l.id != this.props.message.list).map((list, index) => {
             return <option key={list.id} value={list.id}>{list.name}</option>
         });
+        
+        var displayText = this.props.message.translatedText != "" ? this.props.message.translatedText : this.props.message.text;
                          
 		var archivedMessage =	<div className="archived-message">
-									{this.props.message.id}. {this.props.message.text}
+									{this.props.message.id}. {displayText}
 									<button onClick={this.handleUnarchive}>Unarchive</button>
 								</div>	
 								
 		var nonArchivedMessage =	<div>
-										{this.props.message.id}. {this.props.message.text}
+										{this.props.message.id}. {displayText}
 										<button onClick={this.handleArchive}>Archive</button>
 										<button onClick={this.handleDelete}>Delete</button>
 										{!this.state.listSelectionVisible && <button onClick={this.handleShowListSelection}>Move</button>}
