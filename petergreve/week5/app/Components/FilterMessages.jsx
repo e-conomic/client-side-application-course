@@ -2,17 +2,23 @@ var React = require('react');
 
 var MessageStore = require('../stores/message-store');
 var MessageActions = require('../actions/message-actions')
+var ListStore = require('../stores/list-store');
 
 module.exports = React.createClass({
         getInitialState: function() {
             return {
-                messages: MessageStore.getAll(),
+                messages: this.getVisibleMessages(MessageStore.getAll(), ListStore.getAll())
             }
         },
         componentDidMount: function() {
-            MessageStore.addChangeListener(() => this.setState({messages: MessageStore.getAll()}));
+            MessageStore.addChangeListener(this.onChange);
+            ListStore.addChangeListener(this.onChange);
         },
-        // remove change listener
+        componentWillUnmount: function() {
+            MessageStore.removeChangeListener(this.onChange);
+            ListStore.removeChangeListener(this.onChange);
+
+        },
         handleDeleteClick: function(message) {
             MessageActions.deleteMessage(message);
         },
@@ -30,7 +36,7 @@ module.exports = React.createClass({
 
             return  <div>
                             <ol>
-                                {this.sortMessages(this.filterArchived(false)).filter((m) => {return m.isHidden == false}).map((message,i) => {
+                                {this.state.messages.map((message,i) => {
                                     return <div key={i}>
                                                 {message.text}
                                                     <button type="button" onClick={this.handleDeleteClick.bind(null, message)}>Delete</button>
@@ -39,7 +45,7 @@ module.exports = React.createClass({
                                 },this)}
                             </ol>
                             <ol>
-                                {this.sortMessages(this.filterArchived(true)).filter((m) => {return m.isHidden == false}).map((message,i) => {
+                                {this.sortMessages(this.filterArchived(true,this.state.messages)).map((message,i) => {
                                     return <div style={style} key={i}>
                                                 {message.text}
                                                 <button type="button" onClick={this.handleUnarchiveClick.bind(null, message)}>Unarchive</button>
@@ -49,8 +55,8 @@ module.exports = React.createClass({
                             </ol>
                     </div>
         },
-        filterArchived: function (isArchived)  {
-               return this.state.messages.filter((m) => {
+        filterArchived: function (isArchived, messages)  {
+               return messages.filter((m) => {
                     return m.isArchived == isArchived;
            });
        },
@@ -59,6 +65,27 @@ module.exports = React.createClass({
                 var textA = a.text.toUpperCase();
                 var textB = b.text.toUpperCase();
                 return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+            });
+        },
+        getVisibleMessages: function(messages, lists) {
+            var hiddenLists = lists.filter((l) => {return l.hideMessages == true});
+            var hiddenlistIds = [];
+
+            hiddenLists.forEach(function(element) {
+                console.log(element);
+               hiddenlistIds.push(element.id)
+            });
+
+            var visibleMessages = messages.filter((m) => {
+                    return !hiddenlistIds.includes(m.listId)
+                })
+
+            return visibleMessages;
+
+        },
+        onChange: function() {
+            this.setState({
+                messages: this.getVisibleMessages(MessageStore.getAll(), ListStore.getAll())
             });
         }
 

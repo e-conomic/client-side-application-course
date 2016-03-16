@@ -1,6 +1,5 @@
 var React = require('react');
 var Messages = require('./Messages')
-var FilterMessages = require('./FilterMessages')
 
 
 var ListStore = require('../stores/list-store');
@@ -17,7 +16,9 @@ module.exports = React.createClass({
         componentDidMount: function() {
             ListStore.addChangeListener(() => this.setState({lists: ListStore.getAll()}));
         },
-        // impl remove change listener
+        componentWillUnmount: function() {
+            ListStore.removeChangeListener(() => this.setState({lists: ListStore.getAll()}));
+        },
         render: function () {
 
             var style = {
@@ -31,16 +32,14 @@ module.exports = React.createClass({
                         {this.state.lists.map(function(list, i) {
                             return <span key={i}>
                                         {list.name}
-                                        <input type="checkbox" value={list.id} defaultChecked onChange={this.handleCheckboxClick} /> 
+                                        <input type="checkbox" value={list.id} defaultChecked onChange={this.handleCheckboxClick} />
                                     </span>
                         },this)}
-                        <FilterMessages />
                     </div>
         },
         handleCheckboxClick: function(event) {
             if (!event.target.checked) {
                 ListActions.hideMessages(event.target.value)
-
             } else {
                 ListActions.unHideMessages(event.target.value)
 

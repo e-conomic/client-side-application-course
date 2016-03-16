@@ -24,16 +24,15 @@ Dispatcher.register(function(payload){
                 id: _lists.length,
                 name: payload.listName
             })
-            ListStore.emitChange();
             break
-        case Constants.HIDEMESSAGES_LIST:
- 
+        case Constants.HIDEMESSAGES:
+
             var filteredList= _lists.find((l) => {
                 return l.id == payload.listId;
             });
             filteredList.hideMessages = true;
             break
-        case Constants.UNHIDEMESSAGES_LIST:
+        case Constants.UNHIDEMESSAGES:
 
             var filteredList= _lists.find((l) => {
                 return l.id == payload.listId;
@@ -41,6 +40,9 @@ Dispatcher.register(function(payload){
             filteredList.hideMessages = false;
             break
     }
+
+     ListStore.emitChange();
+
 })
 
 

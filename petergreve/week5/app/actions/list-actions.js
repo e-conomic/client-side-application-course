@@ -8,15 +8,15 @@ module.exports = {
 			listName: listName,
 		});
 	},
-    hideListMessages: function(listId){
+    hideMessages: function(listId){
         Dispatcher.dispatch({
-            type: Constants.HIDEMESSAGES_LIST,
+            type: Constants.HIDEMESSAGES,
             listId: listId
         });
     },
-    unHideListMessages: function(listId){
+    unHideMessages: function(listId){
         Dispatcher.dispatch({
-            type: Constants.UNHIDEMESSAGES_LIST,
+            type: Constants.UNHIDEMESSAGES,
             listId: listId
         });
     }

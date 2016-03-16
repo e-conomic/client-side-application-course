@@ -6,23 +6,19 @@ module.exports = React.createClass({
         getInitialState: function() {
             return {
                 lists: ListStore.getAll(),
-                targetListId: ''
+                targetListId: 0
             }
         },
         componentDidMount: function() {
-            ListStore.addChangeListener(() => {
-                this.setState({
-                    lists: ListStore.getAll()
-                });
-            });
+            ListStore.addChangeListener(this.onChange);
         },
         componentWillUnmount: function() {
-            // remove change listener
+            ListStore.removeChangeListener(this.onChange);
         },
         render: function() {
             return  <span>
                         <button type="button" onClick={this.moveMessage}>Move to</button>
-                        <select onChange={this.handleChange}>
+                        <select onChange={this.handleChange} defaultValue='0'>
                             {this.state.lists.map(function(list,i) {
                                 return <option key={i} value={list.id}  >{list.name}</option>;
                             },this)}
@@ -34,6 +30,10 @@ module.exports = React.createClass({
         },
         handleChange: function(event) {
             this.setState({targetListId: event.target.value});
+        },
+        onChange: function() {
+                this.setState({
+                    lists: ListStore.getAll()
+                });
         }
-
 });

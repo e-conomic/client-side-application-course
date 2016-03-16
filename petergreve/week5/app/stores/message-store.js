@@ -3,10 +3,10 @@ var Constants = require('../constants/constants');
 var BaseStore = require('./base');
 
 var _messages = [
-                    {id: 0, listId: 0, text: "testmessage for list 0", isArchived: false, isHidden: false},
-                    {id: 3, listId: 0, text: "testmessage for list 0", isArchived: true, isHidden: false},
-                    {id: 1, listId: 1, text: "testmessage for list 1", isArchived: false, isHidden: false},
-                    {id: 2 ,listId: 1, text: "testmessage for list 2", isArchived: false, isHidden: false}
+                    {id: 0, listId: 0, text: "testmessage for list 0", isArchived: false},
+                    {id: 3, listId: 0, text: "testmessage for list 0", isArchived: true},
+                    {id: 1, listId: 1, text: "testmessage for list 1", isArchived: false},
+                    {id: 2 ,listId: 1, text: "testmessage for list 2", isArchived: false}
                  ];
 
 var _validationMessage = {isError: false, message: "Message is ok", isDismissed: true };
@@ -27,7 +27,7 @@ var MessageStore = Object.assign({}, BaseStore, {
     },
     getValidationMessage: function() {
         return Object.assign({}, _validationMessage);
-    }
+    },
 });
 
  Dispatcher.register(function(payload){
@@ -41,7 +41,7 @@ var MessageStore = Object.assign({}, BaseStore, {
             }
             else if (_messages.some(m => m.text  === payload.text)) {
                 _validationMessage.isError = true;
-                _validationMessage.message = 'Message is not unique';                
+                _validationMessage.message = 'Message is not unique';
             }
             else
             {
@@ -49,13 +49,12 @@ var MessageStore = Object.assign({}, BaseStore, {
                     id: _messages.length,
                     listId: payload.listId,
                     text: payload.text,
-                    isArchived: false,
-                    isHidden: false
+                    isArchived: false
                 });
                 _validationMessage.isError = false;
                 _validationMessage.message = 'Message is OK';
-            } 
-            
+            }
+
             _validationMessage.isDismissed = false;
 
             break
@@ -86,24 +85,6 @@ var MessageStore = Object.assign({}, BaseStore, {
                             });
                 message.listId = payload.targetListId
 
-            break
-        case Constants.HIDEMESSAGES_LIST:
- 
-                var filteredMessages = _messages.filter((m) => {
-                    return m.listId == payload.listId;
-                });
-                filteredMessages.forEach((message, index, array) => {
-                    message.isHidden = true;
-                });
-            break
-        case Constants.UNHIDEMESSAGES_LIST:
-  
-                var filteredMessages = _messages.filter((m) => {
-                    return m.listId == payload.listId;
-                });
-                filteredMessages.forEach((message, index, array) => {
-                    message.isHidden = false;
-                });
             break
         case Constants.DISMISS_NOTIFICATION:
                 _validationMessage.isDismissed = true;

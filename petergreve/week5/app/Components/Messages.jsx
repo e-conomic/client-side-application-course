@@ -12,6 +12,9 @@ module.exports = React.createClass({
         componentDidMount: function() {
             MessageStore.addChangeListener(() => this.setState({messages: MessageStore.getForList(this.props.listId)}));
         },
+        componentWillUnmount: function() {
+            MessageStore.removeChangeListener(() => this.setState({messages: MessageStore.getForList(this.props.listId)}));
+        },
         handleDeleteClick: function(message) {
             MessageActions.deleteMessage(message);
         },

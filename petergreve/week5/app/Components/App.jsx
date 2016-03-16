@@ -7,6 +7,7 @@ var MessageStore = require('../stores/message-store');
 var MessageActions = require('../actions/message-actions');
 var ListStore = require('../stores/list-store');
 var ListActions = require('../actions/list-actions');
+var FilterMessages = require('./FilterMessages')
 
 import NotificationBar from './notification-bar';
 
@@ -28,7 +29,7 @@ module.exports = React.createClass({
         },
         componentWillUnmount: function() {
             ListStore.removeChangeListener(this._onChange);
-            MessageStore.addChangeListener(this._onChange);
+            MessageStore.removeChangeListener(this._onChange);
         },
         handleDismissError: function() {
             MessageActions.dismissNotification();
@@ -50,6 +51,7 @@ module.exports = React.createClass({
                             },this)}
                         </ol>
                         <FilterCheckbox />
+                        <FilterMessages />
                     </div>
         },
         createList: function() {
