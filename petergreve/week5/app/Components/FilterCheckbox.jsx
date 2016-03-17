@@ -14,10 +14,10 @@ module.exports = React.createClass({
             }
         },
         componentDidMount: function() {
-            ListStore.addChangeListener(() => this.setState({lists: ListStore.getAll()}));
+            ListStore.addChangeListener(this.onChange);
         },
         componentWillUnmount: function() {
-            ListStore.removeChangeListener(() => this.setState({lists: ListStore.getAll()}));
+            ListStore.removeChangeListener(this.onChange);
         },
         render: function () {
 
@@ -44,7 +44,9 @@ module.exports = React.createClass({
                 ListActions.unHideMessages(event.target.value)
 
             }
+        },
+        onChange: function() {
+            this.setState({lists: ListStore.getAll()})
         }
-
 });
 

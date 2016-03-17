@@ -10,10 +10,10 @@ module.exports = React.createClass({
             }
         },
         componentDidMount: function() {
-            MessageStore.addChangeListener(() => this.setState({messages: MessageStore.getForList(this.props.listId)}));
+            MessageStore.addChangeListener(this.onChange);
         },
         componentWillUnmount: function() {
-            MessageStore.removeChangeListener(() => this.setState({messages: MessageStore.getForList(this.props.listId)}));
+            MessageStore.removeChangeListener(this.onChange);
         },
         handleDeleteClick: function(message) {
             MessageActions.deleteMessage(message);
@@ -55,6 +55,9 @@ module.exports = React.createClass({
             return this.state.messages.filter((m) => {
                 return m.isArchived == isArchived;
             });
+        },
+        onChange: function() {
+            this.setState({messages: MessageStore.getForList(this.props.listId)})
         }
 
     });
