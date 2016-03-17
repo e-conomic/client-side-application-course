@@ -36,7 +36,7 @@ module.exports = React.createClass({
 
             return  <div>
                             <ol>
-                                {this.state.messages.map((message,i) => {
+                                {this.sortMessages(this.filterArchived(false,this.state.messages)).map((message,i) => {
                                     return <div key={i}>
                                                 {message.text}
                                                     <button type="button" onClick={this.handleDeleteClick.bind(null, message)}>Delete</button>
@@ -72,7 +72,6 @@ module.exports = React.createClass({
             var hiddenlistIds = [];
 
             hiddenLists.forEach(function(element) {
-                console.log(element);
                hiddenlistIds.push(element.id)
             });
 
