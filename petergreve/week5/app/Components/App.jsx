@@ -1,36 +1,48 @@
 var React = require('react');
 
 var List = require('./List');
-var ErrorMessage = require('./ErrorMessage')
-var MessageStore = require('../stores/message-store')
+var FilterCheckbox = require('./FilterCheckbox');
 
+var MessageStore = require('../stores/message-store');
+var MessageActions = require('../actions/message-actions');
 var ListStore = require('../stores/list-store');
 var ListActions = require('../actions/list-actions');
+var FilterMessages = require('./FilterMessages')
 
+import NotificationBar from './notification-bar';
 
 
 function getAppState() {
   return {
     allLists: ListStore.getAll(),
-    errorMessage: ''
+    validationMessage: MessageStore.getValidationMessage(),
   };
 }
 
 module.exports = React.createClass({
         getInitialState: function() {
-            return Object.assign({}, getAppState());
+            return getAppState();
         },
         componentDidMount: function() {
             ListStore.addChangeListener(this._onChange);
-            MessageStore.addErrorListener(this._onError);
+            MessageStore.addChangeListener(this._onChange);
         },
         componentWillUnmount: function() {
             ListStore.removeChangeListener(this._onChange);
-            MessageStore.removeErrorListener(this._onError);
+            MessageStore.removeChangeListener(this._onChange);
+        },
+        handleDismissError: function() {
+            MessageActions.dismissNotification();
         },
         render: function() {
             return  <div>
-                        <ErrorMessage errorMessage={this.state.errorMessage} />
+                        {this.state.validationMessage.isDismissed
+                            ? null
+                            : <NotificationBar message={this.state.validationMessage.message}
+                                                isError={this.state.validationMessage.isError}
+                                                onDismissed={this.handleDismissError}
+                            />
+                        }
                         <input type="text" ref={(component) => this.newListName = component} />
                         <button type="button" onClick={this.createList}>New List</button>
                         <ol>
@@ -38,7 +50,8 @@ module.exports = React.createClass({
                                 return <List key={i} list={list} />;
                             },this)}
                         </ol>
-
+                        <FilterCheckbox />
+                        <FilterMessages />
                     </div>
         },
         createList: function() {
@@ -46,10 +59,6 @@ module.exports = React.createClass({
         },
         _onChange: function() {
             this.setState(getAppState());
-        },
-        _onError: function () {
-            this.setState({errorMessage: 'message is too long'})
         }
-
     });
 

@@ -1,15 +1,19 @@
 var React = require('react');
 var MessageActions = require('../actions/message-actions')
 var MessageStore = require('../stores/message-store')
+var ListDropdown = require('./ListDropdown')
 
 module.exports = React.createClass({
         getInitialState: function() {
-            this.setState({
+            return {
                 messages: MessageStore.getForList(this.props.listId)
-            })
+            }
         },
         componentDidMount: function() {
-            MessageStore.addChangeListener(this.setState(() => {messages: MessageStore.getForList(this.props.listId)));
+            MessageStore.addChangeListener(this.onChange);
+        },
+        componentWillUnmount: function() {
+            MessageStore.removeChangeListener(this.onChange);
         },
         handleDeleteClick: function(message) {
             MessageActions.deleteMessage(message);
@@ -19,12 +23,6 @@ module.exports = React.createClass({
         },
         handleUnarchiveClick: function(message) {
             MessageActions.unarchiveMessage(message);
-        },
-        handleDownClick: function(message) {
-            MessageActions.moveDownMessage(message);
-        },
-        handleUpClick: function(message) {
-            MessageActions.moveUpMessage(message);
         },
         render: function () {
 
@@ -39,7 +37,7 @@ module.exports = React.createClass({
                                             {message.text}
                                             <button type="button" onClick={this.handleDeleteClick.bind(null, message)}>Delete</button>
                                             <button type="button" onClick={this.handleArchiveClick.bind(null, message)}>Archive</button>
-                                            <ListDropdown />
+                                            <ListDropdown message={message} />
                                         </div>;
                             },this)}
                         </ol>
@@ -54,9 +52,12 @@ module.exports = React.createClass({
                     </div>
         },
         filterArchived: function(isArchived) {
-            return this.props.messages.filter((m) => {
+            return this.state.messages.filter((m) => {
                 return m.isArchived == isArchived;
             });
+        },
+        onChange: function() {
+            this.setState({messages: MessageStore.getForList(this.props.listId)})
         }
 
     });

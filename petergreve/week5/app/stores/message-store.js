@@ -6,8 +6,10 @@ var _messages = [
                     {id: 0, listId: 0, text: "testmessage for list 0", isArchived: false},
                     {id: 3, listId: 0, text: "testmessage for list 0", isArchived: true},
                     {id: 1, listId: 1, text: "testmessage for list 1", isArchived: false},
-                    {id: 2 ,listId: 2, text: "testmessage for list 2", isArchived: false}
+                    {id: 2 ,listId: 1, text: "testmessage for list 2", isArchived: false}
                  ];
+
+var _validationMessage = {isError: false, message: "Message is ok", isDismissed: true };
 
 var MessageStore = Object.assign({}, BaseStore, {
     getAll: function() {
@@ -18,28 +20,42 @@ var MessageStore = Object.assign({}, BaseStore, {
         return JSON.parse(JSON.stringify(message));
     },
     getForList: function(listId) {
-        return _messages.filter((m) => {
+        var messages =  _messages.filter((m) => {
             return m.listId == listId;
         });
-    }
+        return JSON.parse(JSON.stringify(messages))
+    },
+    getValidationMessage: function() {
+        return Object.assign({}, _validationMessage);
+    },
 });
 
  Dispatcher.register(function(payload){
 
-	switch(payload.type) {
+    switch(payload.type) {
 
         case Constants.CREATE_MESSAGE:
-            if (payload.text.length < 200) {
+            if (payload.text.length > 200) {
+                _validationMessage.isError = true;
+                _validationMessage.message = 'Message is too long';
+            }
+            else if (_messages.some(m => m.text  === payload.text)) {
+                _validationMessage.isError = true;
+                _validationMessage.message = 'Message is not unique';
+            }
+            else
+            {
                 _messages.push({
                     id: _messages.length,
                     listId: payload.listId,
                     text: payload.text,
                     isArchived: false
-                })
-            } else {
-                MessageStore.emitError();
-                return
+                });
+                _validationMessage.isError = false;
+                _validationMessage.message = 'Message is OK';
             }
+
+            _validationMessage.isDismissed = false;
 
             break
 
@@ -63,24 +79,20 @@ var MessageStore = Object.assign({}, BaseStore, {
                 message.isArchived = false
             break
 
-        case Constants.MOVEUP_MESSAGE:
-                if (payload.listId > 0) {
-                    var message = _messages.find((m) => {
-                                    return m.id == payload.id;
-                                });
-                    message.listId = payload.listId - 1
-                }
+        case Constants.MOVE_MESSAGE:
+                var message = _messages.find((m) => {
+                                return m.id == payload.id;
+                            });
+                message.listId = payload.targetListId
 
             break
-        case Constants.MOVEDOWN_MESSAGE:
-                var message = _messages.find((m) => {
-                                    return m.id == payload.id;
-                                });
-                message.listId = payload.listId + 1
+        case Constants.DISMISS_NOTIFICATION:
+                _validationMessage.isDismissed = true;
             break
     }
 
     MessageStore.emitChange();
+
 });
 
 module.exports = MessageStore;

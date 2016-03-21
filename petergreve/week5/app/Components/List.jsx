@@ -8,7 +8,8 @@ module.exports = React.createClass({
             return  <div>
                         {this.props.list.id} - {this.props.list.name}
                         <br />
-                        <input type="text" ref={(component) => this.input = component} /><button type="button" onClick={this.createMessage}>Submit Message</button>
+                        <input type="text" ref={(component) => this.input = component} />
+                        <button type="button" onClick={this.createMessage}>Submit Message</button>
                         <Messages listId={this.props.list.id} />
                     </div>
         },
