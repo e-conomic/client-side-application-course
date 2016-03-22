@@ -47,6 +47,11 @@ module.exports = {
 		});
 	},
 
+	cancelMessageTranslation() { 
+		Dispatcher.dispatch({ 
+			type: Constants.CANCEL_TRANSLATION
+		});
+	},
 
 	translateMessagesRequested() { 
 		Dispatcher.dispatch({ 

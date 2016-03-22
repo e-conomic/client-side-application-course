@@ -57,6 +57,17 @@ let Wrapper = React.createClass({
 		});
 	},
 
+	handleClick() { 
+		let lang = this.refs.lang.value || 'da';
+
+		MessageActions.translateMessagesRequested();
+		MessageActions.translateMessages(this.state.messages, lang);
+	},
+
+	cancelTranslation() { 
+		MessageActions.cancelMessageTranslation();
+	},
+
 	render() {
 		let listProperties = ListStore.getListProperties();
 
@@ -89,6 +100,8 @@ let Wrapper = React.createClass({
 					{ notificationBar }
 				<div style={divStyle}></div>
 				<button onClick={this.viewToggle}>{buttonText}</button>
+				<input type="text" ref="lang" placeholder="sv,da,no,en, etc... "/><button onClick={this.handleClick}>Choose a Language and Translate (optional)</button> 
+				<button onClick={this.cancelTranslation}>Cancel Translation</button>
 				<h3>Create New List</h3>
 				<input type="text" ref='inputField' onKeyDown={this.createList} placeholder="title" />
 				<button onClick={this.createList}>Create new list</button>

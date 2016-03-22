@@ -50,13 +50,6 @@ const NamedList = React.createClass({
 		this.setState({ charCount });
 	},
 
-	handleClick() { 
-		let lang = this.refs.lang.value || 'da';
-
-		MessageActions.translateMessagesRequested();
-		MessageActions.translateMessages(this.props.messages, lang);
-	},
-
  	render() {
 		let archivedMessages = this.props.messages.filter( message => message.isArchived );
 
@@ -83,7 +76,6 @@ const NamedList = React.createClass({
 		return (
 			<div>
 				<h2>{this.props.listName}</h2>
-				<input type="text" ref="lang" placeholder="sv,da,no,en, etc... "/><button onClick={this.handleClick}>Choose a Language and Translate (optional)</button>
 				<ul>
 					{messages}
 				</ul> 

@@ -37,7 +37,6 @@ let MessageStore = Object.assign({}, BaseStore, {
 	},
 });
 
-
 MessageStore.dispatchToken = Dispatcher.register(function(payload){
 
 	switch(payload.type) {
@@ -115,6 +114,11 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 			});
 
 		break;
+
+		case Constants.CANCEL_TRANSLATION:
+			_messages.map( message => message.translatedMessage = "" );
+		break;
+
 		default:
 			return;
 	}
