@@ -100,28 +100,21 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 		break;
 		case Constants.TRANSLATING_MESSAGE:
 
-			// the view should listen to this and have a loading message.
+			// the view could listen to this and have a loading gif or something.
 			_translating=true;
 
 		break;
 
 		case Constants.LANGUAGES_RECEIVED:
 
-			// stop the loading icon
-			_translating = false;
+			_translating=false;
+			let json = JSON.parse(payload.translations);
 
-
-			console.log(payload.translations);
-
-			message = _messages.find( message => message.messageID = payload.messageID);
-
-			message.translatedMessage = payload.translatedMessage;
-
-			let noneTranslatedMessages = _messages.filter( message => message.messageID != payload.messageID );
-			_messages = noneTranslatedMessages.concat(message);
+			_messages.map( (message, index) => { 
+				return message.translatedMessage = json["data"]["translations"][index]["translatedText"];
+			});
 
 		break;
-
 		default:
 			return;
 	}

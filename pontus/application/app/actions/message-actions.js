@@ -57,47 +57,26 @@ module.exports = {
 	// translate all
 	translateMessages(messages, userSpecifiedLanguage) { 
 
-		let language = "&target="+userSpecifiedLanguage;
+		let language = "?target="+userSpecifiedLanguage;
 		let key = "&key="+googleKey;
 
-		messages.forEach( message => { 
+		let messagesText = messages.map( message => "&q="+message.text );
+		let messageStr = messagesText.join('');
 
-			let query = "?q="+message.text;
-
-			xhr('GET', 'https://www.googleapis.com/language/translate/v2'+query+language+key, null, (translations) => { 
-
-				// let translation = 
-				
-				for (let obj in translations) { 
-
-					console.log(obj);
-				}
-
-				// translations.map( translation => { 
-            //
-				// 	return translation.translatedText;
-				// });
-
-				
-
-				console.log(`translation is: ${translation}`);
-
-				// on success
+		xhr('https://www.googleapis.com/language/translate/v2'+language+messageStr+key, 
+			translations => { 
 				Dispatcher.dispatch({ 
 					type: Constants.LANGUAGES_RECEIVED,
-					translation: translation,
-					messageID: message.messageID
+					translations: translations
 				});
-				}, 
-				
-				// on failure
-				() => { 
+			}, 
+			
+			() => { 
 				Dispatcher.dispatch({ 
 					type: Constants.FAILURE_ON_LANGUAGES_RECEIVED
 				});
-				}
-			);
-		});
+			}
+		);
 	}
 }
 

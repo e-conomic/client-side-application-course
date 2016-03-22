@@ -4,8 +4,9 @@ let Message = require('./message');
 // order of validation / message stores matter...
 let MessageActions = require('./actions/message-actions');
 let ValidationStore = require('./stores/validation-store');
+let MessageStore = require('./stores/message-store');
 
-let NamedList = React.createClass({ 
+const NamedList = React.createClass({ 
 	propTypes: { 
 		listID: React.PropTypes.number,
 		listName: React.PropTypes.string,
@@ -18,8 +19,7 @@ let NamedList = React.createClass({
 			charCount: 200,
 			displayChars: false,
 			isError: false,
-			errorMsg: "",
-			language: 'da'
+			errorMsg: ""
 		};
 	},
 
@@ -28,17 +28,10 @@ let NamedList = React.createClass({
 			let text = this.refs.inputField.value;
 
 			MessageActions.createMessage(this.props.listID, text);
-			MessageActions.translateMessagesRequested();
-
-			MessageActions.translateMessages(this.props.messages, this.state.language);
-
-			// console.log(this.props.messages);
-			// console.log(`createMsg: ${this.props.messages} and ${this.state.language} `);
 
 			if (true) { 
 				this.refs.inputField.value = "";
 				this.refs.inputField.focus();
-
 				this.setState({ charCount: 200 });
 			}
 		}
@@ -58,9 +51,10 @@ let NamedList = React.createClass({
 	},
 
 	handleClick() { 
+		let lang = this.refs.lang.value || 'da';
 
-		this.setState({ language: 'sv' });
-
+		MessageActions.translateMessagesRequested();
+		MessageActions.translateMessages(this.props.messages, lang);
 	},
 
  	render() {
@@ -89,7 +83,7 @@ let NamedList = React.createClass({
 		return (
 			<div>
 				<h2>{this.props.listName}</h2>
-				<button onClick={this.handleClick} >Choose Language</button>
+				<input type="text" ref="lang" placeholder="sv,da,no,en, etc... "/><button onClick={this.handleClick}>Choose a Language and Translate (optional)</button>
 				<ul>
 					{messages}
 				</ul> 
@@ -102,7 +96,7 @@ let NamedList = React.createClass({
 				<br/>
 			</div>
 		);
-	},
+	}
 });
 
 module.exports = NamedList;
