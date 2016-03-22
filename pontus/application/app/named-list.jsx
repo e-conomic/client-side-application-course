@@ -2,13 +2,8 @@ let React = require('react');
 let Message = require('./message');
 
 // order of validation / message stores matter...
-let ValidationActions = require('./actions/validation-actions');
 let MessageActions = require('./actions/message-actions');
-
-let ValidationStore = require('./stores/validation-store'); // The Dispatcher doesn't get the action if this store is not here. Why?? The store isn't used here?
-
-// let MessageStore = require('./stores/message-store');
-
+let ValidationStore = require('./stores/validation-store');
 
 let NamedList = React.createClass({ 
 	propTypes: { 
@@ -24,6 +19,7 @@ let NamedList = React.createClass({
 			displayChars: false,
 			isError: false,
 			errorMsg: "",
+			language: 'da'
 		};
 	},
 
@@ -32,6 +28,12 @@ let NamedList = React.createClass({
 			let text = this.refs.inputField.value;
 
 			MessageActions.createMessage(this.props.listID, text);
+			MessageActions.translateMessagesRequested();
+
+			MessageActions.translateMessages(this.props.messages, this.state.language);
+
+			// console.log(this.props.messages);
+			// console.log(`createMsg: ${this.props.messages} and ${this.state.language} `);
 
 			if (true) { 
 				this.refs.inputField.value = "";
@@ -53,6 +55,12 @@ let NamedList = React.createClass({
 		else this.setState({ isError: false, errorMsg: "" }) 
 
 		this.setState({ charCount });
+	},
+
+	handleClick() { 
+
+		this.setState({ language: 'sv' });
+
 	},
 
  	render() {
@@ -78,12 +86,10 @@ let NamedList = React.createClass({
 		let errorMessageColor =  (this.state.isError) ? { color: 'red' } : { color: 'black'};
 		let displayCharsStyle = (this.state.displayChars) ? {display: 'inline'} : {display: 'none' };
 
-		// OLD VALIDATION
-
-				// <input onBlur={this.displayCharCount} onKeyDown={this.createMsg} onFocus={this.displayCharCount} onKeyUp={this.charValidation} ref='inputField' type="text" />
 		return (
 			<div>
 				<h2>{this.props.listName}</h2>
+				<button onClick={this.handleClick} >Choose Language</button>
 				<ul>
 					{messages}
 				</ul> 

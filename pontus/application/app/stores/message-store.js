@@ -1,17 +1,17 @@
-var Dispatcher = require('../dispatcher');
-var Constants = require('../constants/constants');
-var BaseStore = require('./base');
+let Dispatcher = require('../dispatcher');
+let Constants = require('../constants/constants');
+let BaseStore = require('./base');
 
-var ValidationStore = require('./validation-store');
+let ValidationStore = require('./validation-store');
 
-var _messages = [];
-var _errorMessages = [];
-var _filteredListIDs = [];
-var _filteredMessages = [];
+let _messages = [];
+let _errorMessages = [];
+let _filteredListIDs = [];
+let _filteredMessages = [];
 
-var _translating = false;
+let _translating = false;
 
-var MessageStore = Object.assign({}, BaseStore, {
+let MessageStore = Object.assign({}, BaseStore, {
 	getAll() { 
 		return _messages;
 	},
@@ -105,10 +105,13 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 
 		break;
 
-		case Constants.FINISHED_TRANSLATING:
+		case Constants.LANGUAGES_RECEIVED:
 
 			// stop the loading icon
 			_translating = false;
+
+
+			console.log(payload.translations);
 
 			message = _messages.find( message => message.messageID = payload.messageID);
 
@@ -117,6 +120,7 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 			let noneTranslatedMessages = _messages.filter( message => message.messageID != payload.messageID );
 			_messages = noneTranslatedMessages.concat(message);
 
+		break;
 
 		default:
 			return;

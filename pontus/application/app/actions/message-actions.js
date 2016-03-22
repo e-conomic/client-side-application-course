@@ -1,5 +1,9 @@
-var Constants = require('../constants/constants');
-var Dispatcher = require('../dispatcher');
+let Constants = require('../constants/constants');
+let Dispatcher = require('../dispatcher');
+
+let xhr = require('../script');
+
+let googleKey = require('../translate-url');
 
 module.exports = {
 
@@ -43,32 +47,57 @@ module.exports = {
 		});
 	},
 
+
 	translateMessagesRequested() { 
 		Dispatcher.dispatch({ 
 			type: Constants.TRANSLATING_MESSAGE
 		});
 	},
 
-	translateMessages(userSpecifiedText, userSpecifiedLanguage, googleKey) { 
+	// translate all
+	translateMessages(messages, userSpecifiedLanguage) { 
 
-		let query = "?q="+userSpecifiedText;
 		let language = "&target="+userSpecifiedLanguage;
-		let key = "key="+googleKey;
+		let key = "&key="+googleKey;
 
-		xhr('GET', 'https://www.googleapis.com/language/translate/v2'+query+language+key, null, () => { 
+		messages.forEach( message => { 
+
+			let query = "?q="+message.text;
+
+			xhr('GET', 'https://www.googleapis.com/language/translate/v2'+query+language+key, null, (translations) => { 
+
+				// let translation = 
+				
+				for (let obj in translations) { 
+
+					console.log(obj);
+				}
+
+				// translations.map( translation => { 
+            //
+				// 	return translation.translatedText;
+				// });
+
+				
+
+				console.log(`translation is: ${translation}`);
+
 				// on success
 				Dispatcher.dispatch({ 
-					type: languagesReceived,
-					translations: translations
+					type: Constants.LANGUAGES_RECEIVED,
+					translation: translation,
+					messageID: message.messageID
 				});
-				}, () => { 
-
+				}, 
+				
 				// on failure
+				() => { 
 				Dispatcher.dispatch({ 
-					type: failureOnLanguagesReceived,
+					type: Constants.FAILURE_ON_LANGUAGES_RECEIVED
 				});
 				}
-		);
+			);
+		});
 	}
 }
 
