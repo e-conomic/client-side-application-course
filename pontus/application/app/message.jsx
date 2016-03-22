@@ -1,8 +1,9 @@
 let React = require('react');
 let MenuItem = require('./menu-item');
-let MessageActions = require('./message-actions');
+let MessageActions = require('./actions/message-actions');
+let TranslatedComponent = require('./translated-component');
 
-let ListStore = require("./list-store"); 
+let ListStore = require("./stores/list-store"); 
 
 let Message = React.createClass({ 
 	propTypes: { 
@@ -44,7 +45,7 @@ let Message = React.createClass({
 
 		return (
 				<div>
-					<li style={msgStyle}>{this.props.text}</li>
+					<li style={msgStyle}>{this.props.text}</li><TranslatedComponent translatedMessage={this.props.translatedMessage} />
 					<div style={msgStyle}>
 						<button onClick={this.archiveMessage}>{archiveAction}</button>
 						<button onClick={this.deleteMessage} disabled={isDisabled}>Delete</button>

@@ -2,11 +2,12 @@ let React = require('react');
 let Message = require('./message');
 
 // order of validation / message stores matter...
-let ValidationActions = require('./validation-actions');
-let MessageActions = require('./message-actions');
-let ValidationStore = require('./validation-store'); // The Dispatcher doesn't get the action if this store is not here. Why?? The store isn't used here?
+let ValidationActions = require('./actions/validation-actions');
+let MessageActions = require('./actions/message-actions');
 
-let MessageStore = require('./message-store');
+let ValidationStore = require('./stores/validation-store'); // The Dispatcher doesn't get the action if this store is not here. Why?? The store isn't used here?
+
+// let MessageStore = require('./stores/message-store');
 
 
 let NamedList = React.createClass({ 
@@ -30,16 +31,14 @@ let NamedList = React.createClass({
 		if (e.keyCode == 13 || e.which == 13 || e.type == 'click') { 
 			let text = this.refs.inputField.value;
 
-			// fire both or just one? 
-			
-			ValidationActions.validateMessage(text) 
-			// ValidationActions.createMessage(this.props.listID, text) 
 			MessageActions.createMessage(this.props.listID, text);
 
-			this.refs.inputField.value = "";
-			this.refs.inputField.focus();
+			if (true) { 
+				this.refs.inputField.value = "";
+				this.refs.inputField.focus();
 
-			this.setState({ charCount: 200 });
+				this.setState({ charCount: 200 });
+			}
 		}
 	},
 
@@ -69,6 +68,7 @@ let NamedList = React.createClass({
 				listID={message.listID} 
 				messageID={message.messageID} 
 				text={message.text} 
+				translatedMessage={message.translatedMessage}
 				isArchived={message.isArchived} 
 				listProperties={this.props.listProperties}
 				listName={this.props.listName}

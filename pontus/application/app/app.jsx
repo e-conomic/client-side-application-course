@@ -1,14 +1,14 @@
 let React = require('react');
 let NamedList = require('./named-list');
-let MessageContainer = require('./message-container.jsx');
 let ReactDOM = require('react-dom');
 let NotificationBar = require('./notification-bar.jsx');
+let MessageView = require('./message-view');
 
-let ListActions = require('./list-actions');
-let ListStore = require("./list-store");
+let ListActions = require('./actions/list-actions');
+let ListStore = require("./stores/list-store");
 
-let MessageStore = require('./message-store');
-let MessageActions = require('./message-actions');
+let MessageStore = require('./stores/message-store');
+let MessageActions = require('./actions/message-actions');
 
 let getListState = () => {
   return {
@@ -60,9 +60,9 @@ let Wrapper = React.createClass({
 	render() {
 		let listProperties = ListStore.getListProperties();
 
-		let messages = <MessageContainer lists={this.state.lists}/>;
+		let messageView = <MessageView lists={this.state.lists}/>;
 
-		let lists = this.state.lists.map( list => { 
+		let listView = this.state.lists.map( list => { 
 			let messages = this.state.messages.filter( message => message.listID === list.listID );
 
 			return <NamedList 
@@ -79,7 +79,7 @@ let Wrapper = React.createClass({
 
 		let notificationBar = <NotificationBar isVisible={this.state.isVisibleNotificationbar} message={errorMessage} isError={isError} onDismissed={this.onDismissed} />;
 
-		let view = (this.state.viewLists) ? lists : messages;
+		let view = (this.state.viewLists) ? messageView : listView;
 		let buttonText = (this.state.viewLists) ? 'view messages' : 'view lists';
 
 		let divStyle = { margin: '1.5em', padding: '1em' };
@@ -92,9 +92,8 @@ let Wrapper = React.createClass({
 				<h3>Create New List</h3>
 				<input type="text" ref='inputField' onKeyDown={this.createList} placeholder="title" />
 				<button onClick={this.createList}>Create new list</button>
-				{ view } 
-				
 
+				{ view } 
 			</div>
 		);
 	},
