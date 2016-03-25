@@ -1,4 +1,5 @@
 var OptionsActions = require("../Actions/options-actions");
+var MessageActions = require("../Actions/message-actions");
 var React = require("react");
 
 var LanguageSelector = React.createClass({
@@ -17,6 +18,7 @@ var LanguageSelector = React.createClass({
     onListSelection: function(event) {
         var languageCode = event.target.value;
         OptionsActions.updateSelectedLanguage(languageCode);
+        MessageActions.translateAllMessages(languageCode);
     },
     
 });

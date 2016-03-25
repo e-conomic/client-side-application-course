@@ -5,6 +5,8 @@ var ValidationStore = require("./validation-store");
 
 var MessageActions = require("../Actions/message-actions");
 
+var GoogleTranslate = require('../Utils/googleTranslate');
+
 //var _messages = [];
 var _messages = [{
     id: 1,
@@ -115,6 +117,14 @@ function toggleIsArchived(messageId){
     msgToChange.isArchived = !msgToChange.isArchived;
 }
 
+function translateAllMessages(payload) {
+    if (payload.destLanguage == "") {
+        _messages.forEach(m => m.translatedText = "");
+    } else {
+        _messages.forEach(m => GoogleTranslate.translateText(m, payload.destLanguage));
+    }
+}
+
 function translationReceived(response) {
     var lastEqual = response.req.url.lastIndexOf("=");
     if (lastEqual > -1) {
@@ -151,6 +161,10 @@ MessageStore.dispatchToken = AppDispatcher.register(action => {
             
         case Constants.TOGGLE_IS_ARCHIVED:
             toggleIsArchived(action.payload.messageId);
+            break;
+            
+        case Constants.TRANSLATE_ALL_MESSAGES:
+            translateAllMessages(action.payload);
             break;
             
         case Constants.TRANSLATE_MESSAGE_RESPONSE:
