@@ -4,7 +4,7 @@ var React = require("react");
 
 var LanguageSelector = React.createClass({
    render: function() {
-       var langaugeList = this.props.availableLanguages.map(lang => <option key={lang.iso639_1} value={lang.iso639_1}>{lang.name}</option>)
+        var langaugeList = (this.props.availableLanguages) ? this.props.availableLanguages.map(lang => <option key={lang.language} value={lang.language}>{lang.name}</option>) : null;
         
         return  <div>
                     <label>Translate to language:</label>

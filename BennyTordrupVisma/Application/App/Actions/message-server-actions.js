@@ -10,4 +10,13 @@ module.exports = {
             }
         });
     },
+    
+    receiveLanguagesResponse: function(response) {
+        AppDispatcher.dispatch({
+            type: Constants.REQUEST_LANGUAGES_RESPONSE,
+            payload: {
+                response: response
+            }
+        });
+    },
 }

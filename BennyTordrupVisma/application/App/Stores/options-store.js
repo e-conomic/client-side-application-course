@@ -4,7 +4,7 @@ var BaseStore = require("./base");
 
 var _options = {
     showCombinedMessages: true,
-    selectedLanguage: 'en',
+    selectedLanguage: '',
 };
 
 var OptionsStore = Object.assign({}, BaseStore, {
