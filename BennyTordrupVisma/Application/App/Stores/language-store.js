@@ -27,12 +27,16 @@ var LanguageStore = Object.assign({}, BaseStore, {
     },
 });
 
+function translateMessage(payload) {
+    var newMsg = MessageStore.getNewest();
+    GoogleTranslate.translateText(newMsg, payload.language);
+}
+
 LanguageStore.dispatchToken = AppDispatcher.register(action => {
     switch (action.type) {
         case Constants.CREATE_MESSAGE:
             AppDispatcher.waitFor([MessageStore.dispatchToken]);
-            var newMsg = MessageStore.getNewest();
-            GoogleTranslate.translateText(newMsg, action.payload.language);
+            translateMessage(action.payload);
             break;
             
         default:

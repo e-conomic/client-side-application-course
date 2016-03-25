@@ -13,20 +13,20 @@ var ValidationStore = Object.assign({}, BaseStore, {
     }
 });
 
-function _validateMessage(messageText, messages) {
-    if (messageText.length == 0) {
+function _validateMessage(payload) {
+    if (payload.messageText.length == 0) {
         _validationResult = {
             message: 'You must enter a text to add.',
             isError: true,
         }
     }
-    else if (messageText.length > 200) {
+    else if (payload.messageText.length > 200) {
         _validationResult = {
             message: 'The input may not exceed 200 characters.',
             isError: true,
         }
     }
-    else if (messages.some(m => m.text == messageText)) {
+    else if (payload.messages.some(m => m.text == payload.messageText)) {
         _validationResult = {
             message: 'The message is already entered and cannot be added.',
             isError: true,
@@ -43,7 +43,7 @@ function _validateMessage(messageText, messages) {
 ValidationStore.distatchToken = AppDispatcher.register(action => {
     switch (action.type) {
         case Constants.CREATE_MESSAGE:
-            _validateMessage(action.payload.messageText, action.payload.messages);
+            _validateMessage(action.payload);
             break;
             
         default:

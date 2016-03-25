@@ -14,30 +14,30 @@ var OptionsStore = Object.assign({}, BaseStore, {
     
 });
 
-function updateOptions(showCombinedMessages) {
+function updateOptions(payload) {
     var oldOptions = _options;
     _options = {
-        showCombinedMessages: showCombinedMessages,
+        showCombinedMessages: payload.showCombinedMessages,
         selectedLanguage: oldOptions.selectedLanguage
    };
 }
 
-function updateSelectedLanguage(selectedLanguage) {
+function updateSelectedLanguage(payload) {
     var oldOptions = _options;
     _options = {
         showCombinedMessages: oldOptions.showCombinedMessages,
-        selectedLanguage: selectedLanguage
+        selectedLanguage: payload.selectedLanguage
     };
 }
 
 OptionsStore.dispatchToken = AppDispatcher.register(action => {
     switch (action.type){
         case Constants.UPDATE_OPTIONS:
-            updateOptions(action.payload.showCombinedMessages);
+            updateOptions(action.payload);
             break;
       
         case Constants.UPDATE_LANGUAGE:
-            updateSelectedLanguage(action.payload.selectedLanguage);
+            updateSelectedLanguage(action.payload);
             break;
                   
         default:

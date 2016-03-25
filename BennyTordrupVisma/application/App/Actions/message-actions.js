@@ -43,18 +43,6 @@ module.exports = {
         });
     },
     
-	translateMessage: function(message, destLanguage) {
-		// AppDispatcher.dispatch({
-		// 	type: Constants.TRANSLATE_MESSAGE,
-        //     payload: {
-        //         message: message,
-        //         destLanguage: destLanguage
-        //     }
-		// });
-        
-        GoogleTranslate.translateText(message, destLanguage);
-	},
-    
     translateAllMessages: function(destLanguage) {
 		AppDispatcher.dispatch({
 			type: Constants.TRANSLATE_ALL_MESSAGES,

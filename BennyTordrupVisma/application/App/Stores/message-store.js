@@ -95,28 +95,28 @@ function generateId() {
     }
 }
 
-function createMessage(messageText, listId) {
+function createMessage(payload) {
     _messages.push({
         id: generateId(),
-        text: messageText,
+        text: payload.messageText,
         isArchived: false,
-        list: listId,
+        list: payload.listId,
         translatedText: ''
     });
 }
 
-function deleteMessage(messageId) {
-    var removePos = _messages.findIndex(m => m.id == messageId);
+function deleteMessage(payload) {
+    var removePos = _messages.findIndex(m => m.id == payload.messageId);
     _messages.splice(removePos, 1);
 }
 
-function moveMessage(messageId, newListId) {
-    var msgToMove = _messages.find(m => m.id == messageId);
-    msgToMove.list = newListId;
+function moveMessage(payload) {
+    var msgToMove = _messages.find(m => m.id == payload.messageId);
+    msgToMove.list = payload.newListId;
 }
 
-function toggleIsArchived(messageId){
-    var msgToChange = _messages.find(m => m.id == messageId);
+function toggleIsArchived(payload){
+    var msgToChange = _messages.find(m => m.id == payload.messageId);
     msgToChange.isArchived = !msgToChange.isArchived;
 }
 
@@ -128,13 +128,13 @@ function translateAllMessages(payload) {
     }
 }
 
-function translationReceived(response) {
-    var lastEqual = response.req.url.lastIndexOf("=");
+function translationReceived(payload) {
+    var lastEqual = payload.response.req.url.lastIndexOf("=");
     if (lastEqual > -1) {
-        var id = Number(response.req.url.substring(lastEqual+1));
+        var id = Number(payload.response.req.url.substring(lastEqual+1));
         var msgToTranslate = _messages.find(m => m.id == id);
         if (msgToTranslate != null) {        
-            var translationResponse = JSON.parse(response.text);
+            var translationResponse = JSON.parse(payload.response.text);
             msgToTranslate.translatedText = translationResponse.data.translations[0].translatedText;
         }
     }
@@ -146,20 +146,20 @@ MessageStore.dispatchToken = AppDispatcher.register(action => {
             AppDispatcher.waitFor([ValidationStore.distatchToken]);
             var validationResult = ValidationStore.getValidationResult();
             if (!validationResult.isError) { 
-                createMessage(action.payload.messageText, action.payload.listId);
+                createMessage(action.payload);
             }
             break;
             
         case Constants.MOVE_MESSAGE:
-            moveMessage(action.payload.messageId, action.payload.newListId);
+            moveMessage(action.payload);
             break;
             
         case Constants.DELETE_MESSAGE:
-            deleteMessage(action.payload.messageId);
+            deleteMessage(action.payload);
             break;
             
         case Constants.TOGGLE_IS_ARCHIVED:
-            toggleIsArchived(action.payload.messageId);
+            toggleIsArchived(action.payload);
             break;
             
         case Constants.TRANSLATE_ALL_MESSAGES:
@@ -167,7 +167,7 @@ MessageStore.dispatchToken = AppDispatcher.register(action => {
             break;
             
         case Constants.TRANSLATE_MESSAGE_RESPONSE:
-            translationReceived(action.payload.response);
+            translationReceived(action.payload);
             break;
             
 		default:
