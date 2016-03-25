@@ -2,6 +2,9 @@ var AppDispatcher = require("../Dispatcher/appDispatcher");
 var Constants = require("../constants");
 var BaseStore = require("./base");
 var ValidationStore = require("./validation-store");
+var MessageStore = require("./message-store");
+
+var GoogleTranslate = require('../Utils/googleTranslate');
 
 var _languages = [{
     iso639_1: 'da',
@@ -27,12 +30,9 @@ var LanguageStore = Object.assign({}, BaseStore, {
 LanguageStore.dispatchToken = AppDispatcher.register(action => {
     switch (action.type) {
         case Constants.CREATE_MESSAGE:
-            AppDispatcher.waitFor([ValidationStore.distatchToken]);
-            var validationResult = ValidationStore.getValidationResult();
-            if (!validationResult.isError)
-            break;
-            
-        case Constants.TRANSLATE_MESSAGE:
+            AppDispatcher.waitFor([MessageStore.dispatchToken]);
+            var newMsg = MessageStore.getNewest();
+            GoogleTranslate.translateText(newMsg, action.payload.language);
             break;
             
         default:

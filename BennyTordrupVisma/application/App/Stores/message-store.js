@@ -79,6 +79,11 @@ var MessageStore = Object.assign({}, BaseStore, {
         var message = _messages.find(m => m.id == messageId);
         return (message) ? Object.assign({}, message) : null;
     },
+    
+    getNewest: function() {
+        var message = _messages[_messages.length-1];
+        return (message) ? Object.assign({}, message): null;
+    },
 });
 
 function generateId() {
@@ -86,20 +91,18 @@ function generateId() {
         return 1;
     } else {
         var ids = _messages.map(m => m.id);
-        return Math.max(...ids) + 1;
+        return Math.max(...ids)+1;
     }
 }
 
 function createMessage(messageText, listId) {
-    var id = generateId();
     _messages.push({
-        id: id,
+        id: generateId(),
         text: messageText,
         isArchived: false,
         list: listId,
         translatedText: ''
     });
-    return id;
 }
 
 function deleteMessage(messageId) {
@@ -143,11 +146,7 @@ MessageStore.dispatchToken = AppDispatcher.register(action => {
             AppDispatcher.waitFor([ValidationStore.distatchToken]);
             var validationResult = ValidationStore.getValidationResult();
             if (!validationResult.isError) { 
-                var newMessageId = createMessage(action.payload.messageText, action.payload.listId);
-                if (newMessageId > 0) {
-                    var newMsg = MessageStore.get(newMessageId);
-                    MessageActions.translateMessage(newMsg, action.payload.language);
-                }
+                createMessage(action.payload.messageText, action.payload.listId);
             }
             break;
             
