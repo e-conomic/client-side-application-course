@@ -3,6 +3,8 @@ var Constants = require("../constants");
 var BaseStore = require("./base");
 var ValidationStore = require("./validation-store");
 
+var MessageActions = require("../Actions/message-actions");
+
 //var _messages = [];
 var _messages = [{
     id: 1,
@@ -87,12 +89,15 @@ function generateId() {
 }
 
 function createMessage(messageText, listId) {
+    var id = generateId();
     _messages.push({
-        id: generateId(),
+        id: id,
         text: messageText,
         isArchived: false,
-        list: listId
+        list: listId,
+        translatedText: ''
     });
+    return id;
 }
 
 function deleteMessage(messageId) {
@@ -110,13 +115,30 @@ function toggleIsArchived(messageId){
     msgToChange.isArchived = !msgToChange.isArchived;
 }
 
+function translationReceived(response) {
+    var lastEqual = response.req.url.lastIndexOf("=");
+    if (lastEqual > -1) {
+        var id = Number(response.req.url.substring(lastEqual+1));
+        var msgToTranslate = _messages.find(m => m.id == id);
+        if (msgToTranslate != null) {        
+            var translationResponse = JSON.parse(response.text);
+            msgToTranslate.translatedText = translationResponse.data.translations[0].translatedText;
+        }
+    }
+}
+
 MessageStore.dispatchToken = AppDispatcher.register(action => {
 	switch(action.type) {
         case Constants.CREATE_MESSAGE:
             AppDispatcher.waitFor([ValidationStore.distatchToken]);
             var validationResult = ValidationStore.getValidationResult();
-            if (!validationResult.isError)
-                createMessage(action.payload.messageText, action.payload.listId);
+            if (!validationResult.isError) { 
+                var newMessageId = createMessage(action.payload.messageText, action.payload.listId);
+                if (newMessageId > 0) {
+                    var newMsg = MessageStore.get(newMessageId);
+                    MessageActions.translateMessage(newMsg, action.payload.language);
+                }
+            }
             break;
             
         case Constants.MOVE_MESSAGE:
@@ -130,7 +152,11 @@ MessageStore.dispatchToken = AppDispatcher.register(action => {
         case Constants.TOGGLE_IS_ARCHIVED:
             toggleIsArchived(action.payload.messageId);
             break;
-
+            
+        case Constants.TRANSLATE_MESSAGE_RESPONSE:
+            translationReceived(action.payload.response);
+            break;
+            
 		default:
 			return;
 	}

@@ -70,7 +70,7 @@ var App = React.createClass({
                         <NotificationBar message={this.state.errorMessage} isError={this.state.isError} onDismissed={this._onDismissed} />}
                     <Options />
                     <LanguageSelector selectedLangauge={this.state.options.selectedLanguage} availableLanguages={this.state.allLanguages}/>
-					<InputField lists={this.state.allLists} messages={this.state.allMessages}/>
+					<InputField lists={this.state.allLists} messages={this.state.allMessages} selectedLanguage={this.state.options.selectedLanguage}/>
                     {!this.state.options.showCombinedMessages &&
                         <div>
                             <h3>Lists</h3>
