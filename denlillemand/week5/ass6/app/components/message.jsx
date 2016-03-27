@@ -14,16 +14,18 @@ export default class Message extends React.Component {
     }
 
     swapMessage(event) {
-        swapMessage(this.props.message.id, this.state.swapDestinationList, this.props.listName);
+        let message = this.props.message;
+        swapMessage(message.id, this.state.swapDestinationList, message.listName);
     }
 
     deleteMessage(event) {
-        deleteMessage(this.props.message.id, this.props.listName);
+        let message = this.props.message;
+        deleteMessage(message.id, message.listName);
     }
 
     archive(event) {
         let message = this.props.message;
-        archiveMessage(message.id, this.props.listName, message.isArchived);
+        archiveMessage(message.id, message.listName, message.isArchived);
     }
 
     changeSwapDestinationList(event) {
@@ -52,9 +54,6 @@ export default class Message extends React.Component {
     }
 }
 Message.propTypes = {
-    deleteMessage: React.PropTypes.func,
     message: React.PropTypes.object,
-    archive: React.PropTypes.func,
-    listName: React.PropTypes.string,
-    namedLists: React.PropTypes.object
+    namedLists: React.PropTypes.array
 };

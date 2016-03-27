@@ -14,13 +14,9 @@ export default class NamedList extends React.Component {
     }
 
     onChangeMessage(event) {
-        if (event.target.value.length > 200) {
-            alert("Message can atmost be 200 characters long");
-        } else {
-            this.setState({
-                message: event.target.value
-            });
-        }
+        this.setState({
+            message: event.target.value
+        });
     }
 
     onMessageSubmit(event) {
@@ -42,9 +38,7 @@ export default class NamedList extends React.Component {
                 <h4>Messages:</h4>
                 <ul>
                     {sortedMessages.map((message, index, array) => {
-                        return (<li><Message message={message}
-                                             listName={this.props.namedList.name}
-                                             namedLists={this.props.namedLists}/>
+                        return (<li><Message message={message} namedLists={this.props.namedLists}/>
                         </li>);
                     })}
                 </ul>
@@ -57,5 +51,5 @@ NamedList.propTypes = {
     onSubmitMessage: React.PropTypes.func,
     onDeleteMessage: React.PropTypes.func,
     archiveMessage: React.PropTypes.func,
-    namedLists: React.PropTypes.object
+    namedLists: React.PropTypes.array
 };

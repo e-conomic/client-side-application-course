@@ -11,12 +11,42 @@ var store = Object.assign({}, BaseStore, {
     },
     get(id) {
         return Object.assign({}, _listDictionary[id]);
+    },
+    isMessageValid(text) {
+        if(!validateTextLength(text)) {
+            return {
+                text: "Message cannot be above 200 characters",
+                isError: true
+            }
+        } else if(!validateUniqueMessage(text, _listDictionary)) {
+            return {
+                text: "Message has to be unique!",
+                isError: true
+            }
+        } else {
+            return {
+                text: "Message is valid!",
+                isError:false
+            }
+        }
     }
 });
 
+function validateTextLength(text) {
+    return text.length <= 200;
+}
+
+function validateUniqueMessage(text, dictionary) {
+    return Object.keys(dictionary).every((value) => {
+        return dictionary[value].every((message) => {
+            return message.text !== text;
+        });
+    });
+}
+
 function generateId(dictionary) {
-    let ids = Object.keys(dictionary).map((value, index, array) => {
-        return dictionary[value].map((message, index, array) => {
+    let ids = Object.keys(dictionary).map((value) => {
+        return dictionary[value].map((message) => {
             return message.id;
         });
     });
@@ -47,6 +77,7 @@ store.dispatchToken = Dispatcher.register((payload) => {
                     //Set a error
                 } else {
                     _listDictionary[currentList] = copiedCurrentList;
+                    removedMessage[0]['listName'] = destinationList;
                     _listDictionary[destinationList] = _listDictionary[destinationList].concat(removedMessage);
                 }
             }
@@ -64,10 +95,6 @@ store.dispatchToken = Dispatcher.register((payload) => {
             }
             break;
         case ARCHIVE_MESSAGE:
-            console.log('listName:', listName);
-            console.log('listdictionary:', _listDictionary);
-            console.log('isArchived:', isArchived);
-            console.log('trying to access the listdictionary:', _listDictionary[listName]);
             var mutatedArray = _listDictionary[listName].map(function (message) {
                 if (message.id === messageId) {
                     var clonedMessage = Object.assign({}, message);
@@ -81,6 +108,7 @@ store.dispatchToken = Dispatcher.register((payload) => {
         case CREATE_MESSAGE:
             let message = {
                 id: generateId(_listDictionary),
+                listName,
                 text
             };
             let copiedList = _listDictionary[listName].slice();
