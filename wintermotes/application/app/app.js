@@ -2,6 +2,8 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var ListContainer = require('./components/list-container');
 var FilteredList = require('./components/filtered-list');
+var TranslateOptions = require('./components/translate-options');
+var TranslationResetbox = require('./components/translation-resetbox');
 
 var CreateListField = require('./components/create-list-field')
 var CreateMessageField = require('./components/create-message-field');
@@ -16,7 +18,9 @@ var Wrapper = React.createClass({
 	render: function() {
 		return (
 			<div>
-				<h1>Week 5, Assignment 6: Filtering and validating content with FLUX</h1>
+				<h1>Week 5, Assignment 7: Flux and the google translate API</h1>
+				<TranslateOptions />
+				<TranslationResetbox />
 				<FilteredList />
 				<CreateListField />
 				<CreateMessageField />

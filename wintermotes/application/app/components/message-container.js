@@ -18,7 +18,6 @@ var MessageContainer = React.createClass({
 		this.setState({messages : MessageStore.getMessagesFromId(this.props.listId, this.props.archived)});
 	},
 	render : function() {
-		console.log("archived: " + this.props.archived);
 		var messageNodes = this.state.messages.map(function(message) {
 			return(
 				<Message key={message.messageId} messageId={message.messageId} content={message.content} archived={this.props.archived}/>

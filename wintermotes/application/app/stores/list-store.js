@@ -29,7 +29,6 @@ var ListStore = Object.assign({}, BaseStore, {
 });
 
 ListStore.dispatchToken = Dispatcher.register(function(payload){
-	console.log("Registering dispatcher with paylod: ")
 	switch(payload.type) {
 		case Constants.CREATE_LIST:
 			_lists.push({
@@ -45,7 +44,6 @@ ListStore.dispatchToken = Dispatcher.register(function(payload){
 		default:
 			return;
 	}
-	console.log(_lists)
 	ListStore.emitChange();
 });
 
