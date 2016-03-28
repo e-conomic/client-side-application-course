@@ -1,8 +1,16 @@
 var React = require('react');
 var MessageActions = require('../actions/message-actions')
+var MessageStore = require('../stores/message-store')
 
 module.exports = React.createClass({
-
+        getInitialState: function() {
+            this.setState({
+                messages: MessageStore.getForList(this.props.listId)
+            })
+        },
+        componentDidMount: function() {
+            MessageStore.addChangeListener(this.setState(() => {messages: MessageStore.getForList(this.props.listId)));
+        },
         handleDeleteClick: function(message) {
             MessageActions.deleteMessage(message);
         },
@@ -31,8 +39,7 @@ module.exports = React.createClass({
                                             {message.text}
                                             <button type="button" onClick={this.handleDeleteClick.bind(null, message)}>Delete</button>
                                             <button type="button" onClick={this.handleArchiveClick.bind(null, message)}>Archive</button>
-                                            <button type="button" onClick={this.handleDownClick.bind(null, message)}>Move Down</button>
-                                            <button type="button" onClick={this.handleUpClick.bind(null, message)}>Move Up</button>
+                                            <ListDropdown />
                                         </div>;
                             },this)}
                         </ol>
