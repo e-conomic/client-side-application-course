@@ -24,7 +24,6 @@ export function createMessage(text, listName) {
             }
         });
     }
-
 }
 
 export function swapMessage(messageId, destinationList, currentList) {
