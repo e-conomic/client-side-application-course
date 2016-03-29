@@ -41,7 +41,7 @@ var App = React.createClass({
     },
     renderLists: function(list, i) {
         return (
-            <List key={list.listId}
+            <List 
             index={i}
             listName={list.listName}
             listId={list.listId}
@@ -62,7 +62,7 @@ var App = React.createClass({
         if (!message.isHidden) {
             return (
             <div className="message" key={message.messageId+"_2"}>
-            <Message    messageId={message.messageId} 
+            <Message  key={message.messageId+"_2"}  messageId={message.messageId} 
                         messageText={message.text}
                         messageIsArchived={message.isArchived}
                         allLists={this.state.lists}

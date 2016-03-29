@@ -3,10 +3,10 @@ var Constants = require('../constants');
 var BaseStore = require('./base');
 
 
-var _messages = [{messageId:1, belongsToList: 1, text: "hello", isArchived: false, isHidden:false},
-                 {messageId:2, belongsToList: 1, text: "this is a message!", isArchived: false, isHidden:false},
-                 {messageId:3, belongsToList: 1, text: "more messages", isArchived: false, isHidden:false},
-                 {messageId:4, belongsToList: 2, text: "and another one", isArchived: false, isHidden:false}];
+var _messages = [{messageId:1, belongsToList: 0, text: "hello", isArchived: false, isHidden:false},
+                 {messageId:2, belongsToList: 0, text: "this is a message!", isArchived: false, isHidden:false},
+                 {messageId:3, belongsToList: 0, text: "more messages", isArchived: false, isHidden:false},
+                 {messageId:4, belongsToList: 1, text: "and another one", isArchived: false, isHidden:false}];
 var _notificationText = "hi";
 var _notificationIsError = false; 
 var _showNotification = true;

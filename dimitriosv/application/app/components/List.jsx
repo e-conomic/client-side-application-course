@@ -11,7 +11,7 @@ var List = React.createClass({
                 };
         },
         render: function() {
-            return  <div className="llist">
+            return  <div key={this.props.listId+"_list_"+this.props.listName} className="llist">
                         <div className="listname" >{this.props.listName}</div>
                         <div>
                             <input onChange={this.handleMessageChange} type="text"/>
