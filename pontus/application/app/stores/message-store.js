@@ -12,15 +12,20 @@ let _filteredMessages = [];
 let _translating = false;
 
 let MessageStore = Object.assign({}, BaseStore, {
+
 	getAll() { 
-		return _messages;
+		return _messages.map( message => Object.assign({}, message};
 	},
 
 	get(messageID) {
-		return _messages.find( message => message.messageID == messageID);
+
+		let result  _messages.find( message => message.messageID == messageID);
+
+		return Object.assign({}, result);
 	},
 
 	getErrorMessage() { 
+
 		return _errorMessages.shift();
 	},
 	
@@ -66,7 +71,7 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 			
 			let validatedMessage = ValidationStore.get();
 
-			if ( !validatedMessage.isErrorCharacters && !_messages.find( message => message.text == validatedMessage.text) ) { 
+			if (!validatedMessage.isErrorCharacters && !_messages.find(message => message.text == validatedMessage.text)) { 
 				_messages.push({ 
 					listID: validatedMessage.listID,
 					messageID: Date.now(),
@@ -103,20 +108,22 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 			_translating=true;
 
 		break;
-
 		case Constants.LANGUAGES_RECEIVED:
 
 			_translating=false;
 			let json = JSON.parse(payload.translations);
 
-			_messages.map( (message, index) => { 
-				return message.translatedMessage = json["data"]["translations"][index]["translatedText"];
+			_messages.forEach( (message, index) => { 
+				message.translatedMessage = json["data"]["translations"][index]["translatedText"];
 			});
 
 		break;
-
 		case Constants.CANCEL_TRANSLATION:
-			_messages.map( message => message.translatedMessage = "" );
+
+			_messages.forEach( message => {
+				message.translatedMessage = "";
+			});
+
 		break;
 
 		default:
