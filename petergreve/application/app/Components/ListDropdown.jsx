@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 let MessageActions = require('../actions/message-actions')
 let ListStore = require('../stores/list-store')
 
-class List extends Component {
+class ListDropdown extends Component {
 
     static propTypes = {
         lists: React.PropTypes.array,
@@ -24,4 +24,4 @@ class List extends Component {
     }
 }
 
-export default List;
+export default ListDropdown;
