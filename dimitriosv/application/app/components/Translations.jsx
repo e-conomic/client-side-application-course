@@ -13,7 +13,7 @@ var Translations = React.createClass({
         },
         onStoreChange: function() {
             this.setState({
-               languages: TranslationStore.getLanguages(),
+                languages: TranslationStore.getLanguages(),
                 showLoader: TranslationStore.getShowLoader(),
             });
         },
@@ -24,23 +24,31 @@ var Translations = React.createClass({
         componentWillUnmount: function() {
             TranslationStore.removeChangeListener(this.onStoreChange);
         },
-        renderLanguagesOptions: function() {  return function(language,i) {
+        renderLanguagesOptions: function() {  return function(obj,i) {
                 return (
-                     <option key={language+i} value={language}>{language}</option>
+                     <option key={"lan"+obj.language+i} value={obj.language}>{obj.language}</option>
                 );
             }
+        },
+        traslateAll: function(e) {
+            var LanguageCode=e.target.value;
+            TranslationActions.translateAll(this.props.messages,LanguageCode);
+
+        },
+        cancelTranslations: function() {
+            TranslationActions.cancelTranslations();
         },
         render: function() {
             return  (<div className="translationscont">
                         {this.state.showLoader
-                        ? <div className="loadingLanguages">Loading...</div>
+                        ? <div className="loadingLanguages">Loading....</div>
                         : <div>
                         <span>Translate:</span>
-                        <select className="languagesselect" defaultValue="0">
+                        <select className="languagesselect" defaultValue="0" onChange={this.traslateAll}>
                                 <option key="0" value="0"  >Select language:</option>
                                 {this.state.languages.map(this.renderLanguagesOptions())}
                         </select>
-                        <button type="button">Disable</button>
+                        <button type="button" onClick={this.cancelTranslations}>Disable</button>
                         </div>}
                     </div>)
         },

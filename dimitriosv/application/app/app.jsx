@@ -137,7 +137,7 @@ var App = React.createClass({
                     {this.state.lists.map(this.renderListsAsCheckboxes)}
                 </div>
             </div>
-            <Translations />
+            <Translations messages={this.state.allMessages} />
         </div>
         );
     },
