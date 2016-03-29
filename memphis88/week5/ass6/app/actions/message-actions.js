@@ -17,6 +17,10 @@ module.exports = {
 				listKey: listKey,
 				message: msgText
 			});
+		} else {
+			Dispatcher.dispatch({
+				type: Constants.EXCEED_RANGE_ERROR
+			});
 		}
 	},
 
