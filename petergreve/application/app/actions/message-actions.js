@@ -78,7 +78,7 @@ module.exports = {
 
         var query = '?' + message + targetLanguage + "&key=" + key;
 
-        request(url + query, function(er, response, body) {
+        request({method:'GET', url:url + query, json:{relaxed:true} }, function(er, response, body) {
             if(er) {
                 console.log("Error requesting Google translate API");
             }
@@ -94,7 +94,7 @@ module.exports = {
 
         var url = 'https://www.googleapis.com/language/translate/v2/languages';
 
-        request(url + '?key=' + key, function(er, response, body) {
+        request({method:'GET', url:url + '?key=' + key, json:{relaxed:true}}, function(er, response, body) {
             if(er) {
                 console.log("Error requesting Google translate API");
             }

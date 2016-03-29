@@ -93,20 +93,17 @@ var MessageStore = Object.assign({}, BaseStore, {
 
         case Constants.TRANSLATE_MESSAGES:
 
-            var json = JSON.parse(payload.translatedMessages);
-            var translatedMessages = json['data']['translations'];
+            var translatedMessages = payload.translatedMessages.data.translations;
 
             _messages.map(function(message, index) {
                 return message.translation = translatedMessages[index]['translatedText'];
             });
             
-            console.log(payload.translatedMessages);
             break
             
         case Constants.GET_LANGUAGE_CODES:
 
-            var json = JSON.parse(payload.languageCodes);
-            var languages = json['data']['languages'];
+            var languages = payload.languageCodes.data.languages;
             _languageCodes = [];
             for (var language of languages) {
                 _languageCodes.push(language.language);
