@@ -58,13 +58,13 @@ var FilteredMessageList = React.createClass({
 				return <Message key={message.id} message={message} />;
 			}
 		};
-		var tempStyle = {
+		var containerStyle = {
 			borderStyle: 'solid',
 			borderWidth: 3,
 			borderColor: 'red'
 		};
 		return (
-			<div style={tempStyle}>
+			<div style={containerStyle}>
 				<form onChange={this.onChange} ref="filterForm">
 					<ul>{this.state.allLists.map(renderAllListInputs)}</ul>
 				</form>

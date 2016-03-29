@@ -11,7 +11,6 @@ var Message = React.createClass({
 	},
 
 	onArchiveMessage: function(msgId) {
-		console.log('welp');
 		MessageActions.archiveMessage(msgId);
 	},
 

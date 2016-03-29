@@ -23,7 +23,7 @@ var GeneratedListDropDown = React.createClass({
 	},
 
 	onChange: function(e) {
-		if (e.target.value == null) return;
+		if (e.target.value == 'null') return;
 		var color = ListStore.get(e.target.value).color;
 		MessageActions.moveMessage(this.props.msgId, e.target.value, color);
 	},

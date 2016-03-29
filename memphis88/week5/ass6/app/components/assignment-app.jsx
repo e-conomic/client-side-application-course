@@ -4,6 +4,7 @@ var GeneratedList = require('./generated-list');
 var ListActions = require('../actions/list-actions');
 var ListStore = require('../stores/list-store');
 var FilteredMessageList = require('./filtered-message-list');
+var NotificationBar = require('./notification-bar').default;
 
 var AssignmentApp = React.createClass({
 	propTypes: {
@@ -47,6 +48,7 @@ var AssignmentApp = React.createClass({
 		};
 		return (
 			<div>
+				<NotificationBar isError={''} message={''} onDismissed={''} />
 				<div className="listInput">
 					<h4>Add a new list</h4>
 					<input ref="listName" onKeyDown={this.onPressingEnter} />
