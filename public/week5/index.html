@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Deep dive into React</title>
+	<script src="http://fb.me/react-0.14.7.js"></script>
+	<script src="http://fb.me/react-dom-0.14.7.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+</head>
+<body>
+	<div id="content"></div>
+	<script type="text/babel">
+		const NotificationBar = React.createClass({
+
+			getInitialState: function(){
+				return {
+					message: '',
+					visible: false,
+				}
+			},
+
+			propTypes: {
+				message: React.PropTypes.string.isRequired,
+				isError: React.PropTypes.bool,
+			},
+
+			onNotificationReceived: function(notification) {
+				clearTimeout(this.state.timeoutId);
+
+				this.setState({
+					...notification,
+					visible: true,
+				});
+
+				var timeoutId = setTimeout(function() {
+					this.setState({
+						message: '',
+						visible: false
+					})
+				}.bind(this), 2000);
+
+				this.setState({
+					timeoutId
+				});
+			},
+
+			render: function() {
+
+				const notificationBarStyle = {
+					position: 'absolute',
+					top: 0,
+					left: 0,
+					padding: '20px',
+					backgroundColor: this.state.isError ? '#FF6666' : '#66FF6B',
+					width: '100%',
+					textAlign: 'center',
+					fontSize: '20px',
+					fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif'
+				}
+
+				return this.state.visible && 
+						<div style={notificationBarStyle}>
+							{this.state.message}
+						</div>
+			}
+
+		});
+
+		var component = ReactDOM.render( <NotificationBar /> , document.querySelector('#content'));
+		window.addError = function() {
+			component.onNotificationReceived({
+				message: 'ERROR!',
+				isError: true
+			})
+		}
+
+		window.addMessage = function() {
+			component.onNotificationReceived({
+				message: 'MESSAGE!',
+				isError: false,
+			})
+		}
+	</script>
+</body>
+</html>
