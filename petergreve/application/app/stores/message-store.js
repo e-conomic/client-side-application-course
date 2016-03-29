@@ -95,8 +95,8 @@ var MessageStore = Object.assign({}, BaseStore, {
 
             var translatedMessages = payload.translatedMessages.data.translations;
 
-            _messages.map(function(message, index) {
-                return message.translation = translatedMessages[index]['translatedText'];
+            _messages.forEach(function(message, index) {
+                 message.translation = translatedMessages[index]['translatedText'];
             });
             
             break
