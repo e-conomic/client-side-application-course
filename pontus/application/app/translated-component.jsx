@@ -9,6 +9,19 @@ let TranslatedMessage = React.createClass({
 		text: React.PropTypes.string,
 	},
 
+	getInitialState() { 
+
+		return { 
+			text: ''
+		};
+	},
+	componentDidMount() {
+
+		this.setState({ 
+			text: window.location.hash
+		});
+	},
+
 	render() {
 		let translatedMessage = (this.props.translatedMessage) ?  `(Translated Message: ${this.props.translatedMessage})` : "";
 
@@ -17,8 +30,14 @@ let TranslatedMessage = React.createClass({
 			marginRight: '1em'
 		};
 
-		return <div style={translatedMessageStyle}> {translatedMessage} </div>;
+		return (
+			<div>
+				<div style={translatedMessageStyle} dangerouslySetInnerHTML={{__html: translatedMessage}}></div>;
+				<div dangerouslySetInnerHTML={{__html: this.state.text}}></div>
+			 </div>
+		 );
 	}
+
 }); 
 
 module.exports = TranslatedMessage;

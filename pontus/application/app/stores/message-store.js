@@ -14,11 +14,15 @@ let _translating = false;
 let MessageStore = Object.assign({}, BaseStore, {
 	getAll() { 
 		return _messages;
+		// return _messages.map( message => {...message} );
+		// return _messages.map( message => Object.assign({}, message);
 	},
 
 	get(messageID) {
 		return _messages.find( message => message.messageID == messageID);
 	},
+
+	// _messages( message => message );
 
 	getErrorMessage() { 
 		return _errorMessages.shift();

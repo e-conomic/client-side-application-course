@@ -18,6 +18,7 @@ let ListStore = Object.assign({}, BaseStore, {
 		let listProperties = _list.filter( list => { 
 			return { listName: list.listName, listID: list.listID }
 		});
+
 		return listProperties;
 	}
 });

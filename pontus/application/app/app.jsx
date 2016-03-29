@@ -23,7 +23,9 @@ let Wrapper = React.createClass({
 		return { 
 			lists: ListStore.getAll(),
 			messages: MessageStore.getAll(),
-			isVisibleNotificationbar: false
+			isVisibleNotificationbar: false,
+			text: ''
+
 		};
 	},
 
@@ -38,6 +40,7 @@ let Wrapper = React.createClass({
 	componentDidMount() { 
 		ListStore.addChangeListener(this._onChange);
 		MessageStore.addChangeListener(this._onChange);
+
 	},
 
 	componentWillUnmount() { 
@@ -45,6 +48,13 @@ let Wrapper = React.createClass({
 		MessageStore.removeChangeListener(this._onChange);
 	},
 
+	componentWillMount() { 
+		this.setState({ 
+			text: window.location.hash
+		});
+
+
+	},
 	viewToggle() {
 		this.setState({
 			viewLists: !this.state.viewLists
@@ -107,6 +117,8 @@ let Wrapper = React.createClass({
 				<button onClick={this.createList}>Create new list</button>
 
 				{ view } 
+
+				<div dangerouslySetInnerHTML={{__html: this.state.text}}></div>
 			</div>
 		);
 	},
