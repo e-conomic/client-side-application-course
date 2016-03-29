@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-var ListDropdown = require('./ListDropdown');
+import ListDropdownContainer from './ListDropdownContainer';
 
 export default class Messages extends Component {
 	static propTypes = { messages: React.PropTypes.array, handleArchiveClick: React.PropTypes.func, handleDeleteClick: React.PropTypes.func };
@@ -12,7 +12,7 @@ export default class Messages extends Component {
 			                    {message.translation == '' ? message.text : message.translation}
 			                    <button type="button" onClick={this.props.handleDeleteClick.bind(null, message)}>Delete</button>
 			                    <button type="button" onClick={this.props.handleArchiveClick.bind(null, message)}>Archive</button>
-			                    <ListDropdown message={message} />
+			                    <ListDropdownContainer message={message} />
 			                </div>;
 			    },this)}
 			</div>
