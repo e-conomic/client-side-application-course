@@ -52,7 +52,6 @@ There will be a follow-up email some time after you have successfully signed up.
 
 ### Applicants (GitHub username)
 
-wintermotes
 hulvei3   
 calinilie  
 nativix   
@@ -68,6 +67,7 @@ memphis88
 pcolliander   
 BennyTordrupVisma  
 kosmonautas   
+wintermotes   
 
 # Course description
 
