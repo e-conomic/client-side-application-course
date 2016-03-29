@@ -37,6 +37,7 @@ module.exports = {
             }
         }
         xmlhttp.open("GET", TranslateURL.url()+"/languages?key="+TranslateURL.key(), true);
+        xmlhttp.setRequestHeader("Content-type", "application/json");
         xmlhttp.send();
     },
     translateAll: function(messages,languageCode) {
@@ -64,6 +65,7 @@ module.exports = {
             }
         }
         xmlhttp.open("GET", fullURL, true);
+        xmlhttp.setRequestHeader("Content-type", "application/json");
         xmlhttp.send();
 
 
