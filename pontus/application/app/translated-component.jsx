@@ -17,7 +17,7 @@ let TranslatedMessage = React.createClass({
 			marginRight: '1em'
 		};
 
-		return <div style={translatedMessageStyle}> {translatedMessage} </div>;
+		return <div style={translatedMessageStyle} dangerouslySetInnerHTML={{__html: translatedMessage}}></div>;
 	}
 }); 
 

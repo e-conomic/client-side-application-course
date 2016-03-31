@@ -44,7 +44,6 @@ module.exports = {
 		}
 
 		else { 
-			console.log('dispatchgin CREATE_MESSAGE');
 			Dispatcher.dispatch({
 				type: Constants.CREATE_MESSAGE,
 				listID: listID,
