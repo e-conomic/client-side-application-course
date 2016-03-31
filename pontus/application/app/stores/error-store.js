@@ -20,12 +20,12 @@ ErrorStore.dispatchToken = Dispatcher.register(function(payload){
 			break;
 		case Constants.FAILURE_ON_CREATE_MESSAGE_NOT_UNIQUE:
 
-				_errorMessages.push("Message is not unique");
+			_errorMessages.push("Message is not unique");
 
 			break;
 		case Constants.FAILURE_ON_LANGUAGES_RECEIVED:
 
-				_errorMessages.push("Could not get translation, try again");
+			_errorMessages.push("Could not get translation, try again");
 
 			break;
 		default:
