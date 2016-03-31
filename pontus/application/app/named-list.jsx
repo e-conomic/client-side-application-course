@@ -3,7 +3,7 @@ let Message = require('./message');
 
 // order of validation / message stores matter...
 let MessageActions = require('./actions/message-actions');
-let ValidationStore = require('./stores/validation-store');
+let ErrorStore = require('./stores/error-store');
 let MessageStore = require('./stores/message-store');
 
 const NamedList = React.createClass({ 
@@ -27,7 +27,7 @@ const NamedList = React.createClass({
 		if (e.keyCode == 13 || e.which == 13 || e.type == 'click') { 
 			let text = this.refs.inputField.value;
 
-			MessageActions.createMessage(this.props.listID, text);
+			MessageActions.createMessage(this.props.listID, text, this.props.allMessages);
 
 			if (true) { 
 				this.refs.inputField.value = "";

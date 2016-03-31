@@ -2,10 +2,7 @@ let Dispatcher = require('../dispatcher');
 let Constants = require('../constants/constants');
 let BaseStore = require('./base');
 
-let ValidationStore = require('./validation-store');
-
 let _messages = [];
-let _errorMessages = [];
 let _filteredListIDs = [];
 let _filteredMessages = [];
 
@@ -14,19 +11,14 @@ let _translating = false;
 let MessageStore = Object.assign({}, BaseStore, {
 
 	getAll() { 
-		return _messages.map( message => Object.assign({}, message};
+		return _messages.map( message => Object.assign({}, message)) ;
 	},
 
 	get(messageID) {
 
-		let result  _messages.find( message => message.messageID == messageID);
+		let result = _messages.find( message => message.messageID == messageID);
 
 		return Object.assign({}, result);
-	},
-
-	getErrorMessage() { 
-
-		return _errorMessages.shift();
 	},
 	
 	getMessagesFilteredByListID() { 
@@ -67,25 +59,13 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 
 			break;
 		case Constants.CREATE_MESSAGE:
-			Dispatcher.waitFor([ ValidationStore.dispatchToken]);
 			
-			let validatedMessage = ValidationStore.get();
-
-			if (!validatedMessage.isErrorCharacters && !_messages.find(message => message.text == validatedMessage.text)) { 
 				_messages.push({ 
-					listID: validatedMessage.listID,
+					listID: payload.listID,
 					messageID: Date.now(),
-					text: validatedMessage.text,
-					isArchived: validatedMessage.isArchived
+					text: payload.text,
+					isArchived: payload.isArchived
 				});
-			} 
-
-			else if (validatedMessage.isErrorCharacters) { 
-				_errorMessages.push("Too many characters.");
-			}
-			else {
-				_errorMessages.push("Message is not unique");
-			}
 
 			break;
 		case Constants.ADD_LISTID_TO_FILTER:

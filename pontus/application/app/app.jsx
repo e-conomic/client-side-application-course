@@ -10,11 +10,14 @@ let ListStore = require("./stores/list-store");
 let MessageStore = require('./stores/message-store');
 let MessageActions = require('./actions/message-actions');
 
+let ErrorStore = require('./stores/error-store');
+
 let getListState = () => {
   return {
 		lists: ListStore.getAll(),
 		messages: MessageStore.getAll(),
-		isVisibleNotificationbar: true
+		isVisibleNotificationbar: true,
+		errorMessage: ErrorStore.get()
   };
 }
 
@@ -38,11 +41,13 @@ let Wrapper = React.createClass({
 	componentDidMount() { 
 		ListStore.addChangeListener(this._onChange);
 		MessageStore.addChangeListener(this._onChange);
+		ErrorStore.addChangeListener(this._onChange);
 	},
 
 	componentWillUnmount() { 
 		ListStore.removeChangeListener(this._onChange);
 		MessageStore.removeChangeListener(this._onChange);
+		ErrorStore.removeChangeListener(this._onChange);
 	},
 
 	viewToggle() {
@@ -82,10 +87,11 @@ let Wrapper = React.createClass({
 				listName={list.listName} 
 				messages={messages} 
 				listProperties={listProperties}
+				allMessages={this.state.messages}
 			/>; 
 		});
 
-		let errorMessage = MessageStore.getErrorMessage() || "OK";
+		let errorMessage = this.state.errorMessage || "OK";
 		let isError = (errorMessage != "OK") ? true : false;
 
 		let notificationBar = <NotificationBar isVisible={this.state.isVisibleNotificationbar} message={errorMessage} isError={isError} onDismissed={this.onDismissed} />;

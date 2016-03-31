@@ -29,15 +29,30 @@ module.exports = {
 		});
 	},
 
-	createMessage(listID, text) { 
+	createMessage(listID, text, allMessages) { 
 
-		Dispatcher.dispatch({
-			type: Constants.CREATE_MESSAGE,
-			listID: listID,
-			text: text,
-			isArchived: false,
-			translatedMessage: null
-		});
+		if (allMessages.find(message => message.text == text)) { 
+			Dispatcher.dispatch({
+				type: Constants.FAILURE_ON_CREATE_MESSAGE_NOT_UNIQUE
+			});
+
+		}
+		else if ( text.length >= 200) { 
+			Dispatcher.dispatch({
+				type: Constants.FAILURE_ON_CREATE_MESSAGE_TOO_MANY_MANY_CHARS
+			});
+		}
+
+		else { 
+			console.log('dispatchgin CREATE_MESSAGE');
+			Dispatcher.dispatch({
+				type: Constants.CREATE_MESSAGE,
+				listID: listID,
+				text: text,
+				isArchived: false,
+				translatedMessage: null
+			});
+		}
 	},
 
 	addListIDToFilter(listID) { 
