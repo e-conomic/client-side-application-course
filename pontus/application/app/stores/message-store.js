@@ -81,31 +81,26 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 					return re.test(filteredListIds); 
 			});
 
-		break;
+			break;
 		case Constants.TRANSLATING_MESSAGE:
 
 			// the view could listen to this and have a loading gif or something.
 			_translating=true;
 
-		break;
+			break;
 		case Constants.LANGUAGES_RECEIVED:
 
 			_translating=false;
 			let json = JSON.parse(payload.translations);
 
-			_messages.forEach( (message, index) => { 
-				message.translatedMessage = json["data"]["translations"][index]["translatedText"];
-			});
+			_messages.forEach( (message, index) => message.translatedMessage = json["data"]["translations"][index]["translatedText"] );
 
-		break;
+			break;
 		case Constants.CANCEL_TRANSLATION:
 
-			_messages.forEach( message => {
-				message.translatedMessage = "";
-			});
+			_messages.forEach( message => message.translatedMessage = "" );
 
-		break;
-
+			break;
 		default:
 			return;
 	}
