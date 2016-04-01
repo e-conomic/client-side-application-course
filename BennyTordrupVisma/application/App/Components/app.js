@@ -8,19 +8,22 @@ var ListStore = require("../Stores/list-store");
 var MessageStore = require("../Stores/message-store");
 var OptionsStore = require("../Stores/options-store");
 var ValidationStore = require("../Stores/validation-store");
+var LanguageStore = require("../Stores/language-store");
 
 var List = require("../Components/list");
 var InputField = require("../Components/inputfield");
 var Options = require("../Components/options");
 var Message = require("../Components/message");
 var ListSelector = require("../Components/listSelector");
-var NotificationBar = require("../Components/notification-bar")
+var NotificationBar = require("../Components/notification-bar");
+var LanguageSelector = require("../Components/languageSelector");
 
 function getAppState(){
     return {
         allLists: ListStore.getAll(),
         allMessages: MessageStore.getAll(),
         options: OptionsStore.get(),
+        allLanguages: LanguageStore.getLanguages(),
         // isNotificationBarVisible: false,
         // errorMessage: '',
         // isError: false,
@@ -37,6 +40,7 @@ var App = React.createClass({
         MessageStore.addChangeListener(this._onChange);
         OptionsStore.addChangeListener(this._onChange);
         ValidationStore.addChangeListener(this._onShowNotification);
+        LanguageStore.addChangeListener(this._onChange);
     },
     
     componentWillUnmount: function() {
@@ -44,6 +48,7 @@ var App = React.createClass({
         MessageStore.removeChangeListener(this._onChange);
         OptionsStore.removeChangeListener(this._onChange);
         ValidationStore.removeChangeListener(this._onShowNotification);
+        LanguageStore.removeChangeListener(this._onChange);
     },
     
 	render: function() {
@@ -64,7 +69,8 @@ var App = React.createClass({
                     {this.state.isNotificationBarVisible &&
                         <NotificationBar message={this.state.errorMessage} isError={this.state.isError} onDismissed={this._onDismissed} />}
                     <Options />
-					<InputField lists={this.state.allLists} messages={this.state.allMessages}/>
+                    <LanguageSelector selectedLangauge={this.state.options.selectedLanguage} availableLanguages={this.state.allLanguages}/>
+					<InputField lists={this.state.allLists} messages={this.state.allMessages} selectedLanguage={this.state.options.selectedLanguage}/>
                     {!this.state.options.showCombinedMessages &&
                         <div>
                             <h3>Lists</h3>
