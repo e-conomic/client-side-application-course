@@ -7,11 +7,13 @@ const NotificationBar = React.createClass({
 		message: React.PropTypes.string.isRequired,
 		isError: React.PropTypes.bool,
 		onDismissed: React.PropTypes.func.isRequired,
+		isHidden: React.PropTypes.bool
 	},
 
 	render: function() {
 		const barStyle = {
 			position: 'absolute',
+			display: this.props.isHidden ? 'none' : 'block',
 			top: 0,
 			left: 0,
 			padding: '20px',

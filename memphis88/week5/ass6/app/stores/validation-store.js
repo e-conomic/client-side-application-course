@@ -1,26 +1,48 @@
 var BaseStore = require('./base');
 var Constants = require('../dispatcher/constants');
-var Dispatcher = require('../dispatcher/dispatcher').Dispatcher;
+var Dispatcher = require('../dispatcher/dispatcher');
 
-var _valid = false;
+var _state = { message: ''};
 
-store = Object.assign({}, BaseStore, {
+var _states =
+[
+	{
+		isError: true,
+		message: "Message was more than 200 characters."
+	},
+	{
+		isError: true,
+		message: "Message already exists in a list."
+	},
+	{
+		isError: false,
+		message: "Message created."
+	}
+];
+
+var store = Object.assign({}, BaseStore, {
 	getStatus: function() {
-		return _valid;
+		return _state;
 	},
 });
 
 store.dispatchToken = Dispatcher.register(function(payload) {
 	switch(payload.type) {
 		case Constants.EXCEED_RANGE_ERROR:
-			_valid = false;
+			_state = _states[0];
+			break;
+		case Constants.ALREADY_EXISTS_ERROR:
+			_state = _states[1];
 			break;
 		case Constants.CREATE_MESSAGE:
-			_valid = true;
+			_state = _states[2];
 			break;
 		default:
-			return;
+			_state = { message: ''};
+			break;
 	}
 
 	store.emitChange();
 });
+
+module.exports = store;
