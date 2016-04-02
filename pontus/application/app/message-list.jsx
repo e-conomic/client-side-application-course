@@ -13,11 +13,8 @@ const MessageList = React.createClass({
 				text={message.text} 
 				isArchived={message.isArchived} 
 				listProperties={this.props.listProperties}
-				listName={this.props.listName}
 			/> ;
 		});
-		console.log(messages);
-
 
 		return <div> { messages } </div>;
 	}

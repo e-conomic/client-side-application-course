@@ -24,6 +24,6 @@
 	 "react-addons-test-utils": "^0.14.7",
     "react-dom": "^0.14.7",
     "webpack": "1.12.13",
-	 "sinon": "1.17.3"
+	 "sinon": "^1.17.3"
   }
 }
