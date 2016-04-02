@@ -10,7 +10,9 @@ let Message = React.createClass({
 		listID: React.PropTypes.number,
 		messageID: React.PropTypes.number,
 		isArchived: React.PropTypes.bool,
-		listProperties: React.PropTypes.arrayOf(React.PropTypes.object)
+		listProperties: React.PropTypes.arrayOf(React.PropTypes.object),
+		text: React.PropTypes.string,
+		translatedMessage: React.PropTypes.string
 	},
 
 	moveMessage() {

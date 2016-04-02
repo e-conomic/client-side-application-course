@@ -9,8 +9,12 @@ let ListStore = require("./stores/list-store");
 
 const MessageView = React.createClass({ 
 
+	propTypes: { 
+		lists: React.PropTypes.arrayOf(React.PropTypes.object)
+	},
+
 	render() { 
-		let messageContainer = <MessageListContainer lists={this.props.lists}/>;
+		let messageContainer = <MessageListContainer />;
 		let checkboxContainer = this.props.lists.map(list => { 
 		  return <CheckboxContainer key={list.listID} listID={list.listID} listName={list.listName} />;
 		});
@@ -28,7 +32,6 @@ const MessageView = React.createClass({
 		return ( 
 				<div style={messageViewStyle}>
 					<div style={messageContainerStyle}>
-						<h2>Messages:</h2>
 						{ messageContainer }
 					</div>
 

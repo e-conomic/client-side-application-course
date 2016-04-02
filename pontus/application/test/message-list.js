@@ -9,6 +9,7 @@ describe('MessageList component', () => {
 
 	const shallowRenderer = ReactTestUtils.createRenderer(); 
 
+	console.log('messagelist component test' );
 	describe('when rendered', () => { 
 
 		it('should return the expected output', () => { 

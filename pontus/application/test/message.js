@@ -5,16 +5,14 @@ let expect = require('chai').expect;
 
 describe('Message component', () => { 
 
+	console.log('message component test' );
 	const shallowRenderer = ReactTestUtils.createRenderer(); 
 
 	describe('when rendered', () => { 
 
 		it('should return the expected output', () => { 
 			shallowRenderer.render(
-				<Message 
-					text="a message" 
-					translatedMessage="translated message" 
-				/>
+				<Message text="a message" translatedMessage="translated message" />
 			);
 
 			const output = shallowRenderer.getRenderOutput();
