@@ -43,8 +43,7 @@ module.exports = {
 			});
 		}
 
-		else { 
-			Dispatcher.dispatch({
+		else { Dispatcher.dispatch({
 				type: Constants.CREATE_MESSAGE,
 				listID: listID,
 				text: text,

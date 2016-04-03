@@ -16,7 +16,6 @@ let MessageStore = Object.assign({}, BaseStore, {
 	},
 
 	get(messageID) {
-
 		let result = _messages.find( message => message.messageID == messageID);
 
 		return Object.assign({}, result);
@@ -29,7 +28,6 @@ let MessageStore = Object.assign({}, BaseStore, {
 	getMessagesFilteredByListIDTest() { 
 
 		let listProperties = [ {listName:"list1", listID:1}, {listName:"list2", listID:2 } ];
-
 		let test_messages = [ 
 			 {messageID: 1, text: "message 1", isArchived: false, listID:1, listProperties: listProperties }, 
 			 {messageID: 2, text: "message 2", isArchived: true, listID:2, listProperties: listProperties }
@@ -37,7 +35,6 @@ let MessageStore = Object.assign({}, BaseStore, {
 
 		 return test_messages;
 	},
-
 
 	getFilteredIDs() { 
 		return _filteredListIDs;
