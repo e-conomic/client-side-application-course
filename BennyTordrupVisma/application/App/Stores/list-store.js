@@ -41,27 +41,27 @@ function generateId() {
     }
 }
 
-function createList(listName) {
+function createList(payload) {
     _lists.push({
         id: generateId(),
-        name: listName,
+        name: payload.listName,
         isSelected: true
     });
 }
 
-function toggleIsSelected(listId) {
-    var listToChange = _lists.find(l => l.id == listId);
+function toggleIsSelected(payload) {
+    var listToChange = _lists.find(l => l.id == payload.listId);
     listToChange.isSelected = !listToChange.isSelected;
 }
 
 ListStore.dispatchToken = AppDispatcher.register(action => {
     switch (action.type){
         case Constants.CREATE_LIST:
-            createList(action.payload.listName);
+            createList(action.payload);
             break;
             
         case Constants.TOGGLE_IS_SELECTED:
-            toggleIsSelected(action.payload.listId);
+            toggleIsSelected(action.payload);
             break;
             
         default:

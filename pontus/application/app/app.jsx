@@ -1,20 +1,23 @@
 let React = require('react');
 let NamedList = require('./named-list');
-let MessageContainer = require('./message-container.jsx');
 let ReactDOM = require('react-dom');
 let NotificationBar = require('./notification-bar.jsx');
+let MessageView = require('./message-view');
 
-let ListActions = require('./list-actions');
-let ListStore = require("./list-store");
+let ListActions = require('./actions/list-actions');
+let ListStore = require("./stores/list-store");
 
-let MessageStore = require('./message-store');
-let MessageActions = require('./message-actions');
+let MessageStore = require('./stores/message-store');
+let MessageActions = require('./actions/message-actions');
+
+let ErrorStore = require('./stores/error-store');
 
 let getListState = () => {
   return {
 		lists: ListStore.getAll(),
 		messages: MessageStore.getAll(),
-		isVisibleNotificationbar: true
+		isVisibleNotificationbar: true,
+		errorMessage: ErrorStore.get()
   };
 }
 
@@ -38,11 +41,13 @@ let Wrapper = React.createClass({
 	componentDidMount() { 
 		ListStore.addChangeListener(this._onChange);
 		MessageStore.addChangeListener(this._onChange);
+		ErrorStore.addChangeListener(this._onChange);
 	},
 
 	componentWillUnmount() { 
 		ListStore.removeChangeListener(this._onChange);
 		MessageStore.removeChangeListener(this._onChange);
+		ErrorStore.removeChangeListener(this._onChange);
 	},
 
 	viewToggle() {
@@ -57,12 +62,23 @@ let Wrapper = React.createClass({
 		});
 	},
 
+	handleClick() { 
+		let lang = this.refs.lang.value || 'da';
+
+		MessageActions.translateMessagesRequested();
+		MessageActions.translateMessages(this.state.messages, lang);
+	},
+
+	cancelTranslation() { 
+		MessageActions.cancelMessageTranslation();
+	},
+
 	render() {
 		let listProperties = ListStore.getListProperties();
 
-		let messages = <MessageContainer lists={this.state.lists}/>;
+		let messageView = <MessageView lists={this.state.lists}/>;
 
-		let lists = this.state.lists.map( list => { 
+		let listView = this.state.lists.map( list => { 
 			let messages = this.state.messages.filter( message => message.listID === list.listID );
 
 			return <NamedList 
@@ -71,15 +87,16 @@ let Wrapper = React.createClass({
 				listName={list.listName} 
 				messages={messages} 
 				listProperties={listProperties}
+				allMessages={this.state.messages}
 			/>; 
 		});
 
-		let errorMessage = MessageStore.getErrorMessage() || "OK";
+		let errorMessage = this.state.errorMessage || "OK";
 		let isError = (errorMessage != "OK") ? true : false;
 
 		let notificationBar = <NotificationBar isVisible={this.state.isVisibleNotificationbar} message={errorMessage} isError={isError} onDismissed={this.onDismissed} />;
 
-		let view = (this.state.viewLists) ? lists : messages;
+		let view = (this.state.viewLists) ? messageView : listView;
 		let buttonText = (this.state.viewLists) ? 'view messages' : 'view lists';
 
 		let divStyle = { margin: '1.5em', padding: '1em' };
@@ -89,12 +106,13 @@ let Wrapper = React.createClass({
 					{ notificationBar }
 				<div style={divStyle}></div>
 				<button onClick={this.viewToggle}>{buttonText}</button>
+				<input type="text" ref="lang" placeholder="sv,da,no,en, etc... "/><button onClick={this.handleClick}>Choose a Language and Translate (optional)</button> 
+				<button onClick={this.cancelTranslation}>Cancel Translation</button>
 				<h3>Create New List</h3>
 				<input type="text" ref='inputField' onKeyDown={this.createList} placeholder="title" />
 				<button onClick={this.createList}>Create new list</button>
-				{ view } 
-				
 
+				{ view } 
 			</div>
 		);
 	},

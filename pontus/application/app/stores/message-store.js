@@ -1,25 +1,24 @@
-var Dispatcher = require('./dispatcher');
-var BaseStore = require('./base');
-var Constants = require('./constants');
+let Dispatcher = require('../dispatcher');
+let Constants = require('../constants/constants');
+let BaseStore = require('./base');
 
-var ValidationStore = require('./validation-store');
+let _messages = [];
+let _filteredListIDs = [];
+let _filteredMessages = [];
 
-var _messages = [];
-var _errorMessages = [];
-var _filteredListIDs = [];
-var _filteredMessages = [];
+let _translating = false;
 
-var MessageStore = Object.assign({}, BaseStore, {
+let MessageStore = Object.assign({}, BaseStore, {
+
 	getAll() { 
-		return _messages;
+		return _messages.map( message => Object.assign({}, message)) ;
 	},
 
 	get(messageID) {
-		return _messages.find( message => message.messageID == messageID);
-	},
 
-	getErrorMessage() { 
-		return _errorMessages.shift();
+		let result = _messages.find( message => message.messageID == messageID);
+
+		return Object.assign({}, result);
 	},
 	
 	getMessagesFilteredByListID() { 
@@ -28,7 +27,11 @@ var MessageStore = Object.assign({}, BaseStore, {
 
 	getFilteredIDs() { 
 		return _filteredListIDs;
-	}
+	},
+
+	getTranslationStatus() { 
+		return _translating;
+	},
 });
 
 MessageStore.dispatchToken = Dispatcher.register(function(payload){
@@ -56,25 +59,13 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 
 			break;
 		case Constants.CREATE_MESSAGE:
-			Dispatcher.waitFor([ ValidationStore.dispatchToken]);
 			
-			let validatedMessage = ValidationStore.get();
-
-			if ( !validatedMessage.isErrorCharacters && !_messages.find( message => message.text == validatedMessage.text) ) { 
 				_messages.push({ 
-					listID: validatedMessage.listID,
+					listID: payload.listID,
 					messageID: Date.now(),
-					text: validatedMessage.text,
-					isArchived: validatedMessage.isArchived
+					text: payload.text,
+					isArchived: payload.isArchived
 				});
-			} 
-
-			else if (validatedMessage.isErrorCharacters) { 
-				_errorMessages.push("Too many characters.");
-			}
-			else {
-				_errorMessages.push("Message is not unique");
-			}
 
 			break;
 		case Constants.ADD_LISTID_TO_FILTER:
@@ -90,7 +81,26 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 					return re.test(filteredListIds); 
 			});
 
-		break;
+			break;
+		case Constants.TRANSLATING_MESSAGE:
+
+			// the view could listen to this and have a loading gif or something.
+			_translating=true;
+
+			break;
+		case Constants.LANGUAGES_RECEIVED:
+
+			_translating=false;
+			let json = JSON.parse(payload.translations);
+
+			_messages.forEach( (message, index) => message.translatedMessage = json["data"]["translations"][index]["translatedText"] );
+
+			break;
+		case Constants.CANCEL_TRANSLATION:
+
+			_messages.forEach( message => message.translatedMessage = "" );
+
+			break;
 		default:
 			return;
 	}

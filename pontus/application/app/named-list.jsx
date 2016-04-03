@@ -2,14 +2,11 @@ let React = require('react');
 let Message = require('./message');
 
 // order of validation / message stores matter...
-let ValidationActions = require('./validation-actions');
-let MessageActions = require('./message-actions');
-let ValidationStore = require('./validation-store'); // The Dispatcher doesn't get the action if this store is not here. Why?? The store isn't used here?
+let MessageActions = require('./actions/message-actions');
+let ErrorStore = require('./stores/error-store');
+let MessageStore = require('./stores/message-store');
 
-let MessageStore = require('./message-store');
-
-
-let NamedList = React.createClass({ 
+const NamedList = React.createClass({ 
 	propTypes: { 
 		listID: React.PropTypes.number,
 		listName: React.PropTypes.string,
@@ -22,7 +19,7 @@ let NamedList = React.createClass({
 			charCount: 200,
 			displayChars: false,
 			isError: false,
-			errorMsg: "",
+			errorMsg: ""
 		};
 	},
 
@@ -30,16 +27,13 @@ let NamedList = React.createClass({
 		if (e.keyCode == 13 || e.which == 13 || e.type == 'click') { 
 			let text = this.refs.inputField.value;
 
-			// fire both or just one? 
-			
-			ValidationActions.validateMessage(text) 
-			// ValidationActions.createMessage(this.props.listID, text) 
-			MessageActions.createMessage(this.props.listID, text);
+			MessageActions.createMessage(this.props.listID, text, this.props.allMessages);
 
-			this.refs.inputField.value = "";
-			this.refs.inputField.focus();
-
-			this.setState({ charCount: 200 });
+			if (true) { 
+				this.refs.inputField.value = "";
+				this.refs.inputField.focus();
+				this.setState({ charCount: 200 });
+			}
 		}
 	},
 
@@ -69,6 +63,7 @@ let NamedList = React.createClass({
 				listID={message.listID} 
 				messageID={message.messageID} 
 				text={message.text} 
+				translatedMessage={message.translatedMessage}
 				isArchived={message.isArchived} 
 				listProperties={this.props.listProperties}
 				listName={this.props.listName}
@@ -78,9 +73,6 @@ let NamedList = React.createClass({
 		let errorMessageColor =  (this.state.isError) ? { color: 'red' } : { color: 'black'};
 		let displayCharsStyle = (this.state.displayChars) ? {display: 'inline'} : {display: 'none' };
 
-		// OLD VALIDATION
-
-				// <input onBlur={this.displayCharCount} onKeyDown={this.createMsg} onFocus={this.displayCharCount} onKeyUp={this.charValidation} ref='inputField' type="text" />
 		return (
 			<div>
 				<h2>{this.props.listName}</h2>
@@ -96,7 +88,7 @@ let NamedList = React.createClass({
 				<br/>
 			</div>
 		);
-	},
+	}
 });
 
 module.exports = NamedList;
