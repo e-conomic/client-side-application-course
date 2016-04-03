@@ -40,8 +40,28 @@ function _validateMessage(payload) {
     }
 }
 
+function _validateList(payload) {
+    if (payload.lists.some(l => l.name == payload.listName)) {
+        _validationResult = {
+            message: 'List already exists',
+            isError: true,
+        }
+        //throw new Error("List already exists");
+    }
+    else {
+        _validationResult = {
+            message: 'List added.',
+            isError: false,
+        }
+    }
+}
+
 ValidationStore.distatchToken = AppDispatcher.register(action => {
     switch (action.type) {
+        case Constants.CREATE_LIST:
+            _validateList(action.payload);
+            break;
+            
         case Constants.CREATE_MESSAGE:
             _validateMessage(action.payload);
             break;

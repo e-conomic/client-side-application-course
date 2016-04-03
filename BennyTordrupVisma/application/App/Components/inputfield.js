@@ -62,7 +62,7 @@ var InputField = React.createClass({
     handleCreateList: function() {
         var listName = this.state.newListName;
         
-        ListActions.createList(listName);
+        ListActions.createList(listName, this.props.lists);
         
         var newList = ListStore.getByName(listName);
 

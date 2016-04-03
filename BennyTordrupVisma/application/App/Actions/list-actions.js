@@ -2,11 +2,12 @@ var Constants = require('../constants');
 var AppDispatcher = require('../Dispatcher/appDispatcher');
 
 module.exports = {
-	createList: function(listName) {
+	createList: function(listName, allLists) {
 		AppDispatcher.dispatch({
 			type: Constants.CREATE_LIST,
             payload: {
-                listName: listName
+                listName: listName,
+                lists: allLists
             }
 		});
 	},
