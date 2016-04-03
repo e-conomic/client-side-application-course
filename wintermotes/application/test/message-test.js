@@ -9,7 +9,6 @@ var React = require('react');
 // 			   Should this be checked in another test, for instance when testing the <List /> component?
 
 describe('Message component', function() {
-
 	const shallowRenderer = ReactTestUtils.createRenderer();
 	var messageText = "test-text";
 	var messageId = 5; 
@@ -17,34 +16,39 @@ describe('Message component', function() {
 	var listId = 1
 
 	shallowRenderer.render(<Message messageId={messageId} content={messageText} archived={false} listId={listId}/>);
-	const resultObject = shallowRenderer.getRenderOutput();
-	
-	describe('A message', function() {
+	const message = shallowRenderer.getRenderOutput();
+
+	describe('When unarchived it', function() {
 		it('should have the the given messageId, listId and content', function () {			
-			var messageParagraph = resultObject.props.children[0].props.children
-			expect(resultObject.type).to.equal('div');
-			expect(messageParagraph).to.eql([ 'id: ', messageId, ' | text: ', messageText ]);
+			var paragraph = message.props.children[0].props.children
+			expect(message.type).to.equal('div');
+			expect(paragraph).to.eql([ 'id: ', messageId, ' | text: ', messageText ]);
 		});	
 
 		it('should have a delete, archive and move field', function () {
-			var b = ReactTestUtils.isElementOfType(<MoveMessageField />, resultObject.props.children[3].type)
+			var b = ReactTestUtils.isElementOfType(<MoveMessageField />, message.props.children[3].type)
 			expect(b).to.be.true
-			expect(resultObject.props.children[1].props.action).to.equal("delete");
-			expect(resultObject.props.children[2].props.action).to.equal("archive");
+			expect(message.props.children[1].props.action).to.equal("delete");
+			expect(message.props.children[2].props.action).to.equal("archive");
 		});
 
 		it('should have the proper message style', function () {
-			expect(resultObject.props.style).to.eql({ marginTop: '60px', border: '1px solid blue' })
+			expect(message.props.style).to.eql({ marginTop: '60px', border: '1px solid blue' })
 		});
 	});
 
-	describe('An archived message', function () {
-		it('should have the given messageId, listId, and message content', function () {
+	shallowRenderer.render(<Message messageId={messageId} content={messageText} archived={true} listId={listId}/>)
+	const archivedMessage = shallowRenderer.getRenderOutput();
 
+	describe('When archived it', function () {
+		it('should have the given messageId, listId, and message content', function () {
+			var paragraph = message.props.children[0].props.children
+			expect(message.type).to.equal('div');
+			expect(paragraph).to.eql([ 'id: ', messageId, ' | text: ', messageText ]);
 		}); 
 
 		it('should have an unarhive field', function () {
-
+			expect(archivedMessage.props.children[1].props.action).to.equal("unarchive");
 		}); 
 
 		it('should have the proper styling', function () {
@@ -54,7 +58,7 @@ describe('Message component', function() {
 
 		describe('when called with an invalid input', function() {
 		it('Should throw an error', function () {
-
+			expect(archivedMessage.props.style).to.eql({color : 'gray', margin: '48px 0 0 0' })
 		});
 	});
 });
