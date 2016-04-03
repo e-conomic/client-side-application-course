@@ -6,6 +6,7 @@ var ListStore = require('../stores/list-store');
 var FilteredMessageList = require('./filtered-message-list');
 var NotificationBar = require('./notification-bar').default;
 var ValidationStore = require('../stores/validation-store');
+var LanguageSelector = require('./language-selector');
 
 var AssignmentApp = React.createClass({
 	propTypes: {
@@ -77,6 +78,7 @@ var AssignmentApp = React.createClass({
 					{this.state.generatedLists.map(createLists, this)}
 				</div>
 				<FilteredMessageList />
+				<LanguageSelector />
 			</div>
 		);
 	}
