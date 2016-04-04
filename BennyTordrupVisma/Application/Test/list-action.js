@@ -6,7 +6,6 @@ var ValidationStore = require("../App/Stores/validation-store");
 describe('ListActions', () => {
     
     describe('when createList is called with new list name', () => {
-        
         it('should add the list', () => {
             var lists = ListStore.getAll();
             ListActions.createList("List 3", lists);
@@ -16,7 +15,6 @@ describe('ListActions', () => {
     })
 
     describe('when createList is called with existing list name', () => {
-        
         it('should generate validation error', () => {
             var lists = ListStore.getAll();
             ListActions.createList("List 2", lists);
@@ -28,7 +26,6 @@ describe('ListActions', () => {
     })
     
     describe('when toggleIsSelected is called on List 1', () => {
-        
         it('should deselect List 1', () => {
             ListActions.toggleIsSelected(1);
             var list1 = ListStore.get(1);
