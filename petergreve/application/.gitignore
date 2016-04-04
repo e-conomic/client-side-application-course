@@ -1,2 +1,2 @@
-./dist/*
-./app/key.js
+/dist/*
+key.js
