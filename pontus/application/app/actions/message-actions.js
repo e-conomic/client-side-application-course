@@ -42,7 +42,6 @@ module.exports = {
 				type: Constants.FAILURE_ON_CREATE_MESSAGE_TOO_MANY_CHARS
 			});
 		}
-
 		else { Dispatcher.dispatch({
 				type: Constants.CREATE_MESSAGE,
 				listID: listID,

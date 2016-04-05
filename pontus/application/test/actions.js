@@ -4,7 +4,7 @@ import {assert, expect} from 'chai'
 import sinon from 'sinon'
 import Dispatcher from '../app/dispatcher'
 
-describe('action for create message, ', () => {
+describe('actions for messages, ', () => {
 
 	beforeEach( () => {
 		sinon.spy(Dispatcher, 'dispatch');
@@ -47,7 +47,6 @@ describe('action for create message, ', () => {
 
 		MessageActions.createMessage(listID, text, allMessages);
 		assert(Dispatcher.dispatch.calledWith( {type: Constants.FAILURE_ON_CREATE_MESSAGE_NOT_UNIQUE} ));
-
 	});
 
 	it ('it should dispatch too many chars failure message', () => { 
@@ -57,6 +56,12 @@ describe('action for create message, ', () => {
 
 		MessageActions.createMessage(listID, text, allMessages);
 		assert(Dispatcher.dispatch.calledWith( {type: Constants.FAILURE_ON_CREATE_MESSAGE_TOO_MANY_CHARS} ));
+	});
+
+	it('it should send the delete message action', () => { 
+
+
+
 	});
 });
 
