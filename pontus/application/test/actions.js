@@ -1,9 +1,19 @@
-let Constants = require('../app/constants/constants');
-let MessageActions = require('../app/actions/message-actions');
+import Constants from '../app/constants/constants'
+import MessageActions from '../app/actions/message-actions'
+import {assert, expect} from 'chai'
+import sinon from 'sinon'
+import Dispatcher from '../app/dispatcher'
 
-let expect = require('chai').expect;
+describe('action for create message, ', () => {
 
-describe('action', () => {
+	beforeEach( () => {
+		sinon.spy(Dispatcher, 'dispatch');
+	});
+
+	afterEach( () => { 
+		Dispatcher.dispatch.restore();
+	});
+
 	it('should create an action to add a message', () => { 
 		const text = 'message text';
 		const listID = 1;
@@ -17,8 +27,36 @@ describe('action', () => {
 			translateMessage: null
 		}
 
-		// doesn't work, would only work in redux.
-		expect(MessageActions.createMessage(listID, text, allMessages)).to.equal(expectedAction);
+		MessageActions.createMessage(listID, text, allMessages)
+		expect(Dispatcher.dispatch.calledWith(expectedAction));
+	});
+
+	it ('should only call the action once', () => { 
+		const text = 'message text';
+		const listID = 1;
+		const allMessages = [];
+
+		MessageActions.createMessage(listID, text, allMessages);
+		assert(Dispatcher.dispatch.calledOnce);
+	});
+
+	it ('it should dispatch not unique failure message', () => { 
+		const text = 'message text';
+		const listID = 1;
+		const allMessages = [{text: 'message text' }];
+
+		MessageActions.createMessage(listID, text, allMessages);
+		assert(Dispatcher.dispatch.calledWith( {type: Constants.FAILURE_ON_CREATE_MESSAGE_NOT_UNIQUE} ));
+
+	});
+
+	it ('it should dispatch too many chars failure message', () => { 
+		const text = ' wioeifjjwoiefjwoeifjwoeifjwoiefjwoewioeifjjwoiefjwoeifjwoeifjwoiefjwoewioeifjjwoiefjwoeifjwoeifjwoiefjwoewioeifjjwoiefjwoeifjwoeifjwoiefjwoewioeifjjwoiefjwoeifjwoeifjwoiefjwoewioeifjjwoiefjwoeifjwoeif';
+		const listID = 1;
+		const allMessages = [];
+
+		MessageActions.createMessage(listID, text, allMessages);
+		assert(Dispatcher.dispatch.calledWith( {type: Constants.FAILURE_ON_CREATE_MESSAGE_TOO_MANY_CHARS} ));
 	});
 });
 

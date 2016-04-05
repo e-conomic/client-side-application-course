@@ -1,15 +1,14 @@
-// let ReactTestUtils = require('react-addons-test-utils');
-// let React = require('react');
-// let TranslatedMessage = require('../app/translated-message');
-//
-// let chai = require('chai');
-// let expect = require('chai').expect;
-//
-// chai.expect();
+// import ReactTestUtils from 'react-addons-test-utils'
+// import React from 'react'
+// import expect from 'chai'
 //
 // describe('TranslatedMessage component', () => { 
 //
 // 	const shallowRenderer = ReactTestUtils.createRenderer(); 
+//
+// 	before( () => { 
+// 		console.warn = error => { throw error };
+// 	});
 //
 // 	describe('when rendered', () => { 
 //
@@ -17,12 +16,12 @@
 // 			shallowRenderer.render(<TranslatedMessage translatedMessage="test translation" />);
 //
 // 			const output = shallowRenderer.getRenderOutput();
-// 			console.log('TranslatedMessage');
-// 			// console.log(output);
 //
-// 			expect(output.props.children).to.equal("test translation");
+// 		});
+//
+// 		it('should do something else', () => { 
 //
 // 		});
 // 	});
-//
 // });
+//

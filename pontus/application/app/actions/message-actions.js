@@ -39,7 +39,7 @@ module.exports = {
 		}
 		else if ( text.length >= 200) { 
 			Dispatcher.dispatch({
-				type: Constants.FAILURE_ON_CREATE_MESSAGE_TOO_MANY_MANY_CHARS
+				type: Constants.FAILURE_ON_CREATE_MESSAGE_TOO_MANY_CHARS
 			});
 		}
 
