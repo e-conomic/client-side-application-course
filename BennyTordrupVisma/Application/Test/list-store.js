@@ -26,9 +26,9 @@ describe('ListStore', () => {
     })
     
     describe('when toggleIsSelected is called on List 1', () => {
-        it('should deselect List 1', () => {
-            ListActions.toggleIsSelected(1);
-            var list1 = ListStore.get(1);
+        it('should deselect List 2', () => {
+            ListActions.toggleIsSelected(2);
+            var list1 = ListStore.get(2);
             Chai.expect(list1.isSelected).to.equal(false);
         })
     })
