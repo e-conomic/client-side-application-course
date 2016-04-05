@@ -5,7 +5,7 @@
 * (↑) make the data in your stores immutable
 * questions?
 
-Week7 - testing
+Week7 - testing part 1
 ---------------
 * about e-conomic by Jens
 * **(unit) testing**
@@ -20,7 +20,7 @@ Week7 - testing
 * Make code changes if necessary 
 
 ===================================================================================
-
+===================================================================================
 #### Week7 Follow up
 * beforeEach
 * faking XHR
