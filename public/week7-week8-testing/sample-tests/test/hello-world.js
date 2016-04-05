@@ -1,7 +1,6 @@
 import ReactTestUtils from 'react-addons-test-utils'
 import React from 'react'
 import HelloWorld from '../app/hello-world'
-import {expect} from 'chai'
 
 describe('HelloWorld component', function() {
 

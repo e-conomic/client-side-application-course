@@ -3,51 +3,65 @@ var Constants = require("../constants");
 var BaseStore = require("./base");
 var ValidationStore = require("./validation-store");
 
+var MessageActions = require("../Actions/message-actions");
+
+var GoogleTranslate = require('../Utils/googleTranslate');
+
 //var _messages = [];
 var _messages = [{
     id: 1,
     list: 1,
-    text: "Test 1-1"
+    text: "Hello world",
+    translatedText: ""
 }, {
     id: 2,
     list: 2,
-    text: "Test 2-1"
+    text: "This is a test",
+    translatedText: ""
 }, {
     id: 3,
     list: 1,
-    text: "Test 1-2",
-    isArchived: true
+    text: "Vil du have en is?",
+    isArchived: true,
+    translatedText: ""
 }, {
     id: 4,
     list: 2,
-    text: "Test 2-2",
-    isArchived: true
+    text: "Habla espanol?",
+    isArchived: true,
+    translatedText: ""
 }, {
     id: 5,
     list: 1,
-    text: "Test 1-3"
+    text: "Merry Christmas",
+    translatedText: ""
 }, {
     id: 6,
     list: 2,
-    text: "Test 2-3"
+    text: "Frohe Ostern",
+    translatedText: ""
 }, {
     id: 7,
     list: 1,
-    text: "Test 1-4",
-    isArchived: true
+    text: "We are going home",
+    isArchived: true,
+    translatedText: ""
 }, {
     id: 8,
     list: 2,
-    text: "Test 2-4",
-    isArchived: true
+    text: "Dette er dansk",
+    isArchived: true,
+    translatedText: ""
 }, {
     id: 9,
     list: 1,
-    text: "Test 1-5"
+    text: "This is English",
+    translatedText: ""
 }, {
     id: 10,
     list: 2,
-    text: "Test 2-5"
+    text: "Sidste besked",
+    translatedText: ""
 }];
 
 var MessageStore = Object.assign({}, BaseStore, {
@@ -65,6 +79,11 @@ var MessageStore = Object.assign({}, BaseStore, {
         var message = _messages.find(m => m.id == messageId);
         return (message) ? Object.assign({}, message) : null;
     },
+    
+    getNewest: function() {
+        var message = _messages[_messages.length-1];
+        return (message) ? Object.assign({}, message): null;
+    },
 });
 
 function generateId() {
@@ -72,32 +91,53 @@ function generateId() {
         return 1;
     } else {
         var ids = _messages.map(m => m.id);
-        return Math.max(...ids) + 1;
+        return Math.max(...ids)+1;
     }
 }
 
-function createMessage(messageText, listId) {
+function createMessage(payload) {
     _messages.push({
         id: generateId(),
-        text: messageText,
+        text: payload.messageText,
         isArchived: false,
-        list: listId
+        list: payload.listId,
+        translatedText: ''
     });
 }
 
-function deleteMessage(messageId) {
-    var removePos = _messages.findIndex(m => m.id == messageId);
+function deleteMessage(payload) {
+    var removePos = _messages.findIndex(m => m.id == payload.messageId);
     _messages.splice(removePos, 1);
 }
 
-function moveMessage(messageId, newListId) {
-    var msgToMove = _messages.find(m => m.id == messageId);
-    msgToMove.list = newListId;
+function moveMessage(payload) {
+    var msgToMove = _messages.find(m => m.id == payload.messageId);
+    msgToMove.list = payload.newListId;
 }
 
-function toggleIsArchived(messageId){
-    var msgToChange = _messages.find(m => m.id == messageId);
+function toggleIsArchived(payload){
+    var msgToChange = _messages.find(m => m.id == payload.messageId);
     msgToChange.isArchived = !msgToChange.isArchived;
+}
+
+function translateAllMessages(payload) {
+    if (payload.destLanguage == "") {
+        _messages.forEach(m => m.translatedText = "");
+    } else {
+        _messages.forEach(m => GoogleTranslate.translateText(m, payload.destLanguage));
+    }
+}
+
+function translationReceived(payload) {
+    var lastEqual = payload.response.req.url.lastIndexOf("=");
+    if (lastEqual > -1) {
+        var id = Number(payload.response.req.url.substring(lastEqual+1));
+        var msgToTranslate = _messages.find(m => m.id == id);
+        if (msgToTranslate != null) {        
+            var translationResponse = JSON.parse(payload.response.text);
+            msgToTranslate.translatedText = translationResponse.data.translations[0].translatedText;
+        }
+    }
 }
 
 MessageStore.dispatchToken = AppDispatcher.register(action => {
@@ -105,22 +145,31 @@ MessageStore.dispatchToken = AppDispatcher.register(action => {
         case Constants.CREATE_MESSAGE:
             AppDispatcher.waitFor([ValidationStore.distatchToken]);
             var validationResult = ValidationStore.getValidationResult();
-            if (!validationResult.isError)
-                createMessage(action.payload.messageText, action.payload.listId);
+            if (!validationResult.isError) { 
+                createMessage(action.payload);
+            }
             break;
             
         case Constants.MOVE_MESSAGE:
-            moveMessage(action.payload.messageId, action.payload.newListId);
+            moveMessage(action.payload);
             break;
             
         case Constants.DELETE_MESSAGE:
-            deleteMessage(action.payload.messageId);
+            deleteMessage(action.payload);
             break;
             
         case Constants.TOGGLE_IS_ARCHIVED:
-            toggleIsArchived(action.payload.messageId);
+            toggleIsArchived(action.payload);
             break;
-
+            
+        case Constants.TRANSLATE_ALL_MESSAGES:
+            translateAllMessages(action.payload);
+            break;
+            
+        case Constants.TRANSLATE_MESSAGE_RESPONSE:
+            translationReceived(action.payload);
+            break;
+            
 		default:
 			return;
 	}
