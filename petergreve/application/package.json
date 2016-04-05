@@ -17,15 +17,17 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.7.2",
+    "chai": "^3.5.0",
     "flux": "^2.1.1",
+    "mocha": "^2.4.5",
     "react": "^0.14.7",
     "react-addons-test-utils": "^0.14.7",
     "react-dom": "^0.14.7",
-    "webpack": "1.12.13",
-    "chai": "^3.5.0"
+    "webpack": "1.12.13"
   },
   "dependencies": {
     "babel-polyfill": "^6.7.4",
-    "browser-request": "^0.3.3"
+    "request": "^2.69.0",
+    "superagent": "^1.8.3"
   }
 }

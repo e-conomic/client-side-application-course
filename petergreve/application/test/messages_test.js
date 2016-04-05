@@ -14,12 +14,11 @@ describe('Messages component', function() {
 	const shallowRenderer = ReactTestUtils.createRenderer();
 
 	describe('when rendered', function() {
-
+		
 		it('should return the expected output', function() {
-			shallowRenderer.render(<Messages messages={messages} />);
+			shallowRenderer.render(<Messages messages={messages} handleArchiveClick={()=>{}} handleDeleteClick={()=>{}} />);
 			const output = shallowRenderer.getRenderOutput();
-			expect(result.type).toBe('div');
-			expect(output.props.children).to.equal('Hello World');
+			expect(output.type).to.equal('div');
 		})
 
 	})
