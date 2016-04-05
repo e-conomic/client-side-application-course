@@ -30,10 +30,18 @@ describe('Message component', function() {
     var lists = ListStore.getAll();
     //var lists=[{listId: 0, listName: "first list1"},{listId: 1, listName: "second list2"}];
     describe('when rendered', function() {
-        it('should return the expected output', function() {
-            shallowRenderer2.render(<Message messageId='1'  messageText='hello' messageIsArchived='false' allLists={lists} />);
-            const output2 = shallowRenderer2.getRenderOutput();
-            expect(true).to.be.true;
+        shallowRenderer2.render(<Message messageId='1'  messageText='hello' messageIsArchived='false' allLists={lists} />);
+        const message = shallowRenderer2.getRenderOutput();
+        it('should be div', function() {
+            console.log(message.props.children);
+            expect(message.props.children.type).to.equal('div');
+        });
+        //console.log("---");
+        it('should contain hello', function() {
+            //console.log(message.props.children);
+            //console.log("---");
+            //console.log(message.props.children.props.children[0]);
+            expect(message.props.children.props.children[0].props.children).to.equal('hello');
         });
     });
 });
