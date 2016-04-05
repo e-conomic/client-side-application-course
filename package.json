@@ -18,6 +18,7 @@
   "license": "ISC",
   "homepage": "https://github.com/e-conomic/client-side-application-course#readme",
   "dependencies": {
+    "bluebird": "^3.3.4",
     "node-jsx": "^0.13.3",
     "react": "^0.14.7",
     "react-bootstrap": "^0.28.2",
@@ -25,6 +26,10 @@
     "send": "^0.13.1"
   },
   "devDependencies": {
-    "flux": "^2.1.1"
+    "chai": "^3.5.0",
+    "flux": "^2.1.1",
+    "mocha": "^2.4.5",
+    "react-addons-test-utils": "^0.14.7",
+    "sinon": "^1.17.3"
   }
 }
