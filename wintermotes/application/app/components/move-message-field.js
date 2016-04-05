@@ -4,10 +4,14 @@ var MessageActions = require('../actions/message-actions');
 
 var MoveMessageField = React.createClass({
 	getInitialState : function(){
-		return {lists : ListStore.getAllLists()}; 
+		return {
+			lists : ListStore.getAllLists(),
+			listId : null
+		}; 
 	},
-	handleListId: function(event){
-		var listId = event.target.value.charAt(event.target.value.search(/\d/))
+	handleListId: function(event, listId){
+		if(event)
+			var listId = event.target.value.charAt(event.target.value.search(/\d/))
 		this.setState({listId: listId })
 	},
 	submitMoveMessage : function(){
