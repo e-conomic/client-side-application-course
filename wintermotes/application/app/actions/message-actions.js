@@ -28,7 +28,7 @@ function createTranslatedMessagesObjects(messages, jsonTranslateObject){
 	return translatedMessages
 }
 
-module.exports = {
+var MessageActions = {
 	createMessage : function(content, listId, messages){
 		if(validateString(content, messages)){
 			Dispatcher.dispatch({
@@ -139,3 +139,5 @@ module.exports = {
 		};
 	} 
 }
+
+module.exports = MessageActions;

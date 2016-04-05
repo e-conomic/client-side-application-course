@@ -1,8 +1,3 @@
-var expect = require('chai').expect
-var ReactTestUtils = require('react-addons-test-utils');
-var React = require('react');
-var Sinon = require('sinon');
-
 var MoveMessageField = require('../app/components/move-message-field');
 var ListStore = require('../app/stores/list-store');
 var MessageActions = require('../app/actions/message-actions');
@@ -22,14 +17,12 @@ describe('Move Message field', function() {
 
 	it('Should update when a new list is created', function () {
 		var spy = Sinon.spy(MoveMessageField.prototype._onChange);
+		//TODO: implement _onChange test
 		//ListActions.createList("listName")
 	});
 
 	it('Should be able to create a moveMessage action', function () {
-		// Question: How to bind this
 		var spy = Sinon.spy(MessageActions.moveMessage);
-		//MoveMessageField.prototype.handleListId(null, 2); 
-		//MoveMessageField.prototype.submitMoveMessage();
 	});
 });
 
