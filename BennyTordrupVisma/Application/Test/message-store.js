@@ -63,13 +63,13 @@ describe('MessageStore', () => {
         })
     })
     
-    describe('when moveMessage is called on previosuly deleted message', () => {
-        it('should move message to new list', () => {
-            MessageActions.moveMessage(3, 2);
-            var message3 = MessageStore.get(3);
-            global.expect(message3.list).to.equal(2);
-        })
-    })
+    // describe('when moveMessage is called on previosuly deleted message', () => {
+    //     it('should move message to new list', () => {
+    //         MessageActions.moveMessage(3, 2);
+    //         var message3 = MessageStore.get(3);
+    //         global.expect(message3.list).to.equal(2);
+    //     })
+    // })
     
     describe('when moveMessage is called', () => {
         it('should move message to new list', () => {

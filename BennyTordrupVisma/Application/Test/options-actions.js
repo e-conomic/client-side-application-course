@@ -3,17 +3,19 @@ var OptionActions = require("../App/Actions/options-actions");
 var AppDispatcher = require("../App/Dispatcher/appDispatcher");
 
 describe('OptionsActions', () => {
-    var spy;
-
+    var sandbox;
+    
     beforeEach(() => {
-        spy = global.sinon.spy(AppDispatcher, "dispatch");
+        sandbox = global.sinon.sandbox.create();
     })
-
+    
     afterEach(() => {
-        AppDispatcher.dispatch.restore();
+        sandbox.restore();
     })
     
     it('should create a UPDATE_OPTIONS action', () => {
+        var stub = sandbox.stub(AppDispatcher, "dispatch");
+        
         const payload = {
             showCombinedMessages: true
         };
@@ -24,10 +26,12 @@ describe('OptionsActions', () => {
         };
 
         OptionActions.updateOptions(payload.showCombinedMessages);
-        global.assert(spy.calledWith(expectedAction));
+        global.assert(stub.calledWith(expectedAction));
     })
 
     it('should create a UPDATE_LANGUAGE action', () => {
+        var stub = sandbox.stub(AppDispatcher, "dispatch");
+        
         const payload = {
             selectedLanguage: "en"
         };
@@ -38,6 +42,6 @@ describe('OptionsActions', () => {
         };
 
         OptionActions.updateSelectedLanguage(payload.selectedLanguage);
-        global.assert(spy.calledWith(expectedAction));
+        global.assert(stub.calledWith(expectedAction));
     })
 })

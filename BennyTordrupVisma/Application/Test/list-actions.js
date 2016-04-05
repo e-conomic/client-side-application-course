@@ -3,17 +3,19 @@ var ListActions = require("../App/Actions/list-actions");
 var AppDispatcher = require("../App/Dispatcher/appDispatcher");
 
 describe('ListActions', () => {
-    var spy;
+    var sandbox;
     
     beforeEach(() => {
-        spy = global.sinon.spy(AppDispatcher, "dispatch");
+        sandbox = global.sinon.sandbox.create();
     })
     
     afterEach(() => {
-        AppDispatcher.dispatch.restore();
+        sandbox.restore();
     })
     
     it('should create a CREATE_LIST action', () => {
+        var stub = sandbox.stub(AppDispatcher, "dispatch");
+        
         const payload = {
             listName: "Test",
             lists: []
@@ -25,10 +27,12 @@ describe('ListActions', () => {
         };
 
         ListActions.createList(payload.listName, payload.lists);        
-        global.assert(spy.calledWith(expectedAction));
+        global.assert(stub.calledWith(expectedAction));
     })
 
     it('should create a TOGGLE_IS_SELECTED action', () => {
+        var stub = sandbox.stub(AppDispatcher, "dispatch");
+        
         const payload = {
             listId: 1
         };
@@ -39,6 +43,6 @@ describe('ListActions', () => {
         };
 
         ListActions.toggleIsSelected(payload.listId);
-        global.assert(spy.calledWith(expectedAction));
+        global.assert(stub.calledWith(expectedAction));
     })
 })
