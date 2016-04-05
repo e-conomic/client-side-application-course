@@ -1,6 +1,4 @@
 var Constants = require('../App/constants');
-var Chai = require("chai");
-var Sinon = require("sinon");
 var ListActions = require("../App/Actions/list-actions");
 var AppDispatcher = require("../App/Dispatcher/appDispatcher");
 
@@ -8,7 +6,7 @@ describe('ListActions', () => {
     var spy;
     
     beforeEach(() => {
-        spy = Sinon.spy(AppDispatcher, "dispatch");
+        spy = global.sinon.spy(AppDispatcher, "dispatch");
     })
     
     afterEach(() => {
@@ -27,7 +25,7 @@ describe('ListActions', () => {
         };
 
         ListActions.createList(payload.listName, payload.lists);        
-        Chai.assert(spy.calledWith(expectedAction));
+        global.assert(spy.calledWith(expectedAction));
     })
 
     it('should create a TOGGLE_IS_SELECTED action', () => {
@@ -41,6 +39,6 @@ describe('ListActions', () => {
         };
 
         ListActions.toggleIsSelected(payload.listId);
-        Chai.assert(spy.calledWith(expectedAction));
+        global.assert(spy.calledWith(expectedAction));
     })
 })

@@ -1,4 +1,3 @@
-var Chai = require("chai");
 var MessageActions = require("../App/Actions/message-actions");
 //var MessageStore = require("../App/Stores/message-store");
 var ValidationStore = require("../App/Stores/validation-store");
@@ -15,12 +14,16 @@ describe('MessageStore', () => {
         messages = MessageStore.getAll();    
     })
     
+    afterEach(() => {
+        messages = [];
+    })
+    
     describe('when createMessage is called with a valid message and list id', () => {
         it('should add the message to the given list id', () => {
             MessageActions.createMessage("Test message", 1, messages, testLang);
             var addedMessage = MessageStore.getNewest();
-            Chai.expect(addedMessage.id).to.equal(11);
-            Chai.expect(addedMessage.list).to.equal(1);
+            global.expect(addedMessage.id).to.equal(11);
+            global.expect(addedMessage.list).to.equal(1);
         })
     })
     
@@ -28,8 +31,8 @@ describe('MessageStore', () => {
         it('should result in validation error', () => {
             MessageActions.createMessage("", 1, messages, testLang);
             var validationResult = ValidationStore.getValidationResult();
-            Chai.expect(validationResult.isError).to.equal(true);
-            Chai.expect(validationResult.message).to.equal("You must enter a text to add.")
+            global.expect(validationResult.isError).to.equal(true);
+            global.expect(validationResult.message).to.equal("You must enter a text to add.")
         })
     })
     
@@ -37,8 +40,8 @@ describe('MessageStore', () => {
         it('should result in validation error', () => {
             MessageActions.createMessage(wayTooLongMessage, 1, messages, testLang);
             var validationResult = ValidationStore.getValidationResult();
-            Chai.expect(validationResult.isError).to.equal(true);
-            Chai.expect(validationResult.message).to.equal("The input may not exceed 200 characters.")
+            global.expect(validationResult.isError).to.equal(true);
+            global.expect(validationResult.message).to.equal("The input may not exceed 200 characters.")
         })
     })
     
@@ -47,8 +50,8 @@ describe('MessageStore', () => {
             var existingMessage = MessageStore.get(1);
             MessageActions.createMessage(existingMessage.text, 1, messages, testLang);
             var validationResult = ValidationStore.getValidationResult();
-            Chai.expect(validationResult.isError).to.equal(true);
-            Chai.expect(validationResult.message).to.equal("The message is already entered and cannot be added.")
+            global.expect(validationResult.isError).to.equal(true);
+            global.expect(validationResult.message).to.equal("The message is already entered and cannot be added.")
         })
     })
     
@@ -56,7 +59,15 @@ describe('MessageStore', () => {
         it('should remove the message', () => {
             MessageActions.deleteMessage(3);
             var nonExistingMessage = MessageStore.get(3);
-            Chai.expect(nonExistingMessage).to.equal(null);
+            global.expect(nonExistingMessage).to.equal(null);
+        })
+    })
+    
+    describe('when moveMessage is called on previosuly deleted message', () => {
+        it('should move message to new list', () => {
+            MessageActions.moveMessage(3, 2);
+            var message3 = MessageStore.get(3);
+            global.expect(message3.list).to.equal(2);
         })
     })
     
@@ -64,7 +75,7 @@ describe('MessageStore', () => {
         it('should move message to new list', () => {
             MessageActions.moveMessage(4, 1);
             var message4 = MessageStore.get(4);
-            Chai.expect(message4.list).to.equal(1);
+            global.expect(message4.list).to.equal(1);
         })
     })
     
@@ -72,7 +83,7 @@ describe('MessageStore', () => {
         it('should set isArchived to true', () => {
             MessageActions.toggleIsArchived(5);
             var message5 = MessageStore.get(5);
-            Chai.expect(message5.isArchived).to.equal(true);
+            global.expect(message5.isArchived).to.equal(true);
         })
     })
     
@@ -80,7 +91,7 @@ describe('MessageStore', () => {
         it('should set isArchived to false', () => {
             MessageActions.toggleIsArchived(7);
             var message7 = MessageStore.get(7);
-            Chai.expect(message7.isArchived).to.equal(false);
+            global.expect(message7.isArchived).to.equal(false);
         })
     })
 })

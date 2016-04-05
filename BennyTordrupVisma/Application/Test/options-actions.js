@@ -1,6 +1,4 @@
 var Constants = require('../App/constants');
-var Chai = require("chai");
-var Sinon = require("sinon");
 var OptionActions = require("../App/Actions/options-actions");
 var AppDispatcher = require("../App/Dispatcher/appDispatcher");
 
@@ -8,7 +6,7 @@ describe('OptionsActions', () => {
     var spy;
 
     beforeEach(() => {
-        spy = Sinon.spy(AppDispatcher, "dispatch");
+        spy = global.sinon.spy(AppDispatcher, "dispatch");
     })
 
     afterEach(() => {
@@ -26,7 +24,7 @@ describe('OptionsActions', () => {
         };
 
         OptionActions.updateOptions(payload.showCombinedMessages);
-        Chai.assert(spy.calledWith(expectedAction));
+        global.assert(spy.calledWith(expectedAction));
     })
 
     it('should create a UPDATE_LANGUAGE action', () => {
@@ -40,6 +38,6 @@ describe('OptionsActions', () => {
         };
 
         OptionActions.updateSelectedLanguage(payload.selectedLanguage);
-        Chai.assert(spy.calledWith(expectedAction));
+        global.assert(spy.calledWith(expectedAction));
     })
 })
