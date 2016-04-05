@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "test": "mocha --compilers js:babel-register"
+    "test": "mocha",
+    "start-tests": "mocha -w"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +20,7 @@
     "react": "^0.14.7",
     "react-addons-test-utils": "^0.14.7",
     "react-dom": "^0.14.7",
-    "sinon": "^1.17.3"
+    "sinon": "^1.17.3",
+    "sinon-chai": "^2.8.0"
   }
 }
