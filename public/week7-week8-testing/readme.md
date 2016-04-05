@@ -24,7 +24,7 @@ Week7 - testing part 1
 #### Week7 Follow up
 * beforeEach
 * stubing XHR
-* restoring stubs (and `sinon.sandbox`)
+* managing and restoring spies, stubs and mocks with `sinon.sandbox`
 * global setup
 * questions?
 
