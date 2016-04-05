@@ -21,6 +21,8 @@
     "flux": "^2.1.1",
     "events": "^1.1.0",
     "superagent": "^1.8.1",
+    "rewire": "^2.5.1",
+    "rewire-webpack": "^1.0.1",
     "chai": "^3.5.0",
     "mocha": "^2.4.5",
     "react-addons-test-utils": "^0.14.7",

@@ -3,7 +3,7 @@ var ListActions = require("../App/Actions/list-actions");
 var ListStore = require("../App/Stores/list-store");
 var ValidationStore = require("../App/Stores/validation-store");
 
-describe('ListActions', () => {
+describe('ListStore', () => {
     
     describe('when createList is called with new list name', () => {
         it('should add the list', () => {

@@ -3,7 +3,7 @@ var MessageActions = require("../App/Actions/message-actions");
 //var MessageStore = require("../App/Stores/message-store");
 var ValidationStore = require("../App/Stores/validation-store");
 
-describe('MessageActions', () => {
+describe('MessageStore', () => {
     var wayTooLongMessage = "Message is too long - 12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
     var testLang = "en";
 
