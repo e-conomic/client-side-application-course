@@ -26,6 +26,7 @@ Week7 - testing part 1
 * stubing XHR
 * managing and restoring spies, stubs and mocks with `sinon.sandbox`
 * global setup
+* sinon-chai [assertions](https://github.com/domenic/sinon-chai#assertions)
 * questions?
 
 Week8 - testing part 2
