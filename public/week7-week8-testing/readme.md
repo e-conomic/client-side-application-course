@@ -23,7 +23,8 @@ Week7 - testing part 1
 ===================================================================================
 #### Week7 Follow up
 * beforeEach
-* faking XHR
+* stubing XHR
+* restoring stubs (and `sinon.sandbox`)
 * global setup
 * questions?
 
