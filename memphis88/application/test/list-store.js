@@ -9,6 +9,7 @@ describe('ListStore', function() {
 	var Dispatcher;
 	var ListStore;
 	var spy;
+	var registeredCallback;
 
 	var createList = {
 		type: Constants.CREATE_LIST,
@@ -26,9 +27,8 @@ describe('ListStore', function() {
 	});
 
 	it('registers a callback with the dispatcher', function() {
-		Dispatcher.dispatch(createList);
 		spy.should.have.been.called;
-		spy.should.be.a('function');
+		spy.should.have.callCount(1);
 	});
 
 	it('get should return an empty object if list does not exist or not specified', function() {
@@ -41,9 +41,11 @@ describe('ListStore', function() {
 	});
 
 	it('should create a list with specified name and have an id of type date', function() {
-		var getAll = sinon.spy(ListStore, 'getAll');
+		registeredCallback = spy.firstCall;
+		// spy.should.have.been.called;
+		registeredCallback.should.be.a('function');
+		registeredCallback(createList);
 		var list = ListStore.getAll();
-		getAll.restore();
 		list.should.be.a('array');
 		list[0].should.be.a('object');
 		list[0].name.should.equal('a test list');
