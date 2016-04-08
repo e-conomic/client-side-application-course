@@ -1,8 +1,4 @@
-import ReactTestUtils from 'react-addons-test-utils'
-import React from 'react'
-import Messages from '../app/Components/Messages'
-import {expect} from 'chai'
-import 'babel-polyfill'
+import Messages from '../../app/Components/Messages'
 
 describe('Messages component', function() {
 
@@ -14,12 +10,19 @@ describe('Messages component', function() {
 	const shallowRenderer = ReactTestUtils.createRenderer();
 
 	describe('when rendered', function() {
-		
-		it('should return the expected output', function() {
+		let output;
+
+		beforeEach(() => {
 			shallowRenderer.render(<Messages messages={messages} handleArchiveClick={()=>{}} handleDeleteClick={()=>{}} />);
-			const output = shallowRenderer.getRenderOutput();
+			 output = shallowRenderer.getRenderOutput();
+		});
+
+		it('should return a div', function() {
 			expect(output.type).to.equal('div');
 		})
 
+		it('should return the 2 children', function() {
+			expect(output.props.children.length).to.equal(2);
+		})
 	})
 })
