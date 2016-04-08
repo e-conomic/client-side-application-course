@@ -1,31 +1,15 @@
 var React = require('react');
 
-var ListStore = require('../stores/list-store');
-var MessageStore = require('../stores/message-store');
-
 var Message = require('./message');
-var MessageList = require('./message-list');
 
 var FilteredMessageList = React.createClass({
 	getInitialState: function() {
 		return {
-			allLists: ListStore.getAll(),
-			allSortedMessages: MessageStore.getAllSorted(),
 			filteredLists: []
 		}
 	},
 
-	componentDidMount: function() {
-		ListStore.addChangeListener(this._onChange);
-		MessageStore.addChangeListener(this._onChange);
-	},
-
-	componentWillUnmount: function() {
-		ListStore.removeChangeListener(this._onChange);
-		MessageStore.removeChangeListener(this._onChange);
-	},
-
-	onChange: function() {
+	onChange: function(e) {
 		var filteredLists = [];
 		var elements = this.refs.filterForm.elements;
 		for (var input in elements) {
@@ -34,13 +18,6 @@ var FilteredMessageList = React.createClass({
 			}
 		}
 		this.setState({ filteredLists: filteredLists });
-	},
-
-	_onChange: function() {
-		this.setState({
-			allLists: ListStore.getAll(),
-			allSortedMessages: MessageStore.getAllSorted(),
-		});
 	},
 
 	render: function() {
@@ -66,10 +43,10 @@ var FilteredMessageList = React.createClass({
 		return (
 			<div style={containerStyle}>
 				<form onChange={this.onChange} ref="filterForm">
-					<ul>{this.state.allLists.map(renderAllListInputs)}</ul>
+					<ul>{this.props.generatedLists.map(renderAllListInputs)}</ul>
 				</form>
 				<div>
-					<table><tbody>{this.state.allSortedMessages.map(renderMessages, this)}</tbody></table>
+					<table><tbody>{this.props.sortedMessages.map(renderMessages, this)}</tbody></table>
 				</div>
 			</div>
 		);

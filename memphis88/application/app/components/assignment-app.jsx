@@ -1,12 +1,16 @@
 var React = require('react');
 
 var GeneratedList = require('./generated-list');
-var ListActions = require('../actions/list-actions');
-var ListStore = require('../stores/list-store');
 var FilteredMessageList = require('./filtered-message-list');
 var NotificationBar = require('./notification-bar').default;
 var ValidationStore = require('../stores/validation-store');
 var LanguageSelector = require('./language-selector');
+
+var ListActions = require('../actions/list-actions');
+var ListStore = require('../stores/list-store');
+var MessageStore = require('../stores/message-store');
+var MessageActions = require('../actions/message-actions');
+
 
 var AssignmentApp = React.createClass({
 	propTypes: {
@@ -17,6 +21,7 @@ var AssignmentApp = React.createClass({
 		var status = ValidationStore.getStatus();
 		return {
 			generatedLists: ListStore.getAll(),
+			sortedMessages: MessageStore.getAllSorted(),
 			isError: status.isError,
 			message: status.message,
 			isHidden: true
@@ -26,11 +31,13 @@ var AssignmentApp = React.createClass({
 	componentDidMount: function() {
 		ListStore.addChangeListener(this._onChange);
 		ValidationStore.addChangeListener(this._onChange);
+		MessageStore.addChangeListener(this._onChange);
 	},
 
 	componentWillUnmount: function() {
 		ListStore.removeChangeListener(this._onChange);
 		ValidationStore.removeChangeListener(this._onChange);
+		MessageStore.removeChangeListener(this._onChange);
 	},
 
 	onPressingEnter: function(e) {
@@ -41,6 +48,7 @@ var AssignmentApp = React.createClass({
 		var status = ValidationStore.getStatus();
 		this.setState({
 			generatedLists: ListStore.getAll(),
+			sortedMessages: MessageStore.getAllSorted(),
 			isError: status.isError,
 			message: status.message,
 			isHidden: (status.message!="")? false : true
@@ -54,6 +62,10 @@ var AssignmentApp = React.createClass({
 
 	dismishNotificationBar: function() {
 		this.setState({ isHidden: true });
+	},
+
+	onLanguageSelect: function(e) {
+		MessageActions.translateMessages(e.target.value);
 	},
 
 	render: function() {
@@ -77,8 +89,10 @@ var AssignmentApp = React.createClass({
 				<div>
 					{this.state.generatedLists.map(createLists, this)}
 				</div>
-				<FilteredMessageList />
-				<LanguageSelector />
+				<FilteredMessageList
+					generatedLists={this.state.generatedLists}
+					sortedMessages={this.state.sortedMessages} />
+				<LanguageSelector onChange={this.onLanguageSelect} />
 			</div>
 		);
 	}

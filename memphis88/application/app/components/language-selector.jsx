@@ -22,6 +22,10 @@ var LanguageSelector = React.createClass({
 		});
 	},
 
+	onChange: function(e) {
+		this.props.onChange(e);
+	},
+
 	render: function() {
 		var renderLanguages = function(data) {
 			return <option
@@ -30,7 +34,9 @@ var LanguageSelector = React.createClass({
 			</option>;
 		};
 		return (
-			<select>
+			<select onChange={this.onChange}>
+				<option value="none">No translation</option>
+				<option disabled>------------</option>
 				{this.state.languages.map(renderLanguages)}
 			</select>
 		);

@@ -68,5 +68,12 @@ module.exports = {
 			type: Constants.EXTRACT_MESSAGE,
 			id: msgId
 		});
-	}
+	},
+
+	translateMessages: function(language) {
+		Dispatcher.dispatch({
+			type: Constants.TRANSLATE_MESSAGES,
+			language: language
+		});
+	},
 }
