@@ -3,17 +3,17 @@ var Constants = require("../constants");
 var BaseStore = require("./base");
 var ValidationStore = require("./validation-store");
 
-//var _lists = [];
-var _lists = [{
-    id: 1,
-    name: 'List 1',
-    isSelected: true,
-},
-{
-    id: 2,
-    name: 'List 2',
-    isSelected: true,
-}];
+var _lists = [];
+// var _lists = [{
+//     id: 1,
+//     name: 'List 1',
+//     isSelected: true,
+// },
+// {
+//     id: 2,
+//     name: 'List 2',
+//     isSelected: true,
+// }];
 
 var ListStore = Object.assign({}, BaseStore, {
     getAll: function() {

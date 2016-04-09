@@ -7,62 +7,62 @@ var MessageActions = require("../Actions/message-actions");
 
 var GoogleTranslate = require('../Utils/googleTranslate');
 
-//var _messages = [];
-var _messages = [{
-    id: 1,
-    list: 1,
-    text: "Hello world",
-    translatedText: ""
-}, {
-    id: 2,
-    list: 2,
-    text: "This is a test",
-    translatedText: ""
-}, {
-    id: 3,
-    list: 1,
-    text: "Vil du have en is?",
-    isArchived: true,
-    translatedText: ""
-}, {
-    id: 4,
-    list: 2,
-    text: "Habla espanol?",
-    isArchived: true,
-    translatedText: ""
-}, {
-    id: 5,
-    list: 1,
-    text: "Merry Christmas",
-    translatedText: ""
-}, {
-    id: 6,
-    list: 2,
-    text: "Frohe Ostern",
-    translatedText: ""
-}, {
-    id: 7,
-    list: 1,
-    text: "We are going home",
-    isArchived: true,
-    translatedText: ""
-}, {
-    id: 8,
-    list: 2,
-    text: "Dette er dansk",
-    isArchived: true,
-    translatedText: ""
-}, {
-    id: 9,
-    list: 1,
-    text: "This is English",
-    translatedText: ""
-}, {
-    id: 10,
-    list: 2,
-    text: "Sidste besked",
-    translatedText: ""
-}];
+var _messages = [];
+// var _messages = [{
+//     id: 1,
+//     list: 1,
+//     text: "Hello world",
+//     translatedText: ""
+// }, {
+//     id: 2,
+//     list: 2,
+//     text: "This is a test",
+//     translatedText: ""
+// }, {
+//     id: 3,
+//     list: 1,
+//     text: "Vil du have en is?",
+//     isArchived: true,
+//     translatedText: ""
+// }, {
+//     id: 4,
+//     list: 2,
+//     text: "Habla espanol?",
+//     isArchived: true,
+//     translatedText: ""
+// }, {
+//     id: 5,
+//     list: 1,
+//     text: "Merry Christmas",
+//     translatedText: ""
+// }, {
+//     id: 6,
+//     list: 2,
+//     text: "Frohe Ostern",
+//     translatedText: ""
+// }, {
+//     id: 7,
+//     list: 1,
+//     text: "We are going home",
+//     isArchived: true,
+//     translatedText: ""
+// }, {
+//     id: 8,
+//     list: 2,
+//     text: "Dette er dansk",
+//     isArchived: true,
+//     translatedText: ""
+// }, {
+//     id: 9,
+//     list: 1,
+//     text: "This is English",
+//     translatedText: ""
+// }, {
+//     id: 10,
+//     list: 2,
+//     text: "Sidste besked",
+//     translatedText: ""
+// }];
 
 var MessageStore = Object.assign({}, BaseStore, {
     getAll: function() {
