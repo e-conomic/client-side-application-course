@@ -2,3 +2,4 @@
 --require babel-polyfill
 --require ./test/setup
 --recursive
+--reporter nyan
