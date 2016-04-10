@@ -5,6 +5,7 @@ var FilteredMessageList = require('./filtered-message-list');
 var NotificationBar = require('./notification-bar').default;
 var ValidationStore = require('../stores/validation-store');
 var LanguageSelector = require('./language-selector');
+var TranslatedMessages = require('./translated-messages');
 
 var ListActions = require('../actions/list-actions');
 var ListStore = require('../stores/list-store');
@@ -22,6 +23,7 @@ var AssignmentApp = React.createClass({
 		return {
 			generatedLists: ListStore.getAll(),
 			sortedMessages: MessageStore.getAllSorted(),
+			translatedMessages: MessageStore.getTranslatedMessages(),
 			isError: status.isError,
 			message: status.message,
 			isHidden: true
@@ -49,6 +51,7 @@ var AssignmentApp = React.createClass({
 		this.setState({
 			generatedLists: ListStore.getAll(),
 			sortedMessages: MessageStore.getAllSorted(),
+			translatedMessages: MessageStore.getTranslatedMessages(),
 			isError: status.isError,
 			message: status.message,
 			isHidden: (status.message!="")? false : true
@@ -92,7 +95,10 @@ var AssignmentApp = React.createClass({
 				<FilteredMessageList
 					generatedLists={this.state.generatedLists}
 					sortedMessages={this.state.sortedMessages} />
-				<LanguageSelector onChange={this.onLanguageSelect} />
+				<div>
+					<LanguageSelector onChange={this.onLanguageSelect} />
+					<TranslatedMessages messages={this.state.translatedMessages} />
+				</div>
 			</div>
 		);
 	}
