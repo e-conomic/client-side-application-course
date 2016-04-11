@@ -2,9 +2,8 @@ describe('ListStore', function() {
 	var Constants = require('../app/dispatcher/constants');
 	var Dispatcher;
 	var ListStore;
-	var registerSpy;
-	var dispatchStub;
-	var registeredCallback;
+	var registerStub;
+	var dispatchSpy;
 
 	var createList = {
 		type: Constants.CREATE_LIST,
@@ -13,20 +12,19 @@ describe('ListStore', function() {
 
 	beforeEach(function() {
 		Dispatcher = require('../app/dispatcher/dispatcher');
-		ListStore = require('../app/stores/list-store');
-		registerSpy = sinon.stub(Dispatcher, 'register');
-		dispatchStub = sinon.spy(Dispatcher, 'dispatch');
+		ListStore = rewire('../app/stores/list-store');
+		registerStub = sinon.stub(Dispatcher, 'register');
+		dispatchSpy = sinon.spy(Dispatcher, 'dispatch');
 		Dispatcher.register(ListStore);
-		registeredCallback = registerSpy.lastCall.args[0];
 	});
 
 	afterEach(function() {
-		registerSpy.restore();
-		dispatchStub.restore();
+		registerStub.restore();
+		dispatchSpy.restore();
 	});
 
 	it('registers a callback with the dispatcher', sinon.test(function() {
-		registerSpy.should.have.been.calledOnce;
+		registerStub.should.have.been.calledOnce;
 	}));
 
 	it('get should return an empty object if list does not exist or not specified', sinon.test(function() {
@@ -39,8 +37,7 @@ describe('ListStore', function() {
 	}));
 
 	it('should create a list with specified name and have an id of type Number', sinon.test(function() {
-		registerSpy.should.have.been.calledOnce;
-		registeredCallback.should.be.a('object');
+		registerStub.should.have.been.calledOnce;
 		Dispatcher.dispatch(createList);
 		var list = ListStore.getAll();
 		list.should.be.a('array');

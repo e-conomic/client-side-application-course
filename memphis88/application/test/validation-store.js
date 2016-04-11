@@ -5,7 +5,6 @@ describe('Validation Store', function() {
 	var ValidationStore;
 	var registerSpy;
 	var dispatchStub;
-	var registeredCallback;
 
 	var createMessage = {
 		type: Constants.CREATE_MESSAGE
@@ -18,11 +17,10 @@ describe('Validation Store', function() {
 	}
 	beforeEach(function() {
 		Dispatcher = require('../app/dispatcher/dispatcher');
-		ValidationStore = require('../app/stores/validation-store');
+		ValidationStore = rewire('../app/stores/validation-store');
 		registerSpy = sinon.stub(Dispatcher, 'register');
 		dispatchStub = sinon.spy(Dispatcher, 'dispatch');
 		Dispatcher.register(ValidationStore);
-		registeredCallback = registerSpy.lastCall.args[0];
 	});
 
 	afterEach(function() {
