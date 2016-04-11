@@ -22,24 +22,16 @@ var ListStore = Object.assign({}, BaseStore, {
 	getListById: function(id) {
 		return Object.assign({}, _lists.find(function(l) { return l.listId == id }));
 	}, 
-	findIndexWithId : function(id){
-		var index = _lists.findIndex(function(l){return l.listId == id});
-		return index
-	}
 });
 
 ListStore.dispatchToken = Dispatcher.register(function(payload){
 	switch(payload.type) {
 		case Constants.CREATE_LIST:
 			_lists.push({
-				listId: _lists.length + 1,
+				listId: _lists.length,
 				listName: payload.listName, 
 				visible : true
 			})
-		break; 
-		case Constants.UPDATE_FILTER:
-			var index = ListStore.findIndexWithId(payload.listId)
-			_lists[index].visible = payload.visible
 		break; 
 		default:
 			return;
