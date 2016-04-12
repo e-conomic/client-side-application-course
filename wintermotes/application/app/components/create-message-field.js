@@ -28,7 +28,6 @@ var CreateMessageField = React.createClass({
 		ListStore.removeChangeListener(this._onChange);
 	},
 	_onChange : function(){
-		console.log("Adding change CreateMessageField")
 		this.setState({
 			lists : ListStore.getAllLists(), 
 			messages : MessageStore.getAllMessages()

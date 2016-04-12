@@ -93,13 +93,13 @@ Please note, this outline is an approximation for the course schedule and subjec
    * What is Flux and why should I care
  * Week 5: One way data flow - __Flux__ part 2
  * Week 6: Asynchronous operations
- * Week 7: Testing client-side applications
- * Week 8: Application state
+ * Week 7: Testing client-side applications - part 1
+ * Week 8: Testing client-side applications - part 2
+ * Week 9: Application state
    * How is app state kept track of?
    * How can we improve?
    * __Redux__
- * Week 9  - project
- * Week 10 - project
+ * Week 10  - project
  * Week 11 - project
  * Week 12 - project
  * Week 13 - project
