@@ -1,29 +1,17 @@
+var rewire = require("rewire");
 var MessageActions = require("../App/Actions/message-actions");
-var MessageStore = require("../App/Stores/message-store");
+var MessageStore = rewire("../App/Stores/message-store");
+var ListStore = rewire("../App/Stores/list-store");
 var ValidationStore = require("../App/Stores/validation-store");
 
 describe('MessageStore', () => {
-    var _sandbox;
 
     var wayTooLongMessage = "Message is too long - 12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
     var testLang = "en";
 
     beforeEach(() => {
-        _sandbox = global.sinon.sandbox.create();
-        var allMessages = MessageStore.getAll();
-        MessageActions.createMessage("Hello world", 1, allMessages, testLang);
-        var allMessages = MessageStore.getAll();
-        MessageActions.createMessage("This is a test", 2, allMessages, testLang);
-        var allMessages = MessageStore.getAll();
-        MessageActions.createMessage("Vil du have en is?", 1, allMessages, testLang);
-        MessageActions.toggleIsArchived(3);
-        var allMessages = MessageStore.getAll();
-        MessageActions.createMessage("Habla espanol?", 2, allMessages, testLang);
-        MessageActions.toggleIsArchived(4);
-    })
-    
-    afterEach(() => {
-        _sandbox.restore();
+        ListStore.__set__("_lists", global.testLists);
+        MessageStore.__set__("_messages", global.testMessages);
     })
     
     describe('when getAll is called', () => {

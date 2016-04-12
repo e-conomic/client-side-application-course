@@ -10,12 +10,12 @@ global.sinon = sinon;
 
 global.testLists = [{
     id: 1,
-    name: 'List 1',
+    name: 'Test List 1',
     isSelected: true,
 },
 {
     id: 2,
-    name: 'List 2',
+    name: 'Test List 2',
     isSelected: true,
 }];
 
@@ -23,11 +23,13 @@ global.testMessages = [{
     id: 1,
     list: 1,
     text: "Hello world",
+    isArchived: false,
     translatedText: ""
 }, {
     id: 2,
     list: 2,
     text: "This is a test",
+    isArchived: false,
     translatedText: ""
 }, {
     id: 3,
