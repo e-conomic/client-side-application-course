@@ -1,3 +1,5 @@
+var AjaxHandler = require('../app/utilities/ajax-handler');
+
 describe('Message actions', function() {
 	var Constants = require('../app/dispatcher/constants');
 	var Dispatcher;
@@ -32,4 +34,39 @@ describe('Message actions', function() {
 		dispatchStub.should.have.not.been.called;
 		createMessage.restore();
 	}));
+
+	describe('.translateMessages', function() {
+
+		const expectedText = 'elvish words';
+		const response = JSON.stringify({
+			data: {
+				translations: [{
+					translatedText: expectedText
+				}]
+			}
+		});
+
+		beforeEach(function() {
+			sinon.stub(AjaxHandler, 'get', function() {
+				return Promise.resolve(response);
+			})
+
+			return MessageActions.translateMessages('elvish', [{
+				message: 'bla bla'
+			}])
+		})
+
+		afterEach(function() {
+			AjaxHandler.get.restore();
+		});
+
+		it('should dispatch the correct payload', function() {
+			expect(dispatchStub).to.have.been.calledWith({
+				type: Constants.TRANSLATE_MESSAGES,
+				translatedMessages: [{
+					message: expectedText
+				}]
+			});
+		});
+	})
 });

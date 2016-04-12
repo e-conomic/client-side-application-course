@@ -2,6 +2,8 @@ var Constants = require('../dispatcher/constants');
 var Dispatcher = require('../dispatcher/dispatcher');
 
 var MessageStore = require('../stores/message-store');
+var Url = require('../../translate-url');
+var AjaxHandler = require('../utilities/ajax-handler');
 
 function isValidMessage(msg) {
 	if (msg.length <= 200) {
@@ -70,10 +72,28 @@ module.exports = {
 		});
 	},
 
-	translateMessages: function(language) {
-		Dispatcher.dispatch({
-			type: Constants.TRANSLATE_MESSAGES,
-			language: language
+	translateMessages: function(language, messages) {
+		var query = "";
+		for (var i = 0; i < messages.length; i++) {
+			query += '&q=' + messages[i].message;
+		};
+		query += '&target=' + language;
+		var requestUri = Url + query;
+
+		return AjaxHandler.get(requestUri).then(function(response) {
+			var data = JSON.parse(response).data;
+			for (var i = 0; i < messages.length; i++) {
+				messages[i].message = data.translations[i].translatedText;
+			};
+			Dispatcher.dispatch({
+				type: Constants.TRANSLATE_MESSAGES,
+				translatedMessages: messages,
+			});
+		}, function(error) {
+			Dispatcher.dispatch({
+				type: Constants.TRANSLATE_MESSAGES_FAILED,
+				error: error,
+			});
 		});
-	},
+	}
 }

@@ -2,7 +2,6 @@ var Dispatcher = require('../dispatcher/dispatcher');
 var Constants = require('../dispatcher/constants');
 var BaseStore = require('./base');
 var AjaxHandler = require('../utilities/ajax-handler');
-var Url = require('../../translate-url');
 
 var _messages = [];
 var _sortedMessages = [];
@@ -75,28 +74,8 @@ store.dispatchToken = Dispatcher.register(function(payload) {
 			msgToDelete.isArchived = false;
 			break;
 		case Constants.TRANSLATE_MESSAGES:
-			_translatedMessages = deepCopy(_messages);
-			if (payload.language == "none") {
-				break;
-			}
-			var query = "";
-			for (var i = 0; i < _translatedMessages.length; i++) {
-				query += '&q=' + _translatedMessages[i].message;
-			};
-			query += '&target='+ payload.language;
-			var request = Url + query;
-			AjaxHandler.get(request).then(function(response) {
-				var data = JSON.parse(response).data;
-				for (var i = 0; i < _translatedMessages.length; i++) {
-					_translatedMessages[i].message = data.translations[i].translatedText;
-				};
-				store.emitChange();
-				return;
-			}, function(error) {
-				console.log(error);
-				return;
-			});
-			return;
+			_translatedMessages = payload.translatedMessages;
+			break;
 		default:
 			return;
 	}
