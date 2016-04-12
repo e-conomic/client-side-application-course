@@ -1,9 +1,12 @@
 var Dispatcher = require('../dispatcher/dispatcher');
 var Constants = require('../dispatcher/constants');
 var BaseStore = require('./base');
+var AjaxHandler = require('../utilities/ajax-handler');
+var Url = require('../../translate-url');
 
 var _messages = [];
 var _sortedMessages = [];
+var _translatedMessages = [];
 
 function deepCopy(messages) {
 	return JSON.parse(JSON.stringify(messages));
@@ -13,14 +16,13 @@ function createId() {
 	return Date.now();
 }
 
-function makeAndSortMessageList(messages) {
-	_sortedMessages = deepCopy(messages);
+function makeAndSortMessageList() {
+	_sortedMessages = deepCopy(_messages);
 	_sortedMessages.sort(function(a, b) {
 		if (a.message > b.message) return 1;
 		if (a.message < b.message) return -1;
 		return 0;
 	});
-	return _sortedMessages;
 }
 
 
@@ -29,18 +31,21 @@ var store = Object.assign({}, BaseStore, {
 		return deepCopy(_messages);
 	},
 	getAllSorted: function() {
-		return makeAndSortMessageList(_messages);
+		makeAndSortMessageList();
+		return deepCopy(_sortedMessages);
 	},
 	getAllForList: function(listKey) {
 		return deepCopy(_messages.filter(function(msg) { return msg.listKey == listKey }));
 	},
 	get: function(id) {
-		return Object.assign({}, _messages.find(function(l) { return l.id == id }));
+		return Object.assign({}, _messages.find(function(m) { return m.id == id }));
+	},
+	getTranslatedMessages: function() {
+		return deepCopy(_translatedMessages);
 	}
 });
 
 store.dispatchToken = Dispatcher.register(function(payload) {
-
 	switch(payload.type) {
 		case Constants.CREATE_MESSAGE:
 			var ListStore = require('./list-store');
@@ -53,23 +58,45 @@ store.dispatchToken = Dispatcher.register(function(payload) {
 			});
 			break;
 		case Constants.DELETE_MESSAGE:
-			var msgToDelete = _messages.find(function(l) { return l.id == payload.id });
+			var msgToDelete = _messages.find(function(m) { return m.id == payload.id });
 			_messages.splice(_messages.indexOf(msgToDelete), 1);
 			break;
 		case Constants.MOVE_MESSAGE:
-			var msgToMove = _messages.find(function(l) { return l.id == payload.id });
+			var msgToMove = _messages.find(function(m) { return m.id == payload.id });
 			msgToMove.listKey = parseInt(payload.listKey);
 			msgToMove.color = payload.color;
 			break;
 		case Constants.ARCHIVE_MESSAGE:
-			var msgToDelete = _messages.find(function(l) { return l.id == payload.id });
+			var msgToDelete = _messages.find(function(m) { return m.id == payload.id });
 			msgToDelete.isArchived = true;
 			break;
 		case Constants.EXTRACT_MESSAGE:
-			var msgToDelete = _messages.find(function(l) { return l.id == payload.id });
+			var msgToDelete = _messages.find(function(m) { return m.id == payload.id });
 			msgToDelete.isArchived = false;
 			break;
-
+		case Constants.TRANSLATE_MESSAGES:
+			_translatedMessages = deepCopy(_messages);
+			if (payload.language == "none") {
+				break;
+			}
+			var query = "";
+			for (var i = 0; i < _translatedMessages.length; i++) {
+				query += '&q=' + _translatedMessages[i].message;
+			};
+			query += '&target='+ payload.language;
+			var request = Url + query;
+			AjaxHandler.get(request).then(function(response) {
+				var data = JSON.parse(response).data;
+				for (var i = 0; i < _translatedMessages.length; i++) {
+					_translatedMessages[i].message = data.translations[i].translatedText;
+				};
+				store.emitChange();
+				return;
+			}, function(error) {
+				console.log(error);
+				return;
+			});
+			return;
 		default:
 			return;
 	}

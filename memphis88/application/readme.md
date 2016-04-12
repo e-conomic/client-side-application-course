@@ -1,28 +1,25 @@
-_Before we begin_  
-Going forward - focus on new assignments
+_Current design/setup using flux._  
+_The purpose of code reviews_  
+  * _knowledge sharing_  
+    * _application_  
+    * _individual_  
+  * _prevent legacy_  
+  * _~~prevent catastrophe~~_ 
 
-#### Week 4 follow up
-* drilldown of one of the reviews. 
+_Any ~~interesting~~ questions/discusions?_  
+_Final project_
 
-### Week 5 - Flux part 2
+NB! Next week is canceled due to easter
 
-#### Assignment 6
+### Assignment 7
 
-Expand your app from assginment 5:
+In this assignment you'll have to translate your messages using Googles translate API. This will require you to do asynchronous operations in your very synchronous app. We will provide you with a url to call.
 
-- Create a new components that shows all messages across the system according to [the mockup](https://github.com/e-conomic/client-side-application-course/blob/master/public/week5/readme.md#mockup)
-- The user should be able to filter out some lists (using checkboxes) and thereby only see messages on the component for the selected lists
-- Archived messages should still look like before, but should honor the new sorting
-- The new component should list the messages alphabetically
-- The user should be able to perform the same actions on each message in the new component (archive, move, delete, _not create_)
-- The user should see validation messages in a (provided) notification bar component.
+1. Copy your work from assignment 6 to a new folder called `application` in the root of your folder (we will from now on keep working in this folder across assignments)
+* Commit that in directly to master (this also means that you will have to merge your changes from ass6 in now)
+* Create a language-selector component where you can choose the language to which the messages will be translated and shown in.
+* It should be possible to "disable" the translation. The original messages should therefore be kept
+* The provided url contains a _key_ that should _not_ be checked in!
+* Unrelated: you will have found some ideas for your final project.
 
-New Validation rules:
-
-- A message cannot bo longer then 200 characters.
-- Each message must have unique content across the system.
-- If a message doesn't validate upon creation, the notification bar should show an error message.
-- If a message _do_ validate, the notification bar should show an success message.
-
-##### Mockup
-<img width=700 src="https://github.com/e-conomic/client-side-application-course/blob/master/public/week5/mockup.png" />
+We are providing you with a file where you can get the api-key. The file is ignored by git.
