@@ -57,7 +57,7 @@ describe('Message Actions', () => {
 		  setTimeout(function() {
 			expect(spy).to.have.been.calledThrice;
 		    done();
-		  }, 0)
+		  }, 1000)
 		});
 	})
 })

@@ -93,9 +93,9 @@ module.exports = {
     },
     fetchLanguageCodes: function() {
 
-        var url = 'https://www.googleapis.com/language/translate/v2/languages';
+        var url = 'https://www.googleapis.com/language/translate/v2/languages/?key=' + key;
 
-        request.get(url + '?key=' + key)
+        request.get(url)
             .set('Accept', 'application/json')
             .end((err, response) => {
                     if (err) {
