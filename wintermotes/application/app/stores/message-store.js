@@ -2,8 +2,6 @@ var Dispatcher = require('../dispatcher');
 var Constants = require('../constants');
 var BaseStore = require('./base');
 
-var notificationBar = require("../components/notification-bar")
-
 function findAllMessagesFromId (id, array, archived){
 	var messages = []
 	for(var i = 0; i<array.length; i++){
@@ -52,25 +50,25 @@ var _messages = [
 				{
 					messageId : 0, 
 					listId : 0,
-					content : 'Message1, list1', 
+					content : 'Message1, oversæt mig, list1', 
 					archived : false 
 				},
 				{
 					messageId : 1, 
 					listId : 0, 
-					content : 'Message2, list1', 
+					content : 'Message2, oversæt mig list1', 
 					archived : false
 				}, 
 				{
 					messageId : 2, 
 					listId : 1,
-					content : 'Message2, list2', 
+					content : 'Message2, oversæt mig list2', 
 					archived : false 
 				}, 
 				{
 					messageId : 3, 
 					listId : 1,
-					content : 'Archived Message2, list2', 
+					content : 'Archived oversæt mig Message2, list2', 
 					archived : true 
 				}
 			];
@@ -82,7 +80,9 @@ var _messageFilters = [
 				},
 ]
 
+var _languages = []
 var _notifications = []
+var _originalMessages = []
 
 var MessageStore = Object.assign({}, BaseStore, {
 	getAllMessages: function() {
@@ -105,6 +105,11 @@ var MessageStore = Object.assign({}, BaseStore, {
 	getNotifications : function(){
 		return _notifications
 	},
+	getAllLangugages: function(){
+		if(_languages.length == 0)
+			return 'Loading languages...'
+		return JSON.parse(JSON.stringify(_languages.data));
+	}
 });
 
 MessageStore.dispatchToken = Dispatcher.register(function(payload){
@@ -151,7 +156,18 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 				id : _notifications.length + 1
 			}
 			_notifications.push(notification);
-			break; 					
+			break; 		
+		case Constants.TRANSLATE_MESSAGES:
+			if(_originalMessages.length == 0) 
+				_originalMessages = MessageStore.getAllMessages(); 
+			_messages = payload.messages; 
+			break; 
+		case Constants.DISABLE_TRANSLATION: 
+			_messages = JSON.parse(JSON.stringify(_originalMessages)); 
+			break; 
+		case Constants.GET_LANGUAGES: 
+			_languages = JSON.parse(payload.languages)
+			break; 			
 		default:
 			return;
 	}

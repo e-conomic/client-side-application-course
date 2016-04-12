@@ -1,11 +1,14 @@
 var Constants = require('../constants')
 var Dispatcher = require('../dispatcher')
+var languageUrl = require('../utils/translate-Url').languageUrl
+var translateUrl = require('../utils/translate-Url').translateUrl
+var googleKey = require('../utils/translate-Url').key
 
 var errorMessage = "An error has happened"
 
 function validateString (string, messages){
 	if(string.length >= 200){
-		errorMessage = "Messages cant be longer than 200 characters."
+		errorMessage = "Messages can't be longer than 200 characters."
 		return false
 	}
 
@@ -17,6 +20,15 @@ function validateString (string, messages){
 	}
 
 	return true
+}
+
+function createTranslatedMessagesObjects(messages, jsonTranslateObject){
+	var translatedMessages = []
+	for(var i = 0; i<messages.length; i++){
+		translatedMessages[i] = messages[i]; 
+		translatedMessages[i].content = jsonTranslateObject.data.translations[i].translatedText;
+	}
+	return translatedMessages
 }
 
 module.exports = {
@@ -88,5 +100,45 @@ module.exports = {
 			type : Constants.DISMISS_NOTIFICATION, 
 			id : id
 		});
-	}
+	},
+	disableTranslation: function(){
+		Dispatcher.dispatch({
+			type : Constants.DISABLE_TRANSLATION
+		})
+	},
+	translateMessages: function(messages, language) {
+		var query = translateUrl
+		for(var i = 0; i<messages.length; i++){
+			query += "q=" + messages[i].content + "&"
+		}
+
+		query += "target=" + language + "&"
+		query += "key=" + googleKey
+
+		var xhttp = new XMLHttpRequest();
+		xhttp.open("GET", query, true);
+		xhttp.send();
+		xhttp.onreadystatechange = function() {
+		    if (xhttp.readyState == 4 && xhttp.status == 200) {
+		    	var translationObject = JSON.parse(xhttp.responseText)
+		    	Dispatcher.dispatch({
+		    		type: Constants.TRANSLATE_MESSAGES, 
+		    		messages: createTranslatedMessagesObjects(messages, translationObject)
+		    	})
+		    } 
+		};
+	},
+	getAllLangugages: function(){
+		var xhttp = new XMLHttpRequest();
+		xhttp.open("GET", languageUrl, true);
+		xhttp.send();
+		xhttp.onreadystatechange = function() {
+		    if (xhttp.readyState == 4 && xhttp.status == 200) {
+		       Dispatcher.dispatch({
+		       		type: Constants.GET_LANGUAGES, 
+		       		languages: xhttp.responseText
+		       });
+		    } 
+		};
+	} 
 }

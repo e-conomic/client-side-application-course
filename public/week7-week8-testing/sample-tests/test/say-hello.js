@@ -1,4 +1,3 @@
-import {expect} from 'chai'
 import sayHello from '../app/say-hello'
 
 describe('sayHello', function() {

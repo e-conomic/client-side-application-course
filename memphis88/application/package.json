@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "test": "mocha",
-    "build": "webpack"
+    "build": "webpack",
+    "dev": "webpack --color --progress --watch"
   },
   "author": "",
   "license": "ISC",
