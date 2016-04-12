@@ -48,6 +48,7 @@ Continue writing tests
 - testing stores? (multiple tests being independent)
 
 Week9 - testing part 3
+-------------------------
 * Why test?
 * video - https://www.youtube.com/watch?v=TWBDa5dqrl8
 * coverage tool (istanbul)
