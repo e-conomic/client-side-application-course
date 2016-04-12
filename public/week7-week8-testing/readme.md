@@ -34,3 +34,20 @@ Week8 - testing part 2
 
 #### Assignment 
 Continue writing tests
+
+
+
+===================================================================================
+===================================================================================
+#### Week8 Follow up
+
+- code changes needed for writing tests?
+- scope of each test (avoid multiple assertions in a test)
+- testing of async code (promises, callbacks, etc)
+- what is a good test? (what should be tested and what should not)
+- testing stores? (multiple tests being independent)
+
+Week9 - testing part 3
+* Why test?
+* video - https://www.youtube.com/watch?v=TWBDa5dqrl8
+* coverage tool (istanbul)
