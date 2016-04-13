@@ -19,17 +19,26 @@ describe('MessageStore', () => {
             var returnedMessages = MessageStore.getAll();
             
             global.expect(returnedMessages.length).to.equal(4);
-            global.expect(returnedMessages[returnedMessages.length-1].id).to.equal(4);
         })
     })
     
-    describe('when createMessage is called with a valid message and list id', () => {
+    describe('when createMessage is called with valid message and list id', () => {
+        it('should get id one larger than last message', () => {
+            var messages = MessageStore.getAll();
+            var lastMessage = messages[messages.length - 1];
+            
+            MessageActions.createMessage("Test message", 1, messages, testLang);
+            var addedMessage = MessageStore.getNewest();
+            global.expect(addedMessage.id).to.equal(lastMessage.id + 1);
+        })
+    })
+    
+    describe('when createMessage is called with valid message and list id', () => {
         it('should add the message to the given list id', () => {
             var messages = MessageStore.getAll();
             
             MessageActions.createMessage("Test message", 1, messages, testLang);
             var addedMessage = MessageStore.getNewest();
-            global.expect(addedMessage.id).to.equal(5);
             global.expect(addedMessage.list).to.equal(1);
         })
     })
@@ -40,7 +49,6 @@ describe('MessageStore', () => {
             
             MessageActions.createMessage("", 1, messages, testLang);
             var validationResult = ValidationStore.getValidationResult();
-            global.expect(validationResult.isError).to.equal(true);
             global.expect(validationResult.message).to.equal("You must enter a text to add.")
         })
     })
@@ -51,7 +59,6 @@ describe('MessageStore', () => {
             
             MessageActions.createMessage(wayTooLongMessage, 1, messages, testLang);
             var validationResult = ValidationStore.getValidationResult();
-            global.expect(validationResult.isError).to.equal(true);
             global.expect(validationResult.message).to.equal("The input may not exceed 200 characters.")
         })
     })
@@ -62,7 +69,6 @@ describe('MessageStore', () => {
             
             MessageActions.createMessage("Hello world", 1, messages, testLang);
             var validationResult = ValidationStore.getValidationResult();
-            global.expect(validationResult.isError).to.equal(true);
             global.expect(validationResult.message).to.equal("The message is already entered and cannot be added.")
         })
     })

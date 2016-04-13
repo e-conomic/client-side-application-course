@@ -37,7 +37,6 @@ describe("List Component", () => {
         global.expect(component.type).to.equal("div");
         global.expect(component.props.children[0].type).to.equal("h4");
         global.expect(component.props.children[1].type).to.equal("div");
-        //global.expect(component.props.children[1].props.children.length).to.equal(2);
         global.expect(component.props.children[2].type).to.equal("h5");
     })
 })

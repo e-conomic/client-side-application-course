@@ -30,8 +30,6 @@ describe("ListSelector Component", () => {
         global.expect(component.props.className).to.equal("listSelector");
         global.expect(component.type).to.equal("div");
         global.expect(component.props.children[0].props.children[0].type).to.equal("input");
-        //global.expect(component.props.children[0].props.children[0].attributes["type"]).to.equal("checkbox");
         global.expect(component.props.children[0].props.children[1].type).to.equal("label");
-        //global.expect(component.props.children[0].props.children[1].textContent).to.equal("List 1");
     })
 })

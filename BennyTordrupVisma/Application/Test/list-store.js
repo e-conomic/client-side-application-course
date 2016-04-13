@@ -31,7 +31,6 @@ describe('ListStore', () => {
             var lists = ListStore.getAll();
             ListActions.createList("Test List 2", lists);
             var validationResult = ValidationStore.getValidationResult();
-            global.expect(validationResult.isError).to.equal(true);
             global.expect(validationResult.message).to.equal("List already exists");
         })
     })
