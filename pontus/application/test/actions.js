@@ -1,8 +1,12 @@
 import Constants from '../app/constants/constants'
 import MessageActions from '../app/actions/message-actions'
 import {assert, expect} from 'chai'
+import chai from 'chai'
 import sinon from 'sinon'
 import Dispatcher from '../app/dispatcher'
+import sinonChai from 'sinon-chai'
+
+chai.use(sinonChai);
 
 describe('actions for messages, ', () => {
 
@@ -24,11 +28,11 @@ describe('actions for messages, ', () => {
 			listID,
 			text,
 			isArchived: false,
-			translateMessage: null
+			translatedMessage: null
 		}
 
 		MessageActions.createMessage(listID, text, allMessages)
-		expect(Dispatcher.dispatch.calledWith(expectedAction));
+		expect(Dispatcher.dispatch).to.have.been.calledWith(expectedAction);
 	});
 
 	it ('should only call the action once', () => { 
@@ -45,23 +49,42 @@ describe('actions for messages, ', () => {
 		const listID = 1;
 		const allMessages = [{text: 'message text' }];
 
+		const expectedAction = {
+			type: Constants.FAILURE_ON_CREATE_MESSAGE_NOT_UNIQUE
+		};
+
 		MessageActions.createMessage(listID, text, allMessages);
-		assert(Dispatcher.dispatch.calledWith( {type: Constants.FAILURE_ON_CREATE_MESSAGE_NOT_UNIQUE} ));
+		expect(Dispatcher.dispatch).to.have.been.calledWith(expectedAction);
 	});
 
 	it ('it should dispatch too many chars failure message', () => { 
 		const text = ' wioeifjjwoiefjwoeifjwoeifjwoiefjwoewioeifjjwoiefjwoeifjwoeifjwoiefjwoewioeifjjwoiefjwoeifjwoeifjwoiefjwoewioeifjjwoiefjwoeifjwoeifjwoiefjwoewioeifjjwoiefjwoeifjwoeifjwoiefjwoewioeifjjwoiefjwoeifjwoeif';
 		const listID = 1;
 		const allMessages = [];
+		
+		const expectedAction = { 
+			 type: Constants.FAILURE_ON_CREATE_MESSAGE_TOO_MANY_CHARS 
+		};
+
+		// const falseAction = { 
+		// 	type: Constants.FAILURE_ON_CREATE_MESSAGE_NOT_UNIQUE
+		// };
 
 		MessageActions.createMessage(listID, text, allMessages);
-		assert(Dispatcher.dispatch.calledWith( {type: Constants.FAILURE_ON_CREATE_MESSAGE_TOO_MANY_CHARS} ));
+		// assert(Dispatcher.dispatch.calledWith( {type: Constants.FAILURE_ON_CREATE_MESSAGE_TOO_MANY_CHARS} ));
+		expect(Dispatcher.dispatch).to.have.been.calledWith(expectedAction);
+		// expect(Dispatcher.dispatch).to.have.been.calledWith(falseAction);
 	});
 
-	it('it should send the delete message action', () => { 
+	// it('it should send the delete message action', () => { 
 
+		// const falseAction = { 
+		// 	type: Constants.FAILURE_ON_CREATE_MESSAGE_NOT_UNIQUE
+		// };
 
+		// expect(Dispatcher.dispatch).to.have.been.calledWith(expectedAction);
+		// expect(Dispatcher.dispatch).to.have.been.calledWith(falseAction);
 
-	});
+	// });
 });
 
