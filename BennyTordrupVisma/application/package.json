@@ -5,7 +5,7 @@
   "scripts": {
      "test": "mocha",
      "start-tests": "mocha -w",
-     "coverage": "istanbul cover _mocha -- ./Test",
+     "coverage": "istanbul cover node_modules/mocha/bin/_mocha",
      "build": "webpack -d --progress --colors",
      "production": "webpack -p"
   },
@@ -31,7 +31,7 @@
     "react-addons-test-utils": "^0.14.7",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
-    "istanbul": "^0.4.3"
+    "istanbul": "^1.0.0-alpha.2"
   },
   "dependencies": {
     "babel-core": "^6.5.2",
