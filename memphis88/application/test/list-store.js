@@ -1,5 +1,4 @@
 describe('ListStore', function() {
-	var Constants = require('../app/dispatcher/constants');
 	var Dispatcher;
 	var ListStore;
 	var registerStub;
@@ -23,26 +22,35 @@ describe('ListStore', function() {
 		dispatchSpy.restore();
 	});
 
-	it('registers a callback with the dispatcher', sinon.test(function() {
+	it('registers a callback with the dispatcher', function() {
 		registerStub.should.have.been.calledOnce;
-	}));
+	});
 
-	it('get should return an empty object if list does not exist or not specified', sinon.test(function() {
-		var list = ListStore.get();
-		expect(list).to.be.a('object');
-		expect(list).to.be.empty;
-		list = ListStore.get('an invalid id');
-		expect(list).to.be.a('object');
-		expect(list).to.be.empty;
-	}));
+	describe('get', function() {
 
-	it('should create a list with specified name and have an id of type Number', sinon.test(function() {
-		registerStub.should.have.been.calledOnce;
-		Dispatcher.dispatch(createList);
-		var list = ListStore.getAll();
-		list.should.be.a('array');
-		list[0].should.be.a('object');
-		list[0].name.should.equal('a test list');
-		list[0].id.should.be.a('Number');
-	}));
+		it('should return an empty object if list id is not specified', function() {
+			var list = ListStore.get();
+			expect(list).to.be.a('object');
+			expect(list).to.be.empty;
+		});
+
+		it('should return an empty object if the list with specified id does not exist', function() {
+			var list = ListStore.get('an invalid id');
+			expect(list).to.be.a('object');
+			expect(list).to.be.empty;
+		});
+	});
+
+	describe('getAll', function() {
+
+		it('should create a list with specified name and have an id of type Number', function() {
+			registerStub.should.have.been.calledOnce;
+			Dispatcher.dispatch(createList);
+			var list = ListStore.getAll();
+			list.should.be.a('array');
+			list[0].should.be.a('object');
+			list[0].name.should.equal('a test list');
+			list[0].id.should.be.a('Number');
+		});
+	});
 });

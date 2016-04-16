@@ -16,7 +16,7 @@ describe('Message actions', function() {
 		dispatchStub.restore();
 	});
 
-	it('should test if dispatch is called with proper arguments on message creation', sinon.test(function() {
+	it('should test if dispatch is called with proper arguments on message creation', function() {
 		var createMessage = sinon.spy(MessageActions, 'createMessage');
 		createMessage(0, 'A test message');
 		dispatchStub.should.have.been.calledOnce;
@@ -26,14 +26,14 @@ describe('Message actions', function() {
 			message: 'A test message'
 		});
 		createMessage.restore();
-	}));
+	});
 
-	it('should return on an empty message', sinon.test(function() {
+	it('should return on an empty message', function() {
 		var createMessage = sinon.spy(MessageActions, 'createMessage');
 		createMessage(0, '');
 		dispatchStub.should.have.not.been.called;
 		createMessage.restore();
-	}));
+	});
 
 	describe('.translateMessages', function() {
 

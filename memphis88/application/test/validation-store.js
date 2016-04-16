@@ -28,28 +28,38 @@ describe('Validation Store', function() {
 		dispatchStub.restore();
 	});
 
-	it('should register a callback with the dispatcher', sinon.test(function() {
+	it('should register a callback with the dispatcher', function() {
 		registerSpy.should.have.been.calledOnce;
-	}));
+	});
 
-	it('should return an object with a message property as an empty string', sinon.test(function() {
-		var state = ValidationStore.getStatus();
-		expect(state).to.be.a('object');
-		expect(state.message).to.equal('');
-	}));
+	describe('getStatus', function() {
 
-	it('should return an object with isError true and an appropriate message', sinon.test(function() {
-		Dispatcher.dispatch(createMessage);
-		var state = ValidationStore.getStatus();
-		expect(state.isError).to.be.equal(false);
-		expect(state.message).to.be.equal('Message created.');
-		Dispatcher.dispatch(messageExists);
-		var state = ValidationStore.getStatus();
-		expect(state.isError).to.be.equal(true);
-		expect(state.message).to.be.equal('Message already exists in a list.');
-		Dispatcher.dispatch(messageExceedsRange);
-		var state = ValidationStore.getStatus();
-		expect(state.isError).to.be.equal(true);
-		expect(state.message).to.be.equal('Message was more than 200 characters.');
-	}));
+		it('should return an object with an empty string as a message property', function() {
+			var state = ValidationStore.getStatus();
+			expect(state).to.be.a('object');
+			expect(state.message).to.equal('');
+		});
+
+		it('should return an object with isError false and an appropriate message on message creation', function() {
+			Dispatcher.dispatch(createMessage);
+			var state = ValidationStore.getStatus();
+			expect(state.isError).to.be.equal(false);
+			expect(state.message).to.be.equal('Message created.');
+		});
+
+		it('should return an object with isError true and an appropriate message when message exists', function() {
+			Dispatcher.dispatch(messageExists);
+			var state = ValidationStore.getStatus();
+			expect(state.isError).to.be.equal(true);
+			expect(state.message).to.be.equal('Message already exists in a list.');
+		});
+
+		it('should return an object with isError true and an appropriate message when message exceeds the length of 200 characters', function() {
+			Dispatcher.dispatch(messageExceedsRange);
+			var state = ValidationStore.getStatus();
+			expect(state.isError).to.be.equal(true);
+			expect(state.message).to.be.equal('Message was more than 200 characters.');
+		});
+
+	});
 });

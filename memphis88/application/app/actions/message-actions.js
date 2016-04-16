@@ -73,6 +73,13 @@ module.exports = {
 	},
 
 	translateMessages: function(language, messages) {
+		if (language == "none") {
+			Dispatcher.dispatch({
+				type: Constants.TRANSLATE_MESSAGES,
+				translatedMessages: messages
+			});
+			return;
+		}
 		var query = "";
 		for (var i = 0; i < messages.length; i++) {
 			query += '&q=' + messages[i].message;

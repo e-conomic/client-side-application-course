@@ -1,5 +1,4 @@
 describe('List actions', function() {
-	var Constants = require('../app/dispatcher/constants');
 	var Dispatcher;
 	var ListActions;
 	var createListSpy;
@@ -8,7 +7,6 @@ describe('List actions', function() {
 	var list = 'A test list';
 
 	beforeEach(function() {
-		Constants = require('../app/dispatcher/constants');
 		Dispatcher = require('../app/dispatcher/dispatcher');
 		ListActions = require('../app/actions/list-actions');
 		createListSpy = sinon.spy(ListActions, 'createList');
@@ -20,17 +18,17 @@ describe('List actions', function() {
 		dispatchStub.restore();
 	});
 
-	it('should test if dispatch is called with proper arguments', sinon.test(function() {
+	it('should test if dispatch is called with proper arguments', function() {
 		createListSpy(list);
 		dispatchStub.should.have.been.calledOnce;
 		dispatchStub.should.have.been.calledWith({
 			type: Constants.CREATE_LIST,
 			listName: list
 		});
-	}));
+	});
 
-	it('should return when the list name is empty', sinon.test(function() {
+	it('should return when the list name is empty', function() {
 		createListSpy('');
 		dispatchStub.should.have.not.been.called;
-	}));
+	});
 });
