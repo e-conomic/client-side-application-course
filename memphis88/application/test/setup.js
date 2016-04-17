@@ -2,7 +2,7 @@ import chai from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import rewire from 'rewire';
-import Constants from'../app/dispatcher/constants';
+import Constants from '../app/dispatcher/constants';
 
 chai.should();
 chai.use(sinonChai);

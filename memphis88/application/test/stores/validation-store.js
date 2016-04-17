@@ -1,6 +1,5 @@
 describe('Validation Store', function() {
 
-	var Constants = require('../app/dispatcher/constants');
 	var Dispatcher;
 	var ValidationStore;
 	var registerSpy;
@@ -16,7 +15,7 @@ describe('Validation Store', function() {
 		type: Constants.EXCEED_RANGE_ERROR
 	}
 	beforeEach(function() {
-		Dispatcher = require('../app/dispatcher/dispatcher');
+		Dispatcher = require('../../app/dispatcher/dispatcher');
 		ValidationStore = rewire('../app/stores/validation-store');
 		registerSpy = sinon.stub(Dispatcher, 'register');
 		dispatchStub = sinon.spy(Dispatcher, 'dispatch');

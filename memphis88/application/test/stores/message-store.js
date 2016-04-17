@@ -18,7 +18,7 @@ describe('Message Store', function() {
 	};
 
 	beforeEach(function() {
-		Dispatcher = require('../app/dispatcher/dispatcher');
+		Dispatcher = require('../../app/dispatcher/dispatcher');
 		MessageStore = rewire('../app/stores/message-store');
 		registerStub = sinon.stub(Dispatcher, 'register');
 		dispatchSpy = sinon.spy(Dispatcher, 'dispatch');

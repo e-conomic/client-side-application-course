@@ -1,4 +1,4 @@
-describe('ListStore', function() {
+describe('List Store', function() {
 	var Dispatcher;
 	var ListStore;
 	var registerStub;
@@ -10,7 +10,7 @@ describe('ListStore', function() {
 	};
 
 	beforeEach(function() {
-		Dispatcher = require('../app/dispatcher/dispatcher');
+		Dispatcher = require('../../app/dispatcher/dispatcher');
 		ListStore = rewire('../app/stores/list-store');
 		registerStub = sinon.stub(Dispatcher, 'register');
 		dispatchSpy = sinon.spy(Dispatcher, 'dispatch');
