@@ -99,6 +99,7 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload){
 			_translating=true;
 
 			break;
+
 		case Constants.LANGUAGES_RECEIVED:
 
 			_translating=false;
