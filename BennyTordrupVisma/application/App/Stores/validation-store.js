@@ -56,7 +56,7 @@ function _validateList(payload) {
     }
 }
 
-ValidationStore.distatchToken = AppDispatcher.register(action => {
+var registeredCallback = action => {
     switch (action.type) {
         case Constants.CREATE_LIST:
             _validateList(action.payload);
@@ -71,6 +71,8 @@ ValidationStore.distatchToken = AppDispatcher.register(action => {
     }
     
     ValidationStore.emitChange();
-})
+}
+
+ValidationStore.distatchToken = AppDispatcher.register(registeredCallback);
 
 module.exports=ValidationStore;

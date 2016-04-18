@@ -55,8 +55,8 @@ function toggleIsSelected(payload) {
     listToChange.isSelected = !listToChange.isSelected;
 }
 
-ListStore.dispatchToken = AppDispatcher.register(action => {
-    switch (action.type){
+var registeredCallback = action =>{
+    switch (action.type) {
         case Constants.CREATE_LIST:
             AppDispatcher.waitFor([ValidationStore.distatchToken]);
             var validationResult = ValidationStore.getValidationResult();
@@ -73,6 +73,8 @@ ListStore.dispatchToken = AppDispatcher.register(action => {
     }
     
     ListStore.emitChange();
-});
+}
+
+ListStore.dispatchToken = AppDispatcher.register(registeredCallback);
 
 module.exports = ListStore;

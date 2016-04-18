@@ -142,7 +142,7 @@ function translationReceived(payload) {
     }
 }
 
-MessageStore.dispatchToken = AppDispatcher.register(action => {
+var registeredCallback = action => {
 	switch(action.type) {
         case Constants.CREATE_MESSAGE:
             AppDispatcher.waitFor([ValidationStore.distatchToken]);
@@ -177,6 +177,8 @@ MessageStore.dispatchToken = AppDispatcher.register(action => {
 	}
 
 	MessageStore.emitChange();
-});
+}
+
+MessageStore.dispatchToken = AppDispatcher.register(registeredCallback);
 
 module.exports = MessageStore;
