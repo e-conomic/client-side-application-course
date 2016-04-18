@@ -1,8 +1,8 @@
 var Constants = require('../constants/constants');
 var Dispatcher = require('../dispatcher/dispatcher');
-var request = require("superagent");
 var MessageStore = require('../stores/message-store');
 import key from '../key';
+import request from './request-promise';
 
 module.exports = {
     createMessage: function(message) {
@@ -78,35 +78,23 @@ module.exports = {
 
         var query = '?' + message + targetLanguage + "&key=" + key;
 
-        request.get(url + query)
-            .set('Accept', 'application/json')
-            .end((err, response) => {
-                    if (err) {
-                        console.log("Error requesting Google translate API");
-                    } else {
-                        Dispatcher.dispatch({
-                            type: Constants.TRANSLATE_MESSAGES,
-                            translatedMessages: response.body
-                        });
-                    }
-                });
+        request.get(url + query).then((result) => {
+            Dispatcher.dispatch({
+                type: Constants.TRANSLATE_MESSAGES,
+                translatedMessages: result
+            });
+        })
     },
     fetchLanguageCodes: function() {
 
         var url = 'https://www.googleapis.com/language/translate/v2/languages/?key=' + key;
 
-        request.get(url)
-            .set('Accept', 'application/json')
-            .end((err, response) => {
-                    if (err) {
-                        console.log("Error requesting Google translate API");
-                    } else {
-                        Dispatcher.dispatch({
-                            type: Constants.GET_LANGUAGE_CODES,
-                            languageCodes: response.body
-                        })
-                    }
-                });
+        request.get(url).then((result) => {
+            Dispatcher.dispatch({
+                type: Constants.GET_LANGUAGE_CODES,
+                languageCodes: result
+            });
+        })
 
         console.log("fetching language codes");
     }

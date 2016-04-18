@@ -1,5 +1,6 @@
 import MessageActions from '../../app/actions/message-actions';
 import dispatcher from '../../app/dispatcher/dispatcher';
+import request from '../../app/actions/request-promise';
 
 describe('Message Actions', () => {
 	let spy;
@@ -48,16 +49,36 @@ describe('Message Actions', () => {
             	});
 			})
 		})
+
+
+
 	})
 
 	describe('When translateMessages method called', () => {	
+		
+		const mockResponse = {
+		    body: {
+		        data: 'something'
+		    }
+		};
+		
 
-		it('dispatches an event', function(done) {
-		  MessageActions.translateMessages('en');
-		  setTimeout(function() {
-			expect(spy).to.have.been.calledThrice;
-		    done();
-		  }, 1000)
+		it('Sends out a http request', function() {
+
+			let stub = sinon.stub(request, "get", () => new Promise((resolve, reject) => resolve(mockResponse.body)));
+			MessageActions.translateMessages('en');
+
+		 	expect(stub).to.have.been.calledOnce;
+
 		});
+
+		// it('Should dispatch with correct payload', () => {
+		// 	expect(spy).to.have.been.calledWith({
+  //               type: Constants.TRANSLATE_MESSAGES,
+  //               translatedMessages: response.body
+  // 		 	});
+		// })
+
+
 	})
 })
