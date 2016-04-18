@@ -1,13 +1,11 @@
 let Constants = require('../constants/constants');
 let Dispatcher = require('../dispatcher');
-
 let xhr = require('../script');
 let get = require('./promise');
 
 let googleKey = require('../translate-url');
 
 module.exports = {
-
 	moveMessage(chosenListID, messageID) { 
 		Dispatcher.dispatch({
 			type: Constants.MOVE_MESSAGE,
@@ -105,8 +103,6 @@ module.exports = {
 		let messageStr = messagesText.join('');
 
 		get('https://www.googleapis.com/language/translate/v2'+language+messageStr+key).then( (response) => { 
-
-			console.log(response);
 				Dispatcher.dispatch({ 
 					type: Constants.LANGUAGES_RECEIVED,
 					translations: response
@@ -116,7 +112,6 @@ module.exports = {
 					type: Constants.FAILURE_ON_LANGUAGES_RECEIVED
 				});
 		});
-
 	}
 }
 

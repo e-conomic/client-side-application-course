@@ -6,9 +6,8 @@ import sinon from 'sinon'
 import Dispatcher from '../app/dispatcher'
 import sinonChai from 'sinon-chai'
 import chaiAsPromised from 'chai-as-promised'
-
-const googleKey = require('../app/translate-url');
-const get = require('../app/actions/promise');
+import googleKey from '../app/translate-url'
+import get from '../app/actions/promise'
 
 chai.use(sinonChai);
 chai.use(chaiAsPromised);
@@ -71,13 +70,9 @@ describe('actions for messages, ', () => {
 			 type: Constants.FAILURE_ON_CREATE_MESSAGE_TOO_MANY_CHARS 
 		};
 
-		// const falseAction = { 
-		// 	type: Constants.FAILURE_ON_CREATE_MESSAGE_NOT_UNIQUE
-		// };
 
 		MessageActions.createMessage(listID, text, allMessages);
 		expect(Dispatcher.dispatch).to.have.been.calledWith(expectedAction);
-		// expect(Dispatcher.dispatch).to.have.been.calledWith(falseAction);
 	});
 
 	// it('it should send the delete message action', () => { 
@@ -86,11 +81,15 @@ describe('actions for messages, ', () => {
 		// 	type: Constants.FAILURE_ON_CREATE_MESSAGE_NOT_UNIQUE
 		// };
 
+		// const falseAction = { 
+		// 	type: Constants.FAILURE_ON_CREATE_MESSAGE_NOT_UNIQUE
+		// };
+		
 		// expect(Dispatcher.dispatch).to.have.been.calledWith(expectedAction);
 		// expect(Dispatcher.dispatch).to.have.been.calledWith(falseAction);
 
 	// });
-	//
+	
 	it('it should return the correct results from an async operation', () => { 
 
 		const messages = [ 
@@ -109,10 +108,7 @@ describe('actions for messages, ', () => {
 
 	return expect(result).to.eventually.equal( '{\n "data": {\n  "translations": [\n   {\n    "translatedText": "un message",\n    "detectedSourceLanguage": "en"\n   },\n   {\n    "translatedText": "un autre message",\n    "detectedSourceLanguage": "en"\n   },\n   {\n    "translatedText": "un beau message",\n    "detectedSourceLanguage": "en"\n   }\n  ]\n }\n}\n');
 
+
 	});
-
-
-
-
 });
 
