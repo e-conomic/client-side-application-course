@@ -1,0 +1,6 @@
+Final project:
+
+Web interface for Visma Business customer overview. 
+  * Present basic information about customer with ability to edit.
+  * Present related information about selected customer - transactions, open orders etc. using async operations.
+  * Detect updated information from backend.
