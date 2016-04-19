@@ -95,11 +95,8 @@ Please note, this outline is an approximation for the course schedule and subjec
  * Week 6: Asynchronous operations
  * Week 7: Testing client-side applications - part 1
  * Week 8: Testing client-side applications - part 2
- * Week 9: Application state
-   * How is app state kept track of?
-   * How can we improve?
-   * __Redux__
- * Week 10  - project
+ * Week 9: Testing client-side applications - part 3
+ * Week 10 - project
  * Week 11 - project
  * Week 12 - project
  * Week 13 - project
