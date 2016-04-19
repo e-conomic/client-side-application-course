@@ -1,0 +1,14 @@
+{
+  "name": "appointment-app",
+  "version": "1.0.0",
+  "description": "An appointment application made with React",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "Appointment"
+  ],
+  "author": "Dionysios Kakouris",
+  "license": "ISC"
+}

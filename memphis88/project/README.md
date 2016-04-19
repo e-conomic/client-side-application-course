@@ -4,6 +4,8 @@
 
 A client application that will enable users to schedule an appointment with a professional. Will utilize the google calendar API to register and serve the appointment information.
 
+[Ugly Mockup here!](https://moqups.com/memphis88/tOK1syYD) (_Zoomed in on Edge for unknown reasons, better try Chrome_)
+
 ##Tools
 
 * React
@@ -18,5 +20,5 @@ A client application that will enable users to schedule an appointment with a pr
 
 ###_TODO:_
 
-1. Mockup of the UI layout
+1. ~~Mockup of the UI layout~~
 2. Specify some user stories
