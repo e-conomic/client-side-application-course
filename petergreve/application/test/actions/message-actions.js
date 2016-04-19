@@ -49,9 +49,6 @@ describe('Message Actions', () => {
             	});
 			})
 		})
-
-
-
 	})
 
 	describe('When translateMessages method called', () => {	
@@ -62,23 +59,20 @@ describe('Message Actions', () => {
 		    }
 		};
 		
+		let stub = sinon.stub(request, "get");
+		stub.returns(Promise.resolve(mockResponse.body));
 
 		it('Sends out a http request', function() {
-
-			let stub = sinon.stub(request, "get", () => new Promise((resolve, reject) => resolve(mockResponse.body)));
 			MessageActions.translateMessages('en');
-
 		 	expect(stub).to.have.been.calledOnce;
 
 		});
 
-		// it('Should dispatch with correct payload', () => {
-		// 	expect(spy).to.have.been.calledWith({
-  //               type: Constants.TRANSLATE_MESSAGES,
-  //               translatedMessages: response.body
-  // 		 	});
-		// })
-
-
+		it('Should dispatch with correct payload', () => {
+			expect(spy).to.have.been.calledWith({
+                type: 'TRANSLATE_MESSAGES',
+                translatedMessages: mockResponse.body
+  		 	});
+		})
 	})
 })
