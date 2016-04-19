@@ -15,34 +15,19 @@ describe('ListActions', () => {
     
     it('should create a CREATE_LIST action', () => {
         var stub = sandbox.stub(AppDispatcher, "dispatch");
-        
-        const payload = {
-            listName: "Test",
-            lists: []
-        };
-        
-        const expectedAction = {
-            type: Constants.CREATE_LIST,
-            payload: payload
-        };
 
-        ListActions.createList(payload.listName, payload.lists);        
-        global.assert(stub.calledWith(expectedAction));
+        var action = ListActions.createList("Test", []);        
+
+        AppDispatcher.dispatch(action);
+        global.assert(stub.calledWith(action));
     })
 
     it('should create a TOGGLE_IS_SELECTED action', () => {
         var stub = sandbox.stub(AppDispatcher, "dispatch");
-        
-        const payload = {
-            listId: 1
-        };
-        
-        const expectedAction = {
-            type: Constants.TOGGLE_IS_SELECTED,
-            payload: payload
-        };
 
-        ListActions.toggleIsSelected(payload.listId);
-        global.assert(stub.calledWith(expectedAction));
+        var action = ListActions.toggleIsSelected(1);        
+
+        AppDispatcher.dispatch(action);
+        global.assert(stub.calledWith(action));
     })
 })
