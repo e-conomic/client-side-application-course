@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "test": "mocha",
+    "test": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec",
     "start-tests": "mocha -w",
     "build": "webpack -d",
     "watch": "webpack -d --watch",
@@ -21,6 +21,7 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
     "flux": "^2.1.1",
+    "istanbul": "^1.0.0-alpha",
     "mocha": "^2.4.5",
     "react": "^0.14.7",
     "react-addons-test-utils": "^0.14.7",
