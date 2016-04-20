@@ -2,9 +2,9 @@
   "name": "appointment-app",
   "version": "1.0.0",
   "description": "An appointment application made with React",
-  "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "backend": "node backend/quickstart.js"
   },
   "keywords": [
     "Appointment"
@@ -14,5 +14,19 @@
   "dependencies": {
     "google-auth-library": "^0.9.7",
     "googleapis": "^5.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.7.6",
+    "babel-loader": "^6.2.4",
+    "babel-polyfill": "^6.7.4",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-register": "^6.7.2"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
   }
 }

@@ -15,7 +15,7 @@ This project will initially focus on the view and use cases of the clients.
 
 ## User Stories _(Client)_
 
-1. As a client I want to select the week number so that I can review the availability for an appointment on a prefered day.
+1. As a client I want to select the week number so that I can review the availability for an appointment on a prefered day of the week.
 2. As a client I want to pick a time-frame that is suitable to my schedule to request an appointment from the professional.
 3. As a client I want to get notified when my appointment is approved so that I can add it to my schedule.
 
@@ -34,4 +34,4 @@ This project will initially focus on the view and use cases of the clients.
 ### _TODO:_
 
 1. ~~Mockup of the UI layout~~
-2. Specify some user stories
+2. ~~Specify some user stories~~

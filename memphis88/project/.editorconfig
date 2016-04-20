@@ -3,7 +3,7 @@
 # top-most EditorConfig file
 root = true
 
-# Unix-style newlines with a newline ending every file
+# A newline ending every file and trim trailing white spaces
 [*]
 insert_final_newline = true
 trim_trailing_whitespace = true
@@ -14,7 +14,7 @@ trim_trailing_whitespace = true
 charset = utf-8
 indent_style = tab
 
-# Matches the exact files either package.json
+# Matches the exact file package.json
 [package.json]
 indent_style = space
 indent_size = 2
