@@ -4,7 +4,7 @@
   "description": "An appointment application made with React",
   "scripts": {
     "test": "mocha",
-    "backend": "node backend/quickstart.js"
+    "backend": "node backend/start.js"
   },
   "keywords": [
     "Appointment"
