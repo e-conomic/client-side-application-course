@@ -7,6 +7,7 @@ var CustomerStore = require("../Stores/customer-store");
 const {Table, Column, Cell} = require("fixed-data-table");
 
 var TextCell = require("./SubComponents/TextCell");
+var LinkCell = require("./SubComponents/LinkCell");
 
 class CustomerList extends React.Component {
     constructor(props) {
@@ -31,7 +32,7 @@ class CustomerList extends React.Component {
                 >
                 <Column 
                     header={<Cell>Cust. no</Cell>}
-                    cell={<TextCell data={this.state.dataList} field="customerNo" />}
+                    cell={<LinkCell data={this.state.dataList} field="customerNo" />}
                     fixed={true}
                     width={100}
                 />
