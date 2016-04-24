@@ -18,7 +18,7 @@ function authorize(credentials) {
 
 		fs.readFile(TOKEN_PATH, function(err, token) {
 			if (err) {
-				getNewToken(oauth2Client);
+				getNewToken(oauth2Client).then(resolve);
 			} else {
 				oauth2Client.credentials = JSON.parse(token);
 				resolve(oauth2Client);

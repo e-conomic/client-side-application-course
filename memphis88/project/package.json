@@ -12,6 +12,7 @@
   "author": "Dionysios Kakouris",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.13.4",
     "google-auth-library": "^0.9.7",
     "googleapis": "^5.0.0"
   },

@@ -1,21 +1,43 @@
 var google = require('googleapis');
-var fs = require('fs');
+
+function createAppCalendar(auth) {
+	return new Promise(function(resolve, reject) {
+		var res = { summary: "Appointment Application" };
+		var calendar = google.calendar('v3');
+		calendar.calendars.insert({
+			auth: auth,
+			resource: res
+		}, function(err, response) {
+			if (err) reject(err)
+			resolve(response);
+		});
+	});
+}
 
 var Calendar = {
 
-	getCalendars: function(auth) {
+	getCalendar: function(auth) {
 		return new Promise(function(resolve, reject) {
 			var calendar = google.calendar('v3');
 			calendar.calendarList.list({
 				auth: auth
 			}, function(err, response) {
-				if (err) throw err;
-				resolve(response);
+				if (err) console.log(err);
+				var cal = response.items.find(function(c) {
+					return c.summary == "Appointment Application"
+				});
+				if (cal) {
+					resolve(cal);
+				} else {
+					createAppCalendar(auth)
+						.then(resolve)
+						.catch(reject);
+				}
 			});
 		});
 	},
 
-	getTenNearestEvents: function(auth) {
+	getTenUpcomingEvents: function(auth) {
 		var calendar = google.calendar('v3');
 		calendar.events.list({
 			auth: auth,
