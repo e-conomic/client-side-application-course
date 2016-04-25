@@ -2,8 +2,6 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var ListContainer = require('./components/list-container');
 var FilteredList = require('./components/filtered-list');
-var TranslateOptions = require('./components/translate-options');
-var TranslationResetbox = require('./components/translation-resetbox');
 
 var CreateListField = require('./components/create-list-field')
 var CreateMessageField = require('./components/create-message-field');

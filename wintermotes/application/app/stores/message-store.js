@@ -2,6 +2,8 @@ var Dispatcher = require('../dispatcher');
 var Constants = require('../constants');
 var BaseStore = require('./base');
 
+var notificationBar = require("../components/notification-bar")
+
 function findAllMessagesFromId (id, array, archived){
 	var messages = []
 	for(var i = 0; i<array.length; i++){
@@ -50,25 +52,25 @@ var _messages = [
 				{
 					messageId : 0, 
 					listId : 0,
-					content : 'Message1, oversæt mig, list1', 
+					content : 'Message1, list1', 
 					archived : false 
 				},
 				{
 					messageId : 1, 
 					listId : 0, 
-					content : 'Message2, oversæt mig list1', 
+					content : 'Message2, list1', 
 					archived : false
 				}, 
 				{
 					messageId : 2, 
 					listId : 1,
-					content : 'Message2, oversæt mig list2', 
+					content : 'Message2, list2', 
 					archived : false 
 				}, 
 				{
 					messageId : 3, 
 					listId : 1,
-					content : 'Archived oversæt mig Message2, list2', 
+					content : 'Archived Message2, list2', 
 					archived : true 
 				}
 			];
@@ -80,9 +82,7 @@ var _messageFilters = [
 				},
 ]
 
-var _languages = []
 var _notifications = []
-var _originalMessages = []
 
 var MessageStore = Object.assign({}, BaseStore, {
 	getAllMessages: function() {
