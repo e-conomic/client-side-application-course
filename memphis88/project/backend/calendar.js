@@ -2,7 +2,9 @@ var google = require('googleapis');
 
 function createAppCalendar(auth) {
 	return new Promise(function(resolve, reject) {
-		var res = { summary: "Appointment Application" };
+		var res = {
+			summary: "Appointment Application"
+		};
 		var calendar = google.calendar('v3');
 		calendar.calendars.insert({
 			auth: auth,
@@ -22,7 +24,7 @@ var Calendar = {
 			calendar.calendarList.list({
 				auth: auth
 			}, function(err, response) {
-				if (err) console.log(err);
+				if (err) reject(err);
 				var cal = response.items.find(function(c) {
 					return c.summary == "Appointment Application"
 				});
@@ -33,6 +35,27 @@ var Calendar = {
 						.then(resolve)
 						.catch(reject);
 				}
+			});
+		});
+	},
+
+	addOwnership: function(auth, calId, email) {
+		return new Promise(function(resolve, reject) {
+			var res = {
+				role: "owner",
+				scope: {
+					type: "user",
+					value: email
+				}
+			};
+			var calendar = google.calendar('v3');
+			calendar.acl.insert({
+				auth: auth,
+				calendarId: calId,
+				resource: res
+			}, function(err, response) {
+				if (err) reject(err);
+				resolve(response);
 			});
 		});
 	},
