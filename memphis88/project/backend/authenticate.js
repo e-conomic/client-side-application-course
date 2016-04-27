@@ -11,7 +11,6 @@ var Authenticator = {
 				if (err) {
 					reject(err);
 				} else {
-					jwtClient.credentials = tokens;
 					resolve(jwtClient);
 				}
 			});

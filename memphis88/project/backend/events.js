@@ -28,8 +28,7 @@ var Events = {
 				singleEvents: true,
 				orderBy: 'startTime'
 			}, function(err, response) {
-				if (err) reject(err);
-				resolve(response);
+				err ? reject(err) : resolve(response);
 			});
 		});
 	},
@@ -38,11 +37,18 @@ var Events = {
 		var evt = {};
 		evt.summary = evtInfo.name;
 		evt.location = evtInfo.location;
-		evt.start.dateTime = evtInfo.start;
-		evt.end.dateTime = evtInfo.end;
+		evt.start = {
+			dateTime: evtInfo.start
+		};
+		evt.end = {
+			dateTime: evtInfo.end
+		};
+		evt.status = 'tentative';
 		evt.attendees = [];
-		evt.attendees.push(evtInfo.email);
-		evt.attendees.push(evtInfo.phone);
+		evt.attendees.push({
+			email: evtInfo.email,
+			comment: evtInfo.phone
+		});
 		return new Promise(function(resolve, reject) {
 			var calendar = google.calendar('v3');
 			calendar.events.insert({
@@ -50,10 +56,26 @@ var Events = {
 				calendarId: calId,
 				resource: evt
 			}, function(err, response) {
-
+				err ? reject(err) : resolve(response);
 			});
 		});
 	},
+
+	getFreeBusy: function(auth, calId, timeMin, timeMax) {
+		return new Promise(function(resolve, reject) {
+			var calendar = google.calendar('v3');
+			calendar.freeBusy.query({
+				auth: auth,
+				calendarId: calId,
+				resource: {
+					timeMin: timeMin,
+					timeMax: timeMax
+				}
+			}, function(err, response) {
+				err ? reject(err) : resolve(response.calendars[calid].busy.length);
+			});
+		});
+	}
 
 }
 

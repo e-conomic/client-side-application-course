@@ -1,10 +1,15 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
+
 var jwtAuth;
 
 var Authenticator = require('./authenticate');
 var Calendar = require('./calendar');
 var Events = require('./events');
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.get('/', function(request, response) {
 	Calendar.getCalendar(jwtAuth)
@@ -20,18 +25,22 @@ app.get('/week/:num', function(request, response) {
 	var week = request.params.num;
 	Calendar.getCalendar(jwtAuth)
 		.then(function(cal) {
-			Events.getAllEventsForWeek(jwtAuth, cal.id, week, request.query.year)
-				.then(function(evt) {
-					response.json(evt);
-				})
-				.catch(function(err) {
-					response.json(err);
-				});
+			return Events.getAllEventsForWeek(jwtAuth, cal.id, week, request.query.year)
+		})
+		.then(function(evt) {
+			response.json(evt);
+		})
+		.catch(function(err) {
+			response.json(err);
 		});
 });
 
 app.post('/event', function(request, response) {
-	Calendar.createEvent(jwtAuth)
+	var evtInfo = request.body;
+	Calendar.getCalendar(jwtAuth)
+		.then(function(cal) {
+			return Events.createEvent(jwtAuth, cal.id, evtInfo);
+		})
 		.then(function(evt) {
 			response.json(evt);
 		})
