@@ -4,6 +4,7 @@
   "description": "An appointment application made with React",
   "scripts": {
     "test": "mocha",
+    "dev": "webpack --watch --color --progress",
     "backend": "node backend/start.js"
   },
   "keywords": [
