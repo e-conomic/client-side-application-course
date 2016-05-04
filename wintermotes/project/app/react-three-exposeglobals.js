@@ -9,5 +9,4 @@ require('expose?React!react');
 require('expose?ReactDOM!react-dom');
 require('expose?THREE!three');
 
-
 module.exports = require('./ReactTHREE.js');
