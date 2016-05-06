@@ -1,15 +1,26 @@
-import React from 'react';
+import React from 'react'
+import DaysOfWeek from './days-of-week'
+import TimeframeRow from './timeframe-row'
 
-class MasterSchedule extends React.Component {
+export default class MasterSchedule extends React.Component {
 	constructor(props) {
-		super(props);
+		super(props)
 		this.state = {
-			testing: this.props.wat
+			title: this.props.title
 		}
 	}
+
 	render() {
-		return <h4>{this.state.testing}</h4>;
+		return (
+			<div>
+				<h4>{this.state.title}</h4>
+				<table>
+					<DaysOfWeek />
+					<tbody>
+						<TimeframeRow start="8:00" end="8:30" />
+					</tbody>
+				</table>
+			</div>
+		)
 	}
 }
-
-export default MasterSchedule;

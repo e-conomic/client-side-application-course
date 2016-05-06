@@ -1,0 +1,8 @@
+const Constants = {
+	STATUS_PENDING: 'STATUS_PENDING',
+	STATUS_BUSY: 'STATUS_BUSY',
+	STATUS_FREE: 'STATUS_FREE',
+	STATUS_UNKNOWN: 'STATUS_UNKNOWN'
+}
+
+export default Constants
