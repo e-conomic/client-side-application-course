@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import MasterSchedule from 'presentational/master-schedule';
+import MasterSchedule from './presentational/master-schedule';
 
-import 'style/index'
+import './style/index.scss'
 
 class ApplicationWrapper extends React.Component {
 	render() {

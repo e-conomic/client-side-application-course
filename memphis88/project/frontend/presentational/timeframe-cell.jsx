@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {Component} from 'react'
 import Constants from '../constants/Constants'
 
-export default class TimeframeCell extends React.Component {
+export default class TimeframeCell extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {

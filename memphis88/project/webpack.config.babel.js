@@ -11,10 +11,12 @@ const config = {
 		path: path.join(__dirname, 'dist'),
 		filename: 'bundle.js'
 	},
+
 	resolve: {
 		root: frontend,
 		extensions: ['', '.js', '.jsx']
 	},
+
 	module: {
 		loaders: [{
 			test: /\.(js|jsx)$/,
@@ -26,6 +28,7 @@ const config = {
 			loaders: ["style", "css", "sass"]
 		}, {
 			test: indexHtml,
+			exclude: /node_modules/,
 			loaders: [
 				"file?name=[name].[ext]",
 				"extract",
@@ -35,6 +38,7 @@ const config = {
 			]
 		}, {
 			test: /\.css$/,
+			exclude: /node_modules/,
 			loaders: [
 				"file",
 				"extract",
@@ -42,8 +46,9 @@ const config = {
 			]
 		}]
 	},
+
 	sassLoader: {
-		includePaths: [path.join(__dirname, 'dist', 'css')]
+		includePaths: [path.join(frontend, 'style')]
 	}
 }
 

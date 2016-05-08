@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {Component} from 'react'
 
-export default class DaysOfWeek extends React.Component {
+export default class DaysOfWeek extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {

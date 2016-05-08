@@ -1,8 +1,8 @@
-import React from 'react'
+import React, {Component} from 'react'
 import DaysOfWeek from './days-of-week'
 import TimeframeRow from './timeframe-row'
 
-export default class MasterSchedule extends React.Component {
+export default class MasterSchedule extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
