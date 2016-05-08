@@ -1,4 +1,22 @@
-$bgcolor: #aaffee;
+@import "variables";
+
 body {
 	background-color: $bgcolor;
+}
+
+.app-2-table {
+	color: $font;
+	thead {
+		th:nth-child(odd) {
+			background-color: $gray-dark;
+		}
+		th:nth-child(even) {
+			background-color: $gray-light;
+		}
+	}
+	tbody {
+		td:nth-child(1) {
+			background-color: $gray-dark;
+		}
+	}
 }
