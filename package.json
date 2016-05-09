@@ -19,10 +19,12 @@
   "homepage": "https://github.com/e-conomic/client-side-application-course#readme",
   "dependencies": {
     "node-jsx": "^0.13.3",
-    "react": "^0.14.7",
+    "react": "^0.14.8",
     "react-bootstrap": "^0.28.2",
-    "react-dom": "^0.14.7",
-    "send": "^0.13.1"
+    "react-dom": "^0.14.8",
+    "react-three-renderer": "^2.0.1",
+    "send": "^0.13.1",
+    "three": "^0.76.1"
   },
   "devDependencies": {
     "flux": "^2.1.1"
