@@ -1,1 +1,6 @@
 coverage
+.suo
+.vs
+obj
+bin
+packages
