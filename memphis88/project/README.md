@@ -19,17 +19,19 @@ This project will initially focus on the view and use cases of the clients.
 2. As a client I want to pick a time-frame that is suitable to my schedule to request an appointment from the professional.
 3. As a client I want to get notified when my appointment is approved so that I can add it to my schedule.
 
-## Tools
+## Tools - Tech
 
 * React
-* Redux or plain Flux, not decided yet
-* API Client Library for JavaScript (Beta)
+* Redux with maybe some middleware
+* Google APIs
+* Some styling using SASS
 
 ## Learning goals
 
 * Familiarization with Google calendar API
 * Put in practise all the learning material from the course from previous weeks and improve
 * Maybe learn a new Flux flavor (Redux)
+* Improve styling knowledge
 
 ### _TODO:_
 
