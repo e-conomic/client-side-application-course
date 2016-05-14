@@ -1,13 +1,12 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-export default class Appointment extends Component {
+export default class Appointments extends Component {
 	constructor(props) {
 		super(props)
-		this.state = {
-			appointments: ''
-		}
 	}
 	render() {
+		const { state, day, timeFrame } = this.props
 		return (
 
 		)
@@ -16,4 +15,8 @@ export default class Appointment extends Component {
 
 const defaults = {}
 
-Appointment.defaultProps =  defaults: defaults }
+function mapStateToProps(state) {
+
+}
+
+Appointments.defaultProps =  { defaults: defaults }

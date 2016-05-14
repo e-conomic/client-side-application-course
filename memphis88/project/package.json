@@ -17,10 +17,13 @@
     "express": "^4.13.4",
     "google-auth-library": "^0.9.7",
     "googleapis": "^5.0.0",
+    "later": "^1.2.0",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
     "react-redux": "^4.4.5",
-    "redux": "^3.5.2"
+    "redux": "^3.5.2",
+    "redux-logger": "^2.6.1",
+    "redux-thunk": "^2.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.7.6",

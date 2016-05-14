@@ -1,4 +1,17 @@
-import { createStore } from 'redux'
-import Appointment from '../reducers/appointment'
+import { createStore, applyMiddleware } from 'redux'
+import thunkMiddleware from 'redux-thunk'
+import createLogger from 'redux-logger'
+import rootReducer from '../reducers'
 
-let store = createStore(Appointment)
+const loggerMiddleware = createLogger()
+
+export default function configureStore(initialState) {
+  return createStore(
+    rootReducer,
+    initialState,
+    applyMiddleware(
+      thunkMiddleware,
+      loggerMiddleware
+    )
+  )
+}

@@ -5,7 +5,7 @@ body {
 }
 
 .app-2-table {
-	color: $font;
+	color: $font-color;
 	thead {
 		th:nth-child(odd) {
 			background-color: $gray-dark;

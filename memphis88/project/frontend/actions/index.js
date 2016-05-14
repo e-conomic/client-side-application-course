@@ -1,7 +1,9 @@
 import Constants from '../constants/Constants'
 
-export const getWeekAppointments = () => {
+export function getWeekAppointments(week, year = new Date.getYear()) {
 	return {
-		type: Constants.GET_WEEK_APPOINTMENTS
+		type: Constants.GET_WEEK_APPOINTMENTS,
+		week: week,
+		year: year
 	}
 }
