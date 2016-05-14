@@ -13,10 +13,17 @@ body {
 		th:nth-child(even) {
 			background-color: $gray-light;
 		}
+		th:nth-child(1) {
+			background-color: transparent;
+		}
 	}
 	tbody {
 		td:nth-child(1) {
 			background-color: $gray-dark;
 		}
 	}
+}
+
+.create-event {
+	position: absolute;
 }

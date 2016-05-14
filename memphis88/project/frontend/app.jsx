@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import MasterSchedule from './presentational/master-schedule';
+import MasterSchedule from './components/presentational/master-schedule';
 
 import './style/index.scss'
 

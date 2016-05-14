@@ -4,18 +4,27 @@ import TimeframeCell from './timeframe-cell'
 export default class AppointmnetTimeframe extends Component {
 	constructor(props) {
 		super(props)
-		this.state = {
-			start: this.props.start,
-			end: this.props.end
-		}
+	}
+
+	onClick() {
+
 	}
 
 	render() {
-		const renderTimeframe = this.state.start + " - " + this.state.end;
+		const renderTimeframe = this.props.start + " - " + this.props.end;
+		const renderEvents = (evt) => {
+			return (
+				<TimeframeCell
+				visible
+				color="red"
+				onClick={this.onClick}
+				/>
+			)
+		}
 		return (
 			<tr>
 				<td>{renderTimeframe}</td>
-
+				{this.props.events.map(renderEvents)}
 			</tr>
 		)
 	}

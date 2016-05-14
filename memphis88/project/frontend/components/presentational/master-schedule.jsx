@@ -17,7 +17,10 @@ export default class MasterSchedule extends Component {
 				<table className="app-2-table">
 					<DaysOfWeek />
 					<tbody>
-						<TimeframeRow start="8:00" end="8:30" />
+						<TimeframeRow
+						start="8:00"
+						end="8:30"
+						events={[0,1,2]} />
 					</tbody>
 				</table>
 			</div>
