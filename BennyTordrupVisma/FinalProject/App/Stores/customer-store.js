@@ -22,7 +22,6 @@ var CustomerStore = Object.assign({}, BaseStore, {
 function selectCustomer(payload) {
     _selectedCustomer = payload.customerNo;
     console.log("Selected customer: " + _selectedCustomer);
-    console.log("From source: " + payload.customerNo);
 }
 
 function customersReceived(payload) {

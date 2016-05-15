@@ -7,13 +7,9 @@ var Utils = require("../Utils/restServiceCalls");
 var _customerTransactions = [];
 
 var CustomerTransactionStore = Object.assign({}, BaseStore, {
-    getTransactionsByCustomer: (customerNo) => {
-        var custTrans = _customerTransactions.filter(t => t.customerNo == customerNo);
-        if (custTrans.length == 0) {
-            Utils.RESTGetCustomerTransactions(customerNo);
-        }
-        return custTrans;
-    }
+    getAllTransactions: () => {
+        return _customerTransactions;
+    },
 });
 
 function customerTransactionsReceived(payload) {
@@ -32,18 +28,21 @@ function customerTransactionsReceived(payload) {
     });
 }
 
+function fetchCustomerTransactions(payload) {
+    var customerNo = payload.customerNo;
+    if (_customerTransactions.filter(t => t.customerNo == customerNo).length == 0) {
+        Utils.RESTGetCustomerTransactions(customerNo);
+    }
+}
+
 var registeredCallback = action => {
     switch (action.type) {
         case Constants.SELECT_CUSTOMER:
             AppDispatcher.waitFor([CustomerStore.dispatchToken]);
             if (CustomerStore.getSelectedCustomer() > 0) {
-                CustomerTransactionStore.getTransactionsByCustomer(action.payload.customerNo);
+                fetchCustomerTransactions(action.payload);
             }
             break;
-            
-        // case Constants.REQUEST_CUSTOMER_TRANSACTIONS:
-        //     CustomerTransactionStore.getTransactionsByCustomer(action.payload.customerNo);
-        //     break;
             
         case Constants.REQUEST_CUSTOMER_TRANSACTIONS_RESPONSE:
             customerTransactionsReceived(action.payload)

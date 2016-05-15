@@ -13,70 +13,59 @@ var DateCell = require("./SubComponents/DateCell");
 class CustomerTransactionList extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            dataList: this.props.allCustomerTransactions,
-        };
     }
 
     render() {
+        var dataList = this.props.allTransactions.filter(t => t.customerNo == this.props.selectedCustomer);
+
         return (
             <Table 
                 rowHeight={30} 
                 headerHeight={30} 
-                rowsCount={this.state.dataList.length} 
-                width={800} 
+                rowsCount={dataList.length} 
+                width={815} 
                 height={500}
                 {...this.props}
                 >
                 <Column 
                     header={<Cell>Cust. no.</Cell>}
-                    cell={<TextCell data={this.state.dataList} field="customerNo" />}
+                    cell={<TextCell data={dataList} field="customerNo" />}
                     fixed={true}
                     width={100}
                 />
                 <Column 
                     header={<Cell>Journal no.</Cell>}
-                    cell={<TextCell data={this.state.dataList} field="voucherJournalNo" />}
+                    cell={<TextCell data={dataList} field="voucherJournalNo" />}
                     width={100}
                 />
                 <Column 
                     header={<Cell>Audit no.</Cell>}
-                    cell={<TextCell data={this.state.dataList} field="auditNo" />}
-                    width={100}
+                    cell={<TextCell data={dataList} field="auditNo" />}
+                    width={75}
                 />
                 <Column 
                     header={<Cell>Voucher date</Cell>}
-                    cell={<DateCell data={this.state.dataList} field="voucherDate" />}
-                    width={100}
+                    cell={<DateCell data={dataList} field="voucherDate" />}
+                    width={125}
                 />
                 <Column 
                     header={<Cell>Invoice no.</Cell>}
-                    cell={<TextCell data={this.state.dataList} field="invoiceNo" />}
+                    cell={<TextCell data={dataList} field="invoiceNo" />}
                     width={100}
                 />
                 <Column
                     header={<Cell>Text</Cell>}
-                    cell={<TextCell data={this.state.datalist} field="text" />}
+                    cell={<TextCell data={dataList} field="text" />}
                     width={200}
                 />
                 <Column 
+                    align='right'
                     header={<Cell>Amount</Cell>}
-                    cell={<TextCell data={this.state.dataList} field="amount" />}
+                    cell={<TextCell data={dataList} field="amount" />}
                     width={100}
                 />
             </Table>
         );
-        /*
-            voucherJournalNo: ct.VoucherJournalNo,
-            auditNo: ct.AuditNo,
-            customerNo: ct.CustomerNo,
-            voucherDate : ct.VoucherDate,
-            text: ct.Text,
-            amount: ct.Amount,
-            invoiceNo: ct.InvoiceNo,
-            changedDateTime: ct.ChangedDateTime
-        */
     }
   
 }

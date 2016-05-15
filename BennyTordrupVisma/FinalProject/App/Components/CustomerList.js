@@ -13,21 +13,18 @@ var LinkCell = require("./SubComponents/LinkCell");
 class CustomerList extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            dataList: this.props.allCustomers,
-            selectedCustomer: this.props.selectedCustomer
-        };
     }
   
     render() {
+        var dataList = this.props.allCustomers;
+        
         return (
             <div>
                 <Table 
                     rowHeight={30} 
                     headerHeight={30} 
-                    rowsCount={this.state.dataList.length} 
-                    width={800} 
+                    rowsCount={dataList.length} 
+                    width={815} 
                     height={300}
                     rowClassNameGetter={this._rowClassNameGetter}
                     onRowClick={this._onRowClick}
@@ -35,33 +32,33 @@ class CustomerList extends React.Component {
                     >
                     <Column 
                         header={<Cell>Cust. no</Cell>}
-                        cell={<TextCell data={this.state.dataList} field="customerNo" />}
+                        cell={<TextCell data={dataList} field="customerNo" />}
                         fixed={true}
                         width={100}
                     />
                     <Column 
                         header={<Cell>Name</Cell>}
-                        cell={<TextCell data={this.state.dataList} field="name" />}
+                        cell={<TextCell data={dataList} field="name" />}
                         width={200}
                     />
                     <Column 
                         header={<Cell>Address 1</Cell>}
-                        cell={<TextCell data={this.state.dataList} field="address1" />}
+                        cell={<TextCell data={dataList} field="address1" />}
                         width={200}
                     />
                     <Column 
                         header={<Cell>Post code</Cell>}
-                        cell={<TextCell data={this.state.dataList} field="postCode" />}
+                        cell={<TextCell data={dataList} field="postCode" />}
                         width={100}
                     />
                     <Column 
                         header={<Cell>Postal area</Cell>}
-                        cell={<TextCell data={this.state.dataList} field="postalArea" />}
+                        cell={<TextCell data={dataList} field="postalArea" />}
                         width={200}
                     />
                 </Table>
-                {(this.state.selectedCustomer > 0) &&   <div>
-                                                            <label>Selected customer: </label><label>{this.state.selectedCustomer}</label>
+                {(this.props.selectedCustomer > 0) &&   <div>
+                                                            <label>Selected customer: </label><label>{this.props.selectedCustomer}</label>
                                                         </div>}
             </div>
         );
