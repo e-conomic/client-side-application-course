@@ -120,11 +120,13 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="Visma.BusinessModel">
-      <HintPath>..\..\..\..\..\..\..\TFS\Visma.Business\Current\Output\Debug\Visma.BusinessModel.dll</HintPath>
+    <Reference Include="Visma.BusinessModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=302cf25cc8856685, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\TFS\Visma.Business\Branches\11.00\Output\Release\Visma.BusinessModel.dll</HintPath>
     </Reference>
-    <Reference Include="Visma.BusinessServices.Client">
-      <HintPath>..\..\..\..\..\..\..\TFS\Visma.Business\Current\Output\Debug\Visma.BusinessServices.Client.dll</HintPath>
+    <Reference Include="Visma.BusinessServices.Client, Version=12.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\TFS\Visma.Business\Branches\11.00\Output\Release\Visma.BusinessServices.Client.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -137,7 +139,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -172,11 +173,15 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\CustomerTransactionsController.cs" />
+    <Compile Include="Models\Customer.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\VbsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomerTransaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -213,7 +218,9 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

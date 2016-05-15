@@ -10,4 +10,13 @@ module.exports = {
             }
         });
     },
+    
+    receiveCustomerTransactionsResponse: function(response) {
+        AppDispatcher.dispatch({
+            type: Constants.REQUEST_CUSTOMER_TRANSACTIONS_RESPONSE,
+            payload: {
+                response: response
+            }
+        });
+    },
 }

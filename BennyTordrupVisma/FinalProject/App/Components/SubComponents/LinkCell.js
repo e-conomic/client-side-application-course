@@ -10,7 +10,7 @@ class LinkCell extends React.Component {
     const {rowIndex, field, data, ...props} = this.props;
     return (
       <Cell {...props}>
-        <a href="#">{data[rowIndex][field]}</a>
+        <a href={data[rowIndex][field]}>{data[rowIndex][field]}</a>
       </Cell>
     );
   }
