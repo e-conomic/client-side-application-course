@@ -1,5 +1,6 @@
-var MessageActions = require("../Actions/message-actions");
 var ListActions = require("../Actions/list-actions");
+var MessageActions = require("../Actions/message-actions");
+var AppDispatcher = require("../Dispatcher/appDispatcher");
 var React = require("react");
 
 var InputField = React.createClass({
@@ -62,7 +63,7 @@ var InputField = React.createClass({
     handleCreateList: function() {
         var listName = this.state.newListName;
         
-        ListActions.createList(listName);
+        AppDispatcher.dispatch(ListActions.createList(listName, this.props.lists));
         
         var newList = ListStore.getByName(listName);
 

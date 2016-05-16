@@ -1,5 +1,6 @@
 var React = require("react");
 var ListActions = require("../Actions/list-actions");
+var AppDispatcher = require("../Dispatcher/appDispatcher");
 
 var ListSelector = React.createClass({
 	render: function() {
@@ -16,7 +17,7 @@ var ListSelector = React.createClass({
 	},
 
     handleChange: function(event) {
-        ListActions.toggleIsSelected(event.target.id);
+        AppDispatcher.dispatch(ListActions.toggleIsSelected(event.target.id));
     }
 	
 });

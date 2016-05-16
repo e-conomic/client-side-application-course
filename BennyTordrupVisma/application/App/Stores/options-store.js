@@ -30,7 +30,7 @@ function updateSelectedLanguage(payload) {
     };
 }
 
-OptionsStore.dispatchToken = AppDispatcher.register(action => {
+var registeredCallback = action => {
     switch (action.type){
         case Constants.UPDATE_OPTIONS:
             updateOptions(action.payload);
@@ -45,6 +45,8 @@ OptionsStore.dispatchToken = AppDispatcher.register(action => {
     }
     
     OptionsStore.emitChange();
-});
+}
+
+OptionsStore.dispatchToken = AppDispatcher.register(registeredCallback);
 
 module.exports = OptionsStore;

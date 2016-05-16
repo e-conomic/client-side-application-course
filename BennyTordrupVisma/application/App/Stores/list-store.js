@@ -1,6 +1,7 @@
 var AppDispatcher = require("../Dispatcher/appDispatcher");
 var Constants = require("../constants");
 var BaseStore = require("./base");
+var ValidationStore = require("./validation-store");
 
 //var _lists = [];
 var _lists = [{
@@ -54,10 +55,13 @@ function toggleIsSelected(payload) {
     listToChange.isSelected = !listToChange.isSelected;
 }
 
-ListStore.dispatchToken = AppDispatcher.register(action => {
-    switch (action.type){
+var registeredCallback = action =>{
+    switch (action.type) {
         case Constants.CREATE_LIST:
-            createList(action.payload);
+            AppDispatcher.waitFor([ValidationStore.distatchToken]);
+            var validationResult = ValidationStore.getValidationResult();
+            if (!validationResult.isError)
+                createList(action.payload);
             break;
             
         case Constants.TOGGLE_IS_SELECTED:
@@ -69,6 +73,8 @@ ListStore.dispatchToken = AppDispatcher.register(action => {
     }
     
     ListStore.emitChange();
-});
+}
+
+ListStore.dispatchToken = AppDispatcher.register(registeredCallback);
 
 module.exports = ListStore;
