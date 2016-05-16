@@ -2,7 +2,7 @@ var Dispatcher =  require('../dispatcher/dispatcher.js');
 var Constants = require('../constants');
 var BaseStore = require('./base');
 
-var _list = [{listId: 1, listName: "first list1"},{listId: 2, listName: "second list2"}];
+var _list = [{listId: 0, listName: "first list1"},{listId: 1, listName: "second list2"}];
 
 function deepCopy(itemToCopy) {
     var listCopy = JSON.parse(JSON.stringify(itemToCopy));
