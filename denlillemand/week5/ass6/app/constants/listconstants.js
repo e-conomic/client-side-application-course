@@ -1,0 +1,5 @@
+export const CREATE_LIST =  'CREATE_LIST';
+export const DELETE_MESSAGE = 'DELETE_MESSAGE';
+export const CREATE_MESSAGE = 'CREATE_MESSAGE';
+export const SWAP_MESSAGE = 'SWAP_MESSAGE';
+export const ARCHIVE_MESSAGE = 'ARCHIVE_MESSAGE';
