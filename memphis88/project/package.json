@@ -5,6 +5,7 @@
   "scripts": {
     "test": "mocha",
     "dev": "webpack --watch --color --progress --display-error-details",
+    "start": "webpack-dev-server --config webpack-dev-server.js --output-public-path=dist/ --port 80 --watch-poll",
     "backend": "node backend/start.js"
   },
   "keywords": [
@@ -13,6 +14,7 @@
   "author": "Dionysios Kakouris",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.11.0",
     "body-parser": "^1.15.0",
     "express": "^4.13.4",
     "google-auth-library": "^0.9.7",

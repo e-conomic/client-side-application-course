@@ -4,10 +4,6 @@ import Constants from '../../constants/constants'
 export default class TimeframeCell extends Component {
 	constructor(props) {
 		super(props)
-		this.state = {
-			visible: this.props.visible,
-			color: this.props.color
-		}
 	}
 
 	click(e) {
@@ -19,34 +15,35 @@ export default class TimeframeCell extends Component {
 		switch(status) {
 			case Constants.STATUS_PENDING:
 				style = {
-					color: 'orange'
+					backgroundColor: 'orange'
 				}
 				break
 			case Constants.STATUS_UNKNOWN:
 				style = {
-					color: 'gray'
+					backgroundColor: 'gray'
 				}
 				break
 			case Constants.STATUS_BUSY:
 				style = {
-					color: 'red'
+					backgroundColor: 'red'
 				}
 				break
 			case Constants.STATUS_FREE:
 				style = {
-					color: 'green'
+					backgroundColor: 'green'
 				}
 				break
 			default:
+				style = {
+					backgroundColor: 'gray'
+				}
 				break
 		}
 		return style;
 	}
 
 	render() {
-		const style = {
-			backgroundColor: this.state.color
-		}
+		const style = this.getColor(this.props.status)
 		return (
 			<td style={style} onClick={this.click.bind(this)}>
 				Content

@@ -22,7 +22,9 @@ This project will initially focus on the view and use cases of the clients.
 ## Tools - Tech
 
 * React
-* Redux with maybe some middleware
+* Redux with redux-thunk, redux-logger and react-redux
+* axios
+* moment.js & later.js
 * Google APIs
 * Some styling using SASS
 

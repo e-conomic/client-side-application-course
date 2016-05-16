@@ -12,7 +12,7 @@ const store = configureStore()
 class ApplicationWrapper extends React.Component {
 	render() {
 		return (
-			<MasterSchedule title="A test title" />
+			<MasterSchedule title="An awesome appointment application" />
 		)
 	}
 }

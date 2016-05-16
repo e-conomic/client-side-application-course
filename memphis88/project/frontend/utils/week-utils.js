@@ -1,41 +1,33 @@
-Date.prototype.getWeek = function() {
-	const date = new Date(this.getTime())
-	date.setHours(0, 0, 0, 0)
-	date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7)
-	const week1 = new Date(date.getFullYear(), 0, 4)
-	return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7)
+import moment from 'moment'
+import { defaultDays } from '../constants/constants'
+
+
+function generateWeek(weekMoment, weekMultiplier, days) {
+	let updatedWeek = moment(weekMoment)
+	if (!weekMultiplier) updatedWeek.active = true
+	updatedWeek.day(1 + weekMultiplier * 7)
+	updatedWeek.weekNumber = updatedWeek.isoWeek()
+	updatedWeek.start = moment(updatedWeek).day(1).format('D/M')
+	updatedWeek.end = moment(updatedWeek).day(5).format('D/M')
+	generateDays(updatedWeek, days)
+	return Object.assign({}, updatedWeek)
 }
 
-function getMonday(d) {
-	d = new Date(d)
-	const day = d.getDay()
-	let diff = d.getDate() - day + (day == 0 ? -6 : 1)
-	return new Date(d.setDate(diff))
-}
-
-function getSunday(d) {
-	d = new Date(d)
-	const day = d.getDay()
-	let diff = d.getDate() - day + (day != 0 ? -6 : 0)
-	return new Date(d.setDate(diff))
+function generateDays(weekMoment, days) {
+	days = days || defaultDays
+	weekMoment.days = []
+	for (let day of days) {
+		day.date = moment(weekMoment).day(day.name).format('Do')
+		weekMoment.days.push(Object.assign({}, day))
+	}
 }
 
 export default class WeekUtils {
-	constructor(weeksToRender) {
+	constructor(weeksToRender, days) {
 		this.weeks = []
 		for (let i = 0; i < weeksToRender; i++) {
-			const currentDate = new Date()
-			let updatedDate
-			updatedDate = new Date()
-			if (!i) updatedDate.active = true
-			updatedDate.setDate(currentDate.getDate() + i * 7)
-			let monday = getMonday(updatedDate)
-			let buffer = `${monday.getDate()}-${monday.getMonth()+1}`
-			updatedDate.start = buffer
-			let sunday = getSunday(updatedDate)
-			buffer = `${sunday.getDate()}-${sunday.getMonth()+1}`
-			updatedDate.end = buffer
-			this.weeks.push(updatedDate)
+			let currentWeek = moment();
+			this.weeks.push(generateWeek(currentWeek, i, days))
 		}
 	}
 

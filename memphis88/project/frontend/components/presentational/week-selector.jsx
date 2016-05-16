@@ -13,9 +13,9 @@ class WeekSelector extends Component {
 		function renderOptions(week) {
 			return (
 				<option
-				value={week.getWeek()}
-				key={week.getWeek()}>
-					{`${week.getWeek()} / ${week.start} - ${week.end}`}
+				value={week.weekNumber}
+				key={week.weekNumber}>
+					{`Week: ${week.weekNumber} / (${week.start} - ${week.end})`}
 				</option>
 			)
 		}
