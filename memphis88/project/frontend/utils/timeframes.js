@@ -16,10 +16,3 @@ export default class Timeframe {
 
 let test = new Timeframe()
 console.log(test.getNextTen())
-
-// var sched = later.parse.text('every 5 mins'),
-// 	occurrences = later.schedule(sched).next(10);
-
-// for (var i = 0; i < 10; i++) {
-// 	console.log(occurrences[i]);
-// }

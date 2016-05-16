@@ -1,8 +1,10 @@
-import appointments from './appointments';
+import appointments from './appointments'
+import weeks from './weeks'
 import { combineReducers } from 'redux'
 
 const reducers = combineReducers({
-	appointments
+	appointments,
+	weeks
 })
 
 export default reducers

@@ -7,7 +7,7 @@ export default class AppointmnetTimeframe extends Component {
 	}
 
 	onClick() {
-
+		this.props.onClick()
 	}
 
 	render() {
@@ -15,6 +15,7 @@ export default class AppointmnetTimeframe extends Component {
 		const renderEvents = (evt) => {
 			return (
 				<TimeframeCell
+				key={evt.tag}
 				visible
 				color="red"
 				onClick={this.onClick}

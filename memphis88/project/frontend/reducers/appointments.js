@@ -1,15 +1,15 @@
-import Constants from '../constants/Constants'
+import Constants from '../constants/constants'
 
-const events = {
-	a: 'dummy',
-	obj: 'with',
-	silly: 'values'
-}
+const events = [{
+	status: 'dummy',
+	day: 'with',
+	timeFrame: 'values'
+}]
 
-function appointments(state = [], action) {
+function appointments(state = events, action) {
 	switch(action.type) {
 		case Constants.GET_WEEK_APPOINTMENTS:
-			return [...state, events];
+			return [...state, action.events];
 			break
 		default:
 			return state

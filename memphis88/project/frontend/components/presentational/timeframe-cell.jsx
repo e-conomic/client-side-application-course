@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Constants from '../../constants/Constants'
+import Constants from '../../constants/constants'
 
 export default class TimeframeCell extends Component {
 	constructor(props) {
