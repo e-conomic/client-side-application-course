@@ -1,7 +1,7 @@
 let React = require('react');
 let MenuItem = require('./menu-item');
 let MessageActions = require('./actions/message-actions');
-let TranslatedComponent = require('./translated-component');
+let TranslatedMessage = require('./translated-message');
 
 let ListStore = require("./stores/list-store"); 
 
@@ -9,9 +9,10 @@ let Message = React.createClass({
 	propTypes: { 
 		listID: React.PropTypes.number,
 		messageID: React.PropTypes.number,
-		listName: React.PropTypes.string,
 		isArchived: React.PropTypes.bool,
-		listProperties: React.PropTypes.arrayOf(React.PropTypes.object)
+		listProperties: React.PropTypes.arrayOf(React.PropTypes.object),
+		text: React.PropTypes.string,
+		translatedMessage: React.PropTypes.string
 	},
 
 	moveMessage() {
@@ -45,7 +46,7 @@ let Message = React.createClass({
 
 		return (
 				<div>
-					<li style={msgStyle}>{this.props.text}</li><TranslatedComponent translatedMessage={this.props.translatedMessage} />
+					<li style={msgStyle}>{this.props.text}</li><TranslatedMessage translatedMessage={this.props.translatedMessage} />
 					<div style={msgStyle}>
 						<button onClick={this.archiveMessage}>{archiveAction}</button>
 						<button onClick={this.deleteMessage} disabled={isDisabled}>Delete</button>

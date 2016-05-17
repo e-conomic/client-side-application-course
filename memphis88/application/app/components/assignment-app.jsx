@@ -68,7 +68,7 @@ var AssignmentApp = React.createClass({
 	},
 
 	onLanguageSelect: function(e) {
-		MessageActions.translateMessages(e.target.value);
+		MessageActions.translateMessages(e.target.value, MessageStore.getAll());
 	},
 
 	render: function() {

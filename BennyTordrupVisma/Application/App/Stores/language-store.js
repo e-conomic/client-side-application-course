@@ -34,7 +34,7 @@ function languagesReceived(payload) {
     })
 }
 
-LanguageStore.dispatchToken = AppDispatcher.register(action => {
+var registeredCallback = action => {
     switch (action.type) {
         case Constants.CREATE_MESSAGE:
             AppDispatcher.waitFor([MessageStore.dispatchToken]);
@@ -50,6 +50,8 @@ LanguageStore.dispatchToken = AppDispatcher.register(action => {
     }
     
     LanguageStore.emitChange();
-})
+}
+
+LanguageStore.dispatchToken = AppDispatcher.register(registeredCallback);
 
 module.exports = LanguageStore;

@@ -112,12 +112,14 @@ function deleteMessage(payload) {
 
 function moveMessage(payload) {
     var msgToMove = _messages.find(m => m.id == payload.messageId);
-    msgToMove.list = payload.newListId;
+    if (msgToMove)
+        msgToMove.list = payload.newListId;
 }
 
 function toggleIsArchived(payload){
     var msgToChange = _messages.find(m => m.id == payload.messageId);
-    msgToChange.isArchived = !msgToChange.isArchived;
+    if (msgToChange)
+        msgToChange.isArchived = !msgToChange.isArchived;
 }
 
 function translateAllMessages(payload) {
@@ -140,7 +142,7 @@ function translationReceived(payload) {
     }
 }
 
-MessageStore.dispatchToken = AppDispatcher.register(action => {
+var registeredCallback = action => {
 	switch(action.type) {
         case Constants.CREATE_MESSAGE:
             AppDispatcher.waitFor([ValidationStore.distatchToken]);
@@ -175,6 +177,8 @@ MessageStore.dispatchToken = AppDispatcher.register(action => {
 	}
 
 	MessageStore.emitChange();
-});
+}
+
+MessageStore.dispatchToken = AppDispatcher.register(registeredCallback);
 
 module.exports = MessageStore;

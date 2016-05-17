@@ -11,9 +11,9 @@ var ErrorStore = Object.assign({}, BaseStore, {
 });
 
 ErrorStore.dispatchToken = Dispatcher.register(function(payload){
-	switch(payload.type) {
 
-		case Constants.FAILURE_ON_CREATE_MESSAGE_TOO_MANY_MANY_CHARS:
+	switch(payload.type) {
+		case Constants.FAILURE_ON_CREATE_MESSAGE_TOO_MANY_CHARS:
 
 			_errorMessages.push("Too Many Characters");
 

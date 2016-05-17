@@ -1,8 +1,8 @@
 var Constants = require('../constants/constants');
 var Dispatcher = require('../dispatcher/dispatcher');
-var request = require('browser-request');
 var MessageStore = require('../stores/message-store');
 import key from '../key';
+import request from './request-promise';
 
 module.exports = {
     createMessage: function(message) {
@@ -78,33 +78,24 @@ module.exports = {
 
         var query = '?' + message + targetLanguage + "&key=" + key;
 
-        request({method:'GET', url:url + query, json:{relaxed:true} }, function(er, response, body) {
-            if(er) {
-                console.log("Error requesting Google translate API");
-            }
-            else {
-                    Dispatcher.dispatch({
-                        type: Constants.TRANSLATE_MESSAGES,
-                        translatedMessages: body
-                    });
-            }
+        request.get(url + query).then((result) => {
+            Dispatcher.dispatch({
+                type: Constants.TRANSLATE_MESSAGES,
+                translatedMessages: result
+            });
         })
     },
     fetchLanguageCodes: function() {
 
-        var url = 'https://www.googleapis.com/language/translate/v2/languages';
+        var url = 'https://www.googleapis.com/language/translate/v2/languages/?key=' + key;
 
-        request({method:'GET', url:url + '?key=' + key, json:{relaxed:true}}, function(er, response, body) {
-            if(er) {
-                console.log("Error requesting Google translate API");
-            }
-            else {
-                    Dispatcher.dispatch({
-                        type: Constants.GET_LANGUAGE_CODES,
-                        languageCodes: body
-                    });
-            }
+        request.get(url).then((result) => {
+            Dispatcher.dispatch({
+                type: Constants.GET_LANGUAGE_CODES,
+                languageCodes: result
+            });
         })
+
         console.log("fetching language codes");
     }
 }

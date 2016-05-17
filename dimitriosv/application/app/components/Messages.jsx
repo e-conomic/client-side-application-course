@@ -14,8 +14,8 @@ var Messages = React.createClass({
                                 return !message.isArchived;
                             })
                             .map(function(message){
-                                return (<div className="message" key={message.messageId}  >
-                                        <Message  messageId={message.messageId} 
+                                return (<div className="message" key={message.messageId+"mess"}  >
+                                        <Message   messageId={message.messageId} 
                                             messageText={message.text}
                                             messageIsArchived={message.isArchived}
                                             allLists={this.props.allLists}
@@ -30,8 +30,8 @@ var Messages = React.createClass({
                                 return message.isArchived;
                             })
                             .map(function(message){
-                                return (<div className="message" key={message.messageId}  >
-                                        <Message  messageId={message.messageId} 
+                                return (<div className="message"  key={message.messageId+"mess"}  >
+                                        <Message   messageId={message.messageId} 
                                             messageText={message.text}
                                             messageIsArchived={message.isArchived} 
                                             allLists={this.props.allLists}

@@ -3,10 +3,10 @@ var Constants = require('../constants/constants');
 var BaseStore = require('./base');
 
 var _messages = [
-                    {id: 0, listId: 0, text: "testmessage for list 0", translation: '', isArchived: false},
-                    {id: 3, listId: 0, text: "testmessage for list 0", translation: '', isArchived: true},
-                    {id: 1, listId: 1, text: "testmessage for list 1", translation: '', isArchived: false},
-                    {id: 2 ,listId: 1, text: "testmessage for list 2", translation: '', isArchived: false}
+                    // {id: 0, listId: 0, text: "testmessage for list 0", translation: '', isArchived: false},
+                    // {id: 3, listId: 0, text: "testmessage for list 0", translation: '', isArchived: true},
+                    // {id: 1, listId: 1, text: "testmessage for list 1", translation: '', isArchived: false},
+                    // {id: 2 ,listId: 1, text: "testmessage for list 2", translation: '', isArchived: false}
                  ];
 
 var _validationMessage = {isError: false, message: "Message is ok", isDismissed: true };

@@ -1,14 +1,11 @@
 var Constants = require('../constants')
 var Dispatcher = require('../dispatcher')
-var languageUrl = require('../utils/translate-Url').languageUrl
-var translateUrl = require('../utils/translate-Url').translateUrl
-var googleKey = require('../utils/translate-Url').key
 
 var errorMessage = "An error has happened"
 
 function validateString (string, messages){
 	if(string.length >= 200){
-		errorMessage = "Messages can't be longer than 200 characters."
+		errorMessage = "Messages cant be longer than 200 characters."
 		return false
 	}
 
@@ -31,7 +28,7 @@ function createTranslatedMessagesObjects(messages, jsonTranslateObject){
 	return translatedMessages
 }
 
-module.exports = {
+var MessageActions = {
 	createMessage : function(content, listId, messages){
 		if(validateString(content, messages)){
 			Dispatcher.dispatch({
@@ -142,3 +139,5 @@ module.exports = {
 		};
 	} 
 }
+
+module.exports = MessageActions;

@@ -1,12 +1,11 @@
 let Constants = require('../constants/constants');
 let Dispatcher = require('../dispatcher');
-
 let xhr = require('../script');
+let get = require('./promise');
 
 let googleKey = require('../translate-url');
 
 module.exports = {
-
 	moveMessage(chosenListID, messageID) { 
 		Dispatcher.dispatch({
 			type: Constants.MOVE_MESSAGE,
@@ -39,12 +38,10 @@ module.exports = {
 		}
 		else if ( text.length >= 200) { 
 			Dispatcher.dispatch({
-				type: Constants.FAILURE_ON_CREATE_MESSAGE_TOO_MANY_MANY_CHARS
+				type: Constants.FAILURE_ON_CREATE_MESSAGE_TOO_MANY_CHARS
 			});
 		}
-
-		else { 
-			Dispatcher.dispatch({
+		else { Dispatcher.dispatch({
 				type: Constants.CREATE_MESSAGE,
 				listID: listID,
 				text: text,
@@ -73,7 +70,30 @@ module.exports = {
 		});
 	},
 
-	// translate all
+	// translateMessages(messages, userSpecifiedLanguage) { 
+  //
+	// 	let language = "?target="+userSpecifiedLanguage;
+	// 	let key = "&key="+googleKey;
+  //
+	// 	let messagesText = messages.map( message => "&q="+message.text );
+	// 	let messageStr = messagesText.join('');
+  //
+	// 	xhr('https://www.googleapis.com/language/translate/v2'+language+messageStr+key, 
+	// 		translations => { 
+	// 			Dispatcher.dispatch({ 
+	// 				type: Constants.LANGUAGES_RECEIVED,
+	// 				translations: translations
+	// 			});
+	// 		}, 
+	// 		
+	// 		() => { 
+	// 			Dispatcher.dispatch({ 
+	// 				type: Constants.FAILURE_ON_LANGUAGES_RECEIVED
+	// 			});
+	// 		}
+	// 	);
+	// }
+
 	translateMessages(messages, userSpecifiedLanguage) { 
 
 		let language = "?target="+userSpecifiedLanguage;
@@ -82,21 +102,16 @@ module.exports = {
 		let messagesText = messages.map( message => "&q="+message.text );
 		let messageStr = messagesText.join('');
 
-		xhr('https://www.googleapis.com/language/translate/v2'+language+messageStr+key, 
-			translations => { 
+		get('https://www.googleapis.com/language/translate/v2'+language+messageStr+key).then( (response) => { 
 				Dispatcher.dispatch({ 
 					type: Constants.LANGUAGES_RECEIVED,
-					translations: translations
+					translations: response
 				});
-			}, 
-			
-			() => { 
+		}, () => { 
 				Dispatcher.dispatch({ 
 					type: Constants.FAILURE_ON_LANGUAGES_RECEIVED
 				});
-			}
-		);
+		});
 	}
 }
-
 

@@ -1,6 +1,7 @@
 import List from './components/List.jsx';
 import Message from './components/Message.jsx';
 import NotificationBar from './components/notification-bar.jsx';
+import Translations from './components/Translations.jsx';
 var React = require('react');
 var ReactDOM = require('react-dom');
 var ListActions = require('./actions/list-actions.js');
@@ -40,7 +41,7 @@ var App = React.createClass({
     },
     renderLists: function(list, i) {
         return (
-            <List key={list.listId}
+            <List 
             index={i}
             listName={list.listName}
             listId={list.listId}
@@ -61,7 +62,7 @@ var App = React.createClass({
         if (!message.isHidden) {
             return (
             <div className="message" key={message.messageId+"_2"}>
-            <Message    messageId={message.messageId} 
+            <Message  key={message.messageId+"_2"}  messageId={message.messageId} 
                         messageText={message.text}
                         messageIsArchived={message.isArchived}
                         allLists={this.state.lists}
@@ -136,6 +137,7 @@ var App = React.createClass({
                     {this.state.lists.map(this.renderListsAsCheckboxes)}
                 </div>
             </div>
+            <Translations messages={this.state.allMessages} />
         </div>
         );
     },
