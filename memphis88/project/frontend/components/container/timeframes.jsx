@@ -34,8 +34,6 @@ class Timeframes extends Component {
 						const cDay = moment(timeframe.start).day(day.name)
 						for (let ap of this.props.appointments) {
 							const apTime = moment(ap.start.dateTime)
-							// console.log(apTime.format('YYYY-MM-DD - HH:mm:ss'))
-							// console.log(cDay.format('YYYY-MM-DD - HH:mm:ss'))
 							if (apTime.isSame(cDay)) {
 								return renderAppointment(ap, cDay)
 							} else {
