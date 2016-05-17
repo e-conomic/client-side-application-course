@@ -5,15 +5,15 @@ var ReactDOM =require("react-dom");
 
 const {Table, Column, Cell} = require("fixed-data-table");
 
-class DateCell extends React.Component {
+class AmountCell extends React.Component {
   render() {
     const {rowIndex, field, data, ...props} = this.props;
     return (
       <Cell {...props}>
-        {(new Date(data[rowIndex][field])).toLocaleDateString('da-DK')}
+        {(new Number(data[rowIndex][field])).toLocaleString('da-DK', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
       </Cell>
     );
   }
 }
 
-module.exports = DateCell;
+module.exports = AmountCell;

@@ -2,8 +2,10 @@ var React = require("react");
 var ReactDOM =require("react-dom");
 var CustomerList = require("./CustomerList");
 var CustomerTransactionList = require("./CustomerTransactionList");
+var CustomerOrderList = require("./CustomerOrderList");
 var CustomerStore = require("../Stores/customer-store");
 var CustomerTransactionStore = require("../Stores/customer-transactions-store");
+var CustomerOrderStore = require("../Stores/customer-orders-store");
 
 function getCustomerState(){
     return {
@@ -12,29 +14,26 @@ function getCustomerState(){
     }    
 }
 
-// const TextCell = ({rowIndex, data, col, ...props}) => (
-//   <Cell {...props}>
-//     {data.getObjectAt(rowIndex)[col]}
-//   </Cell>
-// );
-
 var App = React.createClass({
     getInitialState: function() {
         return {
                 allCustomers: CustomerStore.getAllCustomers(),
                 selectedCustomer: CustomerStore.getSelectedCustomer(),
-                allTransactions: []
+                allTransactions: [],
+                allOrders: []
             };
     },
     
     componentDidMount: function() {
         CustomerStore.addChangeListener(this._onChange);
         CustomerTransactionStore.addChangeListener(this._onTransactionsChange);
+        CustomerOrderStore.addChangeListener(this._onOrdersChange);
     },
     
     componentWillUnmount: function() {
         CustomerStore.removeChangeListener(this._onChange);
         CustomerTransactionStore.removeChangeListener(this._onTransactionsChange);
+        CustomerOrderStore.removeChangeListener(this._onOrdersChange);
     },
     
 	render: function() {
@@ -44,26 +43,15 @@ var App = React.createClass({
                     <div className="spacer"></div>
                     <ul className="nav nav-tabs">
                         <li className="active"><a data-toggle="tab" href="#transactions">Transactions</a></li>
-                        <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
-                        <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
-                        <li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
+                        <li><a data-toggle="tab" href="#orders">Orders</a></li>
                     </ul>
 
                     <div className="tab-content">
                         <div id="transactions" className="tab-pane fade in active">
                             <CustomerTransactionList allTransactions={this.state.allTransactions} selectedCustomer={this.state.selectedCustomer}/>
                         </div>
-                        <div id="menu1" className="tab-pane fade">
-                            <h3>Menu 1</h3>
-                            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                        </div>
-                        <div id="menu2" className="tab-pane fade">
-                            <h3>Menu 2</h3>
-                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-                        </div>
-                        <div id="menu3" className="tab-pane fade">
-                            <h3>Menu 3</h3>
-                            <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                        <div id="orders" className="tab-pane fade">
+                            <CustomerOrderList allOrders={this.state.allOrders} selectedCustomer={this.state.selectedCustomer} />}
                         </div>
                     </div>
                 </div>
@@ -77,6 +65,12 @@ var App = React.createClass({
         this.setState({
             allTransactions: CustomerTransactionStore.getAllTransactions()
         });
+    },
+    
+    _onOrdersChange: function() {
+        this.setState({
+            allOrders: CustomerOrderStore.getAllOrders()
+        })
     }
     
  });

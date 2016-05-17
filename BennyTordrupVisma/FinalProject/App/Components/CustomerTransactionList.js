@@ -7,8 +7,8 @@ var CustomerTransactionStore = require("../Stores/customer-transactions-store");
 const {Table, Column, Cell} = require("fixed-data-table");
 
 var TextCell = require("./SubComponents/TextCell");
-var LinkCell = require("./SubComponents/LinkCell");
 var DateCell = require("./SubComponents/DateCell");
+var AmountCell = require("./SubComponents/AmountCell");
 
 class CustomerTransactionList extends React.Component {
     constructor(props) {
@@ -61,7 +61,7 @@ class CustomerTransactionList extends React.Component {
                 <Column 
                     align='right'
                     header={<Cell>Amount</Cell>}
-                    cell={<TextCell data={dataList} field="amount" />}
+                    cell={<AmountCell data={dataList} field="amount" />}
                     width={100}
                 />
             </Table>

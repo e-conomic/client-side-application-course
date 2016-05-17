@@ -8,7 +8,6 @@ var CustomerActions = require("../Actions/customer-actions");
 const {Table, Column, Cell} = require("fixed-data-table");
 
 var TextCell = require("./SubComponents/TextCell");
-var LinkCell = require("./SubComponents/LinkCell");
 
 class CustomerList extends React.Component {
     constructor(props) {

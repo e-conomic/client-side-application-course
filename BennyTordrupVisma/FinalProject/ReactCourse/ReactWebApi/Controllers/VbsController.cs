@@ -18,7 +18,7 @@ namespace ReactWebApi.Controllers
 
             // Run tests using an integration user in Business.
 
-            new Credentials("VBus1100", "system", "Visma2016").Apply(clientCredentials);
+            new Credentials("VBus1100", "VBSIntegration", "").Apply(clientCredentials);
 
             //new Credentials ("standard", "IntegrationUser", string.Empty).Apply (clientCredentials);
 

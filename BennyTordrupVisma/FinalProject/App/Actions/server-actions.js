@@ -19,4 +19,13 @@ module.exports = {
             }
         });
     },
+    
+    receiveCustomerOrdersResponse: function(response) {
+        AppDispatcher.dispatch({
+            type: Constants.REQUEST_CUSTOMER_ORDERS_RESPONSE,
+            payload: {
+                response: response
+            }
+        });
+    },
 }

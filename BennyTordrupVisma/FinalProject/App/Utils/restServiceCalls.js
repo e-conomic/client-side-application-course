@@ -25,4 +25,16 @@ module.exports = {
                 ServerActions.receiveCustomerTransactionsResponse(response);
             });
     },
+    
+    RESTGetCustomerOrders: function(customerNo) {
+        var completeUrl = "http://localhost:59774/api/CustomerOrders/" + customerNo;
+        request.get(completeUrl)
+            .set('Accept', 'application/json')
+            .end((err, response) => {
+                if (err)
+                    console.error(err);
+                    
+                ServerActions.receiveCustomerOrdersResponse(response);
+            })
+    }
 };
