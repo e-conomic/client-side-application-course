@@ -44,10 +44,8 @@ export default class TimeframeCell extends Component {
 
 	render() {
 		const style = this.getColor(this.props.status)
-		const { name } = this.props
 		return (
 			<td style={style} onClick={this.click.bind(this)}>
-				{name}
 			</td>
 		)
 	}

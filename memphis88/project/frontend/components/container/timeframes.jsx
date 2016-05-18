@@ -5,8 +5,9 @@ import moment from 'moment'
 import TimeframeRange from '../presentational/timeframe-range'
 import TimeframeCell from '../presentational/timeframe-cell'
 import Appointment from './appointment'
-import { initializeTimeframes } from '../../actions'
+import { initializeTimeframes, getWeekAppointments } from '../../actions'
 import { defaultDays } from '../../constants/constants'
+import { showAppointmentForm } from '../../actions'
 
 class Timeframes extends Component {
 	constructor(props) {
@@ -18,8 +19,13 @@ class Timeframes extends Component {
 		for (let week of this.props.weeks) {
 			if (week.active) {
 				dispatch(initializeTimeframes(week))
+				dispatch(getWeekAppointments(week))
 			}
 		}
+	}
+
+	onTimeFrameSelect(e) {
+		this.props.dispatch(showAppointmentForm())
 	}
 
 	render() {
@@ -30,25 +36,26 @@ class Timeframes extends Component {
 					key={timeframe.start}
 					start={timeframe.start}
 					end={timeframe.end} />
-					{defaultDays.map((day) => {
-						const cDay = moment(timeframe.start).day(day.name)
-						for (let ap of this.props.appointments) {
-							const apTime = moment(ap.start.dateTime)
-							if (apTime.isSame(cDay)) {
-								return renderAppointment(ap, cDay)
-							} else {
-								return (<td></td>)
+					{
+						defaultDays.map((day) => {
+							const start = moment(timeframe.start).day(day.name)
+							const end = moment(timeframe.end).day(day.name)
+							for (let ap of this.props.appointments) {
+								const apTime = moment(ap.start.dateTime)
+								let appointment
+								if (apTime.isSame(start)) {
+									appointment = ap
+								}
+								return <Appointment
+										key={start.format('DDHHMM')}
+										appointment={appointment}
+										startingDate={start}
+										endingDate={end}
+										onClick={this.onTimeFrameSelect.bind(this)} />
 							}
-						}
-					})}
+						})
+					}
 				</tr>
-			)
-		}
-		function renderAppointment(appointment, start) {
-			return (
-				<Appointment
-				appointment={appointment}
-				startingDate={start} />
 			)
 		}
 		const tfs = this.props.timeframes.masterTimeframes

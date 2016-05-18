@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import Week from '../container/week'
 import Timeframes from '../container/timeframes'
+import EventCreator from '../container/create-event'
 
 export default class MasterSchedule extends Component {
 	constructor(props) {
@@ -15,6 +16,7 @@ export default class MasterSchedule extends Component {
 					<Week />
 					<Timeframes />
 				</table>
+				<div><EventCreator /></div>
 			</div>
 		)
 	}

@@ -10,13 +10,16 @@ export default class Appointments extends Component {
 		super(props)
 	}
 
-	onClick() {
+	onClick(e) {
+		this.props.onClick(e)
 	}
 
 	render() {
 		const { appointment, startingDate } = this.props
-		const { summary, status } = appointment
 		let state
+		const { summary, status } = appointment||{
+			status: undefined
+		}
 		switch(status) {
 			case 'confirmed':
 				state = Constants.STATUS_BUSY
@@ -26,6 +29,7 @@ export default class Appointments extends Component {
 				break
 			case undefined:
 				state = Constants.STATUS_FREE
+				break
 			default:
 				state = Constants.STATUS_UNKNOWN
 				break
@@ -33,17 +37,7 @@ export default class Appointments extends Component {
 		return (
 			<TimeframeCell
 			status={state}
-			onClick={this.onClick}
-			name={summary}/>
+			onClick={this.onClick.bind(this)} />
 		)
 	}
 }
-
-// function mapStateToProps(state) {
-// 	const { appointments } = state
-// 	return {
-// 		appointments
-// 	}
-// }
-
-// export default connect(mapStateToProps)(Appointments)

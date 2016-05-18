@@ -4,6 +4,7 @@ import axios from 'axios'
 
 export function getWeekAppointments(week, year) {
 	return dispatch => {
+		week = week.weekNumber || week
 		axios.get(`http://localhost:8080/week/${week}?year=${year||''}`)
 		.then((response) => {
 			dispatch({
@@ -23,5 +24,19 @@ export function initializeTimeframes(start) {
 	return {
 		type: Constants.INITIALIZE_TIMEFRAMES,
 		start: start
+	}
+}
+
+export function showAppointmentForm(start, end) {
+	return {
+		type: Constants.SHOW_APPOINTMENT_FORM,
+		start: start,
+		end: end
+	}
+}
+
+export function hideAppointmentForm() {
+	return {
+		type: Constants.HIDE_APPOINTMENT_FORM
 	}
 }
