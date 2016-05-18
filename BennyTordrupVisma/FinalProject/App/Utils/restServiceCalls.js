@@ -14,6 +14,20 @@ module.exports = {
             });
     },
     
+    RESTUpdateCustomer: function(customer) {
+        var completeurl = "http://localhost:59774/api/Customers/" + customer.customerNo;
+        request.post(completeUrl)
+            .set('Accept', 'application/json')
+            .set('Content-Type', 'application/json')
+            .send(customer)
+            .end((err, response) => {
+                if (err)
+                    console.error(err);
+                    
+                console.log(response);
+            });
+    },
+    
     RESTGetCustomerTransactions: function(customerNo) {
         var completeUrl = "http://localhost:59774/api/CustomerTransactions/" + customerNo;
         request.get(completeUrl)

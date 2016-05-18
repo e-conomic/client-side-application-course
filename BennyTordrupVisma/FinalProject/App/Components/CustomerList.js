@@ -8,6 +8,7 @@ var CustomerActions = require("../Actions/customer-actions");
 const {Table, Column, Cell} = require("fixed-data-table");
 
 var TextCell = require("./SubComponents/TextCell");
+var ButtonCell = require("./SubComponents/ButtonCell");
 
 class CustomerList extends React.Component {
     constructor(props) {
@@ -20,8 +21,8 @@ class CustomerList extends React.Component {
         return (
             <div>
                 <Table 
-                    rowHeight={30} 
-                    headerHeight={30} 
+                    rowHeight={35} 
+                    headerHeight={35} 
                     rowsCount={dataList.length} 
                     width={815} 
                     height={300}
@@ -38,11 +39,27 @@ class CustomerList extends React.Component {
                     <Column 
                         header={<Cell>Name</Cell>}
                         cell={<TextCell data={dataList} field="name" />}
+                        fixed={true}
                         width={200}
                     />
                     <Column 
                         header={<Cell>Address 1</Cell>}
                         cell={<TextCell data={dataList} field="address1" />}
+                        width={200}
+                    />
+                    <Column 
+                        header={<Cell>Address 2</Cell>}
+                        cell={<TextCell data={dataList} field="address2" />}
+                        width={200}
+                    />
+                    <Column 
+                        header={<Cell>Address 3</Cell>}
+                        cell={<TextCell data={dataList} field="address3" />}
+                        width={200}
+                    />
+                    <Column 
+                        header={<Cell>Address 4</Cell>}
+                        cell={<TextCell data={dataList} field="address4" />}
                         width={200}
                     />
                     <Column 
@@ -55,6 +72,16 @@ class CustomerList extends React.Component {
                         cell={<TextCell data={dataList} field="postalArea" />}
                         width={200}
                     />
+                    <Column 
+                        header={<Cell>Phone</Cell>}
+                        cell={<TextCell data={dataList} field="phone" />}
+                        width={100}
+                    />
+                    <Column
+                        header='Click'
+                        cell={<ButtonCell data={dataList} field="customerNo" onClick={this._displayDataForRow} />}
+                        width={80}
+                    />
                 </Table>
                 {(this.props.selectedCustomer > 0) &&   <div>
                                                             <label>Selected customer: </label><label>{this.props.selectedCustomer}</label>
@@ -62,7 +89,11 @@ class CustomerList extends React.Component {
             </div>
         );
     }
-    
+
+    _displayDataForRow(rowData, rowIndex){      
+        alert(JSON.stringify(rowData));
+    }
+      
     _onRowClick(event) {
         var items = event.currentTarget.innerText.split('\n');
         CustomerActions.selectCustomer(items[0]);        
@@ -81,3 +112,13 @@ class CustomerList extends React.Component {
 }
 
 module.exports = CustomerList;
+
+
+/*
+                    <Column
+                        header='Click'
+                        width={80}
+                        cell = {<button style={{width:'80%'}} onClick={this._displayDataForRow.bind(dataList[rowIndex][field], rowIndex)}>Edit</button>}
+                    />
+
+*/

@@ -32,8 +32,12 @@ function customersReceived(payload) {
             customerNo: c.CustomerNo,
             name: c.Name,
             address1 : c.Address1,
+            address2 : c.Address2,
+            address3 : c.Address3,
+            address4 : c.Address4,
             postCode: c.PostCode,
             postalArea: c.PostalArea,
+            phone: c.Phone,
             changedDateTime: c.ChangedDateTime
         })
     });
