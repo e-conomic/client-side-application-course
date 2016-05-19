@@ -28,7 +28,7 @@ class CustomerList extends React.Component {
                         rowsCount={dataList.length} 
                         width={815} 
                         height={300}
-                        rowClassNameGetter={this._rowClassNameGetter}
+                        rowClassNameGetter={this._rowClassNameGetter.bind(this)}
                         onRowClick={this._onRowClick}
                         {...this.props}
                         >
@@ -85,9 +85,6 @@ class CustomerList extends React.Component {
                         />
                     </Table>
                 </div>
-                {(this.props.selectedCustomer > 0) &&   <div>
-                                                            <label>Selected customer: </label><label>{this.props.selectedCustomer}</label>
-                                                        </div>}
             </div>
         );
     }
@@ -98,14 +95,9 @@ class CustomerList extends React.Component {
     }
   
     _rowClassNameGetter(index) {
-        //console.log(index);
-        
-        if (index == 4)
-            return "public_fixedDataTableCell_highlighted";
-            
-        // var customerNo = state.dataList[rowIndex][customerNo];
-        // if (state.selectedCustomer == customerNo)
-        //     return "public_fixedDataTableCell_highlighted";
+        var customer = this.props.allCustomers[index];
+        if (this.props.selectedCustomer == customer.customerNo)
+            return "selected";
     }
 }
 
