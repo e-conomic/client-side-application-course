@@ -68,16 +68,6 @@ class CustomerOrderList extends React.Component {
                 />
             </Table>
         );
-        /*
-            orderNo: ct.OrderNo,
-            orderDate: ct.OrderDate,
-            customerNo: ct.CustomerNo,
-            requiredDeliveryDate : ct.RequiredDeliveryDate,
-            invoiceAmountSoFar: ct.InvoiceAmountSoFar,
-            invoiceAmountInFuture: ct.InvoiceAmountInFuture,
-            invoiceAmountTotal: ct.invoiceAmountTotal,
-            changedDateTime: ct.ChangedDateTime
-        */
     }
   
 }

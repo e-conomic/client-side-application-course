@@ -7,17 +7,6 @@ var CustomerEditForm = React.createClass({
         return {
             customer: this.props.editCustomer,
             originalCustomer: this.props.editCustomer
-            /*
-            customerNo: this.props.editCustomer.customerNo,
-            name: this.props.editCustomer.Name,
-            address1 : this.props.editCustomer.Address1,
-            address2 : this.props.editCustomer.Address2,
-            address3 : this.props.editCustomer.Address3,
-            address4 : this.props.editCustomer.Address4,
-            postCode: this.props.editCustomer.PostCode,
-            postalArea: this.props.editCustomer.PostalArea,
-            phone: this.props.editCustomer.Phone
-            */
         };
     },
     
