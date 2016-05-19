@@ -17,6 +17,14 @@ var CustomerStore = Object.assign({}, BaseStore, {
         }
         return _customers;
     },
+    
+    getSingleCustomer: customerNo => {
+        var cust = _customers.find(c => c.customerNo == customerNo);
+        if (cust)
+            return cust;
+            
+        return null;
+    }
 });
 
 function selectCustomer(payload) {

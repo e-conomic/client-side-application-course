@@ -4,29 +4,25 @@ var Utils = require("../Utils/restServiceCalls");
 
 
 module.exports = {
-    selectCustomer: function(customerNo) {
+    selectCustomer: customerNo => {
         AppDispatcher.dispatch({
             type: Constants.SELECT_CUSTOMER,
             payload: {
                 customerNo: customerNo
             }
         });
-        
-        // AppDispatcher.dispatch({
-        //     type: Constants.REQUEST_CUSTOMER_TRANSACTIONS,
-        //     payload: {
-        //         customerNo: customerNo
-        //     }
-        // });
     },
     
-    updateCustomer: function(customer) {
+    editCustomer: customer => {
+      AppDispatcher.dispatch({
+          type: Constants.EDIT_CUSTOMER,
+          payload: {
+              customer: customer
+          }
+      })  
+    },
+    
+    updateCustomer: customer => {
         Utils.RESTUpdateCustomer(customer);
-        // AppDispatcher.dispatch({
-        //     type: Constants.UPDATE_CUSTOMER,
-        //     payload: {
-        //         customer: customer
-        //     }
-        // });
     }
 }
