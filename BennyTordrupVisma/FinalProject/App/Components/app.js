@@ -7,7 +7,9 @@ var CustomerOrderList = require("./CustomerOrderList");
 var CustomerStore = require("../Stores/customer-store");
 var CustomerTransactionStore = require("../Stores/customer-transactions-store");
 var CustomerOrderStore = require("../Stores/customer-orders-store");
+var CustomerActions = require("../Actions/customer-actions");
 var CustomerEditForm = require("./Customer-Edit");
+var Format = require("string-format-js");
 
 function getCustomerState(){
     return {
@@ -24,7 +26,8 @@ var App = React.createClass({
                 allTransactions: [],
                 allOrders: [],
                 isEditingCustomer: false,
-                editCustomer: null
+                editCustomer: null,
+                isNewCustomer: false
             };
     },
     
@@ -44,11 +47,12 @@ var App = React.createClass({
         return  <div>
                     {this.state.isEditingCustomer && 
                         <div>
-                            <CustomerEditForm editCustomer={this.state.editCustomer} onFinishEdit={this._onFinishEdit} />
+                            <CustomerEditForm editCustomer={this.state.editCustomer} onFinishEdit={this._onFinishEdit} isNewCustomer={this.state.isNewCustomer} />
                         </div>}
                     {!this.state.isEditingCustomer &&
                         <div>
-                            <CustomerList allCustomers={this.state.allCustomers} selectedCustomer={this.state.selectedCustomer} onEditCustomer={this._editCustomer} />
+                            <CustomerList allCustomers={this.state.allCustomers} selectedCustomer={this.state.selectedCustomer} 
+                                          onEditCustomer={this._editCustomer} onDeleteCustomer={this._deleteCustomer} onAddCustomer={this._addCustomer} />
                             <div className="spacer"></div>
                             <ul className="nav nav-tabs">
                                 <li className="active"><a data-toggle="tab" href="#transactions">Transactions</a></li>
@@ -67,6 +71,14 @@ var App = React.createClass({
                 </div>
 	},
     
+    _addCustomer: function() {
+        this.setState({
+            isEditingCustomer: true,
+            isNewCustomer: true,
+            editCustomer: Object.assign({})
+        })
+    },
+    
     _editCustomer: function(customer) {
         this.setState({
             isEditingCustomer: true,
@@ -79,6 +91,13 @@ var App = React.createClass({
             isEditingCustomer: false,
             editCustomer: null
         })
+    },
+    
+    _deleteCustomer: function(customer) {
+        var msg = 'Delete customer %d [%s]?'.format(customer.customerNo, customer.name);
+        if (confirm(msg)) {
+            CustomerActions.deleteCustomer(customer);
+        }  
     },
     
     _onChange: function () {

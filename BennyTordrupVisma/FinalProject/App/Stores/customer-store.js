@@ -66,7 +66,11 @@ var registeredCallback = action => {
         case Constants.EDIT_CUSTOMER_RESPONSE:
             reloadCustomer(action.payload);
             break;
-                        
+
+        case Constants.DELETE_CUSTOMER_RESPONSE:
+            reloadCustomer(action.payload);
+            break;
+                                    
         case Constants.REQUEST_CUSTOMERS_RESPONSE:
             customersReceived(action.payload)
             break;

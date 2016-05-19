@@ -23,7 +23,7 @@ class CustomerOrderList extends React.Component {
                 rowHeight={30} 
                 headerHeight={30} 
                 rowsCount={dataList.length} 
-                width={815} 
+                width={1115} 
                 height={500}
                 {...this.props}
                 >
@@ -52,19 +52,19 @@ class CustomerOrderList extends React.Component {
                     align='right'
                     header={<Cell>Inv. amount so far</Cell>}
                     cell={<AmountCell data={dataList} field="invoiceAmountSoFar" />}
-                    width={100}
+                    width={200}
                 />
                 <Column 
                     align='right'
                     header={<Cell>Inv. amount in future</Cell>}
                     cell={<AmountCell data={dataList} field="invoiceAmountInFuture" />}
-                    width={100}
+                    width={200}
                 />
                 <Column 
                     align='right'
                     header={<Cell>Inv. amount total</Cell>}
                     cell={<AmountCell data={dataList} field="invoiceAmountTotal" />}
-                    width={100}
+                    width={200}
                 />
             </Table>
         );

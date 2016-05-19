@@ -26,7 +26,7 @@ var CustomerEditForm = React.createClass({
                     <h1>Customer details</h1>
                     <table>
                         <tr>
-                            <td><label>Customer no: </label></td><td><label>{this.state.customer.customerNo}</label></td>
+                            <td><label>Customer no: </label></td><td><label>{this.props.isNewCustomer ? 'Not assigned' : this.state.customer.customerNo}</label></td>
                         </tr>
                         <tr>
                             <td><label>Name: </label></td><td><input type="text" name="name" onChange={this._onValueChange} value={this.state.customer.name} /></td>
@@ -105,7 +105,11 @@ var CustomerEditForm = React.createClass({
     },
     
     _onHandleSave() {
-        CustomerActions.updateCustomer(this.state.customer);
+        if (this.props.isNewCustomer) {
+            CustomerActions.addCustomer(this.state.customer)
+        } else {
+            CustomerActions.updateCustomer(this.state.customer);
+        }
         this.props.onFinishEdit();
     },
     

@@ -22,7 +22,15 @@ module.exports = {
       })  
     },
     
+    addCustomer: customer => {
+        Utils.RESTAddCustomer(customer);
+    },
+    
     updateCustomer: customer => {
         Utils.RESTUpdateCustomer(customer);
+    },
+    
+    deleteCustomer: customer => {
+        Utils.RESTDeleteCustomer(customer);
     }
 }

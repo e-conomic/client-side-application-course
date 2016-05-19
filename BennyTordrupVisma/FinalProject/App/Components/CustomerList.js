@@ -26,7 +26,7 @@ class CustomerList extends React.Component {
                         rowHeight={35} 
                         headerHeight={35} 
                         rowsCount={dataList.length} 
-                        width={815} 
+                        width={1675} 
                         height={300}
                         rowClassNameGetter={this._rowClassNameGetter.bind(this)}
                         onRowClick={this._onRowClick}
@@ -80,10 +80,18 @@ class CustomerList extends React.Component {
                             width={100}
                         />
                         <Column
-                            cell={<ButtonCell data={dataList} field="customerNo" onClick={this.props.onEditCustomer} />}
+                            cell={<ButtonCell data={dataList} field="customerNo" label="Edit" onClick={this.props.onEditCustomer} />}
                             width={80}
                         />
+                        <Column
+                            cell={<ButtonCell data={dataList} field="customerNo" label="Delete" onClick={this.props.onDeleteCustomer} />}
+                            width={95}
+                        />
                     </Table>
+                    <div style={{margin: '4px'}} />
+                    <div>
+                        <button onClick={this.props.onAddCustomer} >New customer</button>
+                    </div>
                 </div>
             </div>
         );

@@ -25,6 +25,7 @@
     "events": "^1.1.0",
     "superagent": "^1.8.1",
     "fixed-data-table": "^0.6.0",
+    "string-format-js": "^0.1.8",
     "rewire": "^2.5.1",
     "rewire-webpack": "^1.0.1",
     "chai": "^3.5.0",
@@ -47,6 +48,7 @@
     "flux": "^2.1.1",
     "events": "^1.1.0",
     "superagent": "^1.8.1",
-    "fixed-data-table": "^0.6.0"
+    "fixed-data-table": "^0.6.0",
+    "string-format-js": "^0.1.8"
   }
 }

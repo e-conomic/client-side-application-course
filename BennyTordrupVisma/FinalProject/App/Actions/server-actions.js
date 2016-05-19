@@ -20,6 +20,15 @@ module.exports = {
         });
     },
     
+    deleteCustomersResponse: function(response) {
+        AppDispatcher.dispatch({
+            type: Constants.DELETE_CUSTOMER_RESPONSE,
+            payload: {
+                response: response
+            }
+        });
+    },
+    
     receiveCustomerTransactionsResponse: function(response) {
         AppDispatcher.dispatch({
             type: Constants.REQUEST_CUSTOMER_TRANSACTIONS_RESPONSE,

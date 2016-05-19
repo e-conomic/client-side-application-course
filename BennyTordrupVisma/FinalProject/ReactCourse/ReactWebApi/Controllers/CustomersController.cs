@@ -145,10 +145,9 @@ namespace ReactWebApi.Controllers
                 var context = GetContext(requestBuilder);
 
                 var table = context.UseTable((long)T.Associate);
-                var selection = table.SelectRow();
-                selection.IntegerColumnValue((long)C.Associate.CustomerNo, ComparisonOperator.EqualTo, value.CustomerNo);
 
-                var row = selection.Row;
+                var row = table.AddRow();
+                row.SuggestValueInInterval((long) C.Associate.CustomerNo, 10000, 19998);
                 row.SetStringValue((long)C.Associate.Name, value.Name);
                 row.SetStringValue((long)C.Associate.AddressLine1, value.Address1);
                 row.SetStringValue((long)C.Associate.AddressLine2, value.Address2);
@@ -228,6 +227,37 @@ namespace ReactWebApi.Controllers
         // DELETE api/customers/5
         public void Delete(int id)
         {
+            using (GenericServiceClient genericServiceClient = new GenericServiceClient())
+            {
+                GetAndApplyVbsClientCredentials(genericServiceClient.ClientCredentials);
+                var requestBuilder = new RequestBuilder();
+                var context = GetContext(requestBuilder);
+
+                var table = context.UseTable((long)T.Associate);
+                var selection = table.SelectRow();
+                selection.IntegerColumnValue((long)C.Associate.CustomerNo, ComparisonOperator.EqualTo, id);
+
+                var selectRow = selection.Row;
+                var deletion = selectRow.Delete();
+
+                var responseReader = requestBuilder.Dispatch(genericServiceClient);
+
+                OperationResult operationResult = null;
+
+                if (responseReader.OperationResultDictionary.TryGetValue(deletion.Operation.OperationNo,
+                    out operationResult))
+                {
+                    var deletionResult = operationResult as DeletionResult;
+                    if (deletionResult != null)
+                    {
+                        Debug.WriteLine("Delete successfull");
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Delete failed");
+                    }
+                }
+            }
         }
     }
 }

@@ -14,6 +14,20 @@ module.exports = {
             });
     },
     
+    RESTAddCustomer: function(customer) {
+        var completeUrl = "http://localhost:59774/api/Customers/" + customer.customerNo;
+        request.post(completeUrl)
+            .set('Accept', 'application/json')
+            .set('Content-Type', 'application/json')
+            .send(JSON.stringify(customer))
+            .end((err, response) => {
+                if (err)
+                    console.error(err);
+                    
+                ServerActions.editCustomerResponse(response);
+            });
+    },
+    
     RESTUpdateCustomer: function(customer) {
         var completeUrl = "http://localhost:59774/api/Customers/" + customer.customerNo;
         request.put(completeUrl)
@@ -25,6 +39,18 @@ module.exports = {
                     console.error(err);
                     
                 ServerActions.editCustomerResponse(response);
+            });
+    },
+    
+    RESTDeleteCustomer: function(customer) {
+        var completeUrl = "http://localhost:59774/api/Customers/" + customer.customerNo;
+        request.del(completeUrl)
+            .set('Accept', 'application/json')
+            .end((err, response) => {
+                if (err)
+                    console.error(err);
+                    
+                ServerActions.deleteCustomersResponse(response);
             });
     },
     
