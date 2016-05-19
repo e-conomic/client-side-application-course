@@ -1,9 +1,15 @@
 var ServerActions = require("../Actions/server-actions");
 var request = require("superagent");
+var Format = require("string-format-js");
+
+const baseUrl = "http://localhost:59774/api";
+const sCust = "Customers";
+const sCustTrans ="CustomerTransactions";
+const sCustOrders = "CustomerOrders";
 
 module.exports = {
     RESTGetCustomers: function() {
-        var completeUrl = "http://localhost:59774/api/Customers"; 
+        var completeUrl ="%s/%s".format(baseUrl, sCust); 
         request.get(completeUrl)
             .set('Accept', 'application/json')
             .end((err, response) => {
@@ -15,7 +21,7 @@ module.exports = {
     },
     
     RESTAddCustomer: function(customer) {
-        var completeUrl = "http://localhost:59774/api/Customers/" + customer.customerNo;
+        var completeUrl ="%s/%s".format(baseUrl, sCust); 
         request.post(completeUrl)
             .set('Accept', 'application/json')
             .set('Content-Type', 'application/json')
@@ -29,7 +35,7 @@ module.exports = {
     },
     
     RESTUpdateCustomer: function(customer) {
-        var completeUrl = "http://localhost:59774/api/Customers/" + customer.customerNo;
+        var completeUrl ="%s/%s/%d".format(baseUrl, sCust, customer.customerNo); 
         request.put(completeUrl)
             .set('Accept', 'application/json')
             .set('Content-Type', 'application/json')
@@ -43,7 +49,7 @@ module.exports = {
     },
     
     RESTDeleteCustomer: function(customer) {
-        var completeUrl = "http://localhost:59774/api/Customers/" + customer.customerNo;
+        var completeUrl ="%s/%s/%d".format(baseUrl, sCust, customer.customerNo); 
         request.del(completeUrl)
             .set('Accept', 'application/json')
             .end((err, response) => {
@@ -55,7 +61,7 @@ module.exports = {
     },
     
     RESTGetCustomerTransactions: function(customerNo) {
-        var completeUrl = "http://localhost:59774/api/CustomerTransactions/" + customerNo;
+        var completeUrl ="%s/%s/%d".format(baseUrl, sCustTrans, customerNo); 
         request.get(completeUrl)
             .set('Accept', 'application/json')
             .end((err, response) => {
@@ -67,7 +73,7 @@ module.exports = {
     },
     
     RESTGetCustomerOrders: function(customerNo) {
-        var completeUrl = "http://localhost:59774/api/CustomerOrders/" + customerNo;
+        var completeUrl ="%s/%s/%d".format(baseUrl, sCustTrans, customerNo); 
         request.get(completeUrl)
             .set('Accept', 'application/json')
             .end((err, response) => {
