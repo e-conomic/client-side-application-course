@@ -10,10 +10,6 @@ import { defaultDays } from '../../constants/constants'
 import { showAppointmentForm } from '../../actions'
 
 class Timeframes extends Component {
-	constructor(props) {
-		super(props)
-	}
-
 	componentDidMount() {
 		const { dispatch } = this.props
 		for (let week of this.props.weeks) {
@@ -24,8 +20,8 @@ class Timeframes extends Component {
 		}
 	}
 
-	onTimeFrameSelect(e) {
-		this.props.dispatch(showAppointmentForm())
+	onTimeFrameSelect(start, end) {
+		this.props.dispatch(showAppointmentForm(start, end))
 	}
 
 	render() {
@@ -40,19 +36,19 @@ class Timeframes extends Component {
 						defaultDays.map((day) => {
 							const start = moment(timeframe.start).day(day.name)
 							const end = moment(timeframe.end).day(day.name)
+							let appointment
 							for (let ap of this.props.appointments) {
 								const apTime = moment(ap.start.dateTime)
-								let appointment
 								if (apTime.isSame(start)) {
 									appointment = ap
 								}
-								return <Appointment
-										key={start.format('DDHHMM')}
-										appointment={appointment}
-										startingDate={start}
-										endingDate={end}
-										onClick={this.onTimeFrameSelect.bind(this)} />
 							}
+							return <Appointment
+									key={start.format('DDHHMM')}
+									appointment={appointment}
+									startingDate={start}
+									endingDate={end}
+									onClick={this.onTimeFrameSelect.bind(this, start, end)} />
 						})
 					}
 				</tr>

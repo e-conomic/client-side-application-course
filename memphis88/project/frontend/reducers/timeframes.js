@@ -11,7 +11,7 @@ function timeframes(state = {}, action) {
 			let initTfs = tfUtils.getWeekTimeframes(action.start)
 			return initTfs
 		case Constants.GET_WEEK_APPOINTMENTS:
-			let newStart = moment().isoWeek(action.week).hours(0).toDate()
+			let newStart = moment().isoWeek(action.week).hours(0).day(1).toDate()
 			let updTfs = tfUtils.getWeekTimeframes(newStart)
 			return updTfs
 		default:

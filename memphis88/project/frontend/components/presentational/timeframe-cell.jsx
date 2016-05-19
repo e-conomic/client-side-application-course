@@ -2,50 +2,36 @@ import React, {Component} from 'react'
 import Constants from '../../constants/constants'
 
 export default class TimeframeCell extends Component {
-	constructor(props) {
-		super(props)
+	click() {
+		this.props.onClick()
 	}
 
-	click(e) {
-		this.props.onClick(e)
-	}
-
-	getColor(status) {
-		let style = {}
+	getClass(status) {
+		let className = {}
 		switch(status) {
 			case Constants.STATUS_PENDING:
-				style = {
-					backgroundColor: 'orange'
-				}
+				className = 'pending'
 				break
 			case Constants.STATUS_UNKNOWN:
-				style = {
-					backgroundColor: 'gray'
-				}
+				className = 'unknown'
 				break
 			case Constants.STATUS_BUSY:
-				style = {
-					backgroundColor: 'red'
-				}
+				className = 'busy'
 				break
 			case Constants.STATUS_FREE:
-				style = {
-					backgroundColor: 'green'
-				}
+				className = 'free'
 				break
 			default:
-				style = {
-					backgroundColor: 'gray'
-				}
+				className = 'unknown'
 				break
 		}
-		return style;
+		return className;
 	}
 
 	render() {
-		const style = this.getColor(this.props.status)
+		const className = this.getClass(this.props.status)
 		return (
-			<td style={style} onClick={this.click.bind(this)}>
+			<td className={className} onClick={this.click.bind(this)}>
 			</td>
 		)
 	}

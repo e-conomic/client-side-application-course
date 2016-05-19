@@ -6,10 +6,6 @@ import WeekSelector from '../presentational/week-selector'
 import DayOfWeek from '../presentational/day-of-week'
 
 class Week extends Component {
-	constructor(props) {
-		super(props)
-	}
-
 	onWeekSelect(e) {
 		this.props.dispatch(getWeekAppointments(e.target.value))
 	}

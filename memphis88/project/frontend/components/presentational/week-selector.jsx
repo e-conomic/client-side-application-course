@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 
 class WeekSelector extends Component {
-	constructor(props) {
-		super(props)
-	}
-
 	onChange(e) {
 		this.props.onChange(e)
 	}

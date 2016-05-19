@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import CreateEvent from '../presentational/create-event'
-import { hideAppointmentForm } from '../../actions'
+import { hideAppointmentForm, submitAppointmentRequest } from '../../actions'
 
 class EventCreator extends Component {
-	constructor(props) {
-		super(props)
-	}
-
-	onSubmit(e) {
-		console.log(e)
+	onSubmit(name, phone, email) {
+		const { start, end } = this.props
+		this.props.dispatch(submitAppointmentRequest(name, phone, email, start, end))
 	}
 
 	onClose(e) {
-		console.log(e)
 		this.props.dispatch(hideAppointmentForm())
 	}
 
@@ -28,9 +24,11 @@ class EventCreator extends Component {
 
 function mapStateToProps(state) {
 	const { form } = state
-	const { visible } = form
+	const { visible, start, end } = form
 	return {
-		visible
+		visible,
+		start,
+		end
 	}
 }
 

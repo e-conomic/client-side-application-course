@@ -6,18 +6,23 @@ import Constants from '../../constants/constants'
 import TimeframeCell from '../presentational/timeframe-cell'
 
 export default class Appointments extends Component {
-	constructor(props) {
-		super(props)
-	}
-
-	onClick(e) {
-		this.props.onClick(e)
+	onClick() {
+		const { appointment } = this.props
+		const { status } = appointment||{
+			status: undefined
+		}
+		if (!status||status == Constants.STATUS_FREE)
+			this.props.onClick()
 	}
 
 	render() {
-		const { appointment, startingDate } = this.props
+		const {
+			appointment,
+			startingDate,
+			endindDate
+		} = this.props
 		let state
-		const { summary, status } = appointment||{
+		const { status } = appointment||{
 			status: undefined
 		}
 		switch(status) {
@@ -28,6 +33,7 @@ export default class Appointments extends Component {
 				state = Constants.STATUS_PENDING
 				break
 			case undefined:
+			case 'cancelled':
 				state = Constants.STATUS_FREE
 				break
 			default:

@@ -2,28 +2,67 @@
 
 body {
 	background-color: $bgcolor;
+	color: $gray-dark;
+}
+
+#app {
+	margin: auto;
+	max-width: 1000px;
+	padding: 10px;
+	min-width: 500px;
 }
 
 .app-2-table {
-	color: $font-color;
+	width: 100%;
+	border-collapse: collapse;
+	td, th {
+		border: 1px solid $bgcolor;
+		border-left-width: 3px;
+	}
 	thead {
 		th:nth-child(odd) {
 			background-color: $gray-dark;
+			color: $base-font-color;
 		}
 		th:nth-child(even) {
 			background-color: $gray-light;
+			color: $bgcolor;
 		}
 		th:nth-child(1) {
+			border: none;
 			background-color: transparent;
+		}
+		th {
+			padding: 5px;
 		}
 	}
 	tbody {
 		td:nth-child(1) {
+			text-align: center;
 			background-color: $gray-dark;
+			color: $base-font-color;
+		}
+		td {
+			padding: 5px;
+			width: 16.66%;
 		}
 	}
 }
 
 .create-event {
-	position: absolute;
+	margin: auto;
+	max-width: 700px;
+}
+
+.free {
+	background-color: $free-color;
+}
+.busy {
+	background-color: $busy-color;
+}
+.unknown {
+	background-color: $unknown-color;
+}
+.pending {
+	background-color: $pending-color;
 }

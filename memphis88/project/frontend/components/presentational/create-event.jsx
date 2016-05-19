@@ -1,13 +1,9 @@
 import React, {Component} from 'react'
 
 export default class CreateEvent extends Component {
-	constructor(props) {
-		super(props)
-	}
-
-	onSubmit(e) {
-		console.log(e)
-		this.props.onSubmit(e)
+	onSubmit() {
+		const { name, phone, email } = this.refs
+		this.props.onSubmit(name.value, phone.value, email.value)
 	}
 
 	onClose(e) {
@@ -23,13 +19,15 @@ export default class CreateEvent extends Component {
 			<div
 			style={style}
 			className="create-event">
-				<label>Name</label>
-				<input type="text"></input>
-				<label>Phone</label>
-				<input type="text"></input>
-				<button onSubmit={this.onSubmit.bind(this)}>Request appointment</button>
+				<label for="name">Name</label>
+				<input id="name" ref="name" type="text"></input>
+				<label id="phone">Phone</label>
+				<input id="phone" ref="phone" type="text"></input>
+				<label id="email">email</label>
+				<input id="email" ref="email" type="text"></input>
+				<button onClick={this.onSubmit.bind(this)}>Request appointment</button>
 				<button type="button" dangerouslySetInnerHTML={{__html: '&times;'}}
-				onClose={this.onClose.bind(this)}></button>
+				onClick={this.onClose.bind(this)}></button>
 			</div>
 		)
 	}
