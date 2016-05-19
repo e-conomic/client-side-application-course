@@ -37,16 +37,17 @@ var CustomerEditForm = React.createClass({
                     </div>
                     
                     <div>
-                        <button onClick={this._onHandleSave()}>Submit</button>
-                        <button onClick={this.props.onFinishEdit()}>Cancel</button>
+                        <button onClick={this._onHandleSave}>Submit</button>
+                        <button onClick={this.props.onFinishEdit}>Cancel</button>
                     </div>
                 </div>
     },
     
     _onHandleSave() {
         CustomerActions.updateCustomer(this.state.customer);
-        //this.props.onFinishEdit();
-    }
+        this.props.onFinishEdit();
+    },
+    
 });
 
 module.exports = CustomerEditForm;

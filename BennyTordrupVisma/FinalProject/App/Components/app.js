@@ -74,16 +74,11 @@ var App = React.createClass({
         })
     },
     
-    // _onSubmit: function(customer) {
-    //     CustomerActions.updateCustomer(customer);
-    //     _onFinishEdit();
-    // },
-    
     _onFinishEdit: function() {
-        // this.setState({
-        //     isEditingCustomer: false,
-        //     editCustomer: null
-        // })
+        this.setState({
+            isEditingCustomer: false,
+            editCustomer: null
+        })
     },
     
     _onChange: function () {
