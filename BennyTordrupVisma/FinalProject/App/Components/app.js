@@ -70,7 +70,7 @@ var App = React.createClass({
     _editCustomer: function(customer) {
         this.setState({
             isEditingCustomer: true,
-            editCustomer: customer
+            editCustomer: Object.assign({}, customer)
         })
     },
     

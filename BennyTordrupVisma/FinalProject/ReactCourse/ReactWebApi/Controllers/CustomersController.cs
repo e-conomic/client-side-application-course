@@ -136,8 +136,48 @@ namespace ReactWebApi.Controllers
         }
 
         // POST api/customers
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Customer value)
         {
+            using (GenericServiceClient genericServiceClient = new GenericServiceClient())
+            {
+                GetAndApplyVbsClientCredentials(genericServiceClient.ClientCredentials);
+                var requestBuilder = new RequestBuilder();
+                var context = GetContext(requestBuilder);
+
+                var table = context.UseTable((long)T.Associate);
+                var selection = table.SelectRow();
+                selection.IntegerColumnValue((long)C.Associate.CustomerNo, ComparisonOperator.EqualTo, value.CustomerNo);
+
+                var row = selection.Row;
+                row.SetStringValue((long)C.Associate.Name, value.Name);
+                row.SetStringValue((long)C.Associate.AddressLine1, value.Address1);
+                row.SetStringValue((long)C.Associate.AddressLine2, value.Address2);
+                row.SetStringValue((long)C.Associate.AddressLine3, value.Address3);
+                row.SetStringValue((long)C.Associate.AddressLine4, value.Address4);
+                row.SetStringValue((long)C.Associate.PostCode, value.PostCode);
+                row.SetStringValue((long)C.Associate.PostalArea, value.PostalArea);
+                row.SetStringValue((long)C.Associate.Phone, value.Phone);
+
+                var saving = context.Save();
+
+                var responseReader = requestBuilder.Dispatch(genericServiceClient);
+
+                OperationResult operationResult = null;
+
+                if (responseReader.OperationResultDictionary.TryGetValue(saving.Operation.OperationNo,
+                    out operationResult))
+                {
+                    var savingResult = operationResult as ContextSavingResult;
+                    if (savingResult != null)
+                    {
+                        Debug.WriteLine("Saving successfull");
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Saving failed");
+                    }
+                }
+            }
         }
 
         // PUT api/customers/5

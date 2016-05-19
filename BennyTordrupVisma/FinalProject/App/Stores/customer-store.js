@@ -34,6 +34,7 @@ function selectCustomer(payload) {
 
 function customersReceived(payload) {
     var customersResponse = JSON.parse(payload.response.text);
+    _customers = [];
     customersResponse.map(c => {
         _customers.push({
             associateNo: c.AssociateNo,
@@ -51,12 +52,21 @@ function customersReceived(payload) {
     });
 }
 
+function reloadCustomer(payload) {
+    //var customerNo = payload.customerNo;
+    Utils.RESTGetCustomers();
+}
+
 var registeredCallback = action => {
     switch (action.type) {
         case Constants.SELECT_CUSTOMER:
             selectCustomer(action.payload);
             break;
-            
+
+        case Constants.EDIT_CUSTOMER_RESPONSE:
+            reloadCustomer(action.payload);
+            break;
+                        
         case Constants.REQUEST_CUSTOMERS_RESPONSE:
             customersReceived(action.payload)
             break;

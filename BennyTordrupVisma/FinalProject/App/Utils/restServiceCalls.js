@@ -15,16 +15,16 @@ module.exports = {
     },
     
     RESTUpdateCustomer: function(customer) {
-        var completeurl = "http://localhost:59774/api/Customers/" + customer.customerNo;
-        request.post(completeUrl)
+        var completeUrl = "http://localhost:59774/api/Customers/" + customer.customerNo;
+        request.put(completeUrl)
             .set('Accept', 'application/json')
             .set('Content-Type', 'application/json')
-            .send(customer)
+            .send(JSON.stringify(customer))
             .end((err, response) => {
                 if (err)
                     console.error(err);
                     
-                console.log(response);
+                ServerActions.editCustomerResponse(response);
             });
     },
     
