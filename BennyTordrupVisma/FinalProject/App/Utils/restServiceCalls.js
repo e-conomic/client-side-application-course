@@ -73,7 +73,7 @@ module.exports = {
     },
     
     RESTGetCustomerOrders: function(customerNo) {
-        var completeUrl ="%s/%s/%d".format(baseUrl, sCustTrans, customerNo); 
+        var completeUrl ="%s/%s/%d".format(baseUrl, sCustOrders, customerNo); 
         request.get(completeUrl)
             .set('Accept', 'application/json')
             .end((err, response) => {
