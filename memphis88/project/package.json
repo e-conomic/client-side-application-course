@@ -1,0 +1,52 @@
+{
+  "name": "appointment-app",
+  "version": "1.0.0",
+  "description": "An appointment application made with React",
+  "scripts": {
+    "test": "mocha",
+    "dev": "webpack --watch --color --progress --display-error-details",
+    "start": "webpack-dev-server --config webpack-dev-server.js --output-public-path=dist/ --port 80 --watch-poll",
+    "backend": "node backend/start.js"
+  },
+  "keywords": [
+    "Appointment"
+  ],
+  "author": "Dionysios Kakouris",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.11.0",
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "google-auth-library": "^0.9.7",
+    "googleapis": "^5.0.0",
+    "later": "^1.2.0",
+    "moment": "^2.13.0",
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1",
+    "react-redux": "^4.4.5",
+    "redux": "^3.5.2",
+    "redux-logger": "^2.6.1",
+    "redux-thunk": "^2.1.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.7.6",
+    "babel-loader": "^6.2.4",
+    "babel-polyfill": "^6.7.4",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.7.2",
+    "css-loader": "^0.23.1",
+    "node-sass": "^3.7.0",
+    "sass-loader": "^3.2.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.0"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-0",
+      "react"
+    ]
+  }
+}
