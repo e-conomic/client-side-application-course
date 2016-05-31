@@ -1,0 +1,23 @@
+.spacer {
+	height: 10px;
+}
+
+.selected .public_fixedDataTableCell_main {
+	background-color: yellow
+}
+
+FixedDataTable {
+	margin: 10 px;
+}
+
+input {
+	margin: 3px;
+}
+
+label {
+	margin: 3px;
+}
+
+button {
+	margin: 3px;
+}
