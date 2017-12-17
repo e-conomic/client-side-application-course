@@ -1,7 +1,7 @@
 <h1>** _We are now fully booked for this course_ **<h1>
 
 <p align="center">
-<img height="100" src="https://www.wagonhq.com/images/posts/react.png" alt="react logo">
+<img height="100" src="https://cdn.worldvectorlogo.com/logos/react.svg" alt="react logo">
 <img width="100" height="100" src="http://ordrestyring.dk/wp-content/uploads/2015/05/e-conomic_ny.jpg" alt="e-conomic logo">
 </p>
 
@@ -52,22 +52,22 @@ There will be a follow-up email some time after you have successfully signed up.
 
 ### Applicants (GitHub username)
 
-hulvei3   
-calinilie  
-nativix   
-eikooc   
-soerendalby  
-lauritzsh   
-petergreve   
-dimitriosv     
-AndreasHassing (can only attend if class hours are moved to monday)    
-denlillemand    
-JonArnfred   
-memphis88   
-pcolliander   
-BennyTordrupVisma  
-kosmonautas   
-wintermotes   
+* hulvei3 (instructor)
+* calinilie (instructor)
+* nativix   
+* eikooc   
+* soerendalby  
+* lauritzsh   
+* petergreve   
+* dimitriosv     
+* AndreasHassing (can only attend if class hours are moved to monday)    
+* denlillemand    
+* JonArnfred   
+* memphis88   
+* pcolliander   
+* BennyTordrupVisma  
+* kosmonautas   
+* wintermotes   
 
 # Course description
 
